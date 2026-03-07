@@ -1,17 +1,17 @@
+/* Import fonts first — @import must precede all other statements */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Import JetBrains Mono for code blocks */
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&display=swap');
-
-/* Starlight theme overrides */
+/* Starlight theme overrides — yellow #f5c518 accent */
 :root {
   --sl-font: 'Inter', system-ui, sans-serif;
   --sl-font-mono: 'JetBrains Mono', monospace;
-  --sl-color-accent-low: #7c2d12;
-  --sl-color-accent: #f97316;
-  --sl-color-accent-high: #fed7aa;
+  --sl-color-accent-low: #7c5c00;
+  --sl-color-accent: #f5c518;
+  --sl-color-accent-high: #fde68a;
   --sl-color-white: #ffffff;
   --sl-color-gray-1: #f1f5f9;
   --sl-color-gray-2: #e2e8f0;
@@ -52,11 +52,3 @@ pre {
   50% { opacity: 0; }
 }
 .cursor-blink { animation: blink 1.2s step-end infinite; }
-
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, #f97316 0%, #fb923c 50%, #fdba74 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
