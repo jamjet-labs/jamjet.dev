@@ -642,7 +642,7 @@
     server: vector_db
     tool: similarity_search
     input:
-      query: <span class="str">"{{ state.question }}"</span>
+      query: <span class="str">"&#123;&#123; state.question &#125;&#125;"</span>
     output_schema: schemas.Chunks
     next: synthesize
 
@@ -663,7 +663,7 @@
     type: tool
     tool_ref: tools.send_response
     input:
-      answer: <span class="str">"{{ state.answer }}"</span></pre>
+      answer: <span class="str">"&#123;&#123; state.answer &#125;&#125;"</span></pre>
       </div>
 
       <div id="pane-python" class="tab-pane">
@@ -747,7 +747,7 @@ workflow = Workflow(<span class="str">"research"</span>)
     server: github              <span class="cmt"># ↑ references mcp_servers.github</span>
     tool: search_code
     input:
-      query: <span class="str">"{{ state.query }}"</span>
+      query: <span class="str">"&#123;&#123; state.query &#125;&#125;"</span>
     next: store_result
 
   store_result:
@@ -756,7 +756,7 @@ workflow = Workflow(<span class="str">"research"</span>)
     tool: insert_row
     input:
       table: <span class="str">"analysis_results"</span>
-      data:  <span class="str">"{{ state.result }}"</span></pre>
+      data:  <span class="str">"&#123;&#123; state.result &#125;&#125;"</span></pre>
       </div>
 
       <div id="pane-eval" class="tab-pane">
