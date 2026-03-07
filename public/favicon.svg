@@ -1,0 +1,27 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark background -->
+  <rect width="32" height="32" rx="6" fill="#111111"/>
+  <!-- Pixel art lightning bolt in yellow, 4px pixels -->
+  <!-- Col 2-3 of 8 -->
+  <rect x="12" y="2"  width="4" height="4" fill="#f5c518"/>
+  <rect x="16" y="2"  width="4" height="4" fill="#f5c518"/>
+  <rect x="8"  y="6"  width="4" height="4" fill="#f5c518"/>
+  <rect x="12" y="6"  width="4" height="4" fill="#f5c518"/>
+  <rect x="16" y="6"  width="4" height="4" fill="#f5c518"/>
+  <rect x="20" y="6"  width="4" height="4" fill="#f5c518"/>
+  <rect x="12" y="10" width="4" height="4" fill="#f5c518"/>
+  <rect x="16" y="10" width="4" height="4" fill="#f5c518"/>
+  <rect x="4"  y="14" width="4" height="4" fill="#f5c518"/>
+  <rect x="8"  y="14" width="4" height="4" fill="#f5c518"/>
+  <rect x="12" y="14" width="4" height="4" fill="#f5c518"/>
+  <rect x="16" y="14" width="4" height="4" fill="#f5c518"/>
+  <rect x="8"  y="18" width="4" height="4" fill="#f5c518"/>
+  <rect x="12" y="18" width="4" height="4" fill="#f5c518"/>
+  <rect x="16" y="18" width="4" height="4" fill="#f5c518"/>
+  <rect x="20" y="18" width="4" height="4" fill="#f5c518"/>
+  <rect x="24" y="18" width="4" height="4" fill="#f5c518"/>
+  <rect x="12" y="22" width="4" height="4" fill="#f5c518"/>
+  <rect x="16" y="22" width="4" height="4" fill="#f5c518"/>
+  <rect x="12" y="26" width="4" height="4" fill="#f5c518"/>
+  <rect x="16" y="26" width="4" height="4" fill="#f5c518"/>
+</svg>

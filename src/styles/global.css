@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import JetBrains Mono for code blocks */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* Starlight theme overrides */
+:root {
+  --sl-font: 'Inter', system-ui, sans-serif;
+  --sl-font-mono: 'JetBrains Mono', monospace;
+  --sl-color-accent-low: #7c2d12;
+  --sl-color-accent: #f97316;
+  --sl-color-accent-high: #fed7aa;
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: #f1f5f9;
+  --sl-color-gray-2: #e2e8f0;
+  --sl-color-gray-3: #94a3b8;
+  --sl-color-gray-4: #475569;
+  --sl-color-gray-5: #334155;
+  --sl-color-gray-6: #1e293b;
+  --sl-color-black: #0f172a;
+  --sl-color-bg: #0f172a;
+  --sl-color-bg-nav: #0f172a;
+  --sl-color-bg-sidebar: #0f172a;
+  --sl-color-hairline-light: rgba(255,255,255,0.06);
+  --sl-color-hairline: rgba(255,255,255,0.10);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+/* Code block enhancements */
+pre {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.875rem !important;
+  line-height: 1.6 !important;
+}
+
+/* Starlight sidebar brand */
+.site-title {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Terminal animation */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.cursor-blink { animation: blink 1.2s step-end infinite; }
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #f97316 0%, #fb923c 50%, #fdba74 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
