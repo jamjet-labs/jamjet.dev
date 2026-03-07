@@ -100,7 +100,7 @@ Available metrics:
 
 Example Prometheus query for p99 execution latency:
 
-```promql
+```
 histogram_quantile(0.99,
   rate(jamjet_execution_duration_ms_bucket[5m])
 )

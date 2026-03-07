@@ -72,6 +72,7 @@ export default defineConfig({
           label: 'Reference',
           items: [
             { label: 'CLI Reference', slug: 'docs/cli' },
+            { label: 'Examples', slug: 'docs/examples' },
           ],
         },
       ],
