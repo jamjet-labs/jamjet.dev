@@ -39,7 +39,6 @@ export default defineConfig({
           items: [
             { label: 'Quickstart', slug: 'docs/quickstart' },
             { label: 'Core Concepts', slug: 'docs/concepts' },
-            { label: 'Installation', slug: 'docs/installation' },
           ],
         },
         {
@@ -47,8 +46,6 @@ export default defineConfig({
           items: [
             { label: 'YAML Workflows', slug: 'docs/yaml-workflows' },
             { label: 'Python SDK', slug: 'docs/python-sdk' },
-            { label: 'YAML Reference', slug: 'docs/yaml-reference' },
-            { label: 'Node Types', slug: 'docs/node-types' },
           ],
         },
         {
@@ -56,32 +53,25 @@ export default defineConfig({
           items: [
             { label: 'MCP Integration', slug: 'docs/mcp' },
             { label: 'A2A Integration', slug: 'docs/a2a' },
-            { label: 'Agent Cards', slug: 'docs/agent-cards' },
           ],
         },
         {
           label: 'Features',
           items: [
-            { label: 'Human-in-the-Loop', slug: 'docs/hitl' },
             { label: 'Eval Harness', slug: 'docs/eval' },
             { label: 'Observability', slug: 'docs/observability' },
-            { label: 'Autonomy & Limits', slug: 'docs/autonomy' },
           ],
         },
         {
           label: 'Production',
           items: [
             { label: 'Deployment', slug: 'docs/deployment' },
-            { label: 'Security & RBAC', slug: 'docs/security' },
-            { label: 'Configuration', slug: 'docs/configuration' },
           ],
         },
         {
           label: 'Reference',
           items: [
             { label: 'CLI Reference', slug: 'docs/cli' },
-            { label: 'REST API', slug: 'docs/api' },
-            { label: 'Changelog', slug: 'docs/changelog' },
           ],
         },
       ],
