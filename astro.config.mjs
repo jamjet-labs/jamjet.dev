@@ -9,9 +9,8 @@ export default defineConfig({
       title: 'JamJet',
       tagline: 'The agent-native runtime',
       logo: {
-        light: './src/assets/logo-light.svg',
-        dark: './src/assets/logo-dark.svg',
-        replacesTitle: true,
+        src: './src/assets/logo-pixel.png',
+        replacesTitle: false,
       },
       favicon: '/favicon.svg',
       social: {
