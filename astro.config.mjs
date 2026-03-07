@@ -26,7 +26,7 @@ export default defineConfig({
       head: [
         {
           tag: 'meta',
-          attrs: { property: 'og:image', content: 'https://jamjet.dev/og.png' },
+          attrs: { property: 'og:image', content: 'https://jamjet.dev/og.svg' },
         },
         {
           tag: 'meta',
