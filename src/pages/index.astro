@@ -81,33 +81,30 @@ import '../styles/index-page.css';
       <button class="copy-btn" data-copy-install>copy</button>
     </div>
 
-    <!-- Terminal -->
+    <!-- Code snippet -->
     <div class="terminal">
       <div class="term-bar">
         <div class="term-dot" style="background:#ef4444"></div>
         <div class="term-dot" style="background:#f59e0b"></div>
         <div class="term-dot" style="background:#22c55e"></div>
-        <span class="term-title">terminal — jamjet demo</span>
+        <span class="term-title">agent.py</span>
       </div>
       <div class="term-body">
-        <div><span class="t-d"># scaffold a project</span></div>
-        <div><span class="t-y">❯</span> <span class="t-w">jamjet init my-agent &amp;&amp; cd my-agent</span></div>
-        <div><span class="t-g">✓</span> <span class="t-m">Initialised <span class="t-y">my-agent</span></span></div>
+        <div><span class="t-kw">from</span> <span class="t-w">jamjet</span> <span class="t-kw">import</span> <span class="t-w">task</span><span class="t-p">,</span> <span class="t-w">tool</span></div>
         <br/>
-        <div><span class="t-d"># start local runtime — no docker needed</span></div>
-        <div><span class="t-y">❯</span> <span class="t-w">jamjet dev</span></div>
-        <div style="line-height:1;margin:2px 0"><img src="/logo-pixel.png" alt="" width="28" height="60" style="image-rendering:pixelated;vertical-align:middle;" /></div>
-        <div><span class="t-b">▶ JamJet Dev Runtime</span></div>
-        <div><span class="t-m">  Port  <span class="t-y">7700</span>   Mode  local/SQLite   API  http://localhost:7700</span></div>
+        <div><span class="t-p">@</span><span class="t-b">tool</span></div>
+        <div><span class="t-kw">async def</span> <span class="t-b">web_search</span><span class="t-p">(</span><span class="t-w">query</span><span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">) -></span> <span class="t-y">str</span><span class="t-p">:</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-s">"""Search the web for current information."""</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-p">...</span></div>
         <br/>
-        <div><span class="t-d"># run a workflow, stream execution events</span></div>
-        <div><span class="t-y">❯</span> <span class="t-w">jamjet run workflow.yaml --input '&#123;"query":"hello"&#125;' --stream</span></div>
-        <div><span class="t-g">✓</span> <span class="t-m">exec_01JM4X8NKWP2 started</span></div>
-        <div><span class="t-m"> → node_started    <span class="t-y">search</span></span></div>
-        <div><span class="t-g">✓</span> <span class="t-m">node_completed   <span class="t-y">search</span>    claude-haiku  <span class="t-y">312ms</span>  (128→64 tok)</span></div>
-        <div><span class="t-m"> → node_started    <span class="t-y">summarize</span></span></div>
-        <div><span class="t-g">✓</span> <span class="t-m">node_completed   <span class="t-y">summarize</span>  claude-sonnet <span class="t-y">1204ms</span> (512→341 tok)</span></div>
-        <div><span class="t-g">✓</span> <span class="t-m">Execution completed.</span></div>
+        <div><span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span><span class="t-w">model</span><span class="t-p">=</span><span class="t-s">"claude-sonnet-4-6"</span><span class="t-p">,</span> <span class="t-w">tools</span><span class="t-p">=[</span><span class="t-w">web_search</span><span class="t-p">])</span></div>
+        <div><span class="t-kw">async def</span> <span class="t-b">research</span><span class="t-p">(</span><span class="t-w">question</span><span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">) -></span> <span class="t-y">str</span><span class="t-p">:</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-s">"""Search first, then summarize clearly."""</span></div>
+        <br/>
+        <div><span class="t-w">result</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">research</span><span class="t-p">(</span><span class="t-s">"What are the latest AI agent trends?"</span><span class="t-p">)</span></div>
+        <div><span class="t-b">print</span><span class="t-p">(</span><span class="t-w">result</span><span class="t-p">)</span></div>
+        <br/>
+        <div><span class="t-d"># No Pydantic. No boilerplate. Just Python.</span></div>
       </div>
     </div>
   </div>
@@ -282,34 +279,28 @@ import '../styles/index-page.css';
       </div>
 
       <div id="pane-python" class="tab-pane">
-        <pre class="code"><span class="kw">from</span> jamjet <span class="kw">import</span> Workflow, tool
-<span class="kw">from</span> pydantic <span class="kw">import</span> BaseModel
+        <pre class="code"><span class="kw">from</span> jamjet <span class="kw">import</span> task, tool
 
-<span class="cls">class</span> <span class="typ">ResearchState</span>(BaseModel):
-    question: <span class="typ">str</span>
-    answer:   <span class="typ">str | None</span> = None
-
-workflow = Workflow(<span class="str">"research"</span>)
+<span class="cmt"># @tool — expose any Python function to the agent</span>
+<span class="dec">@tool</span>
+<span class="kw">async def</span> <span class="fn">web_search</span>(query: <span class="typ">str</span>) -> <span class="typ">str</span>:
+    <span class="str">"""Search the web for current information."""</span>
+    ...
 
 <span class="dec">@tool</span>
-<span class="kw">async def</span> <span class="fn">web_search</span>(query: <span class="typ">str</span>) -> <span class="typ">list[str]</span>:
-    <span class="str">"""Fetch search results for query."""</span>
+<span class="kw">async def</span> <span class="fn">read_url</span>(url: <span class="typ">str</span>) -> <span class="typ">str</span>:
+    <span class="str">"""Fetch and return the content of a URL."""</span>
     ...
 
-<span class="dec">@workflow.step</span>
-<span class="kw">async def</span> <span class="fn">search</span>(state: ResearchState) -> ResearchState:
-    results = <span class="kw">await</span> web_search(query=state.question)
-    <span class="kw">return</span> state.model_copy(update=&#123;<span class="str">"results"</span>: results&#125;)
+<span class="cmt"># @task — docstring becomes the agent instructions</span>
+<span class="dec">@task</span>(model=<span class="str">"claude-sonnet-4-6"</span>, tools=[web_search, read_url])
+<span class="kw">async def</span> <span class="fn">research</span>(question: <span class="typ">str</span>) -> <span class="typ">str</span>:
+    <span class="str">"""You are a research assistant.
+    Search and read sources, then summarize clearly."""</span>
 
-<span class="dec">@workflow.step</span>
-<span class="kw">async def</span> <span class="fn">synthesize</span>(state: ResearchState) -> ResearchState:
-    <span class="cmt"># JamJet calls the model; result is checkpointed</span>
-    ...
-
-<span class="dec">@workflow.human_approval</span>(timeout_hours=<span class="str">24</span>)
-<span class="kw">async def</span> <span class="fn">approve</span>(state: ResearchState) -> ResearchState:
-    <span class="cmt"># Suspends durably until human approves via CLI or API</span>
-    ...</pre>
+<span class="cmt"># Run it — durable, observable, cost-bounded</span>
+result = <span class="kw">await</span> research(<span class="str">"What is the A2A protocol?"</span>)
+<span class="fn">print</span>(result)</pre>
       </div>
 
       <div id="pane-agent" class="tab-pane">

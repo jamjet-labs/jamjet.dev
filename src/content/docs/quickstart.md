@@ -1,188 +1,199 @@
 ---
 title: Quickstart
-description: Get a durable JamJet workflow running in under 10 minutes.
+description: Get a JamJet workflow running in 60 seconds — no server, no config, just Python.
 sidebar:
   order: 1
 ---
 
-import { Aside, Steps, Code, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 # Quickstart
 
-Get JamJet running locally in under 10 minutes. You'll install the CLI, start the local dev runtime, write a workflow, and run it.
+## 60-second start
 
-<Aside type="tip">
-  **Prerequisites:** Python 3.11+ and pip. That's it — no Docker, no database setup needed for local development.
-</Aside>
-
-## Install
+No server. No config. No Pydantic. Just Python.
 
 ```bash
 pip install jamjet
 ```
 
-Verify the install:
+```python
+# agent.py
+from jamjet import task, tool
 
-```bash
-jamjet --version
-# JamJet CLI 0.1.0
+@tool
+async def web_search(query: str) -> str:
+    """Search the web for current information."""
+    # plug in your actual search implementation
+    return f"Results for: {query}"
+
+@task(model="claude-sonnet-4-6", tools=[web_search])
+async def research(question: str) -> str:
+    """You are a research assistant. Search first, then summarize clearly."""
+
+import asyncio
+result = asyncio.run(research("What is JamJet?"))
+print(result)
 ```
 
-## Create a project
-
-Scaffold a new project:
-
 ```bash
-jamjet init my-first-agent
-cd my-first-agent
+ANTHROPIC_API_KEY=sk-ant-... python agent.py
 ```
 
-Or add JamJet to an existing project (like `git init`):
+That's it. The `@tool` decorator exposes any Python function to the agent. The `@task` docstring becomes the agent's instructions. Works with OpenAI, Anthropic, Ollama, Groq — any model.
+
+<Aside type="tip">
+**Using Ollama locally? No API key needed:**
+```bash
+OPENAI_API_KEY=ollama OPENAI_BASE_URL=http://localhost:11434/v1 python agent.py
+```
+Change `model=` to any Ollama model (e.g. `"llama3.2"`).
+</Aside>
+
+---
+
+## What you get
+
+- **`@tool`** — turns any async Python function into an agent tool, with automatic schema generation
+- **`@task`** — docstring = agent instructions, function signature = input contract
+- **Durable execution** — crash and resume from where it stopped (with `jamjet dev`)
+- **Enforced limits** — `max_iterations`, `max_cost_usd`, `timeout_seconds` are first-class params
+
+No boilerplate. No state classes. No dependency injection.
+
+<Aside type="note">
+Need full graph control — multi-step pipelines, conditional routing, human-in-the-loop?
+Use the [`Workflow` API](/python-sdk) or [YAML workflows](/yaml-workflows) for complex orchestration.
+</Aside>
+
+---
+
+## Try the examples
+
+Four self-contained examples in the [jamjet-benchmarks repo](https://github.com/jamjet-labs/jamjet-benchmarks/tree/main/examples) — each runs locally with Ollama:
+
+| Example | What it shows |
+|---------|--------------|
+| [01 — Pipeline with timeline](https://github.com/jamjet-labs/jamjet-benchmarks/tree/main/examples/01_pipeline_with_timeline) | Per-step execution timeline, automatic |
+| [02 — Conditional routing](https://github.com/jamjet-labs/jamjet-benchmarks/tree/main/examples/02_conditional_routing) | Routing as plain Python predicates |
+| [03 — Eval harness](https://github.com/jamjet-labs/jamjet-benchmarks/tree/main/examples/03_eval_harness) | Built-in scoring, LLM-as-judge |
+| [04 — Self-evaluating workflow](https://github.com/jamjet-labs/jamjet-benchmarks/tree/main/examples/04_self_evaluating_workflow) | Draft → judge → retry loop |
 
 ```bash
-cd my-existing-project
-jamjet init
+git clone https://github.com/jamjet-labs/jamjet-benchmarks
+cd jamjet-benchmarks/examples/01_pipeline_with_timeline
+pip install -r requirements.txt
+OPENAI_API_KEY=ollama OPENAI_BASE_URL=http://localhost:11434/v1 MODEL_NAME=llama3.2 python main.py
 ```
 
-You'll get a `workflow.yaml` to edit and a `README.md` to get started.
+---
 
-## Start the local runtime
+## Scaffold a full project
+
+Use templates to start a more complete project:
+
+```bash
+jamjet init my-agent --template hello-agent
+cd my-agent
+```
+
+Available templates:
+
+```bash
+jamjet init my-agent --list-templates
+# hello-agent           Minimal Q&A workflow
+# research-agent        Web search + synthesis (Brave Search MCP)
+# rag-assistant         RAG with filesystem MCP
+# mcp-tool-consumer     Connect to any MCP tool server
+# mcp-tool-provider     Expose Python functions as MCP tools
+# code-reviewer         GitHub PR review with quality scoring
+# hitl-approval         Human-in-the-loop approval gate
+# multi-agent-review    Writer + critic review loop
+# a2a-delegator         Delegate tasks via A2A protocol
+# a2a-server            Serve A2A requests from external agents
+# approval-workflow     Durable approval with 24h timeout
+```
+
+---
+
+## Add the durable runtime (production)
+
+The in-process executor (`wf.run_sync`) is great for development. For production — crash recovery, multi-instance scheduling, durable state — start the runtime server:
 
 ```bash
 jamjet dev
 ```
-
-This starts the JamJet runtime locally using SQLite for storage. No external database required.
 
 ```
 ▶ JamJet Dev Runtime
   Port:  7700
   Mode:  local (SQLite)
   API:   http://localhost:7700
-
-Press Ctrl+C to stop.
 ```
 
-Keep this terminal running.
-
-## Write a workflow
-
-Open `workflow.yaml` in your editor and replace it with:
-
-```yaml
-# workflow.yaml
-workflow:
-  id: hello-agent
-  version: 0.1.0
-  state_schema:
-    query: str
-    answer: str
-  start: think
-
-nodes:
-  think:
-    type: model
-    model: claude-haiku-4-5-20251001
-    prompt: "Answer this question clearly and concisely: {{ state.query }}"
-    output_key: answer
-    next: end
-
-  end:
-    type: end
-```
-
-## Validate the workflow
-
-```bash
-jamjet validate workflow.yaml
-```
-
-```
-Valid. workflow_id=hello-agent version=0.1.0
-  Nodes: 2  Edges: 1
-```
-
-## Run it
-
-In a new terminal (keep `jamjet dev` running):
+Then run workflows through it:
 
 ```bash
 jamjet run workflow.yaml --input '{"query": "What is JamJet?"}'
 ```
 
 ```
-✓ Execution started: exec_01JM4X8NKWP2
-  Status: running
-✓ node_completed   think   claude-haiku  512ms
+✓ node_completed   think   gpt-4o-mini  512ms
 ✓ Execution completed.
 ```
 
-## Inspect the result
+Crash mid-execution? Resume from exactly where it stopped — no re-running earlier steps, no wasted API calls.
 
+---
+
+## Set your API key
+
+<Tabs>
+<TabItem label="OpenAI">
 ```bash
-jamjet inspect exec_01JM4X8NKWP2
+export OPENAI_API_KEY=sk-...
 ```
-
-You'll see the full execution state including the model's answer, token usage, and event timeline.
-
-## Stream output in real time
-
-Add `--stream` to see events as they happen:
-
+</TabItem>
+<TabItem label="Anthropic">
 ```bash
-jamjet run workflow.yaml --input '{"query": "Explain event sourcing"}' --stream
+export ANTHROPIC_API_KEY=sk-ant-...
 ```
-
+</TabItem>
+<TabItem label="Ollama (free, local)">
+```bash
+export OPENAI_API_KEY=ollama
+export OPENAI_BASE_URL=http://localhost:11434/v1
+# ollama pull llama3.2
 ```
-✓ exec_01JM5Y9... started
- → node_started    think
-✓ node_completed   think   claude-haiku  489ms  (64→312 tokens)
-✓ Stream complete
+</TabItem>
+<TabItem label="Groq">
+```bash
+export OPENAI_API_KEY=gsk_...
+export OPENAI_BASE_URL=https://api.groq.com/openai/v1
 ```
+</TabItem>
+</Tabs>
 
-## What just happened?
-
-1. `jamjet dev` started a **durable runtime** backed by SQLite — your executions survive restarts
-2. Your YAML was validated and compiled to an **IR graph**
-3. The **Rust scheduler** picked up your execution and dispatched `think` to a worker
-4. The worker made the **model call** (via your `ANTHROPIC_API_KEY` env var)
-5. The result was **checkpointed** — if the runtime had crashed mid-execution, it would resume exactly here
+---
 
 ## Next steps
 
 <Steps>
-1. [Core Concepts](/concepts) — understand agents, nodes, state, and durability
-2. [Workflow Authoring](/yaml-workflows) — all node types, retry policies, conditions, parallel branches
-3. [Python SDK](/python-sdk) — write workflows in Python instead of YAML
-4. [MCP Integration](/mcp) — connect to external tool servers
-5. [A2A Integration](/a2a) — delegate to or serve other agents
+1. [Core Concepts](/concepts) — agents, nodes, state, and durability
+2. [Python SDK](/python-sdk) — decorators, routing, parallel steps
+3. [Workflow Authoring](/yaml-workflows) — all node types, retry policies, conditions
+4. [MCP Integration](/mcp) — connect to external tool servers in one line
+5. [Eval Harness](/eval) — test your agents like software
 </Steps>
 
-## Set your API key
-
-JamJet uses the model you specify. To use Claude:
-
-```bash
-export ANTHROPIC_API_KEY=YOUR_ANTHROPIC_API_KEY
-```
-
-To use OpenAI GPT:
-
-```bash
-export OPENAI_API_KEY=YOUR_OPENAI_API_KEY
-```
-
-Then use `model: gpt-4o` in your workflow.
+---
 
 ## Troubleshooting
 
-**`jamjet dev` not found?**
-Make sure your Python scripts directory is in your PATH. Try `python -m jamjet dev`.
+**`jamjet` not found after install?**
+Make sure your Python scripts directory is in your PATH. Try `python -m jamjet`.
 
 **Connection refused at port 7700?**
-`jamjet dev` must be running in another terminal before you run workflows.
-
-**Model call fails?**
-Check that your `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` is set in the environment where `jamjet dev` is running.
+`jamjet dev` must be running before you use `jamjet run`. The in-process `wf.run_sync()` path needs no server.
 
 **Need help?** Open a [GitHub Discussion](https://github.com/jamjet-labs/jamjet/discussions) or [file an issue](https://github.com/jamjet-labs/jamjet/issues).
