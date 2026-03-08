@@ -1,0 +1,91 @@
+# JamJet — llms.txt
+# This file helps AI assistants and crawlers understand JamJet.
+# Spec: https://llmstxt.org
+
+# JamJet is a durable, agent-native AI workflow runtime.
+# Rust core for scheduling and durability. Python SDK for authoring.
+# Native MCP (Model Context Protocol) and A2A (Agent-to-Agent) support.
+# Built-in eval harness. Apache 2.0.
+
+## Product
+
+- Name: JamJet
+- Tagline: The agent-native runtime for production AI
+- PyPI: jamjet (pip install jamjet)
+- Version: 0.1.2
+- License: Apache 2.0
+- Language: Python SDK, Rust runtime
+
+## Key concepts
+
+- Workflow: a graph of steps with typed Pydantic state flowing through
+- Step: an async Python function decorated with @wf.step
+- Durable execution: every state transition is an event; crash and resume from exactly where you stopped
+- result.events: per-step execution timeline (name, duration, status) available on every run, no logging code required
+- MCP: native client and server — connect any MCP tool in one line
+- A2A: native agent-to-agent protocol for cross-framework orchestration
+- Eval harness: AssertionScorer, LatencyScorer, CostScorer, LlmJudgeScorer — run against JSONL datasets, CI exit codes
+
+## Quick start
+
+pip install jamjet
+
+```python
+from pydantic import BaseModel
+from jamjet import Workflow
+
+wf = Workflow("my-agent")
+
+@wf.state
+class State(BaseModel):
+    query: str
+    answer: str = ""
+
+@wf.step
+async def think(state: State) -> State:
+    return state.model_copy(update={"answer": "..."})
+
+result = wf.run_sync(State(query="Hello"))
+print(result.events)  # full per-step timeline
+```
+
+## Documentation pages
+
+- Quickstart: https://jamjet.dev/quickstart
+- Python SDK guide: https://jamjet.dev/python-sdk
+- YAML workflows: https://jamjet.dev/yaml-workflows
+- Eval harness: https://jamjet.dev/eval
+- MCP integration: https://jamjet.dev/mcp
+- A2A protocol: https://jamjet.dev/a2a
+- Observability: https://jamjet.dev/observability
+- CLI reference: https://jamjet.dev/cli
+- Deployment: https://jamjet.dev/deployment
+- Compare vs LangGraph/CrewAI/AutoGen: https://jamjet.dev/compare
+- Benchmarks: https://jamjet.dev/benchmarks
+
+## Migration guides
+
+- From LangGraph: https://jamjet.dev/migrate/from-langgraph
+- From CrewAI: https://jamjet.dev/migrate/from-crewai
+- From raw OpenAI SDK: https://jamjet.dev/migrate/from-openai-direct
+
+## Blog
+
+- Why I built JamJet in Rust: https://jamjet.dev/blog/why-rust-for-ai-workflows
+- Migrating from LangGraph: https://jamjet.dev/blog/langgraph-migration-real-example
+- Self-evaluating agent in 50 lines: https://jamjet.dev/blog/self-evaluating-agent-50-lines
+- Testing AI agents like software: https://jamjet.dev/blog/testing-ai-agents-like-software
+
+## Repositories
+
+- Main (Rust + Python SDK): https://github.com/jamjet-labs/jamjet
+- Examples: https://github.com/jamjet-labs/examples
+- Benchmarks + migration guides: https://github.com/jamjet-labs/jamjet-benchmarks
+- Website: https://github.com/jamjet-labs/jamjet.dev
+
+## Contact
+
+- Website: https://jamjet.dev
+- GitHub: https://github.com/jamjet-labs/jamjet
+- X / Twitter: https://x.com/jamjetdev
+- GitHub Discussions: https://github.com/jamjet-labs/jamjet/discussions

@@ -85,6 +85,12 @@ const canonical = `${site}/blog/`;
     .read-more { display: inline-block; margin-top: 0.5rem; color: var(--accent); font-size: 0.9rem; font-weight: 600; text-decoration: none; }
     .read-more:hover { text-decoration: underline; }
 
+    /* Share bar */
+    .post-footer { display: flex; align-items: center; gap: 10px; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+    .share-btn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; text-decoration: none; border: 1px solid var(--border); color: #999; background: transparent; cursor: pointer; font-family: inherit; transition: border-color 0.15s, color 0.15s; }
+    .share-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .share-btn.copied { color: #4ade80; border-color: #4ade80; }
+
     /* ── Sidebar ── */
     .sidebar { position: sticky; top: 2rem; }
     .sidebar-section { margin-bottom: 2rem; }
@@ -125,6 +131,9 @@ const canonical = `${site}/blog/`;
 
     {fullPosts.map((post, i) => {
       const { Content } = rendered[i];
+      const postUrl = `https://jamjet.dev/blog/${post.slug}/`;
+      const tweetText = encodeURIComponent(`${post.data.title}\n\n${postUrl}`);
+      const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`;
       return (
         <article class="post">
           {i === 0 && <p class="post-eyebrow">Latest</p>}
@@ -137,6 +146,23 @@ const canonical = `${site}/blog/`;
           </p>
           <div class="post-body">
             <Content />
+          </div>
+          <div class="post-footer">
+            <a class="share-btn" href={`https://x.com/intent/tweet?text=${tweetText}`} target="_blank" rel="noopener">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              Share on X
+            </a>
+            <a class="share-btn" href={linkedinUrl} target="_blank" rel="noopener">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              LinkedIn
+            </a>
+            <button class="share-btn" data-copy-url={postUrl} aria-label="Copy link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span>Copy link</span>
+            </button>
+            <a class="share-btn" href={`/blog/${post.slug}/`} style="margin-left:auto">
+              Read full post →
+            </a>
           </div>
           {i < fullPosts.length - 1 && <hr class="post-divider" />}
         </article>
@@ -161,5 +187,22 @@ const canonical = `${site}/blog/`;
 
 </div>
 
+  <script>
+    document.querySelectorAll<HTMLButtonElement>('button[data-copy-url]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const url = btn.dataset.copyUrl ?? window.location.href;
+        const label = btn.querySelector('span');
+        try {
+          await navigator.clipboard.writeText(url);
+          if (label) label.textContent = 'Copied!';
+          btn.classList.add('copied');
+          setTimeout(() => {
+            if (label) label.textContent = 'Copy link';
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch {}
+      });
+    });
+  </script>
 </body>
 </html>
