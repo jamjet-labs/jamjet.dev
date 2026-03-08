@@ -21,6 +21,44 @@ export default defineConfig({
       editLink: {
         baseUrl: 'https://github.com/jamjet-labs/jamjet/edit/main/docs/',
       },
+      sidebar: [
+        {
+          label: 'Getting started',
+          items: [
+            { slug: 'quickstart' },
+            { slug: 'concepts' },
+          ],
+        },
+        {
+          label: 'Guides',
+          items: [
+            { slug: 'yaml-workflows' },
+            { slug: 'python-sdk' },
+            { slug: 'eval' },
+            { slug: 'mcp' },
+            { slug: 'a2a' },
+            { slug: 'observability' },
+            { slug: 'deployment' },
+            { slug: 'cli' },
+            { slug: 'examples' },
+          ],
+        },
+        {
+          label: 'Migrate to JamJet',
+          items: [
+            { slug: 'migrate/from-langgraph' },
+            { slug: 'migrate/from-crewai' },
+            { slug: 'migrate/from-openai-direct' },
+          ],
+        },
+        {
+          label: 'Compare',
+          items: [
+            { slug: 'compare' },
+            { label: 'Benchmarks', link: '/benchmarks' },
+          ],
+        },
+      ],
       customCss: ['./src/styles/global.css'],
       head: [
         {

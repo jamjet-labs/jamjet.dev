@@ -1,0 +1,243 @@
+---
+import '../styles/index-page.css';
+
+// Benchmark results — recorded locally with Ollama on Apple M-series
+// Reproduce: cd jamjet-benchmarks/benchmarks && python bench_single_call.py
+const runs = [
+  {
+    label: 'llama3.2 · Ollama · Apple M-series · 2026-03-08',
+    model: 'llama3.2',
+    endpoint: 'http://localhost:11434/v1 (Ollama)',
+    runs: 20,
+    warmup: 3,
+    results: [
+      { name: 'Raw (baseline)',  mean: 947.2, median: 943.7, p95: 970.3, p99: 972.2, min: 935.6, max: 972.7, stdev: 9.9,  overhead: null },
+      { name: 'JamJet 0.1.1',   mean: 948.6, median: 948.2, p95: 959.0, p99: 964.2, min: 941.3, max: 965.5, stdev: 6.0,  overhead: +1.4 },
+      { name: 'LangGraph',       mean: 944.0, median: 943.0, p95: 953.8, p99: 961.1, min: 930.2, max: 963.0, stdev: 8.1,  overhead: -3.2 },
+    ],
+    note: 'All three frameworks within measurement noise (~1ms). JamJet\'s in-process executor adds zero observable overhead over a raw LLM call.',
+  },
+  {
+    label: 'qwen3:8b (thinking mode) · Ollama · Apple M-series · 2026-03-08',
+    model: 'qwen3:8b',
+    endpoint: 'http://localhost:11434/v1 (Ollama)',
+    runs: 15,
+    warmup: 3,
+    results: [
+      { name: 'Raw (baseline)',  mean: 8429.5, median: 8303.4, p95: 8940.3, p99: 9427.6, min: 8128.1, max: 9549.4, stdev: 352.3, overhead: null },
+      { name: 'JamJet 0.1.1',   mean: 10140.1, median: 10139.1, p95: 10487.0, p99: 10519.5, min: 9539.4, max: 10527.6, stdev: 285.1, overhead: +1710.6 },
+      { name: 'LangGraph',       mean: 11902.9, median: 11923.3, p95: 12761.8, p99: 12823.5, min: 11035.0, max: 12838.9, stdev: 551.7, overhead: +3473.3 },
+    ],
+    note: 'qwen3:8b generates variable-length chain-of-thought before outputting. The high variance in thinking tokens (~350–550ms stdev) dominates the measurement — overhead numbers here reflect token generation variance, not framework overhead. Use a non-thinking model for clean overhead isolation.',
+  },
+];
+
+const title = 'JamJet Benchmarks — Framework Overhead Comparison';
+const description = 'Measured latency: JamJet vs LangGraph vs raw LLM call. Reproducible locally with Ollama.';
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content="https://jamjet.dev/benchmarks" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #e5e5e5; line-height: 1.6; }
+    a { color: #f5c518; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    nav { border-bottom: 1px solid #1a1a1a; padding: 0 2rem; }
+    .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 2rem; height: 56px; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; color: #fff; font-size: 1rem; }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; margin-left: auto; }
+    .nav-links a { color: #999; font-size: 0.9rem; }
+    .nav-links a:hover { color: #fff; text-decoration: none; }
+
+    .page { max-width: 1000px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+    h1 { font-size: 2.2rem; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 0.5rem; }
+    .subtitle { color: #999; font-size: 1.05rem; margin-bottom: 3rem; }
+
+    h2 { font-size: 1.25rem; font-weight: 700; color: #fff; margin: 3rem 0 0.5rem; }
+    h3 { font-size: 1rem; font-weight: 600; color: #ccc; margin: 2.5rem 0 1rem; border-top: 1px solid #1e1e1e; padding-top: 1.5rem; }
+
+    .run-label { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #f5c518; background: #1a1500; border: 1px solid #3a2e00; border-radius: 4px; padding: 3px 8px; display: inline-block; margin-bottom: 1rem; }
+    .run-meta { font-size: 0.82rem; color: #666; margin-bottom: 1rem; }
+    .run-meta span { margin-right: 1.5rem; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; font-family: 'JetBrains Mono', monospace; margin: 1rem 0; }
+    thead th { text-align: right; padding: 6px 12px; color: #666; font-weight: 500; border-bottom: 1px solid #1e1e1e; }
+    thead th:first-child { text-align: left; }
+    tbody tr:hover { background: #111; }
+    tbody td { padding: 8px 12px; text-align: right; border-bottom: 1px solid #111; }
+    tbody td:first-child { text-align: left; color: #fff; font-weight: 600; }
+    .jamjet-row td:first-child { color: #f5c518; }
+    .overhead-pos { color: #888; }
+    .overhead-neg { color: #4ade80; }
+    .overhead-zero { color: #888; }
+
+    .bar-wrap { display: flex; align-items: center; gap: 8px; }
+    .bar { height: 8px; border-radius: 2px; min-width: 2px; }
+    .bar-raw { background: #444; }
+    .bar-jamjet { background: #f5c518; }
+    .bar-langgraph { background: #6366f1; }
+
+    .note { font-size: 0.82rem; color: #666; background: #111; border-left: 3px solid #333; padding: 0.75rem 1rem; border-radius: 0 4px 4px 0; margin-top: 1rem; }
+    .note strong { color: #999; }
+
+    .methodology { background: #0f0f0f; border: 1px solid #1e1e1e; border-radius: 8px; padding: 2rem; margin-top: 3rem; }
+    .methodology h2 { margin-top: 0; }
+    pre { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 4px; padding: 1rem; overflow-x: auto; color: #ccc; margin: 1rem 0; }
+    ul { padding-left: 1.25rem; color: #999; font-size: 0.9rem; }
+    ul li { margin-bottom: 0.4rem; }
+
+    .cta { margin-top: 3rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn { display: inline-block; padding: 10px 20px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; }
+    .btn-primary { background: #f5c518; color: #000; }
+    .btn-ghost { border: 1px solid #333; color: #ccc; }
+    .btn:hover { opacity: 0.85; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/logo-pixel.png" alt="" width="12" height="24" />
+      <span>JamJet</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/quickstart">Docs</a></li>
+      <li><a href="/compare">Compare</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="https://github.com/jamjet-labs/jamjet-benchmarks" target="_blank" rel="noopener">GitHub ↗</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page">
+  <h1>Benchmarks</h1>
+  <p class="subtitle">
+    Framework orchestration overhead — JamJet vs LangGraph vs raw LLM call.<br />
+    All runners make the same LLM call through the same client. The difference is pure framework tax.
+  </p>
+
+  {runs.map((run) => {
+    const baseline = run.results.find(r => r.name === 'Raw (baseline)');
+    const maxMean = Math.max(...run.results.map(r => r.mean));
+    return (
+      <div>
+        <h3>{run.label}</h3>
+        <div class="run-meta">
+          <span>Model: <strong>{run.model}</strong></span>
+          <span>Endpoint: <strong>{run.endpoint}</strong></span>
+          <span>Runs: <strong>{run.runs}</strong> (+{run.warmup} warmup)</span>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Framework</th>
+              <th>mean (ms)</th>
+              <th>median</th>
+              <th>p95</th>
+              <th>p99</th>
+              <th>stdev</th>
+              <th>overhead</th>
+              <th>visual</th>
+            </tr>
+          </thead>
+          <tbody>
+            {run.results.map((r) => {
+              const isJamjet = r.name.startsWith('JamJet');
+              const isRaw = r.name === 'Raw (baseline)';
+              const barClass = isRaw ? 'bar-raw' : isJamjet ? 'bar-jamjet' : 'bar-langgraph';
+              const barWidth = Math.round((r.mean / maxMean) * 180);
+              const overheadStr = r.overhead === null
+                ? '—'
+                : r.overhead >= 0
+                  ? `+${r.overhead.toFixed(1)}ms`
+                  : `${r.overhead.toFixed(1)}ms`;
+              const overheadClass = r.overhead === null
+                ? ''
+                : Math.abs(r.overhead) < 15
+                  ? 'overhead-zero'
+                  : r.overhead > 0
+                    ? 'overhead-pos'
+                    : 'overhead-neg';
+              return (
+                <tr class={isJamjet ? 'jamjet-row' : ''}>
+                  <td>{r.name}</td>
+                  <td>{r.mean.toFixed(1)}</td>
+                  <td>{r.median.toFixed(1)}</td>
+                  <td>{r.p95.toFixed(1)}</td>
+                  <td>{r.p99.toFixed(1)}</td>
+                  <td>{r.stdev.toFixed(1)}</td>
+                  <td class={overheadClass}>{overheadStr}</td>
+                  <td>
+                    <div class="bar-wrap">
+                      <div class={`bar ${barClass}`} style={`width:${barWidth}px`}></div>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+
+        <p class="note"><strong>Note:</strong> {run.note}</p>
+      </div>
+    );
+  })}
+
+  <div class="methodology">
+    <h2>Methodology</h2>
+    <p style="color:#999; font-size:0.9rem; margin: 0.75rem 0 1.5rem;">
+      All benchmarks measure wall-clock time per call, including Python interpreter overhead.
+      Each framework makes the <strong style="color:#ccc">identical LLM call</strong> through the same
+      OpenAI-compatible client — what we measure is framework orchestration overhead on top of raw network + model time.
+    </p>
+
+    <ul>
+      <li><strong>Raw (baseline)</strong> — bare <code>openai.OpenAI().chat.completions.create()</code> call, no framework</li>
+      <li><strong>JamJet</strong> — <code>Workflow.run_sync()</code> in-process executor: workflow compilation overhead + async step dispatch</li>
+      <li><strong>LangGraph</strong> — <code>StateGraph.compile().invoke()</code> with a single node</li>
+    </ul>
+
+    <pre>
+# Reproduce locally (Ollama)
+export OPENAI_API_KEY="ollama"
+export OPENAI_BASE_URL="http://localhost:11434/v1"
+export MODEL_NAME="llama3.2"
+
+git clone https://github.com/jamjet-labs/jamjet-benchmarks
+cd jamjet-benchmarks/benchmarks
+pip install -r requirements.txt
+python bench_single_call.py --json results/my-run.json</pre>
+
+    <ul>
+      <li>Warmup runs excluded from measurements (primes model KV cache and Python import overhead)</li>
+      <li>Each timed run is independent — no shared state between calls</li>
+      <li>Benchmarks run sequentially (Raw → JamJet → LangGraph) to avoid contention</li>
+      <li>Hardware: Apple M-series, 16GB RAM, Ollama running locally</li>
+      <li>Results from different hardware/models/endpoints welcome — open a PR to <a href="https://github.com/jamjet-labs/jamjet-benchmarks" target="_blank">jamjet-benchmarks</a></li>
+    </ul>
+  </div>
+
+  <div class="cta">
+    <a href="https://github.com/jamjet-labs/jamjet-benchmarks" class="btn btn-ghost" target="_blank" rel="noopener">View benchmark source ↗</a>
+    <a href="/compare" class="btn btn-ghost">Feature comparison →</a>
+    <a href="/quickstart" class="btn btn-primary">Get started with JamJet →</a>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,184 @@
+---
+title: Migrating from CrewAI
+description: Side-by-side code comparison and concept mapping for developers moving from CrewAI to JamJet.
+sidebar:
+  label: From CrewAI
+  order: 2
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Concept mapping
+
+| CrewAI | JamJet |
+|---|---|
+| `Agent(role, goal, backstory, tools)` | `@wf.step` with system prompt + MCP tools |
+| `Task(description, agent, context)` | Workflow step — context is shared state |
+| `Crew(agents, tasks, process)` | `Workflow` |
+| `Process.sequential` | Default step order |
+| `Process.hierarchical` | Orchestrator workflow → sub-workflows via A2A |
+| `crew.kickoff(inputs)` | `wf.run_sync(State(...))` or `jamjet run` |
+| `crewai_tools.SerperDevTool` | MCP tool node (`type: tool`, `server: brave-search`) |
+| Memory (short/long term) | State object (short-term); Postgres-backed runtime (long-term) |
+| `agent.verbose = True` | Structured event log — every step queryable with `jamjet inspect` |
+
+## Side-by-side example
+
+A two-agent crew — researcher and writer — collaborating to produce a report.
+
+<Tabs>
+<TabItem label="CrewAI">
+
+```python
+from crewai import Agent, Crew, Process, Task
+from crewai_tools import SerperDevTool
+
+search_tool = SerperDevTool()
+
+researcher = Agent(
+    role="Research Analyst",
+    goal="Find comprehensive, accurate information on the topic",
+    backstory="Expert analyst with deep domain knowledge.",
+    tools=[search_tool],
+)
+
+writer = Agent(
+    role="Technical Writer",
+    goal="Write clear, concise reports from research findings",
+    backstory="Skilled writer for technical audiences.",
+)
+
+research_task = Task(
+    description="Research the topic: {topic}",
+    expected_output="Structured summary with bullet points and sources.",
+    agent=researcher,
+)
+
+write_task = Task(
+    description="Write a report on: {topic}",
+    expected_output="Report with introduction, key findings, conclusion.",
+    agent=writer,
+    context=[research_task],
+)
+
+crew = Crew(
+    agents=[researcher, writer],
+    tasks=[research_task, write_task],
+    process=Process.sequential,
+)
+
+result = crew.kickoff(inputs={"topic": "durable AI workflow orchestration"})
+```
+
+</TabItem>
+<TabItem label="JamJet">
+
+```python
+from openai import OpenAI
+from pydantic import BaseModel
+from jamjet import Workflow
+
+client = OpenAI()
+
+class State(BaseModel):
+    topic: str
+    research: str = ""
+    report: str = ""
+
+wf = Workflow("research-crew")
+
+@wf.state
+class CrewState(State):
+    pass
+
+@wf.step
+async def research(state: CrewState) -> CrewState:
+    # Role/goal/backstory live in the system prompt — you own it
+    resp = client.chat.completions.create(
+        model="gpt-4.1-mini",
+        messages=[
+            {"role": "system", "content": (
+                "You are an expert research analyst. "
+                "Return a structured summary with bullet points."
+            )},
+            {"role": "user", "content": f"Research: {state.topic}"},
+        ],
+    )
+    return state.model_copy(update={"research": resp.choices[0].message.content or ""})
+
+@wf.step
+async def write_report(state: CrewState) -> CrewState:
+    resp = client.chat.completions.create(
+        model="gpt-4.1-mini",
+        messages=[
+            {"role": "system", "content": "You are a skilled technical writer."},
+            {"role": "user", "content": (
+                f"Topic: {state.topic}\n"
+                f"Research:\n{state.research}\n"
+                "Write a comprehensive report."
+            )},
+        ],
+    )
+    return state.model_copy(update={"report": resp.choices[0].message.content or ""})
+
+result = wf.run_sync(CrewState(topic="durable AI workflow orchestration"))
+print(result.state.report)
+```
+
+</TabItem>
+</Tabs>
+
+## Key differences
+
+### Agents vs steps
+
+CrewAI treats agents as opaque objects with roles, goals, backstories, and tool access. JamJet treats these as what they actually are: a system prompt and a set of tools. Your "agent" is a step with a well-crafted system prompt — you have full control, full visibility.
+
+### Tools
+
+CrewAI has its own tool ecosystem (`crewai_tools`). JamJet uses MCP — the open standard. Any MCP server works: Brave Search, GitHub, Postgres, your own custom server. No lock-in to a proprietary tool registry.
+
+### Multi-agent
+
+CrewAI's `Process.hierarchical` uses an internal manager agent. JamJet uses A2A (Agent-to-Agent protocol) — an open standard where each agent is a separate workflow with its own endpoint. An orchestrator delegates to specialists via `type: a2a_task` nodes. This scales across machines and organizations.
+
+```yaml
+# orchestrator/workflow.yaml
+nodes:
+  delegate-research:
+    type: a2a_task
+    agent_url: "{{ env.RESEARCH_AGENT_URL }}"
+    input:
+      query: "{{ state.topic }}"
+    output_key: research
+    next: write-report
+```
+
+### Observability
+
+CrewAI's verbose mode prints human-readable text. JamJet emits structured events for every step — queryable, diffable, replayable:
+
+```bash
+jamjet inspect exec-abc123   # full timeline
+jamjet events exec-abc123    # event stream
+```
+
+### Durability
+
+CrewAI has no built-in persistence. If the process dies mid-run, you start over. JamJet's Rust runtime persists every step. Crash recovery is automatic.
+
+## Quick-start migration
+
+```bash
+pip install jamjet
+```
+
+1. Convert each `Agent` into a `@wf.step` — move role/goal/backstory into the system prompt
+2. Convert `Task` ordering into step declaration order — shared context becomes state fields
+3. Replace `crewai_tools` with MCP tool nodes (`type: tool` in YAML)
+4. Replace `crew.kickoff(inputs)` with `wf.run_sync(State(...))`
+5. For multi-agent hierarchies: use `type: a2a_task` nodes
+
+<Aside type="tip">
+Full working examples in [jamjet-labs/jamjet-benchmarks](https://github.com/jamjet-labs/jamjet-benchmarks/tree/main/migrate/from-crewai).
+</Aside>
