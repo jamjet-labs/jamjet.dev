@@ -198,6 +198,85 @@ const description = 'Measured latency: JamJet vs LangGraph vs raw LLM call. Repr
     );
   })}
 
+  <!-- ── Vertex AI integration results ── -->
+  <h2 style="margin-top:4rem">Vertex AI (Gemini 2.0 Flash) — plan-and-execute agent</h2>
+  <p style="color:#999;font-size:0.9rem;margin:0.5rem 0 1.5rem">
+    End-to-end run: <strong style="color:#ccc">JamJet @task + @tool</strong> on Vertex AI's OpenAI-compatible endpoint.
+    Two-step research agent — plan then synthesize — using the default <code>plan-and-execute</code> strategy.
+    Recorded live against GCP project on 2026-03-08.
+  </p>
+
+  <div style="background:#0f0f0f;border:1px solid #1e1e1e;border-radius:8px;padding:1.5rem 2rem;margin-bottom:1.5rem">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.5rem;margin-bottom:1.5rem">
+      <div>
+        <div style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Model</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:#f5c518">gemini-2.0-flash-001</div>
+      </div>
+      <div>
+        <div style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Provider</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:#4285f4">Vertex AI (GCP)</div>
+      </div>
+      <div>
+        <div style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Strategy</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:#ccc">plan-and-execute</div>
+      </div>
+      <div>
+        <div style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Wall-clock</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:#fff">41,811 ms</div>
+      </div>
+      <div>
+        <div style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Total tokens</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:#fff">10,961</div>
+      </div>
+      <div>
+        <div style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Est. cost</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:#22c55e">$0.00191</div>
+      </div>
+      <div>
+        <div style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">API calls</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:#fff">12</div>
+      </div>
+    </div>
+
+    <table style="font-size:0.82rem">
+      <thead>
+        <tr>
+          <th style="text-align:left">Step</th>
+          <th>Latency (ms)</th>
+          <th>Prompt tokens</th>
+          <th>Compl tokens</th>
+          <th>Total tokens</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="jamjet-row"><td>plan — Gemini Flash</td><td>2,641</td><td>96</td><td>104</td><td>200</td></tr>
+        <tr><td>step 1 execution</td><td>1,324</td><td>129</td><td>90</td><td>219</td></tr>
+        <tr><td>step 2 execution</td><td>1,413</td><td>127</td><td>110</td><td>237</td></tr>
+        <tr><td>step 3 execution</td><td>1,228</td><td>132</td><td>103</td><td>235</td></tr>
+        <tr><td>step 4 execution</td><td>1,986</td><td>664</td><td>186</td><td>850</td></tr>
+        <tr><td>step 5 execution</td><td>1,290</td><td>280</td><td>100</td><td>380</td></tr>
+        <tr><td>synthesize — Gemini Flash</td><td>3,050</td><td>124</td><td>153</td><td>277</td></tr>
+        <tr style="border-top:1px solid #333;font-weight:700;color:#fff"><td>TOTAL (12 calls)</td><td>41,811</td><td>6,121</td><td>4,840</td><td>10,961</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="background:#0f0f0f;border:1px solid #1e1e1e;border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:1rem">
+    <div style="font-size:0.78rem;color:#666;margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.05em">Integration — 2 env vars, no custom client</div>
+    <pre style="margin:0">export OPENAI_BASE_URL="https://us-central1-aiplatform.googleapis.com/v1beta1/projects/YOUR_PROJECT/locations/us-central1/endpoints/openapi"
+export OPENAI_API_KEY=$(gcloud auth print-access-token)
+
+# Then just use @task/@tool as normal — no Vertex-specific code needed
+@task(model="google/gemini-2.0-flash-001", tools=[web_search])
+async def research(question: str) -> str:
+    """Research assistant — search first, then summarize."""</pre>
+  </div>
+
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:3rem">
+    <a href="https://github.com/jamjet-labs/examples/tree/main/vertex-ai" class="btn btn-ghost" target="_blank" rel="noopener">View example source ↗</a>
+    <a href="https://github.com/jamjet-labs/examples/tree/main/vertex-ai/benchmark.py" class="btn btn-ghost" target="_blank" rel="noopener">Benchmark script ↗</a>
+  </div>
+
   <div class="methodology">
     <h2>Methodology</h2>
     <p style="color:#999; font-size:0.9rem; margin: 0.75rem 0 1.5rem;">
