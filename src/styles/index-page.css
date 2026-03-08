@@ -215,13 +215,16 @@
       margin: 0 auto; font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem; color: var(--text-dim);
     }
-    .term-body { padding: 20px 22px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.85; }
+    .term-body { padding: 20px 22px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.85; text-align: left; }
     .t-y { color: var(--yellow); }
     .t-g { color: var(--success); }
     .t-b { color: #60a5fa; }
     .t-m { color: var(--text-muted); }
     .t-w { color: var(--text); }
     .t-d { color: var(--text-dim); }
+    .t-kw { color: #c792ea; }
+    .t-s { color: #c3e88d; }
+    .t-p { color: #89ddff; }
 
     /* ── Section dividers ── */
     .sep { border: none; border-top: 1px solid var(--border-sub); margin: 0; }
