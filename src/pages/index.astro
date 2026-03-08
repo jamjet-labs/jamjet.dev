@@ -1,547 +1,275 @@
 ---
-import '../styles/index-page.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#f5c518" />
-  <title>JamJet — The Agent-Native Runtime</title>
-  <meta name="description" content="Production-grade orchestration for AI agents. Durable execution, native MCP + A2A, full observability. Built in Rust. Authored in Python." />
-  <meta property="og:title" content="JamJet — The Agent-Native Runtime" />
-  <meta property="og:description" content="Durable execution, native MCP + A2A, full observability for AI agents." />
-  <meta property="og:image" content="https://jamjet.dev/og.svg" />
-  <meta property="og:url" content="https://jamjet.dev" />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@jamjetdev" />
-  <meta name="twitter:title" content="JamJet — The Agent-Native Runtime" />
-  <meta name="twitter:description" content="Durable execution, native MCP + A2A, full observability for AI agents. Built in Rust, authored in Python." />
-  <meta name="twitter:image" content="https://jamjet.dev/og.svg" />
-  <link rel="canonical" href="https://jamjet.dev/" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-</head>
-<body class="pixelgrid">
 
-<!-- ── Navigation ── -->
-<nav>
-  <div class="nav-inner">
-    <a href="/" class="nav-logo" aria-label="JamJet home">
-      <img class="logo-mark" src="/logo-pixel.png" alt="" width="18" height="36" />
-      <span>JamJet</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="/quickstart">Docs</a></li>
-      <li><a href="/usecases">Use Cases</a></li>
-      <li><a href="/benchmarks">Benchmarks</a></li>
-      <li><a href="/examples">Examples</a></li>
-      <li><a href="/blog">Blog</a></li>
-      <li><a href="https://github.com/jamjet-labs/jamjet" target="_blank" rel="noopener">GitHub ↗</a></li>
-    </ul>
-    <div class="nav-right" style="margin-left:auto">
-      <a href="/quickstart" class="btn-nav-cta">Get started →</a>
-    </div>
-  </div>
-</nav>
+<BaseLayout
+  title="JamJet — The Agent-Native Runtime"
+  description="Production-grade orchestration for AI agents. Durable execution, native MCP + A2A, full observability. Built in Rust. Authored in Python."
+  canonical="https://jamjet.dev/"
+>
 
 <!-- ── Hero ── -->
-<section class="hero yglow">
+<section class="hero">
   <div class="hero-inner">
-    <div class="hero-badge">
-      <span class="dot"></span>
-      v0.1.0 · Open source · Apache 2.0
-    </div>
-
-    <img src="/logo-pixel.png" alt="JamJet" width="56" height="120" style="image-rendering:pixelated;margin-bottom:20px;display:block;" />
-
-    <h1>Build agents that<br/><span class="gradient-text">actually work</span><br/>in production</h1>
-
+    <h1>The agent-native<br/>runtime</h1>
     <p class="hero-sub">
-      JamJet is the agent-native runtime — durable execution, native MCP + A2A,
-      full observability, enforced autonomy limits. Built in Rust, authored in Python.
+      Durable execution. Native MCP + A2A. Full observability.<br/>
+      Built in Rust, authored in Python.
     </p>
-
     <div class="hero-actions">
-      <a href="/quickstart" class="btn-primary">
-        Read the docs
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/></svg>
-      </a>
+      <a href="/quickstart" class="btn-primary">Get started</a>
       <a href="https://github.com/jamjet-labs/jamjet" class="btn-secondary" target="_blank" rel="noopener">
-        <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-        Star on GitHub
+        View on GitHub
       </a>
     </div>
-
     <div class="install-cmd">
       <span class="prompt">$</span>
       <span class="cmd">pip install jamjet</span>
-      <button class="copy-btn" data-copy-install>copy</button>
-    </div>
-
-    <!-- Code snippet -->
-    <div class="terminal">
-      <div class="term-bar">
-        <div class="term-dot" style="background:#ef4444"></div>
-        <div class="term-dot" style="background:#f59e0b"></div>
-        <div class="term-dot" style="background:#22c55e"></div>
-        <span class="term-title">agent.py</span>
-      </div>
-      <div class="term-body">
-        <div><span class="t-kw">from</span> <span class="t-w">jamjet</span> <span class="t-kw">import</span> <span class="t-w">task</span><span class="t-p">,</span> <span class="t-w">tool</span></div>
-        <br/>
-        <div><span class="t-p">@</span><span class="t-b">tool</span></div>
-        <div><span class="t-kw">async def</span> <span class="t-b">web_search</span><span class="t-p">(</span><span class="t-w">query</span><span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">) -></span> <span class="t-y">str</span><span class="t-p">:</span></div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-s">"""Search the web for current information."""</span></div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-p">...</span></div>
-        <br/>
-        <div><span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span><span class="t-w">model</span><span class="t-p">=</span><span class="t-s">"claude-sonnet-4-6"</span><span class="t-p">,</span> <span class="t-w">tools</span><span class="t-p">=[</span><span class="t-w">web_search</span><span class="t-p">])</span></div>
-        <div><span class="t-kw">async def</span> <span class="t-b">research</span><span class="t-p">(</span><span class="t-w">question</span><span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">) -></span> <span class="t-y">str</span><span class="t-p">:</span></div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-s">"""Search first, then summarize clearly."""</span></div>
-        <br/>
-        <div><span class="t-w">result</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">research</span><span class="t-p">(</span><span class="t-s">"What are the latest AI agent trends?"</span><span class="t-p">)</span></div>
-        <div><span class="t-b">print</span><span class="t-p">(</span><span class="t-w">result</span><span class="t-p">)</span></div>
-        <br/>
-        <div><span class="t-d"># No Pydantic. No boilerplate. Just Python.</span></div>
-      </div>
+      <button class="copy-btn" id="copy-install">copy</button>
     </div>
   </div>
 </section>
 
-<hr class="sep"/>
-
-<!-- ── Problems ── -->
-<section class="problems-bg">
+<!-- ── Why JamJet ── -->
+<section style="background: var(--bg-alt);">
   <div class="container">
-    <div style="margin-bottom:48px">
-      <div class="section-tag">why jamjet</div>
-      <h2>Production agents have<br/>unsolved problems.</h2>
-      <p style="color:var(--text-muted);margin-top:12px;font-size:1.05rem;">Every team building real agent systems hits the same walls.</p>
-    </div>
-    <div class="problems-grid">
-      <div class="problem-card">
-        <div class="prob-label">RELIABILITY</div>
-        <h3>Agents crash and lose everything</h3>
-        <p class="prob-desc">In-process orchestration libraries vanish on restart. No state, no recovery, no trace of what happened.</p>
-        <div class="prob-ans">→ durable graph execution with event sourcing</div>
+    <span class="section-label">Why JamJet</span>
+    <h2 class="section-title">Production agents have<br/>unsolved problems</h2>
+    <div class="problems">
+      <div class="problem">
+        <span class="problem-label">Reliability</span>
+        <p class="problem-text">Agents crash and lose everything</p>
+        <p class="problem-solution">Durable graph execution with event sourcing</p>
       </div>
-      <div class="problem-card">
-        <div class="prob-label">INTEROP</div>
-        <h3>Agents are locked in silos</h3>
-        <p class="prob-desc">LangChain agents can't talk to AutoGen. CrewAI can't delegate to your partner's system. Everyone's isolated.</p>
-        <div class="prob-ans">→ native MCP + A2A protocols</div>
+      <div class="problem">
+        <span class="problem-label">Interop</span>
+        <p class="problem-text">Agents are locked in silos</p>
+        <p class="problem-solution">Native MCP + A2A protocols</p>
       </div>
-      <div class="problem-card">
-        <div class="prob-label">OBSERVABILITY</div>
-        <h3>You can't see what's happening</h3>
-        <p class="prob-desc">No cost attribution per node, no event timeline, no structured telemetry. Debugging is guesswork.</p>
-        <div class="prob-ans">→ OTel GenAI traces + checkpoint replay</div>
+      <div class="problem">
+        <span class="problem-label">Observability</span>
+        <p class="problem-text">You can't see what's happening</p>
+        <p class="problem-solution">OTel GenAI traces + checkpoint replay</p>
       </div>
-      <div class="problem-card">
-        <div class="prob-label">SAFETY</div>
-        <h3>Autonomous agents run forever</h3>
-        <p class="prob-desc">No standard way to enforce token budgets, cost limits, or iteration caps. Agents burn money until you kill them.</p>
-        <div class="prob-ans">→ compile-time autonomy constraints</div>
+      <div class="problem">
+        <span class="problem-label">Safety</span>
+        <p class="problem-text">Autonomous agents run forever</p>
+        <p class="problem-solution">Compile-time autonomy constraints</p>
       </div>
-      <div class="problem-card">
-        <div class="prob-label">PROCESS</div>
-        <h3>Human approval is bolted on</h3>
-        <p class="prob-desc">Pausing for a human decision requires polling loops, external webhooks, fragile stateful callbacks.</p>
-        <div class="prob-ans">→ human-in-the-loop as a native node type</div>
+      <div class="problem">
+        <span class="problem-label">Process</span>
+        <p class="problem-text">Human approval is bolted on</p>
+        <p class="problem-solution">Human-in-the-loop as a native node type</p>
       </div>
-      <div class="problem-card">
-        <div class="prob-label">PERFORMANCE</div>
-        <h3>Python orchestration doesn't scale</h3>
-        <p class="prob-desc">GIL contention, asyncio overhead, per-call Python tax. Your orchestrator becomes the bottleneck.</p>
-        <div class="prob-ans">→ Rust async scheduler, microsecond overhead</div>
+      <div class="problem">
+        <span class="problem-label">Performance</span>
+        <p class="problem-text">Python orchestration doesn't scale</p>
+        <p class="problem-solution">Rust async scheduler, microsecond overhead</p>
       </div>
     </div>
   </div>
 </section>
 
-<hr class="sep"/>
+<!-- ── Code Example ── -->
+<section>
+  <div class="container">
+    <div class="code-section">
+      <div class="code-text">
+        <span class="section-label">Authoring</span>
+        <h2>Python you<br/>already know</h2>
+        <p style="color: var(--text-secondary); margin-top: 16px;">
+          Decorate functions with <code style="background:var(--surface-code);padding:2px 6px;border-radius:3px;font-size:0.9em">@task</code> and <code style="background:var(--surface-code);padding:2px 6px;border-radius:3px;font-size:0.9em">@tool</code>. The runtime handles durability, cost limits, and telemetry.
+        </p>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <span>agent.py</span>
+        </div>
+        <pre class="code-body" is:raw><span class="t-kw">from</span> <span class="t-w">jamjet</span> <span class="t-kw">import</span> <span class="t-w">task</span><span class="t-p">,</span> <span class="t-w">tool</span>
+
+<span class="t-p">@</span><span class="t-b">tool</span>
+<span class="t-kw">async def</span> <span class="t-b">web_search</span><span class="t-p">(</span><span class="t-w">query</span><span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">) -&gt;</span> <span class="t-y">str</span><span class="t-p">:</span>
+    <span class="t-s">"""Search the web for current information."""</span>
+    <span class="t-p">...</span>
+
+<span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span><span class="t-w">model</span><span class="t-p">=</span><span class="t-s">"claude-sonnet-4-6"</span><span class="t-p">,</span> <span class="t-w">tools</span><span class="t-p">=[</span><span class="t-w">web_search</span><span class="t-p">])</span>
+<span class="t-kw">async def</span> <span class="t-b">research</span><span class="t-p">(</span><span class="t-w">question</span><span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">) -&gt;</span> <span class="t-y">str</span><span class="t-p">:</span>
+    <span class="t-s">"""Search first, then summarize clearly."""</span>
+
+<span class="t-w">result</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">research</span><span class="t-p">(</span><span class="t-s">"Latest AI agent trends?"</span><span class="t-p">)</span>
+<span class="t-b">print</span><span class="t-p">(</span><span class="t-w">result</span><span class="t-p">)</span></pre>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ── Features ── -->
-<section>
+<section style="background: var(--bg-alt);">
   <div class="container">
-    <div style="margin-bottom:48px">
-      <div class="section-tag">features</div>
-      <h2>Everything production demands.<br/>Nothing extra.</h2>
-    </div>
-    <div class="features-grid">
-      <div class="feat-card">
-        <div class="feat-tag">durability</div>
+    <span class="section-label">Capabilities</span>
+    <h2 class="section-title">Everything production demands</h2>
+    <div class="features">
+      <div class="feature">
         <h3>Durable Graph Execution</h3>
-        <p>Every step checkpointed. Crash the process, restart it — execution resumes exactly where it stopped. Event sourcing + periodic snapshots.</p>
+        <p>Every step checkpointed with event sourcing. Crash the process, restart it — execution resumes exactly where it stopped.</p>
       </div>
-      <div class="feat-card">
-        <div class="feat-tag">protocols</div>
+      <div class="feature">
         <h3>Native MCP + A2A</h3>
-        <p>MCP client + server. A2A client + server. Connect to any tool server, expose your tools, delegate to or serve external agents — in your workflow YAML.</p>
+        <p>Connect to any tool server. Expose your tools. Delegate to external agents. Both protocols built in, not bolted on.</p>
       </div>
-      <div class="feat-card">
-        <div class="feat-tag">humans</div>
-        <h3>Human-in-the-Loop</h3>
-        <p>Pause any workflow for human approval. Suspends durably — restarts and crashes don't lose the state. Resume via API, CLI, or webhook.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-tag">identity</div>
-        <h3>Agent-Native Identity</h3>
-        <p>Every agent has a URI and an Agent Card describing capabilities. Managed lifecycle, discoverable via A2A, composable across orgs and frameworks.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-tag">observability</div>
+      <div class="feature">
         <h3>Full Observability</h3>
-        <p>OTel GenAI traces. Per-node token and cost attribution. Structured event timeline. Checkpoint replay for any execution. Know exactly what happened.</p>
+        <p>OpenTelemetry GenAI traces. Per-node cost attribution. Checkpoint replay. Know exactly what happened and why.</p>
       </div>
-      <div class="feat-card">
-        <div class="feat-tag">typing</div>
-        <h3>Typed Schemas Everywhere</h3>
-        <p>Pydantic, TypedDict, or JSON Schema for all inputs and outputs. No stringly-typed state. Schema violations fail fast at validation time.</p>
+      <div class="feature">
+        <h3>Human-in-the-Loop</h3>
+        <p>Native workflow node for approvals. Durable suspension — the process sleeps until a human responds, even across restarts.</p>
       </div>
-      <div class="feat-card">
-        <div class="feat-tag">autonomy</div>
-        <h3>Configurable Autonomy Limits</h3>
-        <p>Token budgets, cost caps, iteration limits, tool allowlists, approval requirements per agent — enforced at runtime with clear events and escalation paths.</p>
+      <div class="feature">
+        <h3>Autonomy Limits</h3>
+        <p>Token budgets, cost caps, iteration limits. Enforced by the runtime, not by convention. Agents can't run away.</p>
       </div>
-      <div class="feat-card">
-        <div class="feat-tag">evaluation</div>
+      <div class="feature">
         <h3>Native Eval Harness</h3>
-        <p>LLM-judge, assertion, latency, and cost scorers as first-class workflow nodes. Run <kbd>jamjet eval run --dataset qa.jsonl --fail-below 80</kbd> in CI.</p>
+        <p>LLM-as-judge, assertion, latency, and cost scorers. Run evals as workflow nodes. CI exit codes on regression.</p>
       </div>
-      <div class="feat-card">
-        <div class="feat-tag">performance</div>
-        <h3>Rust Core, Python Authoring</h3>
-        <p>Scheduler, state machine, and worker pool are Rust + Tokio. Workflows and tools are Python. Systems performance, developer ergonomics.</p>
+      <div class="feature">
+        <h3>Typed Schemas</h3>
+        <p>Pydantic and JSON Schema validation at every step boundary. No loose dicts. Catch errors before they propagate.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<hr class="sep"/>
-
-<!-- ── Code examples ── -->
-<section style="background: var(--bg-2)">
-  <div class="container">
-    <div style="margin-bottom:48px">
-      <div class="section-tag">authoring</div>
-      <h2>Write workflows your way.</h2>
-      <p style="color:var(--text-muted); margin-top:12px; font-size:1.05rem;">YAML for clarity, Python for flexibility. Both compile to the same durable runtime graph.</p>
-    </div>
-
-    <div class="code-wrap">
-      <div class="tab-strip">
-        <button class="tab active" data-tab-target="yaml">workflow.yaml</button>
-        <button class="tab" data-tab-target="python">python sdk</button>
-        <button class="tab" data-tab-target="agent">agent.yaml</button>
-        <button class="tab" data-tab-target="mcp">mcp tools</button>
-        <button class="tab" data-tab-target="eval">eval node</button>
+      <div class="feature">
+        <h3>Rust Core</h3>
+        <p>Async scheduler built in Rust. Microsecond dispatch overhead. Python is for authoring, not for orchestration.</p>
       </div>
-
-      <div id="pane-yaml" class="tab-pane active">
-        <pre class="code"><span class="cmt"># workflow.yaml — RAG pipeline with human approval</span>
-<span class="kw">workflow:</span>
-  id: rag-with-approval
-  version: <span class="str">0.1.0</span>
-  state_schema: schemas.ResearchState
-  start: fetch_context
-
-<span class="kw">nodes:</span>
-  <span class="dec">fetch_context:</span>
-    type: mcp_tool
-    server: vector_db
-    tool: similarity_search
-    input:
-      query: <span class="str">"&#123;&#123; state.question &#125;&#125;"</span>
-    output_schema: schemas.Chunks
-    next: synthesize
-
-  <span class="dec">synthesize:</span>
-    type: model
-    model: claude-sonnet-4-6
-    prompt: prompts/synthesize.md
-    output_schema: schemas.Answer
-    next: approve
-
-  <span class="dec">approve:</span>
-    type: human_approval          <span class="cmt"># durable — survives restarts</span>
-    description: <span class="str">"Review answer before delivery"</span>
-    timeout_secs: <span class="str">86400</span>           <span class="cmt"># 24h window</span>
-    next: deliver
-
-  <span class="dec">deliver:</span>
-    type: tool
-    tool_ref: tools.send_response
-    input:
-      answer: <span class="str">"&#123;&#123; state.answer &#125;&#125;"</span></pre>
-      </div>
-
-      <div id="pane-python" class="tab-pane">
-        <pre class="code"><span class="kw">from</span> jamjet <span class="kw">import</span> task, tool
-
-<span class="cmt"># @tool — expose any Python function to the agent</span>
-<span class="dec">@tool</span>
-<span class="kw">async def</span> <span class="fn">web_search</span>(query: <span class="typ">str</span>) -> <span class="typ">str</span>:
-    <span class="str">"""Search the web for current information."""</span>
-    ...
-
-<span class="dec">@tool</span>
-<span class="kw">async def</span> <span class="fn">read_url</span>(url: <span class="typ">str</span>) -> <span class="typ">str</span>:
-    <span class="str">"""Fetch and return the content of a URL."""</span>
-    ...
-
-<span class="cmt"># @task — docstring becomes the agent instructions</span>
-<span class="dec">@task</span>(model=<span class="str">"claude-sonnet-4-6"</span>, tools=[web_search, read_url])
-<span class="kw">async def</span> <span class="fn">research</span>(question: <span class="typ">str</span>) -> <span class="typ">str</span>:
-    <span class="str">"""You are a research assistant.
-    Search and read sources, then summarize clearly."""</span>
-
-<span class="cmt"># Run it — durable, observable, cost-bounded</span>
-result = <span class="kw">await</span> research(<span class="str">"What is the A2A protocol?"</span>)
-<span class="fn">print</span>(result)</pre>
-      </div>
-
-      <div id="pane-agent" class="tab-pane">
-        <pre class="code"><span class="cmt"># agent.yaml — ReAct agent with enforced limits</span>
-<span class="kw">agent:</span>
-  id: research-analyst
-  name: Research Analyst
-  model: claude-sonnet-4-6
-  strategy: react               <span class="cmt"># react | plan_and_execute | critic</span>
-
-  <span class="kw">tools:</span>
-    - tool_ref: tools.web_search
-    - tool_ref: tools.read_url
-    - tool_ref: tools.code_exec
-
-  <span class="kw">mcp:</span>
-    servers:
-      arxiv:
-        transport: http_sse
-        url: https://mcp.arxiv.org/v1
-
-  <span class="kw">limits:</span>                        <span class="cmt"># enforced at runtime</span>
-    max_iterations: <span class="str">10</span>
-    token_budget: <span class="str">50000</span>
-    cost_budget_usd: <span class="str">0.50</span>
-    time_budget_secs: <span class="str">300</span>
-    on_limit_exceeded: escalate  <span class="cmt"># escalate | halt | log_and_continue</span>
-
-  autonomy: bounded_autonomous   <span class="cmt"># guided | bounded_autonomous | fully_autonomous</span></pre>
-      </div>
-
-      <div id="pane-mcp" class="tab-pane">
-        <pre class="code"><span class="cmt"># Use any MCP server as a workflow node</span>
-<span class="kw">mcp_servers:</span>
-  github:
-    transport: http_sse
-    url: https://mcp.github.com/v1
-    auth:
-      type: bearer
-      token_env: GITHUB_TOKEN
-
-  postgres:
-    transport: stdio
-    command: npx -y @modelcontextprotocol/server-postgres
-    args: [<span class="str">"postgresql://localhost/mydb"</span>]
-
-<span class="kw">nodes:</span>
-  search_code:
-    type: mcp_tool
-    server: github              <span class="cmt"># ↑ references mcp_servers.github</span>
-    tool: search_code
-    input:
-      query: <span class="str">"&#123;&#123; state.query &#125;&#125;"</span>
-    next: store_result
-
-  store_result:
-    type: mcp_tool
-    server: postgres
-    tool: insert_row
-    input:
-      table: <span class="str">"analysis_results"</span>
-      data:  <span class="str">"&#123;&#123; state.result &#125;&#125;"</span></pre>
-      </div>
-
-      <div id="pane-eval" class="tab-pane">
-        <pre class="code"><span class="cmt"># eval node in workflow — LLM-judge + assertions + cost gate</span>
-<span class="kw">nodes:</span>
-  generate:
-    type: model
-    model: claude-sonnet-4-6
-    prompt: prompts/answer.md
-    next: <span class="dec">evaluate</span>
-
-  <span class="dec">evaluate:</span>
-    type: eval
-    <span class="kw">scorers:</span>
-      - type: llm_judge
-        model: claude-haiku-4-5-20251001
-        rubric: <span class="str">"Rate factual accuracy 1–5"</span>
-        min_score: <span class="str">3</span>
-      - type: assertion
-        checks:
-          - <span class="str">"'answer' in output"</span>
-          - <span class="str">"len(output['answer']) > 20"</span>
-      - type: cost
-        threshold_usd: <span class="str">0.05</span>
-    on_fail: retry_with_feedback
-    max_retries: <span class="str">2</span>
-    next: deliver
-
-<span class="cmt"># Or from the CLI for batch CI scoring:</span>
-<span class="cmt"># jamjet eval run qa.jsonl --workflow rag \</span>
-<span class="cmt">#   --rubric "Rate accuracy 1-5" --fail-below 80</span></pre>
+      <div class="feature">
+        <h3>Multi-Model</h3>
+        <p>Any OpenAI-compatible API. Anthropic, Ollama, Groq, Azure — swap models per task with a single config change.</p>
       </div>
     </div>
   </div>
 </section>
-
-<hr class="sep"/>
-
-<!-- ── Comparison ── -->
-<section>
-  <div class="container">
-    <div style="margin-bottom:48px">
-      <div class="section-tag">comparison</div>
-      <h2>Not another agent library.</h2>
-      <p style="color:var(--text-muted); margin-top:12px; font-size:1.05rem;">JamJet is a runtime. Built for production, not prototyping.</p>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Capability</th>
-            <th class="jam">JamJet</th>
-            <th>LangChain</th>
-            <th>AutoGen</th>
-            <th>CrewAI</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td class="name">Durable execution (crash-safe)</td><td class="jam chk">✅ event-sourced</td><td class="no">❌ ephemeral</td><td class="no">❌ ephemeral</td><td class="no">❌ ephemeral</td></tr>
-          <tr><td class="name">Human-in-the-loop</td><td class="jam chk">✅ native node type</td><td class="par">🟡 callbacks</td><td class="par">🟡 conversational</td><td class="par">🟡 manual</td></tr>
-          <tr><td class="name">MCP support</td><td class="jam chk">✅ client + server</td><td class="par">🟡 client only</td><td class="par">🟡 client only</td><td class="par">🟡 client only</td></tr>
-          <tr><td class="name">A2A protocol</td><td class="jam chk">✅ client + server</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td></tr>
-          <tr><td class="name">Enforced cost / iteration limits</td><td class="jam chk">✅ compile-time guards</td><td class="no">❌</td><td class="par">🟡 partial</td><td class="par">🟡 partial</td></tr>
-          <tr><td class="name">Typed state schemas</td><td class="jam chk">✅ Pydantic / JSON Schema</td><td class="par">🟡 optional</td><td class="par">🟡 optional</td><td class="par">🟡 partial</td></tr>
-          <tr><td class="name">Native eval harness</td><td class="jam chk">✅ LLM-judge, CI mode</td><td class="par">🟡 LangSmith (SaaS)</td><td class="no">❌</td><td class="no">❌</td></tr>
-          <tr><td class="name">Full OTel observability</td><td class="jam chk">✅ GenAI traces + replay</td><td class="par">🟡 LangSmith</td><td class="no">❌</td><td class="no">❌</td></tr>
-          <tr><td class="name">Agent identity + discovery</td><td class="jam chk">✅ Agent Cards + A2A</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td></tr>
-          <tr><td class="name">Runtime language</td><td class="jam">Rust + Python authoring</td><td>Python</td><td>Python</td><td>Python</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p style="font-size:0.72rem; color:var(--text-dim); margin-top:12px; text-align:right;">Data as of early 2026. Frameworks evolve — verify against current docs.</p>
-  </div>
-</section>
-
-<hr class="sep"/>
 
 <!-- ── CTA ── -->
-<section class="cta-section" style="padding: 100px 24px">
-  <div class="cta-glow"></div>
-  <div class="cta-inner">
-    <div class="section-tag" style="justify-content:center">start building</div>
-    <h2>Production agents<br/>start <span class="gradient-text">here</span></h2>
-    <p style="margin-top:16px">Get a durable workflow running locally in under 10 minutes.<br/>No Docker, no servers — just <kbd style="background:var(--bg-3);border:1px solid var(--border);padding:2px 8px;border-radius:4px;font-size:0.85em">jamjet dev</kbd>.</p>
-
-    <div class="install-cmd" style="margin:32px auto;width:fit-content">
-      <span class="prompt">$</span>
-      <span class="cmd">pip install jamjet</span>
-      <button class="copy-btn" data-copy-install>copy</button>
-    </div>
-
-    <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
-      <a href="/quickstart" class="btn-primary">Read the quickstart →</a>
+<section>
+  <div class="container" style="text-align: center; max-width: 560px;">
+    <h2>Start building</h2>
+    <p style="color: var(--text-secondary); margin: 16px 0 32px;">
+      Get a durable workflow running locally in under 10 minutes.
+    </p>
+    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+      <a href="/quickstart" class="btn-primary">Read the quickstart</a>
       <a href="https://github.com/jamjet-labs/jamjet" class="btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
     </div>
   </div>
 </section>
 
-<!-- ── Footer ── -->
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <a href="/" class="nav-logo" style="font-size:1rem">
-          <img class="logo-mark" src="/logo-pixel.png" alt="" width="18" height="36" />
-          JamJet
-        </a>
-        <p class="footer-desc">The agent-native runtime.<br/>Built in Rust. Authored in Python.<br/>Open source — Apache 2.0.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Product</h4>
-        <ul>
-          <li><a href="/quickstart">Quickstart</a></li>
-          <li><a href="/concepts">Concepts</a></li>
-          <li><a href="/usecases">Use Cases</a></li>
-          <li><a href="/cli">CLI reference</a></li>
-          <li><a href="https://github.com/jamjet-labs/jamjet/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Changelog</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Learn</h4>
-        <ul>
-          <li><a href="/mcp">MCP guide</a></li>
-          <li><a href="/a2a">A2A guide</a></li>
-          <li><a href="/eval">Eval harness</a></li>
-          <li><a href="/yaml-workflows">Human-in-the-loop</a></li>
-          <li><a href="/examples">Examples</a></li>
-          <li><a href="/blog">Blog</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Community</h4>
-        <ul>
-          <li><a href="https://github.com/jamjet-labs/jamjet" target="_blank" rel="noopener">GitHub</a></li>
-          <li><a href="https://x.com/jamjetdev" target="_blank" rel="noopener">X / Twitter</a></li>
-          <li><a href="https://github.com/jamjet-labs/jamjet/discussions" target="_blank" rel="noopener">Discussions</a></li>
-          <li><a href="mailto:hello@jamjet.dev">hello@jamjet.dev</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 JamJet. Apache 2.0 license.</span>
-      <div style="display:flex;gap:20px">
-        <a href="/privacy">Privacy</a>
-        <a href="/terms">Terms</a>
-        <a href="https://github.com/jamjet-labs/jamjet/blob/main/SECURITY.md" target="_blank" rel="noopener">Security</a>
-      </div>
-    </div>
-  </div>
-</footer>
+</BaseLayout>
+
+<style>
+  .hero {
+    min-height: calc(100vh - 64px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 80px 24px;
+    text-align: center;
+  }
+  .hero-inner { max-width: 680px; }
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: var(--text-secondary);
+    margin: 28px 0 48px;
+    line-height: 1.8;
+  }
+  .hero-actions {
+    display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+
+  /* Why JamJet */
+  .section-title {
+    margin: 8px 0 48px;
+  }
+  .problems {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px 48px;
+  }
+  .problem {
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+  }
+  .problem-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .problem-text {
+    color: var(--text);
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  .problem-solution {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .problem-solution::before {
+    content: '→ ';
+    color: var(--accent);
+  }
+
+  /* Code section */
+  .code-section {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .code-text h2 { margin-bottom: 8px; }
+
+  /* Features */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px 48px;
+  }
+  .feature {
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+  }
+  .feature h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .feature p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .problems { grid-template-columns: 1fr; gap: 0; }
+    .features { grid-template-columns: 1fr; gap: 0; }
+    .code-section { grid-template-columns: 1fr; gap: 32px; }
+  }
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .problems { grid-template-columns: repeat(2, 1fr); }
+    .features { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
 
 <script>
-  function copyInstall(button) {
+  document.getElementById('copy-install')?.addEventListener('click', function() {
     navigator.clipboard.writeText('pip install jamjet').then(() => {
-      button.textContent = 'copied!';
-      setTimeout(() => {
-        button.textContent = 'copy';
-      }, 1500);
-    });
-  }
-
-  function showTab(id, btn) {
-    document.querySelectorAll('.tab-pane').forEach((el) => el.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach((el) => el.classList.remove('active'));
-    const pane = document.getElementById('pane-' + id);
-    if (pane) pane.classList.add('active');
-    btn.classList.add('active');
-  }
-
-  document.querySelectorAll('[data-copy-install]').forEach((button) => {
-    button.addEventListener('click', () => copyInstall(button));
-  });
-
-  document.querySelectorAll('[data-tab-target]').forEach((button) => {
-    button.addEventListener('click', () => {
-      showTab(button.getAttribute('data-tab-target'), button);
+      this.textContent = 'copied!';
+      setTimeout(() => { this.textContent = 'copy'; }, 1500);
     });
   });
 </script>
-</body>
-</html>

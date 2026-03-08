@@ -1,4 +1,5 @@
 ---
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog'))
@@ -9,120 +10,17 @@ const fullPosts = posts.slice(0, 3);
 const olderPosts = posts.slice(3);
 
 const rendered = await Promise.all(fullPosts.map((p) => p.render()));
-
-const site = 'https://jamjet.dev';
-const title = 'JamJet Blog | Engineering, Releases, and Production Agent Patterns';
-const description = 'Latest JamJet updates, release notes, and deep dives on building durable, production AI agents.';
-const canonical = `${site}/blog/`;
 ---
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title}</title>
-  <meta name="description" content={description} />
-  <link rel="canonical" href={canonical} />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:url" content={canonical} />
-  <meta property="og:image" content={`${site}/og.svg`} />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={title} />
-  <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={`${site}/og.svg`} />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    :root { --bg:#0a0a0e; --bg2:#111118; --fg:#e8e8f0; --muted:#9ca3af; --accent:#f5c518; --border:rgba(255,255,255,0.10); }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; }
 
-    nav { border-bottom: 1px solid var(--border); padding: 0 2rem; }
-    .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 2rem; height: 56px; }
-    .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; color: #fff; text-decoration: none; }
-    .nav-logo img { width: 14px; height: 28px; image-rendering: pixelated; }
-    .nav-links { display: flex; gap: 1.5rem; list-style: none; margin-left: auto; }
-    .nav-links a { color: #999; font-size: 0.9rem; text-decoration: none; }
-    .nav-links a:hover { color: #fff; }
+<BaseLayout
+  title="JamJet Blog | Engineering, Releases, and Production Agent Patterns"
+  description="Latest JamJet updates, release notes, and deep dives on building durable, production AI agents."
+  canonical="https://jamjet.dev/blog/"
+  currentPage="blog"
+>
 
-    .page { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem 6rem; display: grid; grid-template-columns: 1fr 280px; gap: 4rem; align-items: start; }
-    @media (max-width: 900px) { .page { grid-template-columns: 1fr; gap: 3rem; } }
+<div class="blog-page">
 
-    /* ── Main feed ── */
-    .feed-header { margin-bottom: 2.5rem; }
-    .feed-header h1 { font-size: 2rem; font-weight: 800; color: #fff; margin-bottom: 0.4rem; }
-    .feed-header p { color: var(--muted); font-size: 0.95rem; }
-
-    .post + .post { margin-top: 0; }
-    .post-divider { border: none; border-top: 1px solid var(--border); margin: 3.5rem 0; }
-
-    .post-eyebrow { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.6rem; }
-    .post-title { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 0.5rem; }
-    .post-title a { color: inherit; text-decoration: none; }
-    .post-title a:hover { color: var(--accent); }
-    .post-meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.8rem; }
-
-    /* Article content styles */
-    .post-body :global(h1) { display: none; } /* title already shown above */
-    .post-body :global(h2) { font-size: 1.3rem; font-weight: 700; color: #fff; margin: 2rem 0 0.75rem; }
-    .post-body :global(h3) { font-size: 1.1rem; font-weight: 600; color: #e0e0e0; margin: 1.5rem 0 0.5rem; }
-    .post-body :global(p) { color: #d1d5db; line-height: 1.8; margin-bottom: 1.1rem; }
-    .post-body :global(ul), .post-body :global(ol) { color: #d1d5db; padding-left: 1.4rem; margin-bottom: 1.1rem; }
-    .post-body :global(li) { margin-bottom: 0.4rem; line-height: 1.7; }
-    .post-body :global(a) { color: var(--accent); text-decoration: none; }
-    .post-body :global(a:hover) { text-decoration: underline; }
-    .post-body :global(pre) { background: #111; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1.25rem 0; }
-    .post-body :global(code) { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: #ccc; }
-    .post-body :global(pre code) { color: #ccc; }
-    .post-body :global(blockquote) { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1.25rem 0; font-style: italic; }
-    .post-body :global(hr) { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
-    .post-body :global(strong) { color: #fff; font-weight: 600; }
-
-    .read-more { display: inline-block; margin-top: 0.5rem; color: var(--accent); font-size: 0.9rem; font-weight: 600; text-decoration: none; }
-    .read-more:hover { text-decoration: underline; }
-
-    /* Share bar */
-    .post-footer { display: flex; align-items: center; gap: 10px; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
-    .share-btn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; text-decoration: none; border: 1px solid var(--border); color: #999; background: transparent; cursor: pointer; font-family: inherit; transition: border-color 0.15s, color 0.15s; }
-    .share-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .share-btn.copied { color: #4ade80; border-color: #4ade80; }
-
-    /* ── Sidebar ── */
-    .sidebar { position: sticky; top: 2rem; }
-    .sidebar-section { margin-bottom: 2rem; }
-    .sidebar-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
-    .sidebar-post { display: block; padding: 0.75rem 0; border-bottom: 1px solid var(--border); text-decoration: none; color: inherit; }
-    .sidebar-post:last-child { border-bottom: none; }
-    .sidebar-post:hover .sidebar-post-title { color: var(--accent); }
-    .sidebar-post-title { font-size: 0.9rem; font-weight: 600; color: #e0e0e0; line-height: 1.3; margin-bottom: 0.3rem; }
-    .sidebar-post-date { font-size: 0.78rem; color: var(--muted); }
-  </style>
-</head>
-<body>
-
-<nav>
-  <div class="nav-inner">
-    <a href="/" class="nav-logo">
-      <img src="/logo-pixel.png" alt="" />
-      <span>JamJet</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="/quickstart">Docs</a></li>
-      <li><a href="/compare">Compare</a></li>
-      <li><a href="/benchmarks">Benchmarks</a></li>
-      <li><a href="/blog">Blog</a></li>
-      <li><a href="https://github.com/jamjet-labs/jamjet" target="_blank" rel="noopener">GitHub ↗</a></li>
-    </ul>
-  </div>
-</nav>
-
-<div class="page">
-
-  <!-- ── Main feed ── -->
   <main>
     <div class="feed-header">
       <h1>Blog</h1>
@@ -161,7 +59,7 @@ const canonical = `${site}/blog/`;
               <span>Copy link</span>
             </button>
             <a class="share-btn" href={`/blog/${post.slug}/`} style="margin-left:auto">
-              Read full post →
+              Read full post
             </a>
           </div>
           {i < fullPosts.length - 1 && <hr class="post-divider" />}
@@ -170,7 +68,6 @@ const canonical = `${site}/blog/`;
     })}
   </main>
 
-  <!-- ── Sidebar ── -->
   {olderPosts.length > 0 && (
     <aside class="sidebar">
       <div class="sidebar-section">
@@ -187,22 +84,95 @@ const canonical = `${site}/blog/`;
 
 </div>
 
-  <script>
-    document.querySelectorAll<HTMLButtonElement>('button[data-copy-url]').forEach((btn) => {
-      btn.addEventListener('click', async () => {
-        const url = btn.dataset.copyUrl ?? window.location.href;
-        const label = btn.querySelector('span');
-        try {
-          await navigator.clipboard.writeText(url);
-          if (label) label.textContent = 'Copied!';
-          btn.classList.add('copied');
-          setTimeout(() => {
-            if (label) label.textContent = 'Copy link';
-            btn.classList.remove('copied');
-          }, 2000);
-        } catch {}
-      });
+</BaseLayout>
+
+<style>
+  .blog-page {
+    max-width: 1080px; margin: 0 auto; padding: 3rem 24px 6rem;
+    display: grid; grid-template-columns: 1fr 260px; gap: 4rem; align-items: start;
+  }
+  @media (max-width: 900px) { .blog-page { grid-template-columns: 1fr; gap: 3rem; } }
+
+  .blog-page main { min-width: 0; overflow-wrap: break-word; }
+
+  .feed-header { margin-bottom: 2.5rem; }
+  .feed-header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .feed-header p { color: var(--text-secondary); font-size: 0.95rem; }
+
+  .post + .post { margin-top: 0; }
+  .post-divider { border: none; border-top: 1px solid var(--border); margin: 3.5rem 0; }
+
+  .post-eyebrow {
+    font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.6rem;
+  }
+  .post-title { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 700; line-height: 1.2; margin-bottom: 0.5rem; }
+  .post-title a { color: inherit; text-decoration: none; }
+  .post-title a:hover { color: var(--accent); }
+  .post-meta { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.8rem; }
+
+  .post-body :global(h1) { display: none; }
+  .post-body :global(h2) { font-size: 1.3rem; font-weight: 700; margin: 2rem 0 0.75rem; }
+  .post-body :global(h3) { font-size: 1.1rem; font-weight: 600; color: var(--text-secondary); margin: 1.5rem 0 0.5rem; }
+  .post-body :global(p) { color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.1rem; }
+  .post-body :global(ul), .post-body :global(ol) { color: var(--text-secondary); padding-left: 1.4rem; margin-bottom: 1.1rem; }
+  .post-body :global(li) { margin-bottom: 0.4rem; line-height: 1.7; }
+  .post-body :global(a) { color: var(--accent); text-decoration: none; }
+  .post-body :global(a:hover) { text-decoration: underline; }
+  .post-body :global(.expressive-code) { margin: 1.25rem 0; }
+  .post-body :global(.expressive-code .frame) { background: var(--bg-code) !important; border-radius: 10px; overflow: hidden; }
+  .post-body :global(.expressive-code pre) { background: var(--bg-code) !important; padding: 1rem; overflow: auto; }
+  .post-body :global(.expressive-code code) { font-family: var(--font-mono); font-size: 0.85rem; }
+  .post-body :global(.expressive-code .ec-line span) { color: var(--0) !important; }
+  .post-body :global(pre) { background: var(--bg-code); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1.25rem 0; }
+  .post-body :global(code) { font-family: var(--font-mono); font-size: 0.85rem; }
+  .post-body :global(pre code) { color: #eae8e1; }
+  .post-body :global(blockquote) { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--text-muted); margin: 1.25rem 0; font-style: italic; }
+  .post-body :global(hr) { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+  .post-body :global(strong) { color: var(--text); font-weight: 600; }
+
+  .post-footer {
+    display: flex; align-items: center; gap: 10px; margin-top: 2rem;
+    padding-top: 1rem; border-top: 1px solid var(--border); flex-wrap: wrap;
+  }
+  .share-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 12px; border-radius: 6px;
+    font-size: 0.78rem; font-weight: 600; text-decoration: none;
+    border: 1px solid var(--border-strong); color: var(--text-muted);
+    background: transparent; cursor: pointer; font-family: inherit;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .share-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .sidebar { position: sticky; top: 80px; }
+  .sidebar-title {
+    font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem;
+    padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+  }
+  .sidebar-post {
+    display: block; padding: 0.75rem 0; border-bottom: 1px solid var(--border);
+    text-decoration: none; color: inherit;
+  }
+  .sidebar-post:last-child { border-bottom: none; }
+  .sidebar-post:hover .sidebar-post-title { color: var(--accent); }
+  .sidebar-post-title { font-size: 0.9rem; font-weight: 600; line-height: 1.3; margin-bottom: 0.3rem; }
+  .sidebar-post-date { font-size: 0.78rem; color: var(--text-muted); }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('button[data-copy-url]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const url = btn.dataset.copyUrl ?? window.location.href;
+      const label = btn.querySelector('span');
+      try {
+        await navigator.clipboard.writeText(url);
+        if (label) label.textContent = 'Copied!';
+        setTimeout(() => {
+          if (label) label.textContent = 'Copy link';
+        }, 2000);
+      } catch {}
     });
-  </script>
-</body>
-</html>
+  });
+</script>

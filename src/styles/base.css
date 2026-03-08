@@ -1,0 +1,205 @@
+/* ══════════════════════════════════════════════════════════
+   base.css — JamJet Marketing Pages
+   Japanese design: Ma · Kanso · Shibui · Seijaku
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Design Tokens ── */
+:root {
+  --bg:             #fafaf8;
+  --bg-alt:         #f5f4f0;
+  --bg-code:        #2a2a28;
+
+  --text:           #1a1a18;
+  --text-secondary: #6b6b63;
+  --text-muted:     #8b8578;
+
+  --accent:         #8b7355;
+  --accent-hover:   #c4956a;
+  --accent-bg:      rgba(139,115,85,0.08);
+
+  --border:         rgba(26,26,24,0.08);
+  --border-strong:  rgba(26,26,24,0.15);
+
+  --surface-code:   #eae8e1;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --space-section:    120px;
+  --space-section-sm: 80px;
+
+  --success: #2d7d46;
+  --error:   #b44040;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+code, pre, kbd { font-family: var(--font-mono); }
+
+/* ── Typography — Shibui ── */
+h1, h2, h3, h4 { line-height: 1.15; letter-spacing: -0.025em; color: var(--text); }
+h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 700; }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 600; }
+h3 { font-size: 1.1rem; font-weight: 600; }
+p  { font-size: 1rem; line-height: 1.8; }
+
+/* ── Layout — Ma ── */
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+section { padding: var(--space-section) 0; }
+
+.section-label {
+  font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--accent);
+  margin-bottom: 16px;
+}
+
+/* ── Dividers ── */
+.sep { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+/* ── Navigation — Kanso ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 1080px; margin: 0 auto;
+  padding: 0 24px; height: 64px;
+  display: flex; align-items: center; gap: 32px;
+}
+.nav-logo {
+  text-decoration: none; display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 1rem; font-weight: 600; color: var(--text);
+  flex-shrink: 0;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 28px; list-style: none;
+  margin-left: auto;
+}
+.nav-links a {
+  color: var(--text-secondary); text-decoration: none;
+  font-size: 0.875rem; font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a[aria-current="page"] { color: var(--text); }
+
+.nav-github {
+  display: flex; align-items: center;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+.nav-github:hover { color: var(--text); }
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+}
+
+/* ── Buttons — Shibui ── */
+.btn-primary {
+  background: var(--text);
+  color: var(--bg);
+  font-weight: 600; font-size: 0.9rem;
+  text-decoration: none; padding: 12px 24px;
+  border-radius: 6px; transition: opacity 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary:hover { opacity: 0.85; }
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text); font-weight: 500; font-size: 0.9rem;
+  text-decoration: none; padding: 12px 24px;
+  border-radius: 6px; transition: border-color 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* ── Install Command ── */
+.install-cmd {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: var(--bg-code);
+  border-radius: 8px; padding: 14px 20px;
+  font-family: var(--font-mono); font-size: 0.875rem;
+}
+.install-cmd .prompt { color: var(--accent-hover); }
+.install-cmd .cmd { color: #f5f4f0; }
+.copy-btn {
+  background: none; border: none; cursor: pointer;
+  color: #8b8578; font-size: 0.75rem;
+  padding: 2px 8px; border-radius: 4px;
+  transition: color 0.15s; font-family: inherit;
+}
+.copy-btn:hover { color: #f5f4f0; }
+
+/* ── Code Block (dark on light) — Shibui ── */
+.code-block {
+  background: var(--bg-code);
+  border-radius: 10px; overflow: hidden;
+}
+.code-header {
+  background: #1a1a18; padding: 12px 20px;
+  font-size: 0.72rem; font-family: var(--font-mono);
+  color: #8b8578; display: flex; justify-content: space-between;
+}
+.code-body {
+  margin: 0; padding: 24px; font-family: var(--font-mono); font-size: 0.82rem;
+  line-height: 1.85; color: #eae8e1; overflow-x: auto;
+  white-space: pre; word-wrap: normal; background: transparent;
+}
+
+/* Syntax tokens */
+.t-kw { color: #c792ea; }
+.t-s  { color: #c3e88d; }
+.t-b  { color: #82aaff; }
+.t-y  { color: #c4956a; }
+.t-d  { color: #6b6b63; }
+.t-w  { color: #eae8e1; }
+.t-p  { color: #89ddff; }
+
+/* ── Footer — Kanso ── */
+footer {
+  padding: 64px 0 48px;
+  border-top: 1px solid var(--border);
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px; margin-bottom: 48px;
+}
+.footer-desc { font-size: 0.85rem; color: var(--text-muted); margin-top: 16px; line-height: 1.7; }
+.footer-col h4 {
+  font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 16px;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col a {
+  font-size: 0.85rem; color: var(--text-secondary); text-decoration: none; transition: color 0.15s;
+}
+.footer-col a:hover { color: var(--text); }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 24px; border-top: 1px solid var(--border);
+  font-size: 0.78rem; color: var(--text-muted); flex-wrap: wrap; gap: 12px;
+}
+.footer-bottom a { color: var(--text-muted); text-decoration: none; }
+.footer-bottom a:hover { color: var(--text-secondary); }
+
+/* ── Responsive — Ma on smaller screens ── */
+@media (max-width: 768px) {
+  section { padding: var(--space-section-sm) 0; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .footer-grid { grid-template-columns: 1fr; }
+}
