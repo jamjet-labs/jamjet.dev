@@ -32,49 +32,6 @@ export default defineConfig({
           attrs: { property: 'og:type', content: 'website' },
         },
       ],
-      sidebar: [
-        {
-          label: 'Getting Started',
-          items: [
-            { label: 'Quickstart', slug: 'docs/quickstart' },
-            { label: 'Core Concepts', slug: 'docs/concepts' },
-          ],
-        },
-        {
-          label: 'Workflow Authoring',
-          items: [
-            { label: 'YAML Workflows', slug: 'docs/yaml-workflows' },
-            { label: 'Python SDK', slug: 'docs/python-sdk' },
-          ],
-        },
-        {
-          label: 'Agent Protocols',
-          items: [
-            { label: 'MCP Integration', slug: 'docs/mcp' },
-            { label: 'A2A Integration', slug: 'docs/a2a' },
-          ],
-        },
-        {
-          label: 'Features',
-          items: [
-            { label: 'Eval Harness', slug: 'docs/eval' },
-            { label: 'Observability', slug: 'docs/observability' },
-          ],
-        },
-        {
-          label: 'Production',
-          items: [
-            { label: 'Deployment', slug: 'docs/deployment' },
-          ],
-        },
-        {
-          label: 'Reference',
-          items: [
-            { label: 'CLI Reference', slug: 'docs/cli' },
-            { label: 'Examples', slug: 'docs/examples' },
-          ],
-        },
-      ],
     }),
     tailwind({
       applyBaseStyles: false,

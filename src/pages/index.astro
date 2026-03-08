@@ -96,7 +96,7 @@
     <div class="install-cmd">
       <span class="prompt">$</span>
       <span class="cmd">pip install jamjet</span>
-      <button class="copy-btn" onclick="navigator.clipboard.writeText('pip install jamjet').then(()=>{this.textContent='copied!';setTimeout(()=>this.textContent='copy',1500)})">copy</button>
+      <button class="copy-btn" onclick="copyInstall(this)">copy</button>
     </div>
 
     <!-- Terminal -->
@@ -119,7 +119,7 @@
         <div><span class="t-m">  Port  <span class="t-y">7700</span>   Mode  local/SQLite   API  http://localhost:7700</span></div>
         <br/>
         <div><span class="t-d"># run a workflow, stream execution events</span></div>
-        <div><span class="t-y">❯</span> <span class="t-w">jamjet run workflow.yaml --input '{"query":"hello"}' --stream</span></div>
+        <div><span class="t-y">❯</span> <span class="t-w">jamjet run workflow.yaml --input '&#123;"query":"hello"&#125;' --stream</span></div>
         <div><span class="t-g">✓</span> <span class="t-m">exec_01JM4X8NKWP2 started</span></div>
         <div><span class="t-m"> → node_started    <span class="t-y">search</span></span></div>
         <div><span class="t-g">✓</span> <span class="t-m">node_completed   <span class="t-y">search</span>    claude-haiku  <span class="t-y">312ms</span>  (128→64 tok)</span></div>
@@ -317,7 +317,7 @@ workflow = Workflow(<span class="str">"research"</span>)
 <span class="dec">@workflow.step</span>
 <span class="kw">async def</span> <span class="fn">search</span>(state: ResearchState) -> ResearchState:
     results = <span class="kw">await</span> web_search(query=state.question)
-    <span class="kw">return</span> state.model_copy(update={<span class="str">"results"</span>: results})
+    <span class="kw">return</span> state.model_copy(update=&#123;<span class="str">"results"</span>: results&#125;)
 
 <span class="dec">@workflow.step</span>
 <span class="kw">async def</span> <span class="fn">synthesize</span>(state: ResearchState) -> ResearchState:
@@ -478,7 +478,7 @@ workflow = Workflow(<span class="str">"research"</span>)
     <div class="install-cmd" style="margin:32px auto;width:fit-content">
       <span class="prompt">$</span>
       <span class="cmd">pip install jamjet</span>
-      <button class="copy-btn" onclick="navigator.clipboard.writeText('pip install jamjet').then(()=>{this.textContent='copied!';setTimeout(()=>this.textContent='copy',1500)})">copy</button>
+      <button class="copy-btn" onclick="copyInstall(this)">copy</button>
     </div>
 
     <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
@@ -566,6 +566,15 @@ workflow = Workflow(<span class="str">"research"</span>)
 </footer>
 
 <script>
+  function copyInstall(button) {
+    navigator.clipboard.writeText('pip install jamjet').then(() => {
+      button.textContent = 'copied!';
+      setTimeout(() => {
+        button.textContent = 'copy';
+      }, 1500);
+    });
+  }
+
   function showTab(id, btn) {
     document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
