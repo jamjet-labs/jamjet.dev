@@ -1,9 +1,6 @@
 ---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-
-const posts = (await getCollection('blog'))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
 export async function getStaticPaths({ paginate }) {
   const posts = (await getCollection('blog'))
@@ -23,65 +20,53 @@ const pageTitle = `Older Blog Posts - Page ${pageNumber} | JamJet Blog`;
 const pageDescription = 'Browse older JamJet engineering updates and release posts.';
 const canonical = `https://jamjet.dev/blog/page/${pageNumber}/`;
 ---
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{pageTitle}</title>
-  <meta name="description" content={pageDescription} />
-  <link rel="canonical" href={canonical} />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content={pageTitle} />
-  <meta property="og:description" content={pageDescription} />
-  <meta property="og:url" content={canonical} />
-  <meta property="og:image" content="https://jamjet.dev/og.svg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={pageTitle} />
-  <meta name="twitter:description" content={pageDescription} />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <style>
-    :root { --bg:#0a0a0e; --fg:#e8e8f0; --muted:#9ca3af; --accent:#f5c518; --border:rgba(255,255,255,0.12); }
-    * { box-sizing: border-box; }
-    body { margin:0; font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--fg); }
-    .wrap { max-width: 920px; margin: 0 auto; padding: 32px 20px 72px; }
-    .top { display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--accent); font-weight:700; margin-bottom: 28px; }
-    .top img { width:18px; height:36px; image-rendering: pixelated; }
-    .list { display:grid; gap: 12px; }
-    .card { display:block; border:1px solid var(--border); border-radius: 12px; padding: 16px; text-decoration:none; color:inherit; }
-    .card:hover { border-color: var(--accent); }
-    .title { margin:0 0 8px; font-size:1.2rem; }
-    .meta { margin:0 0 8px; color: var(--muted); font-size:0.9rem; }
-    .desc { margin:0; color:#d1d5db; }
-    .pager { margin-top: 18px; display:flex; justify-content: space-between; gap: 12px; }
-    .pager a { color: var(--accent); text-decoration: none; font-weight: 600; }
-    .pager a:hover { text-decoration: underline; }
-  </style>
-</head>
-<body>
-  <main class="wrap">
-    <a class="top" href="/" aria-label="JamJet home">
-      <img src="/logo-pixel.png" alt="" />
-      <span>JamJet</span>
-    </a>
 
-    <h1>Older Blog Posts</h1>
-    <p style="color:var(--muted); margin-top:0; margin-bottom:18px;">Page {pageNumber}</p>
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonical={canonical}
+  currentPage="blog"
+>
 
-    <section class="list">
-      {page.data.map((post) => (
-        <a class="card" href={`/blog/${post.slug}/`}>
-          <h2 class="title">{post.data.title}</h2>
-          <p class="meta">{post.data.date.toISOString().slice(0, 10)}{post.data.author ? ` · ${post.data.author}` : ''}</p>
-          <p class="desc">{post.data.description}</p>
-        </a>
-      ))}
-    </section>
+<div class="page-wrap">
+  <h1>Older Blog Posts</h1>
+  <p class="page-sub">Page {pageNumber}</p>
 
-    <nav class="pager" aria-label="Pagination">
-      {page.url.prev ? <a href={page.url.prev}>← Newer</a> : <span></span>}
-      {page.url.next ? <a href={page.url.next}>Older →</a> : <span></span>}
-    </nav>
-  </main>
-</body>
-</html>
+  <section class="list">
+    {page.data.map((post) => (
+      <a class="card" href={`/blog/${post.slug}/`}>
+        <h2 class="card-title">{post.data.title}</h2>
+        <p class="card-meta">{post.data.date.toISOString().slice(0, 10)}{post.data.author ? ` · ${post.data.author}` : ''}</p>
+        <p class="card-desc">{post.data.description}</p>
+      </a>
+    ))}
+  </section>
+
+  <nav class="pager" aria-label="Pagination">
+    {page.url.prev ? <a href={page.url.prev}>Newer</a> : <span></span>}
+    {page.url.next ? <a href={page.url.next}>Older</a> : <span></span>}
+  </nav>
+</div>
+
+</BaseLayout>
+
+<style>
+  .page-wrap { max-width: 780px; margin: 0 auto; padding: 2rem 24px 4rem; }
+  .page-wrap h1 { margin-bottom: 4px; }
+  .page-sub { color: var(--text-muted); margin-bottom: 2rem; }
+
+  .list { display: grid; gap: 12px; }
+  .card {
+    display: block; border: 1px solid var(--border-strong); border-radius: 12px;
+    padding: 20px; text-decoration: none; color: inherit;
+    transition: border-color 0.15s;
+  }
+  .card:hover { border-color: var(--accent); }
+  .card-title { margin: 0 0 8px; font-size: 1.15rem; font-weight: 600; }
+  .card-meta { margin: 0 0 8px; color: var(--text-muted); font-size: 0.85rem; }
+  .card-desc { margin: 0; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }
+
+  .pager { margin-top: 24px; display: flex; justify-content: space-between; gap: 12px; }
+  .pager a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+  .pager a:hover { text-decoration: underline; }
+</style>

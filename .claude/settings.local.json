@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build)",
+      "mcp__Claude_Preview__preview_start",
+      "WebFetch(domain:jamjet.dev)"
+    ]
+  }
+}

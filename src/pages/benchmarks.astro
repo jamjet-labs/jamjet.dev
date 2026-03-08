@@ -1,8 +1,6 @@
 ---
-import '../styles/index-page.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
 
-// Benchmark results — recorded locally with Ollama on Apple M-series
-// Reproduce: cd jamjet-benchmarks/benchmarks && python bench_single_call.py
 const runs = [
   {
     label: 'llama3.2 · Ollama · Apple M-series · 2026-03-08',
@@ -28,271 +26,172 @@ const runs = [
       { name: 'JamJet 0.1.1',   mean: 10140.1, median: 10139.1, p95: 10487.0, p99: 10519.5, min: 9539.4, max: 10527.6, stdev: 285.1, overhead: +1710.6 },
       { name: 'LangGraph',       mean: 11902.9, median: 11923.3, p95: 12761.8, p99: 12823.5, min: 11035.0, max: 12838.9, stdev: 551.7, overhead: +3473.3 },
     ],
-    note: 'qwen3:8b generates variable-length chain-of-thought before outputting. The high variance in thinking tokens (~350–550ms stdev) dominates the measurement — overhead numbers here reflect token generation variance, not framework overhead. Use a non-thinking model for clean overhead isolation.',
+    note: 'qwen3:8b generates variable-length chain-of-thought. High stdev dominates — overhead numbers reflect token generation variance, not framework overhead.',
   },
 ];
-
-const title = 'JamJet Benchmarks — Framework Overhead Comparison';
-const description = 'Measured latency: JamJet vs LangGraph vs raw LLM call. Reproducible locally with Ollama.';
 ---
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title}</title>
-  <meta name="description" content={description} />
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:url" content="https://jamjet.dev/benchmarks" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #e5e5e5; line-height: 1.6; }
-    a { color: #f5c518; text-decoration: none; }
-    a:hover { text-decoration: underline; }
 
-    nav { border-bottom: 1px solid #1a1a1a; padding: 0 2rem; }
-    .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 2rem; height: 56px; }
-    .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; color: #fff; font-size: 1rem; }
-    .nav-links { display: flex; gap: 1.5rem; list-style: none; margin-left: auto; }
-    .nav-links a { color: #999; font-size: 0.9rem; }
-    .nav-links a:hover { color: #fff; text-decoration: none; }
+<BaseLayout
+  title="JamJet Benchmarks — Framework Overhead Comparison"
+  description="Measured latency: JamJet vs LangGraph vs raw LLM call. Reproducible locally with Ollama."
+  canonical="https://jamjet.dev/benchmarks"
+>
 
-    .page { max-width: 1000px; margin: 0 auto; padding: 4rem 2rem 6rem; }
-    h1 { font-size: 2.2rem; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 0.5rem; }
-    .subtitle { color: #999; font-size: 1.05rem; margin-bottom: 3rem; }
-
-    h2 { font-size: 1.25rem; font-weight: 700; color: #fff; margin: 3rem 0 0.5rem; }
-    h3 { font-size: 1rem; font-weight: 600; color: #ccc; margin: 2.5rem 0 1rem; border-top: 1px solid #1e1e1e; padding-top: 1.5rem; }
-
-    .run-label { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #f5c518; background: #1a1500; border: 1px solid #3a2e00; border-radius: 4px; padding: 3px 8px; display: inline-block; margin-bottom: 1rem; }
-    .run-meta { font-size: 0.82rem; color: #666; margin-bottom: 1rem; }
-    .run-meta span { margin-right: 1.5rem; }
-
-    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; font-family: 'JetBrains Mono', monospace; margin: 1rem 0; }
-    thead th { text-align: right; padding: 6px 12px; color: #666; font-weight: 500; border-bottom: 1px solid #1e1e1e; }
-    thead th:first-child { text-align: left; }
-    tbody tr:hover { background: #111; }
-    tbody td { padding: 8px 12px; text-align: right; border-bottom: 1px solid #111; }
-    tbody td:first-child { text-align: left; color: #fff; font-weight: 600; }
-    .jamjet-row td:first-child { color: #f5c518; }
-    .overhead-pos { color: #888; }
-    .overhead-neg { color: #4ade80; }
-    .overhead-zero { color: #888; }
-
-    .bar-wrap { display: flex; align-items: center; gap: 8px; }
-    .bar { height: 8px; border-radius: 2px; min-width: 2px; }
-    .bar-raw { background: #444; }
-    .bar-jamjet { background: #f5c518; }
-    .bar-langgraph { background: #6366f1; }
-
-    .note { font-size: 0.82rem; color: #666; background: #111; border-left: 3px solid #333; padding: 0.75rem 1rem; border-radius: 0 4px 4px 0; margin-top: 1rem; }
-    .note strong { color: #999; }
-
-    .methodology { background: #0f0f0f; border: 1px solid #1e1e1e; border-radius: 8px; padding: 2rem; margin-top: 3rem; }
-    .methodology h2 { margin-top: 0; }
-    pre { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 4px; padding: 1rem; overflow-x: auto; color: #ccc; margin: 1rem 0; }
-    ul { padding-left: 1.25rem; color: #999; font-size: 0.9rem; }
-    ul li { margin-bottom: 0.4rem; }
-
-    .cta { margin-top: 3rem; display: flex; gap: 1rem; flex-wrap: wrap; }
-    .btn { display: inline-block; padding: 10px 20px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; }
-    .btn-primary { background: #f5c518; color: #000; }
-    .btn-ghost { border: 1px solid #333; color: #ccc; }
-    .btn:hover { opacity: 0.85; text-decoration: none; }
-  </style>
-</head>
-<body>
-
-<nav>
-  <div class="nav-inner">
-    <a href="/" class="nav-logo">
-      <img src="/logo-pixel.png" alt="" width="12" height="24" />
-      <span>JamJet</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="/quickstart">Docs</a></li>
-      <li><a href="/compare">Compare</a></li>
-      <li><a href="/blog">Blog</a></li>
-      <li><a href="https://github.com/jamjet-labs/jamjet-benchmarks" target="_blank" rel="noopener">GitHub ↗</a></li>
-    </ul>
-  </div>
-</nav>
-
-<div class="page">
+<div class="bench-page">
   <h1>Benchmarks</h1>
   <p class="subtitle">
-    Framework orchestration overhead — JamJet vs LangGraph vs raw LLM call.<br />
+    Framework orchestration overhead — JamJet vs LangGraph vs raw LLM call.<br/>
     All runners make the same LLM call through the same client. The difference is pure framework tax.
   </p>
 
   {runs.map((run) => {
-    const baseline = run.results.find(r => r.name === 'Raw (baseline)');
     const maxMean = Math.max(...run.results.map(r => r.mean));
     return (
       <div>
-        <h3>{run.label}</h3>
+        <h3 class="run-heading">{run.label}</h3>
         <div class="run-meta">
           <span>Model: <strong>{run.model}</strong></span>
           <span>Endpoint: <strong>{run.endpoint}</strong></span>
           <span>Runs: <strong>{run.runs}</strong> (+{run.warmup} warmup)</span>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Framework</th>
-              <th>mean (ms)</th>
-              <th>median</th>
-              <th>p95</th>
-              <th>p99</th>
-              <th>stdev</th>
-              <th>overhead</th>
-              <th>visual</th>
-            </tr>
-          </thead>
-          <tbody>
-            {run.results.map((r) => {
-              const isJamjet = r.name.startsWith('JamJet');
-              const isRaw = r.name === 'Raw (baseline)';
-              const barClass = isRaw ? 'bar-raw' : isJamjet ? 'bar-jamjet' : 'bar-langgraph';
-              const barWidth = Math.round((r.mean / maxMean) * 180);
-              const overheadStr = r.overhead === null
-                ? '—'
-                : r.overhead >= 0
-                  ? `+${r.overhead.toFixed(1)}ms`
-                  : `${r.overhead.toFixed(1)}ms`;
-              const overheadClass = r.overhead === null
-                ? ''
-                : Math.abs(r.overhead) < 15
-                  ? 'overhead-zero'
-                  : r.overhead > 0
-                    ? 'overhead-pos'
-                    : 'overhead-neg';
-              return (
-                <tr class={isJamjet ? 'jamjet-row' : ''}>
-                  <td>{r.name}</td>
-                  <td>{r.mean.toFixed(1)}</td>
-                  <td>{r.median.toFixed(1)}</td>
-                  <td>{r.p95.toFixed(1)}</td>
-                  <td>{r.p99.toFixed(1)}</td>
-                  <td>{r.stdev.toFixed(1)}</td>
-                  <td class={overheadClass}>{overheadStr}</td>
-                  <td>
-                    <div class="bar-wrap">
-                      <div class={`bar ${barClass}`} style={`width:${barWidth}px`}></div>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="text-align:left">Framework</th>
+                <th>mean (ms)</th>
+                <th>median</th>
+                <th>p95</th>
+                <th>p99</th>
+                <th>stdev</th>
+                <th>overhead</th>
+                <th>visual</th>
+              </tr>
+            </thead>
+            <tbody>
+              {run.results.map((r) => {
+                const isJamjet = r.name.startsWith('JamJet');
+                const isRaw = r.name === 'Raw (baseline)';
+                const barClass = isRaw ? 'bar-raw' : isJamjet ? 'bar-jamjet' : 'bar-other';
+                const barWidth = Math.round((r.mean / maxMean) * 180);
+                const overheadStr = r.overhead === null
+                  ? '—'
+                  : r.overhead >= 0
+                    ? `+${r.overhead.toFixed(1)}ms`
+                    : `${r.overhead.toFixed(1)}ms`;
+                return (
+                  <tr class={isJamjet ? 'jamjet-row' : ''}>
+                    <td style="text-align:left;font-weight:600">{r.name}</td>
+                    <td>{r.mean.toFixed(1)}</td>
+                    <td>{r.median.toFixed(1)}</td>
+                    <td>{r.p95.toFixed(1)}</td>
+                    <td>{r.p99.toFixed(1)}</td>
+                    <td>{r.stdev.toFixed(1)}</td>
+                    <td class="overhead-cell">{overheadStr}</td>
+                    <td>
+                      <div class="bar-wrap">
+                        <div class={`bar ${barClass}`} style={`width:${barWidth}px`}></div>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
 
         <p class="note"><strong>Note:</strong> {run.note}</p>
       </div>
     );
   })}
 
-  <!-- ── Vertex AI integration results ── -->
   <h2 style="margin-top:4rem">Vertex AI (Gemini 2.0 Flash) — plan-and-execute agent</h2>
-  <p style="color:#999;font-size:0.9rem;margin:0.5rem 0 1.5rem">
-    End-to-end run: <strong style="color:#ccc">JamJet @task + @tool</strong> on Vertex AI's OpenAI-compatible endpoint.
-    Two-step research agent — plan then synthesize — using the default <code>plan-and-execute</code> strategy.
-    Recorded live against GCP project on 2026-03-08.
+  <p class="subtitle" style="margin-bottom:1.5rem">
+    End-to-end run: <strong>JamJet @task + @tool</strong> on Vertex AI's OpenAI-compatible endpoint.
+    Two-step research agent — plan then synthesize.
   </p>
 
-  <div style="background:#0f0f0f;border:1px solid #1e1e1e;border-radius:8px;padding:1.5rem 2rem;margin-bottom:1.5rem">
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.5rem;margin-bottom:1.5rem">
+  <div class="vertex-card">
+    <div class="vertex-meta">
       <div>
-        <div style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Model</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:#f5c518">gemini-2.0-flash-001</div>
+        <div class="vm-label">Model</div>
+        <div class="vm-value" style="color:var(--accent)">gemini-2.0-flash-001</div>
       </div>
       <div>
-        <div style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Provider</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:#4285f4">Vertex AI (GCP)</div>
+        <div class="vm-label">Provider</div>
+        <div class="vm-value" style="color:#4a7ab5">Vertex AI (GCP)</div>
       </div>
       <div>
-        <div style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Strategy</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:#ccc">plan-and-execute</div>
+        <div class="vm-label">Strategy</div>
+        <div class="vm-value">plan-and-execute</div>
       </div>
       <div>
-        <div style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Wall-clock</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:#fff">41,811 ms</div>
+        <div class="vm-label">Wall-clock</div>
+        <div class="vm-value">41,811 ms</div>
       </div>
       <div>
-        <div style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Total tokens</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:#fff">10,961</div>
+        <div class="vm-label">Total tokens</div>
+        <div class="vm-value">10,961</div>
       </div>
       <div>
-        <div style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Est. cost</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:#22c55e">$0.00191</div>
-      </div>
-      <div>
-        <div style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">API calls</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:#fff">12</div>
+        <div class="vm-label">Est. cost</div>
+        <div class="vm-value" style="color:var(--success)">$0.00191</div>
       </div>
     </div>
 
-    <table style="font-size:0.82rem">
-      <thead>
-        <tr>
-          <th style="text-align:left">Step</th>
-          <th>Latency (ms)</th>
-          <th>Prompt tokens</th>
-          <th>Compl tokens</th>
-          <th>Total tokens</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="jamjet-row"><td>plan — Gemini Flash</td><td>2,641</td><td>96</td><td>104</td><td>200</td></tr>
-        <tr><td>step 1 execution</td><td>1,324</td><td>129</td><td>90</td><td>219</td></tr>
-        <tr><td>step 2 execution</td><td>1,413</td><td>127</td><td>110</td><td>237</td></tr>
-        <tr><td>step 3 execution</td><td>1,228</td><td>132</td><td>103</td><td>235</td></tr>
-        <tr><td>step 4 execution</td><td>1,986</td><td>664</td><td>186</td><td>850</td></tr>
-        <tr><td>step 5 execution</td><td>1,290</td><td>280</td><td>100</td><td>380</td></tr>
-        <tr><td>synthesize — Gemini Flash</td><td>3,050</td><td>124</td><td>153</td><td>277</td></tr>
-        <tr style="border-top:1px solid #333;font-weight:700;color:#fff"><td>TOTAL (12 calls)</td><td>41,811</td><td>6,121</td><td>4,840</td><td>10,961</td></tr>
-      </tbody>
-    </table>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align:left">Step</th>
+            <th>Latency (ms)</th>
+            <th>Prompt tokens</th>
+            <th>Compl tokens</th>
+            <th>Total tokens</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="jamjet-row"><td style="text-align:left">plan — Gemini Flash</td><td>2,641</td><td>96</td><td>104</td><td>200</td></tr>
+          <tr><td style="text-align:left">step 1 execution</td><td>1,324</td><td>129</td><td>90</td><td>219</td></tr>
+          <tr><td style="text-align:left">step 2 execution</td><td>1,413</td><td>127</td><td>110</td><td>237</td></tr>
+          <tr><td style="text-align:left">step 3 execution</td><td>1,228</td><td>132</td><td>103</td><td>235</td></tr>
+          <tr><td style="text-align:left">step 4 execution</td><td>1,986</td><td>664</td><td>186</td><td>850</td></tr>
+          <tr><td style="text-align:left">step 5 execution</td><td>1,290</td><td>280</td><td>100</td><td>380</td></tr>
+          <tr><td style="text-align:left">synthesize — Gemini Flash</td><td>3,050</td><td>124</td><td>153</td><td>277</td></tr>
+          <tr style="border-top:2px solid var(--border-strong);font-weight:700"><td style="text-align:left">TOTAL (12 calls)</td><td>41,811</td><td>6,121</td><td>4,840</td><td>10,961</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <div style="background:#0f0f0f;border:1px solid #1e1e1e;border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:1rem">
-    <div style="font-size:0.78rem;color:#666;margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.05em">Integration — 2 env vars, no custom client</div>
-    <pre style="margin:0">export OPENAI_BASE_URL="https://us-central1-aiplatform.googleapis.com/v1beta1/projects/YOUR_PROJECT/locations/us-central1/endpoints/openapi"
+  <div class="code-block" style="margin:1.5rem 0">
+    <div class="code-header">
+      <span>Integration — 2 env vars, no custom client</span>
+    </div>
+    <div class="code-body">export OPENAI_BASE_URL="https://us-central1-aiplatform.googleapis.com/..."
 export OPENAI_API_KEY=$(gcloud auth print-access-token)
 
-# Then just use @task/@tool as normal — no Vertex-specific code needed
-@task(model="google/gemini-2.0-flash-001", tools=[web_search])
-async def research(question: str) -> str:
-    """Research assistant — search first, then summarize."""</pre>
-  </div>
-
-  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:3rem">
-    <a href="https://github.com/jamjet-labs/examples/tree/main/vertex-ai" class="btn btn-ghost" target="_blank" rel="noopener">View example source ↗</a>
-    <a href="https://github.com/jamjet-labs/examples/tree/main/vertex-ai/benchmark.py" class="btn btn-ghost" target="_blank" rel="noopener">Benchmark script ↗</a>
+<span class="t-d"># Then just use @task/@tool as normal</span>
+<span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span>model=<span class="t-s">"google/gemini-2.0-flash-001"</span><span class="t-p">,</span> tools=<span class="t-p">[</span>web_search<span class="t-p">])</span>
+<span class="t-kw">async def</span> <span class="t-b">research</span><span class="t-p">(</span>question<span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">)</span> -> <span class="t-y">str</span><span class="t-p">:</span>
+    <span class="t-s">"""Research assistant — search first, then summarize."""</span></div>
   </div>
 
   <div class="methodology">
     <h2>Methodology</h2>
-    <p style="color:#999; font-size:0.9rem; margin: 0.75rem 0 1.5rem;">
-      All benchmarks measure wall-clock time per call, including Python interpreter overhead.
-      Each framework makes the <strong style="color:#ccc">identical LLM call</strong> through the same
-      OpenAI-compatible client — what we measure is framework orchestration overhead on top of raw network + model time.
+    <p>
+      All benchmarks measure wall-clock time per call. Each framework makes the
+      <strong>identical LLM call</strong> through the same OpenAI-compatible client — what we measure is framework orchestration overhead.
     </p>
-
     <ul>
-      <li><strong>Raw (baseline)</strong> — bare <code>openai.OpenAI().chat.completions.create()</code> call, no framework</li>
-      <li><strong>JamJet</strong> — <code>Workflow.run_sync()</code> in-process executor: workflow compilation overhead + async step dispatch</li>
-      <li><strong>LangGraph</strong> — <code>StateGraph.compile().invoke()</code> with a single node</li>
+      <li><strong>Raw (baseline)</strong> — bare openai.OpenAI().chat.completions.create() call</li>
+      <li><strong>JamJet</strong> — Workflow.run_sync() in-process executor</li>
+      <li><strong>LangGraph</strong> — StateGraph.compile().invoke() with a single node</li>
     </ul>
 
-    <pre>
-# Reproduce locally (Ollama)
+    <div class="code-block" style="margin:1rem 0">
+      <div class="code-body"><span class="t-d"># Reproduce locally (Ollama)</span>
 export OPENAI_API_KEY="ollama"
 export OPENAI_BASE_URL="http://localhost:11434/v1"
 export MODEL_NAME="llama3.2"
@@ -300,23 +199,74 @@ export MODEL_NAME="llama3.2"
 git clone https://github.com/jamjet-labs/jamjet-benchmarks
 cd jamjet-benchmarks/benchmarks
 pip install -r requirements.txt
-python bench_single_call.py --json results/my-run.json</pre>
+python bench_single_call.py --json results/my-run.json</div>
+    </div>
 
     <ul>
-      <li>Warmup runs excluded from measurements (primes model KV cache and Python import overhead)</li>
-      <li>Each timed run is independent — no shared state between calls</li>
-      <li>Benchmarks run sequentially (Raw → JamJet → LangGraph) to avoid contention</li>
-      <li>Hardware: Apple M-series, 16GB RAM, Ollama running locally</li>
-      <li>Results from different hardware/models/endpoints welcome — open a PR to <a href="https://github.com/jamjet-labs/jamjet-benchmarks" target="_blank">jamjet-benchmarks</a></li>
+      <li>Warmup runs excluded from measurements</li>
+      <li>Each timed run is independent — no shared state</li>
+      <li>Benchmarks run sequentially to avoid contention</li>
+      <li>Hardware: Apple M-series, 16GB RAM, Ollama local</li>
     </ul>
   </div>
 
-  <div class="cta">
-    <a href="https://github.com/jamjet-labs/jamjet-benchmarks" class="btn btn-ghost" target="_blank" rel="noopener">View benchmark source ↗</a>
-    <a href="/compare" class="btn btn-ghost">Feature comparison →</a>
-    <a href="/quickstart" class="btn btn-primary">Get started with JamJet →</a>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:2rem">
+    <a href="https://github.com/jamjet-labs/jamjet-benchmarks" class="btn-secondary" target="_blank" rel="noopener">Benchmark source</a>
+    <a href="/compare" class="btn-secondary">Feature comparison</a>
+    <a href="/quickstart" class="btn-primary">Get started</a>
   </div>
 </div>
 
-</body>
-</html>
+</BaseLayout>
+
+<style>
+  .bench-page { max-width: 1000px; margin: 0 auto; padding: 3rem 24px 5rem; }
+  .bench-page h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+  .subtitle { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 3rem; }
+
+  .run-heading {
+    font-size: 1rem; font-weight: 600; margin: 3rem 0 0.5rem;
+    padding-top: 1.5rem; border-top: 1px solid var(--border);
+  }
+  .run-meta { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem; }
+  .run-meta span { margin-right: 1.5rem; }
+  .run-meta strong { color: var(--text); }
+
+  .table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border-strong); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; font-family: var(--font-mono); }
+  thead th { text-align: right; padding: 8px 12px; color: var(--text-muted); font-weight: 500; border-bottom: 1px solid var(--border); font-size: 0.75rem; }
+  tbody tr:hover { background: var(--accent-bg); }
+  tbody td { padding: 8px 12px; text-align: right; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
+  .jamjet-row td:first-child { color: var(--accent); }
+
+  .bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .bar { height: 6px; border-radius: 2px; min-width: 2px; }
+  .bar-raw { background: var(--text-muted); }
+  .bar-jamjet { background: var(--accent); }
+  .bar-other { background: #4a7ab5; }
+
+  .note {
+    font-size: 0.82rem; color: var(--text-muted);
+    background: var(--bg-alt); border-left: 3px solid var(--border-strong);
+    padding: 0.75rem 1rem; border-radius: 0 4px 4px 0; margin-top: 1rem;
+  }
+  .note strong { color: var(--text-secondary); }
+
+  .vertex-card {
+    background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px;
+    padding: 1.5rem 2rem; margin-bottom: 1.5rem;
+  }
+  .vertex-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
+  .vm-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .vm-value { font-family: var(--font-mono); font-size: 0.88rem; }
+
+  .methodology {
+    background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px;
+    padding: 2rem; margin-top: 3rem;
+  }
+  .methodology h2 { margin-top: 0; margin-bottom: 0.75rem; }
+  .methodology p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem; }
+  .methodology strong { color: var(--text); }
+  .methodology ul { padding-left: 1.25rem; color: var(--text-secondary); font-size: 0.88rem; }
+  .methodology ul li { margin-bottom: 0.4rem; }
+</style>

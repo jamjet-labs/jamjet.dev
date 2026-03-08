@@ -60,6 +60,10 @@ export default defineConfig({
           ],
         },
       ],
+      components: {
+        Header: './src/components/Header.astro',
+        Sidebar: './src/components/Sidebar.astro',
+      },
       customCss: ['./src/styles/global.css'],
       head: [
         {

@@ -1,4 +1,5 @@
 ---
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -31,102 +32,46 @@ const articleLd = {
   publisher: {
     '@type': 'Organization',
     name: 'JamJet',
-    logo: { '@type': 'ImageObject', url: `${site}/logo-pixel.png` },
+    logo: { '@type': 'ImageObject', url: `${site}/favicon.svg` },
   },
   mainEntityOfPage: canonical,
   image,
 };
 ---
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{pageTitle}</title>
-  <meta name="description" content={post.data.description} />
-  <link rel="canonical" href={canonical} />
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content={pageTitle} />
-  <meta property="og:description" content={post.data.description} />
-  <meta property="og:url" content={canonical} />
-  <meta property="og:image" content={image} />
-  <meta property="article:published_time" content={post.data.date.toISOString()} />
-  <meta property="article:author" content={post.data.author ?? 'JamJet Team'} />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@jamjetdev" />
-  <meta name="twitter:title" content={pageTitle} />
-  <meta name="twitter:description" content={post.data.description} />
-  <meta name="twitter:image" content={image} />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <script type="application/ld+json" set:html={JSON.stringify(articleLd)}></script>
-  <style>
-    :root { --bg:#0a0a0e; --fg:#e8e8f0; --muted:#9ca3af; --accent:#f5c518; --border:rgba(255,255,255,0.12); }
-    * { box-sizing: border-box; }
-    body { margin:0; font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--fg); }
-    .wrap { max-width: 860px; margin: 0 auto; padding: 32px 20px 72px; }
-    .top { display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--accent); font-weight:700; margin-bottom: 24px; }
-    .top img { width:18px; height:36px; image-rendering: pixelated; }
-    .back { color: var(--accent); text-decoration: none; font-size: 0.95rem; }
-    .post-header { margin: 12px 0 0; }
-    .post-header h1 { margin: 8px 0 6px; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.2; }
-    .meta { color: var(--muted); font-size: 0.88rem; margin: 0 0 20px; }
 
-    /* Share bar */
-    .share-bar { display: flex; align-items: center; gap: 10px; padding: 14px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 2rem; flex-wrap: wrap; }
-    .share-label { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-right: 4px; }
-    .share-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; text-decoration: none; border: 1px solid var(--border); color: #ccc; background: transparent; cursor: pointer; font-family: inherit; transition: border-color 0.15s, color 0.15s; }
-    .share-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .share-btn.x { border-color: #333; }
-    .share-btn.copied { color: #4ade80; border-color: #4ade80; }
+<BaseLayout
+  title={pageTitle}
+  description={post.data.description}
+  canonical={canonical}
+  ogImage={image}
+  currentPage="blog"
+>
+  <Fragment slot="head">
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content={post.data.date.toISOString()} />
+    <meta property="article:author" content={post.data.author ?? 'JamJet Team'} />
+    <script type="application/ld+json" set:html={JSON.stringify(articleLd)}></script>
+  </Fragment>
 
-    /* Article */
-    .article :global(h1) { display: none; }
-    .article :global(h2) { font-size: 1.35rem; font-weight: 700; color: #fff; margin: 2.2rem 0 0.75rem; line-height: 1.2; }
-    .article :global(h3) { font-size: 1.1rem; font-weight: 600; color: #e0e0e0; margin: 1.6rem 0 0.5rem; }
-    .article :global(p), .article :global(li) { color: #d1d5db; line-height: 1.8; }
-    .article :global(p) { margin-bottom: 1.1rem; }
-    .article :global(ul), .article :global(ol) { padding-left: 1.4rem; margin-bottom: 1.1rem; }
-    .article :global(li) { margin-bottom: 0.4rem; }
-    .article :global(a) { color: var(--accent); text-decoration: none; }
-    .article :global(a:hover) { text-decoration: underline; }
-    .article :global(pre) { overflow: auto; border: 1px solid var(--border); border-radius: 10px; padding: 1rem; margin: 1.25rem 0; background: #111; }
-    .article :global(code) { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
-    .article :global(pre code) { color: #ccc; }
-    .article :global(blockquote) { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1.25rem 0; font-style: italic; }
-    .article :global(hr) { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
-    .article :global(strong) { color: #fff; font-weight: 600; }
+  <div class="article-wrap">
+    <a class="back-link" href="/blog/">Back to blog</a>
 
-    /* Bottom share bar */
-    .share-bar-bottom { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
-    .share-bar-bottom .share-bar { border: none; padding: 0; margin: 0.75rem 0 0; }
-  </style>
-</head>
-<body>
-  <main class="wrap">
-    <a class="top" href="/" aria-label="JamJet home">
-      <img src="/logo-pixel.png" alt="" />
-      <span>JamJet</span>
-    </a>
-
-    <a class="back" href="/blog/">← Back to blog</a>
-
-    <div class="post-header">
+    <header class="post-header">
       <h1>{post.data.title}</h1>
       <p class="meta">{post.data.date.toISOString().slice(0, 10)}{post.data.author ? ` · ${post.data.author}` : ''}</p>
-    </div>
+    </header>
 
-    <!-- Top share bar -->
     <div class="share-bar">
       <span class="share-label">Share</span>
-      <a class="share-btn x" href={`https://x.com/intent/tweet?text=${tweetText}`} target="_blank" rel="noopener" aria-label="Share on X">
+      <a class="share-btn" href={`https://x.com/intent/tweet?text=${tweetText}`} target="_blank" rel="noopener">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         Post on X
       </a>
-      <a class="share-btn" href={linkedinUrl} target="_blank" rel="noopener" aria-label="Share on LinkedIn">
+      <a class="share-btn" href={linkedinUrl} target="_blank" rel="noopener">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
         LinkedIn
       </a>
-      <button class="share-btn" id="copy-btn" aria-label="Copy link">
+      <button class="share-btn" id="copy-btn">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         <span id="copy-label">Copy link</span>
       </button>
@@ -136,43 +81,92 @@ const articleLd = {
       <Content />
     </article>
 
-    <!-- Bottom share bar -->
     <div class="share-bar-bottom">
-      <p style="color:#9ca3af; font-size:0.9rem;">Found this useful? Share it.</p>
-      <div class="share-bar">
-        <a class="share-btn x" href={`https://x.com/intent/tweet?text=${tweetText}`} target="_blank" rel="noopener">
+      <p>Found this useful? Share it.</p>
+      <div class="share-bar" style="border:none;padding:0;margin:0.75rem 0 0;">
+        <a class="share-btn" href={`https://x.com/intent/tweet?text=${tweetText}`} target="_blank" rel="noopener">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           Post on X
         </a>
-        <button class="share-btn" id="copy-btn-bottom" aria-label="Copy link">
+        <button class="share-btn" id="copy-btn-bottom">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <span id="copy-label-bottom">Copy link</span>
         </button>
       </div>
     </div>
-  </main>
+  </div>
 
-  <script>
-    function setupCopyBtn(btnId: string, labelId: string) {
-      const btn = document.getElementById(btnId);
-      const label = document.getElementById(labelId);
-      if (!btn || !label) return;
-      btn.addEventListener('click', async () => {
-        try {
-          await navigator.clipboard.writeText(window.location.href);
-          label.textContent = 'Copied!';
-          btn.classList.add('copied');
-          setTimeout(() => {
-            label.textContent = 'Copy link';
-            btn.classList.remove('copied');
-          }, 2000);
-        } catch {
-          label.textContent = 'Copy link';
-        }
-      });
-    }
-    setupCopyBtn('copy-btn', 'copy-label');
-    setupCopyBtn('copy-btn-bottom', 'copy-label-bottom');
-  </script>
-</body>
-</html>
+</BaseLayout>
+
+<style>
+  .article-wrap { max-width: 780px; margin: 0 auto; padding: 2rem 24px 4rem; }
+
+  .back-link {
+    color: var(--accent); text-decoration: none; font-size: 0.9rem; font-weight: 500;
+    display: inline-block; margin-bottom: 24px;
+  }
+  .back-link:hover { text-decoration: underline; }
+
+  .post-header h1 { font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.2; margin-bottom: 8px; }
+  .meta { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px; }
+
+  .share-bar {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem; flex-wrap: wrap;
+  }
+  .share-label {
+    font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;
+    letter-spacing: 0.08em; font-weight: 600; margin-right: 4px;
+  }
+  .share-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 6px;
+    font-size: 0.82rem; font-weight: 600; text-decoration: none;
+    border: 1px solid var(--border-strong); color: var(--text-muted);
+    background: transparent; cursor: pointer; font-family: inherit;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .share-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .article :global(h1) { display: none; }
+  .article :global(h2) { font-size: 1.35rem; font-weight: 700; margin: 2.2rem 0 0.75rem; line-height: 1.2; }
+  .article :global(h3) { font-size: 1.1rem; font-weight: 600; color: var(--text-secondary); margin: 1.6rem 0 0.5rem; }
+  .article :global(p), .article :global(li) { color: var(--text-secondary); line-height: 1.8; }
+  .article :global(p) { margin-bottom: 1.1rem; }
+  .article :global(ul), .article :global(ol) { padding-left: 1.4rem; margin-bottom: 1.1rem; }
+  .article :global(li) { margin-bottom: 0.4rem; }
+  .article :global(a) { color: var(--accent); text-decoration: none; }
+  .article :global(a:hover) { text-decoration: underline; }
+  .article :global(.expressive-code) { margin: 1.25rem 0; }
+  .article :global(.expressive-code .frame) { background: var(--bg-code) !important; border-radius: 10px; overflow: hidden; }
+  .article :global(.expressive-code pre) { background: var(--bg-code) !important; padding: 1rem; overflow: auto; }
+  .article :global(.expressive-code code) { font-family: var(--font-mono); font-size: 0.85rem; }
+  .article :global(.expressive-code .ec-line span) { color: var(--0) !important; }
+  .article :global(pre) { overflow: auto; border-radius: 10px; padding: 1rem; margin: 1.25rem 0; background: var(--bg-code); }
+  .article :global(code) { font-family: var(--font-mono); font-size: 0.85rem; }
+  .article :global(pre code) { color: #eae8e1; }
+  .article :global(blockquote) { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--text-muted); margin: 1.25rem 0; font-style: italic; }
+  .article :global(hr) { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+  .article :global(strong) { color: var(--text); font-weight: 600; }
+
+  .share-bar-bottom { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .share-bar-bottom p { color: var(--text-muted); font-size: 0.9rem; }
+</style>
+
+<script>
+  function setupCopyBtn(btnId: string, labelId: string) {
+    const btn = document.getElementById(btnId);
+    const label = document.getElementById(labelId);
+    if (!btn || !label) return;
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        label.textContent = 'Copied!';
+        setTimeout(() => { label.textContent = 'Copy link'; }, 2000);
+      } catch {}
+    });
+  }
+  setupCopyBtn('copy-btn', 'copy-label');
+  setupCopyBtn('copy-btn-bottom', 'copy-label-bottom');
+</script>
