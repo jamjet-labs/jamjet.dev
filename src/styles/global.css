@@ -46,6 +46,15 @@ pre {
   letter-spacing: -0.02em;
 }
 
+/* Keep docs/header logo consistent with homepage pixel mark proportions */
+.site-title img,
+.site-title svg {
+  width: 18px;
+  height: 36px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
 /* Terminal animation */
 @keyframes blink {
   0%, 100% { opacity: 1; }
