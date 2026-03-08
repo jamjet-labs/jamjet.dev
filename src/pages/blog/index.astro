@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JamJet Blog</title>
+  <meta name="description" content="JamJet product updates, release notes, and engineering deep-dives." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <style>
+    :root { --bg:#0a0a0e; --fg:#e8e8f0; --muted:#9ca3af; --accent:#f5c518; --border:rgba(255,255,255,0.12); }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--fg); }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 32px 20px 72px; }
+    .top { display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--accent); font-weight:700; margin-bottom: 28px; }
+    .top img { width:18px; height:36px; image-rendering: pixelated; }
+    h1 { margin: 0 0 6px; font-size: clamp(2rem, 4vw, 3rem); }
+    .sub { margin: 0 0 28px; color: var(--muted); }
+    .list { display:grid; gap: 14px; }
+    .card { display:block; border:1px solid var(--border); border-radius: 12px; padding: 16px; text-decoration:none; color:inherit; }
+    .card:hover { border-color: var(--accent); }
+    .title { margin:0 0 8px; font-size:1.2rem; }
+    .meta { margin:0 0 8px; color: var(--muted); font-size:0.9rem; }
+    .desc { margin:0; color:#d1d5db; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <a class="top" href="/" aria-label="JamJet home">
+      <img src="/logo-pixel.png" alt="" />
+      <span>JamJet</span>
+    </a>
+
+    <h1>Blog</h1>
+    <p class="sub">Product updates, release notes, and engineering deep-dives.</p>
+
+    <section class="list">
+      {posts.map((post) => (
+        <a class="card" href={`/blog/${post.slug}/`}>
+          <h2 class="title">{post.data.title}</h2>
+          <p class="meta">{post.data.date.toISOString().slice(0, 10)}{post.data.author ? ` · ${post.data.author}` : ''}</p>
+          <p class="desc">{post.data.description}</p>
+        </a>
+      ))}
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,55 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props as { post: CollectionEntry<'blog'> };
+const { Content } = await post.render();
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{post.data.title} | JamJet Blog</title>
+  <meta name="description" content={post.data.description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <style>
+    :root { --bg:#0a0a0e; --fg:#e8e8f0; --muted:#9ca3af; --accent:#f5c518; --border:rgba(255,255,255,0.12); }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--fg); }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 32px 20px 72px; }
+    .top { display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--accent); font-weight:700; margin-bottom: 24px; }
+    .top img { width:18px; height:36px; image-rendering: pixelated; }
+    .meta { color: var(--muted); margin: 6px 0 24px; }
+    .back { color: var(--accent); text-decoration: none; font-size: 0.95rem; }
+    .article :global(h1), .article :global(h2), .article :global(h3) { line-height:1.2; }
+    .article :global(p), .article :global(li) { color:#d1d5db; line-height:1.75; }
+    .article :global(a) { color: var(--accent); }
+    .article :global(pre) { overflow:auto; border:1px solid var(--border); border-radius: 10px; padding: 12px; }
+    .article :global(code) { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <a class="top" href="/" aria-label="JamJet home">
+      <img src="/logo-pixel.png" alt="" />
+      <span>JamJet</span>
+    </a>
+
+    <a class="back" href="/blog/">← Back to blog</a>
+    <h1>{post.data.title}</h1>
+    <p class="meta">{post.data.date.toISOString().slice(0, 10)}{post.data.author ? ` · ${post.data.author}` : ''}</p>
+
+    <article class="article">
+      <Content />
+    </article>
+  </main>
+</body>
+</html>
