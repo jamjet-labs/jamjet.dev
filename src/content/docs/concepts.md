@@ -99,7 +99,7 @@ An **agent** is a workflow that can:
 - Delegate tasks to other agents (via A2A protocol)
 - Maintain long-running state across multiple user interactions
 
-Every agent has an **Agent Card** — a machine-readable description of its capabilities, endpoints, and input/output schema. This is the foundation for the [A2A protocol](/docs/a2a).
+Every agent has an **Agent Card** — a machine-readable description of its capabilities, endpoints, and input/output schema. This is the foundation for the [A2A protocol](/a2a).
 
 ## The Scheduler
 

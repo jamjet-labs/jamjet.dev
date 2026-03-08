@@ -102,7 +102,7 @@ Then in another terminal:
 jamjet run workflow.yaml --input '{"query": "What is JamJet?"}'
 ```
 
-Read the [quickstart guide](/docs/quickstart) to go from zero to a running agent in 10 minutes.
+Read the [quickstart guide](/quickstart) to go from zero to a running agent in 10 minutes.
 
 ## What's next
 

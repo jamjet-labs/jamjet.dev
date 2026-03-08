@@ -151,11 +151,11 @@ jamjet run workflow.yaml --input '{"query": "Explain event sourcing"}' --stream
 ## Next steps
 
 <Steps>
-1. [Core Concepts](/docs/concepts) — understand agents, nodes, state, and durability
-2. [Workflow Authoring](/docs/yaml-workflows) — all node types, retry policies, conditions, parallel branches
-3. [Python SDK](/docs/python-sdk) — write workflows in Python instead of YAML
-4. [MCP Integration](/docs/mcp) — connect to external tool servers
-5. [A2A Integration](/docs/a2a) — delegate to or serve other agents
+1. [Core Concepts](/concepts) — understand agents, nodes, state, and durability
+2. [Workflow Authoring](/yaml-workflows) — all node types, retry policies, conditions, parallel branches
+3. [Python SDK](/python-sdk) — write workflows in Python instead of YAML
+4. [MCP Integration](/mcp) — connect to external tool servers
+5. [A2A Integration](/a2a) — delegate to or serve other agents
 </Steps>
 
 ## Set your API key
@@ -163,13 +163,13 @@ jamjet run workflow.yaml --input '{"query": "Explain event sourcing"}' --stream
 JamJet uses the model you specify. To use Claude:
 
 ```bash
-export ANTHROPIC_API_KEY=sk-ant-...
+export ANTHROPIC_API_KEY=YOUR_ANTHROPIC_API_KEY
 ```
 
 To use OpenAI GPT:
 
 ```bash
-export OPENAI_API_KEY=sk-...
+export OPENAI_API_KEY=YOUR_OPENAI_API_KEY
 ```
 
 Then use `model: gpt-4o` in your workflow.

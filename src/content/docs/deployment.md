@@ -65,7 +65,7 @@ CMD ["jamjet", "serve"]
 docker build -t my-agent .
 docker run -p 7700:7700 \
   -e JAMJET_DATABASE_URL=postgresql://... \
-  -e ANTHROPIC_API_KEY=sk-ant-... \
+  -e ANTHROPIC_API_KEY=YOUR_ANTHROPIC_API_KEY \
   my-agent
 ```
 
@@ -118,7 +118,7 @@ volumes:
    ```bash
    kubectl create secret generic jamjet-secrets \
      --from-literal=database-url="postgresql://..." \
-     --from-literal=anthropic-api-key="sk-ant-..."
+    --from-literal=anthropic-api-key="YOUR_ANTHROPIC_API_KEY"
    ```
 
 2. **Deploy the runtime:**

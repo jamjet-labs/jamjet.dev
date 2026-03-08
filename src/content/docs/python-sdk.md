@@ -250,7 +250,7 @@ from jamjet import JamJetClient, JamJetConfig
 
 client = JamJetClient(config=JamJetConfig(
     base_url="http://localhost:7700",
-    api_key="...",           # for hosted/production
+    api_key="YOUR_API_KEY",  # for hosted/production
     timeout_ms=30_000,
     default_model="claude-haiku-4-5-20251001",
 ))

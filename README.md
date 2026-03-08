@@ -32,7 +32,7 @@
 [![Deploy](https://github.com/jamjet-labs/jamjet.dev/actions/workflows/deploy.yml/badge.svg)](https://github.com/jamjet-labs/jamjet.dev/actions/workflows/deploy.yml)
 [![License](https://img.shields.io/badge/license-Apache%202.0-f5c518?style=flat-square)](LICENSE)
 
-[jamjet.dev](https://jamjet.dev) · [Docs](https://jamjet.dev/docs/quickstart) · [Blog](https://jamjet.dev/blog)
+[jamjet.dev](https://jamjet.dev) · [Docs](https://jamjet.dev/quickstart) · [Blog](https://jamjet.dev/blog)
 
 </div>
 
@@ -120,7 +120,7 @@ This site deploys automatically to GitHub Pages on every push to `main`.
 
 Content fixes and improvements are welcome! For large changes, open an issue first.
 
-This repo is private until launch — coordinate via the internal team Discord channel.
+For roadmap discussions and larger changes, open an issue or start a GitHub Discussion.
 
 ---
 
