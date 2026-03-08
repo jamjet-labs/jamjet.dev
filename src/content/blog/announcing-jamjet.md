@@ -113,7 +113,7 @@ We're just getting started. On the roadmap:
 - **Agent marketplace** — discover, fork, and deploy community agents
 - **Visual debugger** — step through executions, replay from any checkpoint
 
-Star us on [GitHub](https://github.com/jamjet-labs/jamjet) and join [Discord](https://discord.gg/jamjet). We're building in public and would love your feedback.
+Star us on [GitHub](https://github.com/jamjet-labs/jamjet) and open a [GitHub Discussion](https://github.com/jamjet-labs/jamjet/discussions) if you have feedback. We're building in public and would love to hear from you.
 
 ---
 

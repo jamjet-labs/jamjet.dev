@@ -15,7 +15,6 @@ export default defineConfig({
       favicon: '/favicon.svg',
       social: {
         github: 'https://github.com/jamjet-labs/jamjet',
-        discord: 'https://discord.gg/jamjet',
         'x.com': 'https://x.com/jamjetdev',
       },
       editLink: {

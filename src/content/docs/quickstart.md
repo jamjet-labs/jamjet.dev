@@ -185,4 +185,4 @@ Make sure your Python scripts directory is in your PATH. Try `python -m jamjet d
 **Model call fails?**
 Check that your `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` is set in the environment where `jamjet dev` is running.
 
-**Need help?** Join [Discord](https://discord.gg/jamjet) or open a [GitHub Discussion](https://github.com/jamjet-labs/jamjet/discussions).
+**Need help?** Open a [GitHub Discussion](https://github.com/jamjet-labs/jamjet/discussions) or [file an issue](https://github.com/jamjet-labs/jamjet/issues).
