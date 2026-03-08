@@ -4,30 +4,84 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('blog'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const site = 'https://jamjet.dev';
+const title = 'JamJet Blog | Engineering, Releases, and Production Agent Patterns';
+const description = 'Latest JamJet updates, release notes, and deep dives on building durable, production AI agents.';
+const canonical = `${site}/blog/`;
+
+const featured = posts[0];
+const recent = posts.slice(1, 4);
+const older = posts.slice(4);
+const olderPageSize = 10;
+const olderFirstPage = older.slice(0, olderPageSize);
+const hasMoreOlder = older.length > olderPageSize;
+
+const itemList = posts.slice(0, 10).map((post, i) => ({
+  '@type': 'ListItem',
+  position: i + 1,
+  url: `${site}/blog/${post.slug}/`,
+  name: post.data.title,
+}));
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'JamJet Blog',
+  description,
+  url: canonical,
+  publisher: {
+    '@type': 'Organization',
+    name: 'JamJet',
+    url: site,
+  },
+  blogPost: itemList,
+};
 ---
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JamJet Blog</title>
-  <meta name="description" content="JamJet product updates, release notes, and engineering deep-dives." />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={`${site}/og.svg`} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={`${site}/og.svg`} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
   <style>
-    :root { --bg:#0a0a0e; --fg:#e8e8f0; --muted:#9ca3af; --accent:#f5c518; --border:rgba(255,255,255,0.12); }
+    :root { --bg:#0a0a0e; --bg2:#111118; --fg:#e8e8f0; --muted:#9ca3af; --accent:#f5c518; --border:rgba(255,255,255,0.12); }
     * { box-sizing: border-box; }
     body { margin:0; font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--fg); }
-    .wrap { max-width: 900px; margin: 0 auto; padding: 32px 20px 72px; }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 32px 20px 72px; }
     .top { display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--accent); font-weight:700; margin-bottom: 28px; }
     .top img { width:18px; height:36px; image-rendering: pixelated; }
     h1 { margin: 0 0 6px; font-size: clamp(2rem, 4vw, 3rem); }
-    .sub { margin: 0 0 28px; color: var(--muted); }
-    .list { display:grid; gap: 14px; }
+    .sub { margin: 0 0 28px; color: var(--muted); max-width: 760px; }
+    .grid { display:grid; gap: 18px; grid-template-columns: 1.6fr 1fr; align-items: start; }
+    @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } }
+    .section-title { margin: 28px 0 12px; font-size: 1.05rem; color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase; }
+    .list { display:grid; gap: 12px; }
     .card { display:block; border:1px solid var(--border); border-radius: 12px; padding: 16px; text-decoration:none; color:inherit; }
     .card:hover { border-color: var(--accent); }
+    .featured { background: linear-gradient(180deg, rgba(245,197,24,0.12), transparent 45%), var(--bg2); padding: 22px; }
     .title { margin:0 0 8px; font-size:1.2rem; }
     .meta { margin:0 0 8px; color: var(--muted); font-size:0.9rem; }
     .desc { margin:0; color:#d1d5db; }
+    .eyebrow { font-size:0.78rem; color: var(--accent); font-weight:700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+    .featured .title { font-size: clamp(1.4rem, 2.4vw, 2rem); }
+    .featured .desc { font-size: 1.02rem; line-height: 1.65; }
+    .archive-nav { margin-top: 12px; display:flex; justify-content: flex-end; }
+    .archive-link { color: var(--accent); text-decoration: none; font-weight: 600; }
+    .archive-link:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -37,18 +91,53 @@ const posts = (await getCollection('blog'))
       <span>JamJet</span>
     </a>
 
-    <h1>Blog</h1>
-    <p class="sub">Product updates, release notes, and engineering deep-dives.</p>
+    <h1>JamJet Blog</h1>
+    <p class="sub">Latest engineering updates, release notes, and practical patterns for building durable production agents.</p>
 
-    <section class="list">
-      {posts.map((post) => (
-        <a class="card" href={`/blog/${post.slug}/`}>
-          <h2 class="title">{post.data.title}</h2>
-          <p class="meta">{post.data.date.toISOString().slice(0, 10)}{post.data.author ? ` · ${post.data.author}` : ''}</p>
-          <p class="desc">{post.data.description}</p>
+    {featured && (
+      <section class="grid">
+        <a class="card featured" href={`/blog/${featured.slug}/`}>
+          <p class="eyebrow">Latest</p>
+          <h2 class="title">{featured.data.title}</h2>
+          <p class="meta">{featured.data.date.toISOString().slice(0, 10)}{featured.data.author ? ` · ${featured.data.author}` : ''}</p>
+          <p class="desc">{featured.data.description}</p>
         </a>
-      ))}
-    </section>
+
+        <div>
+          <h3 class="section-title">Recent</h3>
+          <section class="list">
+            {recent.map((post) => (
+              <a class="card" href={`/blog/${post.slug}/`}>
+                <h2 class="title">{post.data.title}</h2>
+                <p class="meta">{post.data.date.toISOString().slice(0, 10)}{post.data.author ? ` · ${post.data.author}` : ''}</p>
+                <p class="desc">{post.data.description}</p>
+              </a>
+            ))}
+          </section>
+        </div>
+      </section>
+    )}
+
+    {older.length > 0 && (
+      <>
+        <h3 class="section-title">Older Posts</h3>
+        <section class="list">
+          {olderFirstPage.map((post) => (
+            <a class="card" href={`/blog/${post.slug}/`}>
+              <h2 class="title">{post.data.title}</h2>
+              <p class="meta">{post.data.date.toISOString().slice(0, 10)}{post.data.author ? ` · ${post.data.author}` : ''}</p>
+              <p class="desc">{post.data.description}</p>
+            </a>
+          ))}
+        </section>
+      </>
+    )}
+
+    {hasMoreOlder && (
+      <nav class="archive-nav" aria-label="Older blog post pages">
+        <a class="archive-link" href="/blog/page/2/">Older posts →</a>
+      </nav>
+    )}
   </main>
 </body>
 </html>

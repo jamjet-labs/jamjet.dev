@@ -91,6 +91,13 @@
       font-size: 1.1rem; font-weight: 700; color: var(--yellow);
       flex-shrink: 0;
     }
+    .logo-mark {
+      width: 18px;
+      height: 36px;
+      object-fit: contain;
+      image-rendering: pixelated;
+      flex-shrink: 0;
+    }
     .pixel-icon {
       display: grid; grid-template-columns: repeat(6,5px); grid-template-rows: repeat(8,4px);
       gap: 1px;

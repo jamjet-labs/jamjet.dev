@@ -11,15 +11,54 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props as { post: CollectionEntry<'blog'> };
 const { Content } = await post.render();
+const site = 'https://jamjet.dev';
+const canonical = `${site}/blog/${post.slug}/`;
+const pageTitle = `${post.data.title} | JamJet Blog`;
+const image = `${site}/og.svg`;
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.date.toISOString(),
+  dateModified: post.data.date.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: post.data.author ?? 'JamJet Team',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'JamJet',
+    logo: {
+      '@type': 'ImageObject',
+      url: `${site}/logo-pixel.png`,
+    },
+  },
+  mainEntityOfPage: canonical,
+  image,
+};
 ---
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{post.data.title} | JamJet Blog</title>
+  <title>{pageTitle}</title>
   <meta name="description" content={post.data.description} />
+  <link rel="canonical" href={canonical} />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={post.data.description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={image} />
+  <meta property="article:published_time" content={post.data.date.toISOString()} />
+  <meta property="article:author" content={post.data.author ?? 'JamJet Team'} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={pageTitle} />
+  <meta name="twitter:description" content={post.data.description} />
+  <meta name="twitter:image" content={image} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="application/ld+json" set:html={JSON.stringify(articleLd)}></script>
   <style>
     :root { --bg:#0a0a0e; --fg:#e8e8f0; --muted:#9ca3af; --accent:#f5c518; --border:rgba(255,255,255,0.12); }
     * { box-sizing: border-box; }
