@@ -35,6 +35,9 @@ export default defineConfig({
           items: [
             { slug: 'yaml-workflows' },
             { slug: 'python-sdk' },
+            { slug: 'java-sdk' },
+            { slug: 'api-reference' },
+            { slug: 'enterprise' },
             { slug: 'eval' },
             { slug: 'mcp' },
             { slug: 'a2a' },
