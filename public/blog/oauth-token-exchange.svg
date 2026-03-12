@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+    .label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .sm { font-size: 10px; }
+    .code { font-size: 10px; font-family: 'JetBrains Mono', monospace; }
+  </style>
+
+  <!-- Background -->
+  <rect width="760" height="420" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="758" height="418" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Title -->
+  <text x="380" y="28" text-anchor="middle" fill="#8b7355" class="label">OAuth 2.0 Delegated Agent Auth (RFC 8693)</text>
+
+  <!-- Actors -->
+  <rect x="40" y="48" width="90" height="32" rx="4" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <text x="85" y="68" text-anchor="middle" fill="#1a1a18" class="title">User</text>
+
+  <rect x="230" y="48" width="120" height="32" rx="4" fill="#8b7355"/>
+  <text x="290" y="68" text-anchor="middle" fill="#fafaf8" class="title">Agent</text>
+
+  <rect x="460" y="48" width="120" height="32" rx="4" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <text x="520" y="68" text-anchor="middle" fill="#1a1a18" class="title">Auth Server</text>
+
+  <rect x="660" y="48" width="70" height="32" rx="4" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <text x="695" y="68" text-anchor="middle" fill="#1a1a18" class="title">API</text>
+
+  <!-- Lifelines -->
+  <line x1="85" y1="80" x2="85" y2="400" stroke="#1a1a18" stroke-opacity="0.08" stroke-width="1"/>
+  <line x1="290" y1="80" x2="290" y2="400" stroke="#8b7355" stroke-opacity="0.3" stroke-width="1"/>
+  <line x1="520" y1="80" x2="520" y2="400" stroke="#1a1a18" stroke-opacity="0.08" stroke-width="1"/>
+  <line x1="695" y1="80" x2="695" y2="400" stroke="#1a1a18" stroke-opacity="0.08" stroke-width="1"/>
+
+  <!-- Step 1: User triggers workflow -->
+  <line x1="85" y1="110" x2="280" y2="110" stroke="#6b6b63" stroke-width="1.5"/>
+  <polygon points="276,107 284,110 276,113" fill="#6b6b63"/>
+  <text x="182" y="104" text-anchor="middle" fill="#1a1a18" class="desc">1. Trigger workflow</text>
+  <text x="182" y="126" text-anchor="middle" fill="#8b8578" class="code">subject_token: user_tok_abc</text>
+
+  <!-- Step 2: Scope narrowing -->
+  <rect x="240" y="142" width="100" height="36" rx="3" fill="rgba(139,115,85,0.08)" stroke="#8b7355" stroke-width="1"/>
+  <text x="290" y="157" text-anchor="middle" fill="#8b7355" class="sm" font-weight="600">narrow_scopes()</text>
+  <text x="290" y="170" text-anchor="middle" fill="#6b6b63" class="sm">requested subset-of user</text>
+
+  <!-- Step 3: Token exchange -->
+  <line x1="300" y1="196" x2="510" y2="196" stroke="#8b7355" stroke-width="1.5"/>
+  <polygon points="506,193 514,196 506,199" fill="#8b7355"/>
+  <text x="405" y="190" text-anchor="middle" fill="#1a1a18" class="desc">2. POST /token (RFC 8693)</text>
+  <text x="405" y="212" text-anchor="middle" fill="#8b8578" class="code">grant_type: token-exchange</text>
+  <text x="405" y="226" text-anchor="middle" fill="#8b8578" class="code">scope: expenses:read expenses:write</text>
+
+  <!-- Step 4: Return scoped token -->
+  <line x1="510" y1="248" x2="300" y2="248" stroke="#2d7d46" stroke-width="1.5"/>
+  <polygon points="304,245 296,248 304,251" fill="#2d7d46"/>
+  <text x="405" y="242" text-anchor="middle" fill="#2d7d46" class="desc">3. Scoped agent token</text>
+  <text x="405" y="264" text-anchor="middle" fill="#8b8578" class="code">access_token: agent_tok_xyz</text>
+  <text x="405" y="278" text-anchor="middle" fill="#8b8578" class="code">expires_in: 3600, scope: expenses:read</text>
+
+  <!-- Step 5: API call with scoped token -->
+  <line x1="300" y1="300" x2="685" y2="300" stroke="#8b7355" stroke-width="1.5"/>
+  <polygon points="681,297 689,300 681,303" fill="#8b7355"/>
+  <text x="492" y="294" text-anchor="middle" fill="#1a1a18" class="desc">4. API call (scoped agent token)</text>
+  <text x="492" y="316" text-anchor="middle" fill="#8b8578" class="code">Authorization: Bearer agent_tok_xyz</text>
+
+  <!-- Step 6: Per-step check -->
+  <rect x="240" y="332" width="100" height="26" rx="3" fill="rgba(45,125,70,0.08)" stroke="#2d7d46" stroke-width="1"/>
+  <text x="290" y="349" text-anchor="middle" fill="#2d7d46" class="sm" font-weight="600">check_token_validity()</text>
+
+  <!-- Revocation path -->
+  <rect x="460" y="338" width="270" height="52" rx="4" fill="rgba(180,64,64,0.06)" stroke="#b44040" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="476" y="356" fill="#b44040" class="sm" font-weight="600">If token revoked or expired:</text>
+  <text x="476" y="372" fill="#b44040" class="code">OAuthError::TokenRevoked</text>
+  <text x="476" y="384" fill="#6b6b63" class="sm">Workflow escalates to human, clean error</text>
+
+  <!-- Audit callout -->
+  <rect x="40" y="332" width="180" height="58" rx="4" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.08"/>
+  <text x="56" y="350" fill="#8b7355" class="label">Audit Trail</text>
+  <text x="56" y="366" fill="#6b6b63" class="sm">Every exchange and API call</text>
+  <text x="56" y="380" fill="#6b6b63" class="sm">logged with scopes and target</text>
+</svg>

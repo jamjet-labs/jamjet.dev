@@ -8,6 +8,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   canonical="https://jamjet.dev/"
 >
 
+<!-- ── Phase 4 Announcement Banner ── -->
+<div class="announce-banner">
+  <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;max-width:900px;margin:0 auto;">
+    <span class="announce-badge">New</span>
+    <span class="announce-text">Phase 4 enterprise security shipped — tenant isolation, PII redaction, OAuth delegation</span>
+    <a href="/blog/phase4-enterprise-security/" class="announce-link">Read the announcement &rarr;</a>
+  </div>
+</div>
+
 <!-- ── Hero ── -->
 <section class="hero">
   <div class="hero-inner">
@@ -252,6 +261,38 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     color: var(--text-secondary);
     font-size: 0.9rem;
     line-height: 1.7;
+  }
+
+  /* ── Announcement banner ── */
+  .announce-banner {
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    text-align: center;
+  }
+  .announce-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--bg);
+    background: var(--accent);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+  .announce-text {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+  .announce-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .announce-link:hover {
+    text-decoration: underline;
   }
 
   @media (max-width: 768px) {

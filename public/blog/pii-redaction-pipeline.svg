@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+    .label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .sm { font-size: 10px; }
+    .code { font-size: 10px; font-family: 'JetBrains Mono', monospace; }
+  </style>
+
+  <!-- Background -->
+  <rect width="760" height="360" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="758" height="358" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Title -->
+  <text x="380" y="28" text-anchor="middle" fill="#8b7355" class="label">PII Redaction Pipeline</text>
+
+  <!-- Step 1: Workflow State (with PII) -->
+  <rect x="30" y="48" width="160" height="150" rx="4" fill="#2a2a28"/>
+  <text x="110" y="68" text-anchor="middle" fill="#c4956a" class="label">Workflow State</text>
+  <text x="46" y="88" fill="#eae8e1" class="code">name: "Jane Doe"</text>
+  <text x="46" y="104" fill="#c4956a" class="code">email: "j@ex.com"</text>
+  <text x="46" y="120" fill="#c4956a" class="code">ssn: "123-45-6789"</text>
+  <text x="46" y="136" fill="#c4956a" class="code">phone: "555-1234"</text>
+  <text x="46" y="152" fill="#c4956a" class="code">card: "4111...1234"</text>
+  <text x="46" y="172" fill="#eae8e1" class="code">status: "pending"</text>
+  <text x="46" y="188" fill="#6b6b63" class="sm">PII fields highlighted</text>
+
+  <!-- Arrow 1 -->
+  <line x1="190" y1="123" x2="230" y2="123" stroke="#8b7355" stroke-width="1.5"/>
+  <polygon points="226,120 234,123 226,126" fill="#8b7355"/>
+
+  <!-- Step 2: PiiRedactor -->
+  <rect x="236" y="58" width="180" height="130" rx="6" fill="none" stroke="#8b7355" stroke-width="2"/>
+  <rect x="236" y="58" width="180" height="26" rx="6" fill="#8b7355"/>
+  <rect x="236" y="78" width="180" height="4" fill="#fafaf8"/>
+  <text x="326" y="76" text-anchor="middle" fill="#fafaf8" class="label">PiiRedactor</text>
+
+  <text x="252" y="100" fill="#6b6b63" class="sm">Compiled regex patterns:</text>
+  <text x="252" y="116" fill="#1a1a18" class="code">email  [a-z]+@.+\..+</text>
+  <text x="252" y="132" fill="#1a1a18" class="code">ssn    \d{3}-\d{2}-\d{4}</text>
+  <text x="252" y="148" fill="#1a1a18" class="code">phone  \d{3}.\d{3}.\d{4}</text>
+  <text x="252" y="164" fill="#1a1a18" class="code">card   \d{4}.\d{4}...</text>
+  <text x="252" y="180" fill="#8b8578" class="sm">+ JSON field-path matching</text>
+
+  <!-- Arrows to three modes -->
+  <line x1="416" y1="95" x2="470" y2="68" stroke="#2d7d46" stroke-width="1.5"/>
+  <polygon points="467,65 474,65 470,71" fill="#2d7d46"/>
+
+  <line x1="416" y1="123" x2="470" y2="123" stroke="#8b7355" stroke-width="1.5"/>
+  <polygon points="466,120 474,123 466,126" fill="#8b7355"/>
+
+  <line x1="416" y1="151" x2="470" y2="178" stroke="#b44040" stroke-width="1.5"/>
+  <polygon points="467,181 474,181 470,175" fill="#b44040"/>
+
+  <!-- Mode 1: Mask -->
+  <rect x="476" y="44" width="248" height="48" rx="4" fill="#f5f4f0" stroke="#2d7d46" stroke-width="1"/>
+  <text x="492" y="62" fill="#2d7d46" class="label">Mask</text>
+  <text x="492" y="80" fill="#1a1a18" class="code">email: "****@****.com"</text>
+  <text x="650" y="62" fill="#6b6b63" class="sm">partial reveal</text>
+
+  <!-- Mode 2: Hash -->
+  <rect x="476" y="104" width="248" height="48" rx="4" fill="#f5f4f0" stroke="#8b7355" stroke-width="1"/>
+  <text x="492" y="122" fill="#8b7355" class="label">Hash</text>
+  <text x="492" y="140" fill="#1a1a18" class="code">email: "a3f2c9...e71b"</text>
+  <text x="650" y="122" fill="#6b6b63" class="sm">SHA-256</text>
+
+  <!-- Mode 3: Remove -->
+  <rect x="476" y="164" width="248" height="48" rx="4" fill="#f5f4f0" stroke="#b44040" stroke-width="1"/>
+  <text x="492" y="182" fill="#b44040" class="label">Remove</text>
+  <text x="492" y="200" fill="#1a1a18" class="code">email: (field deleted)</text>
+  <text x="650" y="182" fill="#6b6b63" class="sm">full erasure</text>
+
+  <!-- Arrow down to Audit Log -->
+  <line x1="600" y1="212" x2="600" y2="240" stroke="#8b8578" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <polygon points="597,238 603,238 600,244" fill="#8b8578"/>
+
+  <!-- Audit Log -->
+  <rect x="370" y="248" width="360" height="96" rx="4" fill="#2a2a28"/>
+  <text x="390" y="270" fill="#c4956a" class="label">Audit Log Entry</text>
+  <text x="390" y="290" fill="#2d7d46" class="code">redacted: true</text>
+  <text x="390" y="306" fill="#eae8e1" class="code">expires_at: "2026-06-10T..."</text>
+  <text x="390" y="322" fill="#eae8e1" class="code">prompts: (stripped)</text>
+  <text x="390" y="338" fill="#eae8e1" class="code">outputs: (stripped)</text>
+  <text x="620" y="290" fill="#6b6b63" class="sm">PII never reaches</text>
+  <text x="620" y="306" fill="#6b6b63" class="sm">persistent storage</text>
+
+  <!-- Retention callout -->
+  <rect x="30" y="248" width="310" height="96" rx="4" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.08"/>
+  <text x="50" y="270" fill="#8b7355" class="label">Retention Policy</text>
+  <text x="50" y="292" fill="#1a1a18" class="desc">retention_days: 90</text>
+  <text x="50" y="310" fill="#6b6b63" class="desc">Runtime sets expires_at on every audit entry.</text>
+  <text x="50" y="326" fill="#6b6b63" class="desc">purge_expired() runs as a background task,</text>
+  <text x="50" y="342" fill="#6b6b63" class="desc">deleting entries past their expiry date.</text>
+</svg>

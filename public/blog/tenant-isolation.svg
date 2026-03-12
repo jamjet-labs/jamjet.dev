@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 340" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+    .label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .sm { font-size: 10px; }
+  </style>
+
+  <!-- Background -->
+  <rect width="700" height="340" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="698" height="338" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Title -->
+  <text x="350" y="28" text-anchor="middle" fill="#8b7355" class="label">Multi-Tenant State Partitioning</text>
+
+  <!-- Shared layer: Workflow Definition -->
+  <rect x="60" y="44" width="580" height="44" rx="4" fill="#f5f4f0" stroke="#8b7355" stroke-width="1"/>
+  <text x="350" y="63" text-anchor="middle" fill="#8b7355" class="label">Shared</text>
+  <text x="350" y="78" text-anchor="middle" fill="#1a1a18" class="desc">Workflow Definition (same IR deployed once, runs for all tenants)</text>
+
+  <!-- Arrows down -->
+  <line x1="215" y1="88" x2="215" y2="108" stroke="#8b8578" stroke-width="1" stroke-dasharray="3,2"/>
+  <polygon points="212,106 218,106 215,112" fill="#8b8578"/>
+  <line x1="485" y1="88" x2="485" y2="108" stroke="#8b8578" stroke-width="1" stroke-dasharray="3,2"/>
+  <polygon points="482,106 488,106 485,112" fill="#8b8578"/>
+
+  <!-- Divider line -->
+  <line x1="350" y1="108" x2="350" y2="324" stroke="#8b7355" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="326" y="148" width="48" height="18" rx="3" fill="#fafaf8"/>
+  <text x="350" y="161" text-anchor="middle" fill="#8b7355" class="sm" font-weight="600">isolated</text>
+
+  <!-- Tenant A: Acme -->
+  <rect x="40" y="112" width="290" height="216" rx="6" fill="none" stroke="#1a1a18" stroke-opacity="0.10"/>
+  <rect x="40" y="112" width="290" height="28" rx="6" fill="#f5f4f0"/>
+  <rect x="40" y="134" width="290" height="6" fill="#fafaf8"/>
+  <text x="185" y="131" text-anchor="middle" fill="#1a1a18" class="title">Tenant: Acme Corp</text>
+  <text x="56" y="131" fill="#8b7355" class="mono sm">acme</text>
+
+  <!-- Acme boxes -->
+  <rect x="56" y="152" width="258" height="34" rx="3" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <text x="72" y="172" fill="#6b6b63" class="sm">Execution State</text>
+  <text x="240" y="172" fill="#8b8578" class="mono sm">exec_acme_001, 002...</text>
+
+  <rect x="56" y="194" width="258" height="34" rx="3" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <text x="72" y="214" fill="#6b6b63" class="sm">Event Log</text>
+  <text x="240" y="214" fill="#8b8578" class="mono sm">tenant_id = 'acme'</text>
+
+  <rect x="56" y="236" width="258" height="34" rx="3" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <text x="72" y="256" fill="#6b6b63" class="sm">Audit Trail</text>
+  <text x="240" y="256" fill="#8b8578" class="mono sm">actor, scopes, PII</text>
+
+  <rect x="56" y="278" width="258" height="34" rx="3" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <text x="72" y="298" fill="#6b6b63" class="sm">Snapshots</text>
+  <text x="240" y="298" fill="#8b8578" class="mono sm">isolated checkpoints</text>
+
+  <!-- Tenant B: Globex -->
+  <rect x="370" y="112" width="290" height="216" rx="6" fill="none" stroke="#1a1a18" stroke-opacity="0.10"/>
+  <rect x="370" y="112" width="290" height="28" rx="6" fill="#f5f4f0"/>
+  <rect x="370" y="134" width="290" height="6" fill="#fafaf8"/>
+  <text x="515" y="131" text-anchor="middle" fill="#1a1a18" class="title">Tenant: Globex Inc</text>
+  <text x="386" y="131" fill="#8b7355" class="mono sm">globex</text>
+
+  <!-- Globex boxes -->
+  <rect x="386" y="152" width="258" height="34" rx="3" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <text x="402" y="172" fill="#6b6b63" class="sm">Execution State</text>
+  <text x="570" y="172" fill="#8b8578" class="mono sm">exec_glx_001, 002...</text>
+
+  <rect x="386" y="194" width="258" height="34" rx="3" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <text x="402" y="214" fill="#6b6b63" class="sm">Event Log</text>
+  <text x="570" y="214" fill="#8b8578" class="mono sm">tenant_id = 'globex'</text>
+
+  <rect x="386" y="236" width="258" height="34" rx="3" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <text x="402" y="256" fill="#6b6b63" class="sm">Audit Trail</text>
+  <text x="570" y="256" fill="#8b8578" class="mono sm">actor, scopes, PII</text>
+
+  <rect x="386" y="278" width="258" height="34" rx="3" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <text x="402" y="298" fill="#6b6b63" class="sm">Snapshots</text>
+  <text x="570" y="298" fill="#8b8578" class="mono sm">isolated checkpoints</text>
+</svg>

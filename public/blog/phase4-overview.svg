@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+    .label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="420" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="418" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Title -->
+  <text x="400" y="32" text-anchor="middle" fill="#8b7355" class="label">Phase 4 Enterprise Architecture</text>
+
+  <!-- Layer 5: SDK / Authoring (top) -->
+  <rect x="40" y="50" width="720" height="52" rx="4" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.10"/>
+  <text x="60" y="72" fill="#8b7355" class="label">Authoring</text>
+  <text x="60" y="88" fill="#6b6b63" class="desc">Python SDK</text>
+  <text x="200" y="88" fill="#6b6b63" class="desc">Java SDK</text>
+  <text x="320" y="88" fill="#6b6b63" class="desc">YAML Workflows</text>
+  <text x="490" y="88" fill="#6b6b63" class="desc">CLI</text>
+  <text x="580" y="80" fill="#6b6b63" class="mono desc">data_policy: { ... }</text>
+
+  <!-- Arrow -->
+  <line x1="400" y1="102" x2="400" y2="118" stroke="#8b8578" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <polygon points="396,116 404,116 400,122" fill="#8b8578"/>
+
+  <!-- Layer 4: Auth & Federation -->
+  <rect x="40" y="124" width="720" height="56" rx="4" fill="none" stroke="#8b7355" stroke-width="1.5"/>
+  <text x="60" y="147" fill="#8b7355" class="label">Auth &amp; Federation</text>
+  <rect x="200" y="136" width="130" height="30" rx="3" fill="rgba(139,115,85,0.08)"/>
+  <text x="265" y="155" text-anchor="middle" fill="#1a1a18" class="desc">OAuth 2.0 (RFC 8693)</text>
+  <rect x="345" y="136" width="110" height="30" rx="3" fill="rgba(139,115,85,0.08)"/>
+  <text x="400" y="155" text-anchor="middle" fill="#1a1a18" class="desc">Scope Narrowing</text>
+  <rect x="470" y="136" width="90" height="30" rx="3" fill="rgba(139,115,85,0.08)"/>
+  <text x="515" y="155" text-anchor="middle" fill="#1a1a18" class="desc">mTLS</text>
+  <rect x="575" y="136" width="170" height="30" rx="3" fill="rgba(139,115,85,0.08)"/>
+  <text x="660" y="155" text-anchor="middle" fill="#1a1a18" class="desc">A2A Federation Auth</text>
+
+  <!-- Arrow -->
+  <line x1="400" y1="180" x2="400" y2="196" stroke="#8b8578" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <polygon points="396,194 404,194 400,200" fill="#8b8578"/>
+
+  <!-- Layer 3: Data Governance -->
+  <rect x="40" y="202" width="720" height="56" rx="4" fill="none" stroke="#c4956a" stroke-width="1.5"/>
+  <text x="60" y="225" fill="#c4956a" class="label">Data Governance</text>
+  <rect x="220" y="214" width="110" height="30" rx="3" fill="rgba(196,149,106,0.10)"/>
+  <text x="275" y="233" text-anchor="middle" fill="#1a1a18" class="desc">PII Redactor</text>
+  <rect x="345" y="214" width="130" height="30" rx="3" fill="rgba(196,149,106,0.10)"/>
+  <text x="410" y="233" text-anchor="middle" fill="#1a1a18" class="desc">Retention Policies</text>
+  <rect x="490" y="214" width="120" height="30" rx="3" fill="rgba(196,149,106,0.10)"/>
+  <text x="550" y="233" text-anchor="middle" fill="#1a1a18" class="desc">Secret Backends</text>
+  <rect x="625" y="214" width="120" height="30" rx="3" fill="rgba(196,149,106,0.10)"/>
+  <text x="685" y="233" text-anchor="middle" fill="#1a1a18" class="desc">Audit Trail</text>
+
+  <!-- Arrow -->
+  <line x1="400" y1="258" x2="400" y2="274" stroke="#8b8578" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <polygon points="396,272 404,272 400,278" fill="#8b8578"/>
+
+  <!-- Layer 2: Tenant Isolation -->
+  <rect x="40" y="280" width="720" height="52" rx="4" fill="none" stroke="#6b6b63" stroke-width="1"/>
+  <text x="60" y="303" fill="#6b6b63" class="label">Tenant Isolation</text>
+  <!-- Tenant partitions -->
+  <rect x="220" y="290" width="100" height="30" rx="3" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.08"/>
+  <text x="270" y="309" text-anchor="middle" fill="#1a1a18" class="mono desc">tenant: acme</text>
+  <rect x="335" y="290" width="100" height="30" rx="3" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.08"/>
+  <text x="385" y="309" text-anchor="middle" fill="#1a1a18" class="mono desc">tenant: globex</text>
+  <rect x="450" y="290" width="100" height="30" rx="3" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.08"/>
+  <text x="500" y="309" text-anchor="middle" fill="#1a1a18" class="mono desc">tenant: initech</text>
+  <text x="580" y="309" fill="#8b8578" class="desc">... row-level partitioning</text>
+
+  <!-- Arrow -->
+  <line x1="400" y1="332" x2="400" y2="348" stroke="#8b8578" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <polygon points="396,346 404,346 400,352" fill="#8b8578"/>
+
+  <!-- Layer 1: Rust Runtime (bottom) -->
+  <rect x="40" y="354" width="720" height="52" rx="4" fill="#2a2a28"/>
+  <text x="60" y="377" fill="#c4956a" class="label">Rust Runtime</text>
+  <text x="60" y="393" fill="#eae8e1" class="desc">Scheduler</text>
+  <text x="150" y="393" fill="#eae8e1" class="desc">State Machine</text>
+  <text x="290" y="393" fill="#eae8e1" class="desc">Event Log</text>
+  <text x="400" y="393" fill="#eae8e1" class="desc">Workers</text>
+  <text x="490" y="393" fill="#eae8e1" class="desc">Policy Engine</text>
+  <text x="620" y="393" fill="#eae8e1" class="desc">Tokio Async</text>
+</svg>
