@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Terms of Use — JamJet"
+  description="JamJet terms of use for the website and open-source software."
+  canonical="https://jamjet.dev/terms"
+>
+
+<div class="legal">
+  <h1>Terms of Use</h1>
+  <p class="legal-updated">Last updated: March 2026</p>
+
+  <h2>Open-source software</h2>
+  <p>
+    The JamJet runtime, SDKs, and CLI are open-source software licensed under the
+    <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Apache License 2.0</a>.
+    Your use of the software is governed by that license.
+  </p>
+
+  <h2>Website</h2>
+  <p>
+    The jamjet.dev website is provided for informational purposes. We make reasonable efforts to
+    keep content accurate, but documentation, benchmarks, and examples may lag behind the latest
+    release. When in doubt, the source code is authoritative.
+  </p>
+
+  <h2>Benchmarks</h2>
+  <p>
+    Performance benchmarks published on this site reflect specific hardware, software versions,
+    and configurations described in each benchmark. Results will vary in different environments.
+    All benchmark code is published for independent reproduction.
+  </p>
+
+  <h2>Examples and code</h2>
+  <p>
+    Code examples on this website and in our GitHub repositories are provided under the same
+    Apache 2.0 license unless otherwise noted. They are intended as starting points, not
+    production-ready applications.
+  </p>
+
+  <h2>Trademarks</h2>
+  <p>
+    "JamJet" and the JamJet logo are trademarks of JamJet Labs. Third-party product names
+    mentioned on this site (LangGraph, CrewAI, AutoGen, OpenAI, Anthropic, etc.) are trademarks
+    of their respective owners.
+  </p>
+
+  <h2>Limitation of liability</h2>
+  <p>
+    The software is provided "as is", without warranty of any kind. See the Apache 2.0 license
+    for the full limitation of liability and disclaimer of warranties.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about these terms: <a href="mailto:hello@jamjet.dev">hello@jamjet.dev</a>.
+  </p>
+</div>
+
+</BaseLayout>
+
+<style>
+  .legal {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 3rem 24px 6rem;
+  }
+  .legal h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .legal-updated {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 2.5rem;
+  }
+  .legal h2 {
+    font-size: 1.2rem;
+    margin: 2rem 0 0.75rem;
+  }
+  .legal p {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+  .legal a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .legal a:hover {
+    text-decoration: underline;
+  }
+</style>

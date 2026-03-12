@@ -101,8 +101,40 @@ nav {
 }
 .nav-github:hover { color: var(--text); }
 
+/* ── Mobile Navigation ── */
+.nav-toggle {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  padding: 6px; margin-left: auto;
+  flex-direction: column; gap: 4px;
+}
+.nav-toggle-bar {
+  display: block; width: 18px; height: 2px;
+  background: var(--text); border-radius: 1px;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
 @media (max-width: 768px) {
-  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+  .nav-links {
+    display: none;
+    position: absolute; top: 64px; left: 0; right: 0;
+    background: var(--bg); border-bottom: 1px solid var(--border);
+    flex-direction: column; padding: 16px 24px; gap: 0;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links li { padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .nav-links li:last-child { border-bottom: none; }
+  .nav-links a { font-size: 0.95rem; }
 }
 
 /* ── Buttons — Shibui ── */

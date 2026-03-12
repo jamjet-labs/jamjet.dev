@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Privacy Policy — JamJet"
+  description="JamJet privacy policy. How we handle your data."
+  canonical="https://jamjet.dev/privacy"
+>
+
+<div class="legal">
+  <h1>Privacy Policy</h1>
+  <p class="legal-updated">Last updated: March 2026</p>
+
+  <h2>Overview</h2>
+  <p>
+    JamJet is open-source software licensed under Apache 2.0. This privacy policy covers
+    the jamjet.dev website and any hosted services operated by JamJet Labs.
+  </p>
+
+  <h2>Data we collect</h2>
+
+  <h3>Website analytics</h3>
+  <p>
+    We use <a href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a>,
+    a privacy-friendly analytics tool. GoatCounter does not use cookies, does not collect
+    personal data, and does not track users across sites. We collect aggregate page view
+    counts and referrer information only.
+  </p>
+
+  <h3>Self-hosted runtime</h3>
+  <p>
+    When you run JamJet locally or on your own infrastructure, no data is sent to JamJet Labs.
+    All workflow state, audit logs, and telemetry remain on your systems. The runtime does not
+    phone home.
+  </p>
+
+  <h3>GitHub interactions</h3>
+  <p>
+    If you open issues, pull requests, or discussions on our GitHub repositories, that data is
+    governed by <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub's privacy policy</a>.
+  </p>
+
+  <h2>Cookies</h2>
+  <p>
+    The jamjet.dev website does not set any cookies. No first-party cookies, no third-party
+    cookies, no tracking pixels.
+  </p>
+
+  <h2>Third-party services</h2>
+  <p>
+    The website loads fonts from Google Fonts. Google's
+    <a href="https://developers.google.com/fonts/faq/privacy" target="_blank" rel="noopener">font privacy policy</a>
+    applies to those requests.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about this policy: <a href="mailto:hello@jamjet.dev">hello@jamjet.dev</a>.
+  </p>
+</div>
+
+</BaseLayout>
+
+<style>
+  .legal {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 3rem 24px 6rem;
+  }
+  .legal h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .legal-updated {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 2.5rem;
+  }
+  .legal h2 {
+    font-size: 1.2rem;
+    margin: 2rem 0 0.75rem;
+  }
+  .legal h3 {
+    font-size: 1rem;
+    margin: 1.5rem 0 0.5rem;
+  }
+  .legal p {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+  .legal a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .legal a:hover {
+    text-decoration: underline;
+  }
+</style>

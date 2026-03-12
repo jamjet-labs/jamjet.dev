@@ -95,7 +95,7 @@ class CrewState(State):
 async def research(state: CrewState) -> CrewState:
     # Role/goal/backstory live in the system prompt — you own it
     resp = client.chat.completions.create(
-        model="gpt-4.1-mini",
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": (
                 "You are an expert research analyst. "
@@ -109,7 +109,7 @@ async def research(state: CrewState) -> CrewState:
 @wf.step
 async def write_report(state: CrewState) -> CrewState:
     resp = client.chat.completions.create(
-        model="gpt-4.1-mini",
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "You are a skilled technical writer."},
             {"role": "user", "content": (

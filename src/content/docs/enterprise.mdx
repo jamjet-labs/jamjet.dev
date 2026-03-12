@@ -1,0 +1,192 @@
+---
+title: Enterprise Security
+description: Multi-tenant isolation, PII redaction, OAuth delegation, mTLS federation, and data retention policies in JamJet.
+sidebar:
+  order: 9
+  label: Enterprise Security
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Enterprise Security
+
+JamJet's enterprise features are enforced at the Rust runtime layer — not by convention, not by middleware you might forget to add.
+
+## Multi-tenant isolation
+
+Partition all storage by tenant ID. Workflow definitions, execution state, event logs, audit trails, and snapshots are scoped per tenant.
+
+```bash
+# Same workflow, different tenants — fully isolated
+jamjet run workflow.yaml \
+  --input '{"invoice_id": "INV-001", "amount": 2500}' \
+  --tenant acme
+
+jamjet run workflow.yaml \
+  --input '{"invoice_id": "INV-042", "amount": 75000}' \
+  --tenant globex
+```
+
+The runtime's `TenantScopedSqliteBackend` wraps every storage query with `WHERE tenant_id = ?`. The workflow definition table uses a composite primary key `(tenant_id, workflow_id, version)`.
+
+---
+
+## PII redaction
+
+Declare a `data_policy` in your workflow. The runtime applies it before any state reaches the audit log.
+
+```yaml
+data_policy:
+  pii_detectors: [email, ssn, phone, credit_card, ip_address]
+  pii_fields: ["$.email", "$.ssn", "$.credit_card"]
+  redaction_mode: mask        # or: hash, remove
+  retain_prompts: false       # strip prompts from audit log
+  retain_outputs: false       # strip model outputs from audit log
+  retention_days: 90          # auto-purge after 90 days
+```
+
+Three redaction modes:
+
+| Mode | Behavior | Example |
+|------|----------|---------|
+| `mask` | Partial reveal for debugging | `***-**-6789` |
+| `hash` | SHA-256 pseudonymization for analytics | `a3f2c91b...e71b` |
+| `remove` | Full field deletion | *(field deleted)* |
+
+Python SDK equivalent:
+
+```python
+@workflow(
+    id="customer-onboarding",
+    version="0.1.0",
+    data_policy={
+        "pii_detectors": ["email", "ssn", "phone", "credit_card"],
+        "pii_fields": ["$.email", "$.ssn"],
+        "redaction_mode": "mask",
+        "retain_prompts": False,
+        "retain_outputs": False,
+        "retention_days": 90,
+    },
+)
+class CustomerOnboarding:
+    ...
+```
+
+---
+
+## Data retention
+
+`retention_days` sets an `expires_at` timestamp on every audit log entry. The runtime's `purge_expired()` method runs as a background task, deleting entries past their expiry date.
+
+Additional controls:
+
+- `retain_prompts: false` — strips model prompts from audit entries before writing
+- `retain_outputs: false` — same for model outputs
+
+The audit log retains metadata (node ID, token counts, timestamps) without the content.
+
+---
+
+## OAuth 2.0 delegation
+
+RFC 8693 token exchange. The user's token is exchanged for a narrowly-scoped agent token.
+
+```yaml
+oauth:
+  token_endpoint: "${JAMJET_OAUTH_TOKEN_ENDPOINT}"
+  grant_type: "urn:ietf:params:oauth:grant-type:token-exchange"
+  client_id: "${JAMJET_OAUTH_CLIENT_ID}"
+  client_secret: "${JAMJET_OAUTH_CLIENT_SECRET}"
+  requested_scopes: ["expenses:read", "expenses:write"]
+```
+
+### Scope narrowing
+
+The agent's effective scopes are the intersection of what it requests and what the user has. If the intersection is empty, the runtime returns `OAuthError::ScopeNarrowingFailed`.
+
+### Per-step scoping
+
+Different nodes can declare different scope requirements:
+
+```yaml
+nodes:
+  authenticate:
+    oauth_scopes:
+      required_scopes: ["expenses:read"]
+
+  submit-expense:
+    oauth_scopes:
+      required_scopes: ["expenses:read", "expenses:write"]
+```
+
+The runtime resolves scopes before every node executes — not once at workflow start.
+
+### Token validity
+
+`check_token_validity()` runs before every tool and model invocation. Expired or revoked tokens produce clean errors (`OAuthError::TokenExpired`, `OAuthError::TokenRevoked`) and escalate to a human.
+
+---
+
+## mTLS and A2A federation
+
+For cross-organization agent communication:
+
+**Transport:** mutual TLS. Both sides present certificates, both sides verify.
+
+```bash
+export JAMJET_TLS_CERT=/etc/certs/agent.pem
+export JAMJET_TLS_KEY=/etc/certs/agent-key.pem
+export JAMJET_TLS_CA_CERT=/etc/certs/ca.pem
+export JAMJET_MTLS_REQUIRED=true
+```
+
+**Application:** capability-scoped Bearer tokens with agent allowlists.
+
+```yaml
+federation:
+  require_auth: true
+  public_agent_card: true
+  tokens:
+    - token: "tok-alpha"
+      name: "Research Agent"
+      agent_id: "agent-alpha"
+      scopes: ["read", "write"]
+  allowed_agents: ["agent-alpha"]
+  method_scopes:
+    "tasks/send": ["write"]
+    "tasks/get": ["read"]
+```
+
+The `federation_auth_layer` middleware validates every incoming A2A request. Unauthorized requests get a JSON-RPC error before reaching the handler.
+
+---
+
+## Pluggable secret backends
+
+Chain multiple secret sources with priority ordering:
+
+| Backend | Use case |
+|---------|----------|
+| Environment variables | Local dev, CI |
+| File-based | Kubernetes secrets, mounted volumes |
+| HashiCorp Vault | Production secret management |
+| AWS Secrets Manager | AWS-native deployments |
+
+The runtime resolves secrets at startup by checking backends in priority order.
+
+---
+
+## Examples
+
+Runnable examples for each enterprise feature:
+
+```bash
+git clone https://github.com/jamjet-labs/examples
+cd examples/multi-tenant       # tenant isolation
+cd examples/data-governance    # PII redaction + retention
+cd examples/oauth-delegation   # OAuth 2.0 + scope narrowing
+```
+
+<Aside type="tip">
+Read the full deep dives: [data governance and PII redaction](/blog/data-governance-pii-retention/), [OAuth delegation and federation auth](/blog/oauth-federation-agent-auth/).
+</Aside>

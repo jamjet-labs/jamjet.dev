@@ -47,7 +47,12 @@ const {
 <nav>
   <div class="nav-inner">
     <a href="/" class="nav-logo" aria-label="JamJet home">JamJet</a>
-    <ul class="nav-links">
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
       <li><a href="/quickstart" aria-current={currentPage === 'docs' ? 'page' : undefined}>Docs</a></li>
       <li><a href="/usecases" aria-current={currentPage === 'usecases' ? 'page' : undefined}>Use Cases</a></li>
       <li><a href="/benchmarks" aria-current={currentPage === 'benchmarks' ? 'page' : undefined}>Benchmarks</a></li>
@@ -110,6 +115,17 @@ const {
   </div>
 </footer>
 
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const links = document.getElementById('nav-links');
+  if (toggle && links) {
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!open));
+      links.classList.toggle('open');
+    });
+  }
+</script>
 <script data-goatcounter="https://jamjet.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 </body>
