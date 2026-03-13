@@ -24,9 +24,13 @@ We built a multi-agent system that mirrors how a real wealth management team ope
 
 Each agent gets the reasoning strategy that fits its cognitive task. This is not cosmetic — it changes how the agent thinks.
 
+![Wealth management multi-agent architecture — 4 specialist agents orchestrated through a durable workflow with typed state and human approval](/blog/wealth-mgmt-architecture.svg)
+
 ---
 
 ## Why each strategy matters
+
+![Three reasoning strategies — plan-and-execute, react, and critic — each matched to an agent role](/blog/wealth-mgmt-strategies.svg)
 
 ### Risk Profiler: `plan-and-execute`
 
@@ -176,6 +180,8 @@ We implemented the same scenario with Google ADK. Here is the side-by-side.
 - **Vertex AI integration** — managed hosting if you are on GCP with Gemini
 
 ### Where JamJet pulls ahead
+
+![JamJet vs Google ADK — 9-dimension feature comparison](/blog/wealth-mgmt-comparison.svg)
 
 | Capability | JamJet | Google ADK |
 |------------|--------|------------|
