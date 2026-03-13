@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 10.5px; }
+    .small { font-size: 9px; }
+    .node { font-size: 9.5px; font-weight: 500; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="300" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="298" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Title -->
+  <text x="400" y="26" text-anchor="middle" fill="#8b7355" class="label">Three Reasoning Strategies — One Per Agent Role</text>
+
+  <!-- ═══ Strategy 1: Plan-and-Execute ═══ -->
+  <rect x="20" y="42" width="246" height="246" rx="6" fill="#fff" stroke="rgba(139,115,85,0.25)" stroke-width="1.5"/>
+
+  <!-- Header -->
+  <rect x="20" y="42" width="246" height="30" rx="6" fill="rgba(139,115,85,0.08)"/>
+  <rect x="20" y="66" width="246" height="6" fill="rgba(139,115,85,0.08)" rx="0"/>
+  <text x="143" y="62" text-anchor="middle" fill="#8b7355" class="mono title">plan-and-execute</text>
+
+  <!-- Used by -->
+  <text x="143" y="90" text-anchor="middle" fill="#6b6b63" class="desc">Risk Profiler + Tax Strategist</text>
+
+  <!-- Flow nodes -->
+  <!-- Plan -->
+  <rect x="78" y="106" width="130" height="24" rx="4" fill="#8b7355"/>
+  <text x="143" y="122" text-anchor="middle" fill="#fff" class="node">Generate Plan</text>
+
+  <line x1="143" y1="130" x2="143" y2="144" stroke="#8b8578" stroke-width="1.2"/>
+  <polygon points="140,142 146,142 143,147" fill="#8b8578"/>
+
+  <!-- Step 1 -->
+  <rect x="78" y="148" width="130" height="24" rx="4" fill="rgba(139,115,85,0.12)" stroke="rgba(139,115,85,0.3)" stroke-width="1"/>
+  <text x="143" y="164" text-anchor="middle" fill="#5a4a38" class="node">Execute Step 1</text>
+
+  <line x1="143" y1="172" x2="143" y2="184" stroke="#8b8578" stroke-width="1.2"/>
+  <polygon points="140,182 146,182 143,187" fill="#8b8578"/>
+
+  <!-- Step 2 -->
+  <rect x="78" y="188" width="130" height="24" rx="4" fill="rgba(139,115,85,0.12)" stroke="rgba(139,115,85,0.3)" stroke-width="1"/>
+  <text x="143" y="204" text-anchor="middle" fill="#5a4a38" class="node">Execute Step 2</text>
+
+  <line x1="143" y1="212" x2="143" y2="224" stroke="#8b8578" stroke-width="1.2"/>
+  <polygon points="140,222 146,222 143,227" fill="#8b8578"/>
+
+  <!-- Synthesize -->
+  <rect x="78" y="228" width="130" height="24" rx="4" fill="#8b7355"/>
+  <text x="143" y="244" text-anchor="middle" fill="#fff" class="node">Synthesize</text>
+
+  <!-- Best for -->
+  <text x="143" y="272" text-anchor="middle" fill="#8b8578" class="small">Structured, sequential tasks</text>
+
+  <!-- ═══ Strategy 2: ReAct ═══ -->
+  <rect x="278" y="42" width="246" height="246" rx="6" fill="#fff" stroke="rgba(196,149,106,0.3)" stroke-width="1.5"/>
+
+  <!-- Header -->
+  <rect x="278" y="42" width="246" height="30" rx="6" fill="rgba(196,149,106,0.10)"/>
+  <rect x="278" y="66" width="246" height="6" fill="rgba(196,149,106,0.10)" rx="0"/>
+  <text x="401" y="62" text-anchor="middle" fill="#c4956a" class="mono title">react</text>
+
+  <!-- Used by -->
+  <text x="401" y="90" text-anchor="middle" fill="#6b6b63" class="desc">Market Analyst</text>
+
+  <!-- Flow nodes (loop) -->
+  <!-- Think -->
+  <rect x="336" y="106" width="130" height="24" rx="4" fill="#c4956a"/>
+  <text x="401" y="122" text-anchor="middle" fill="#fff" class="node">Reason</text>
+
+  <line x1="401" y1="130" x2="401" y2="144" stroke="#c4956a" stroke-width="1.2"/>
+  <polygon points="398,142 404,142 401,147" fill="#c4956a"/>
+
+  <!-- Act -->
+  <rect x="336" y="148" width="130" height="24" rx="4" fill="rgba(196,149,106,0.15)" stroke="rgba(196,149,106,0.4)" stroke-width="1"/>
+  <text x="401" y="164" text-anchor="middle" fill="#8b5e2f" class="node">Act (call tool)</text>
+
+  <line x1="401" y1="172" x2="401" y2="184" stroke="#c4956a" stroke-width="1.2"/>
+  <polygon points="398,182 404,182 401,187" fill="#c4956a"/>
+
+  <!-- Observe -->
+  <rect x="336" y="188" width="130" height="24" rx="4" fill="rgba(196,149,106,0.15)" stroke="rgba(196,149,106,0.4)" stroke-width="1"/>
+  <text x="401" y="204" text-anchor="middle" fill="#8b5e2f" class="node">Observe result</text>
+
+  <!-- Loop arrow back to Think -->
+  <path d="M466 200 C490 200, 490 118, 466 118" stroke="#c4956a" stroke-width="1.2" fill="none" stroke-dasharray="3,3"/>
+  <polygon points="468,120 468,115 463,118" fill="#c4956a"/>
+  <text x="498" y="162" fill="#c4956a" class="small">loop</text>
+
+  <!-- Finalize -->
+  <line x1="401" y1="212" x2="401" y2="224" stroke="#c4956a" stroke-width="1.2"/>
+  <polygon points="398,222 404,222 401,227" fill="#c4956a"/>
+
+  <rect x="336" y="228" width="130" height="24" rx="4" fill="#c4956a"/>
+  <text x="401" y="244" text-anchor="middle" fill="#fff" class="node">Finalize</text>
+
+  <!-- Best for -->
+  <text x="401" y="272" text-anchor="middle" fill="#8b8578" class="small">Exploratory, data-driven tasks</text>
+
+  <!-- ═══ Strategy 3: Critic ═══ -->
+  <rect x="536" y="42" width="246" height="246" rx="6" fill="#fff" stroke="rgba(107,107,99,0.25)" stroke-width="1.5"/>
+
+  <!-- Header -->
+  <rect x="536" y="42" width="246" height="30" rx="6" fill="rgba(107,107,99,0.08)"/>
+  <rect x="536" y="66" width="246" height="6" fill="rgba(107,107,99,0.08)" rx="0"/>
+  <text x="659" y="62" text-anchor="middle" fill="#6b6b63" class="mono title">critic</text>
+
+  <!-- Used by -->
+  <text x="659" y="90" text-anchor="middle" fill="#6b6b63" class="desc">Portfolio Architect</text>
+
+  <!-- Flow nodes -->
+  <!-- Draft -->
+  <rect x="594" y="106" width="130" height="24" rx="4" fill="#6b6b63"/>
+  <text x="659" y="122" text-anchor="middle" fill="#fff" class="node">Draft</text>
+
+  <line x1="659" y1="130" x2="659" y2="144" stroke="#6b6b63" stroke-width="1.2"/>
+  <polygon points="656,142 662,142 659,147" fill="#6b6b63"/>
+
+  <!-- Evaluate -->
+  <rect x="594" y="148" width="130" height="24" rx="4" fill="rgba(107,107,99,0.10)" stroke="rgba(107,107,99,0.3)" stroke-width="1"/>
+  <text x="659" y="164" text-anchor="middle" fill="#4a4a44" class="node">Evaluate / Critique</text>
+
+  <line x1="659" y1="172" x2="659" y2="184" stroke="#6b6b63" stroke-width="1.2"/>
+  <polygon points="656,182 662,182 659,187" fill="#6b6b63"/>
+
+  <!-- Revise -->
+  <rect x="594" y="188" width="130" height="24" rx="4" fill="rgba(107,107,99,0.10)" stroke="rgba(107,107,99,0.3)" stroke-width="1"/>
+  <text x="659" y="204" text-anchor="middle" fill="#4a4a44" class="node">Revise</text>
+
+  <!-- Loop arrow back to Evaluate -->
+  <path d="M724 200 C748 200, 748 158, 724 158" stroke="#6b6b63" stroke-width="1.2" fill="none" stroke-dasharray="3,3"/>
+  <polygon points="726,160 726,155 721,158" fill="#6b6b63"/>
+  <text x="756" y="182" fill="#6b6b63" class="small">refine</text>
+
+  <!-- Accept -->
+  <line x1="659" y1="212" x2="659" y2="224" stroke="#6b6b63" stroke-width="1.2"/>
+  <polygon points="656,222 662,222 659,227" fill="#6b6b63"/>
+
+  <rect x="594" y="228" width="130" height="24" rx="4" fill="#2d7d46"/>
+  <text x="659" y="244" text-anchor="middle" fill="#fff" class="node">Accept</text>
+
+  <!-- Best for -->
+  <text x="659" y="272" text-anchor="middle" fill="#8b8578" class="small">Quality-critical output</text>
+</svg>

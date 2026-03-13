@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 14px; font-weight: 700; }
+    .row-label { font-size: 11px; font-weight: 600; }
+    .cell { font-size: 11px; }
+    .check { font-size: 13px; font-weight: 700; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="400" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="398" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Title -->
+  <text x="400" y="28" text-anchor="middle" fill="#8b7355" class="label">JamJet vs Google ADK — Feature Comparison</text>
+
+  <!-- Column headers -->
+  <rect x="40" y="42" width="220" height="32" rx="4" fill="rgba(26,26,24,0.04)"/>
+  <text x="150" y="63" text-anchor="middle" fill="#8b8578" class="label">Capability</text>
+
+  <rect x="270" y="42" width="250" height="32" rx="4" fill="rgba(139,115,85,0.08)"/>
+  <text x="395" y="63" text-anchor="middle" fill="#8b7355" class="title">JamJet</text>
+
+  <rect x="530" y="42" width="240" height="32" rx="4" fill="rgba(26,26,24,0.04)"/>
+  <text x="650" y="63" text-anchor="middle" fill="#6b6b63" class="title">Google ADK</text>
+
+  <!-- Row 1: Reasoning strategies -->
+  <line x1="40" y1="82" x2="770" y2="82" stroke="rgba(26,26,24,0.06)" stroke-width="1"/>
+  <text x="50" y="102" fill="#1a1a18" class="row-label">Reasoning strategies</text>
+  <circle cx="282" cy="98" r="7" fill="rgba(45,125,70,0.12)"/>
+  <text x="282" y="102" text-anchor="middle" fill="#2d7d46" class="check">&#10003;</text>
+  <text x="298" y="102" fill="#4a4a44" class="cell">3 built-in (plan-execute, react, critic)</text>
+  <circle cx="542" cy="98" r="7" fill="rgba(180,64,64,0.10)"/>
+  <text x="542" y="102" text-anchor="middle" fill="#b44040" class="check">&#10005;</text>
+  <text x="558" y="102" fill="#8b8578" class="cell">Model decides autonomously</text>
+
+  <!-- Row 2: Typed state -->
+  <rect x="40" y="116" width="730" height="30" rx="0" fill="rgba(139,115,85,0.02)"/>
+  <text x="50" y="136" fill="#1a1a18" class="row-label">Typed state model</text>
+  <circle cx="282" cy="132" r="7" fill="rgba(45,125,70,0.12)"/>
+  <text x="282" y="136" text-anchor="middle" fill="#2d7d46" class="check">&#10003;</text>
+  <text x="298" y="136" fill="#4a4a44" class="cell">Pydantic models, immutable updates</text>
+  <circle cx="542" cy="132" r="7" fill="rgba(180,64,64,0.10)"/>
+  <text x="542" y="136" text-anchor="middle" fill="#b44040" class="check">&#10005;</text>
+  <text x="558" y="136" fill="#8b8578" class="cell">Mutable dict</text>
+
+  <!-- Row 3: Human approval -->
+  <line x1="40" y1="150" x2="770" y2="150" stroke="rgba(26,26,24,0.06)" stroke-width="1"/>
+  <text x="50" y="170" fill="#1a1a18" class="row-label">Human approval gate</text>
+  <circle cx="282" cy="166" r="7" fill="rgba(45,125,70,0.12)"/>
+  <text x="282" y="170" text-anchor="middle" fill="#2d7d46" class="check">&#10003;</text>
+  <text x="298" y="170" fill="#4a4a44" class="cell">First-class workflow primitive</text>
+  <circle cx="542" cy="166" r="7" fill="rgba(180,64,64,0.10)"/>
+  <text x="542" y="170" text-anchor="middle" fill="#b44040" class="check">&#10005;</text>
+  <text x="558" y="170" fill="#8b8578" class="cell">Not available</text>
+
+  <!-- Row 4: Durability -->
+  <rect x="40" y="184" width="730" height="30" rx="0" fill="rgba(139,115,85,0.02)"/>
+  <text x="50" y="204" fill="#1a1a18" class="row-label">Durable execution</text>
+  <circle cx="282" cy="200" r="7" fill="rgba(45,125,70,0.12)"/>
+  <text x="282" y="204" text-anchor="middle" fill="#2d7d46" class="check">&#10003;</text>
+  <text x="298" y="204" fill="#4a4a44" class="cell">Event-sourced, crash-resilient</text>
+  <circle cx="542" cy="200" r="7" fill="rgba(180,64,64,0.10)"/>
+  <text x="542" y="204" text-anchor="middle" fill="#b44040" class="check">&#10005;</text>
+  <text x="558" y="204" fill="#8b8578" class="cell">In-memory only (OSS)</text>
+
+  <!-- Row 5: Audit trail -->
+  <line x1="40" y1="218" x2="770" y2="218" stroke="rgba(26,26,24,0.06)" stroke-width="1"/>
+  <text x="50" y="238" fill="#1a1a18" class="row-label">Audit trail</text>
+  <circle cx="282" cy="234" r="7" fill="rgba(45,125,70,0.12)"/>
+  <text x="282" y="238" text-anchor="middle" fill="#2d7d46" class="check">&#10003;</text>
+  <text x="298" y="238" fill="#4a4a44" class="cell">Full event log per execution</text>
+  <circle cx="542" cy="234" r="7" fill="rgba(180,64,64,0.10)"/>
+  <text x="542" y="238" text-anchor="middle" fill="#b44040" class="check">&#10005;</text>
+  <text x="558" y="238" fill="#8b8578" class="cell">Not available</text>
+
+  <!-- Row 6: Protocol support -->
+  <rect x="40" y="252" width="730" height="30" rx="0" fill="rgba(139,115,85,0.02)"/>
+  <text x="50" y="272" fill="#1a1a18" class="row-label">Protocol support</text>
+  <circle cx="282" cy="268" r="7" fill="rgba(45,125,70,0.12)"/>
+  <text x="282" y="272" text-anchor="middle" fill="#2d7d46" class="check">&#10003;</text>
+  <text x="298" y="272" fill="#4a4a44" class="cell">MCP + A2A + ANP</text>
+  <circle cx="542" cy="268" r="7" fill="rgba(196,149,106,0.15)"/>
+  <text x="542" y="272" text-anchor="middle" fill="#c4956a" class="check">~</text>
+  <text x="558" y="272" fill="#8b8578" class="cell">MCP client only</text>
+
+  <!-- Row 7: LLM flexibility -->
+  <line x1="40" y1="286" x2="770" y2="286" stroke="rgba(26,26,24,0.06)" stroke-width="1"/>
+  <text x="50" y="306" fill="#1a1a18" class="row-label">LLM flexibility</text>
+  <circle cx="282" cy="302" r="7" fill="rgba(45,125,70,0.12)"/>
+  <text x="282" y="306" text-anchor="middle" fill="#2d7d46" class="check">&#10003;</text>
+  <text x="298" y="306" fill="#4a4a44" class="cell">Any OpenAI-compatible API</text>
+  <circle cx="542" cy="302" r="7" fill="rgba(196,149,106,0.15)"/>
+  <text x="542" y="306" text-anchor="middle" fill="#c4956a" class="check">~</text>
+  <text x="558" y="306" fill="#8b8578" class="cell">Gemini-first</text>
+
+  <!-- Row 8: Cost controls -->
+  <rect x="40" y="320" width="730" height="30" rx="0" fill="rgba(139,115,85,0.02)"/>
+  <text x="50" y="340" fill="#1a1a18" class="row-label">Cost controls</text>
+  <circle cx="282" cy="336" r="7" fill="rgba(45,125,70,0.12)"/>
+  <text x="282" y="340" text-anchor="middle" fill="#2d7d46" class="check">&#10003;</text>
+  <text x="298" y="340" fill="#4a4a44" class="cell">max_cost_usd, max_iterations</text>
+  <circle cx="542" cy="336" r="7" fill="rgba(180,64,64,0.10)"/>
+  <text x="542" y="340" text-anchor="middle" fill="#b44040" class="check">&#10005;</text>
+  <text x="558" y="340" fill="#8b8578" class="cell">Not built-in</text>
+
+  <!-- Row 9: Parallel execution -->
+  <line x1="40" y1="354" x2="770" y2="354" stroke="rgba(26,26,24,0.06)" stroke-width="1"/>
+  <text x="50" y="374" fill="#1a1a18" class="row-label">Parallel execution</text>
+  <circle cx="282" cy="370" r="7" fill="rgba(196,149,106,0.15)"/>
+  <text x="282" y="374" text-anchor="middle" fill="#c4956a" class="check">~</text>
+  <text x="298" y="374" fill="#8b8578" class="cell">Workflow graph (Phase 2)</text>
+  <circle cx="542" cy="370" r="7" fill="rgba(45,125,70,0.12)"/>
+  <text x="542" y="374" text-anchor="middle" fill="#2d7d46" class="check">&#10003;</text>
+  <text x="558" y="374" fill="#4a4a44" class="cell">ParallelAgent built-in</text>
+</svg>

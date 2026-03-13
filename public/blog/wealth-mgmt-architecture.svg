@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .small { font-size: 9.5px; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="520" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="518" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Title -->
+  <text x="400" y="28" text-anchor="middle" fill="#8b7355" class="label">Wealth Management Multi-Agent Architecture</text>
+
+  <!-- Client Request -->
+  <rect x="300" y="44" width="200" height="36" rx="6" fill="#1a1a18"/>
+  <text x="400" y="67" text-anchor="middle" fill="#fafaf8" class="title">Client Request</text>
+
+  <!-- Arrow down -->
+  <line x1="400" y1="80" x2="400" y2="100" stroke="#8b8578" stroke-width="1.5"/>
+  <polygon points="396,98 404,98 400,104" fill="#8b8578"/>
+
+  <!-- Workflow container -->
+  <rect x="30" y="108" width="740" height="340" rx="6" fill="none" stroke="#8b7355" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="50" y="128" fill="#8b7355" class="label">Workflow: wealth_management_advisory</text>
+
+  <!-- State bar -->
+  <rect x="50" y="136" width="700" height="26" rx="4" fill="rgba(139,115,85,0.06)" stroke="rgba(139,115,85,0.15)" stroke-width="1"/>
+  <text x="60" y="153" fill="#8b7355" class="mono small">AdvisoryState { client_id, risk_assessment, market_analysis, tax_strategy, final_recommendation }</text>
+
+  <!-- Step 1: Risk Profiler -->
+  <rect x="50" y="178" width="340" height="72" rx="5" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12" stroke-width="1"/>
+  <rect x="50" y="178" width="340" height="22" rx="5" fill="rgba(139,115,85,0.08)"/>
+  <rect x="384" y="178" width="6" height="22" fill="rgba(139,115,85,0.08)"/>
+  <text x="62" y="193" fill="#8b7355" class="label">Step 1</text>
+  <text x="115" y="193" fill="#1a1a18" class="title">Risk Profiler</text>
+  <rect x="268" y="181" width="112" height="16" rx="3" fill="rgba(139,115,85,0.12)"/>
+  <text x="324" y="193" text-anchor="middle" fill="#8b7355" class="mono small">plan-and-execute</text>
+  <text x="62" y="218" fill="#6b6b63" class="desc">CFP specialist - assesses client risk capacity</text>
+  <text x="62" y="236" fill="#8b8578" class="mono small">get_client_profile() → assess_risk_score()</text>
+
+  <!-- Tools badge -->
+  <rect x="410" y="178" width="130" height="72" rx="5" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.08" stroke-width="1"/>
+  <text x="475" y="198" text-anchor="middle" fill="#8b8578" class="label">Tools</text>
+  <text x="475" y="216" text-anchor="middle" fill="#6b6b63" class="mono small">get_client_profile</text>
+  <text x="475" y="232" text-anchor="middle" fill="#6b6b63" class="mono small">assess_risk_score</text>
+
+  <!-- Arrow down -->
+  <line x1="220" y1="250" x2="220" y2="270" stroke="#8b8578" stroke-width="1.5"/>
+  <polygon points="216,268 224,268 220,274" fill="#8b8578"/>
+
+  <!-- Step 2: Market Analyst -->
+  <rect x="50" y="276" width="340" height="72" rx="5" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12" stroke-width="1"/>
+  <rect x="50" y="276" width="340" height="22" rx="5" fill="rgba(196,149,106,0.10)"/>
+  <rect x="384" y="276" width="6" height="22" fill="rgba(196,149,106,0.10)"/>
+  <text x="62" y="291" fill="#c4956a" class="label">Step 2</text>
+  <text x="115" y="291" fill="#1a1a18" class="title">Market Analyst</text>
+  <rect x="314" y="279" width="66" height="16" rx="3" fill="rgba(196,149,106,0.15)"/>
+  <text x="347" y="291" text-anchor="middle" fill="#c4956a" class="mono small">react</text>
+  <text x="62" y="316" fill="#6b6b63" class="desc">CFA charterholder - researches market conditions</text>
+  <text x="62" y="334" fill="#8b8578" class="mono small">get_market_data() × 2 (broad → sector)</text>
+
+  <!-- Step 3: Tax Strategist -->
+  <rect x="410" y="276" width="340" height="72" rx="5" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12" stroke-width="1"/>
+  <rect x="410" y="276" width="340" height="22" rx="5" fill="rgba(139,115,85,0.08)"/>
+  <rect x="744" y="276" width="6" height="22" fill="rgba(139,115,85,0.08)"/>
+  <text x="422" y="291" fill="#8b7355" class="label">Step 3</text>
+  <text x="475" y="291" fill="#1a1a18" class="title">Tax Strategist</text>
+  <rect x="618" y="279" width="112" height="16" rx="3" fill="rgba(139,115,85,0.12)"/>
+  <text x="674" y="291" text-anchor="middle" fill="#8b7355" class="mono small">plan-and-execute</text>
+  <text x="422" y="316" fill="#6b6b63" class="desc">Enrolled Agent - identifies tax optimizations</text>
+  <text x="422" y="334" fill="#8b8578" class="mono small">analyze_tax_implications()</text>
+
+  <!-- Arrows merging down -->
+  <line x1="220" y1="348" x2="220" y2="362" stroke="#8b8578" stroke-width="1.5"/>
+  <line x1="580" y1="348" x2="580" y2="362" stroke="#8b8578" stroke-width="1.5"/>
+  <line x1="220" y1="362" x2="580" y2="362" stroke="#8b8578" stroke-width="1.5"/>
+  <line x1="400" y1="362" x2="400" y2="378" stroke="#8b8578" stroke-width="1.5"/>
+  <polygon points="396,376 404,376 400,382" fill="#8b8578"/>
+
+  <!-- Step 4: Portfolio Architect with approval gate -->
+  <rect x="130" y="384" width="380" height="52" rx="5" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12" stroke-width="1"/>
+  <rect x="130" y="384" width="380" height="22" rx="5" fill="rgba(107,107,99,0.08)"/>
+  <rect x="504" y="384" width="6" height="22" fill="rgba(107,107,99,0.08)"/>
+  <text x="142" y="399" fill="#6b6b63" class="label">Step 4</text>
+  <text x="195" y="399" fill="#1a1a18" class="title">Portfolio Architect</text>
+  <rect x="370" y="387" width="56" height="16" rx="3" fill="rgba(107,107,99,0.10)"/>
+  <text x="398" y="399" text-anchor="middle" fill="#6b6b63" class="mono small">critic</text>
+  <text x="142" y="424" fill="#6b6b63" class="desc">Synthesizes all inputs → final recommendation</text>
+
+  <!-- Human Approval Gate -->
+  <rect x="530" y="384" width="210" height="52" rx="5" fill="rgba(45,125,70,0.06)" stroke="#2d7d46" stroke-width="1.5"/>
+  <text x="635" y="402" text-anchor="middle" fill="#2d7d46" class="label">Human Approval Gate</text>
+  <text x="635" y="424" text-anchor="middle" fill="#2d7d46" class="desc">Senior advisor sign-off required</text>
+
+  <!-- Arrow down to output -->
+  <line x1="400" y1="436" x2="400" y2="456" stroke="#8b8578" stroke-width="1.5"/>
+  <polygon points="396,454 404,454 400,460" fill="#8b8578"/>
+
+  <!-- Final Report -->
+  <rect x="280" y="464" width="240" height="36" rx="6" fill="#2d7d46"/>
+  <text x="400" y="487" text-anchor="middle" fill="#fff" class="title">Final Recommendation</text>
+</svg>
