@@ -174,8 +174,130 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </div>
 </section>
 
-<!-- ── Other Use Cases ── -->
+<!-- ── Wealth Management Case Study ── -->
 <section>
+  <div class="container">
+    <div class="case-hero">
+
+      <div class="case-eyebrow">Case study</div>
+
+      <h2 class="case-title">Wealth Management<br/>Multi-Agent Advisory</h2>
+
+      <p class="case-lead">
+        Four specialist AI agents — each with a different reasoning strategy — collaborate
+        through a durable workflow to produce a comprehensive, compliance-checked investment
+        recommendation. Human approval required before delivery.
+      </p>
+
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-num">4</div>
+          <div class="metric-label">specialist agents</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-num">3</div>
+          <div class="metric-label">reasoning strategies</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-num">6</div>
+          <div class="metric-label">domain-specific tools</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-num">HITL</div>
+          <div class="metric-label">human approval gate</div>
+        </div>
+      </div>
+
+      <h3 class="subsection-title">Architecture</h3>
+
+      <div class="arch-block">┌─────────────────────────────────────────────────────────────┐
+│  Workflow: <span style="color:var(--accent)">wealth_management_advisory</span>                    │
+│                                                             │
+│  AdvisoryState(client_id, risk, market, tax, recommendation)│
+│                                                             │
+│  Step 1: <span style="color:#c792ea">Risk Profiler</span>        strategy: plan-and-execute  │
+│          └─ get_client_profile() → assess_risk_score()      │
+│                                                             │
+│  Step 2: <span style="color:#c792ea">Market Analyst</span>       strategy: react              │
+│          └─ get_market_data() ×2 (broad → sector drill-in)  │
+│                                                             │
+│  Step 3: <span style="color:#c792ea">Tax Strategist</span>       strategy: plan-and-execute  │
+│          └─ get_client_profile() → analyze_tax_implications()│
+│                                                             │
+│  Step 4: <span style="color:#c792ea">Portfolio Architect</span>   strategy: critic            │
+│          └─ build_portfolio_allocation() →                   │
+│             check_compliance()                              │
+│          <span style="color:#c4956a">[HUMAN APPROVAL GATE]</span>                             │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘</div>
+
+      <div class="case-body">
+        <div class="body-block">
+          <h3>Why different strategies</h3>
+          <ul>
+            <li><strong>Risk Profiler → plan-and-execute:</strong> sequential, each step depends on the previous</li>
+            <li><strong>Market Analyst → react:</strong> exploratory, iteratively drill into interesting sectors</li>
+            <li><strong>Tax Strategist → plan-and-execute:</strong> systematic, must cover all applicable rules</li>
+            <li><strong>Portfolio Architect → critic:</strong> draft-evaluate-refine for the most important deliverable</li>
+          </ul>
+        </div>
+        <div class="body-block">
+          <h3>Why this matters for finance</h3>
+          <ul>
+            <li><strong>Typed state</strong> — Pydantic models, not string-keyed dicts</li>
+            <li><strong>Durable execution</strong> — survives crashes, resumes mid-workflow</li>
+            <li><strong>Event sourcing</strong> — full audit trail for FINRA / Reg BI compliance</li>
+            <li><strong>Human approval</strong> — licensed advisor sign-off before client delivery</li>
+            <li><strong>Compliance checks</strong> — suitability, concentration limits, KYC/AML</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="wm-comparison">
+        <h3 class="subsection-title">JamJet vs Google ADK</h3>
+        <div class="timing-grid">
+          <div class="timing-card timing-fast">
+            <div class="timing-label" style="color:var(--success)">JamJet</div>
+            <div class="timing-body">
+              3 reasoning strategies<br/>
+              Typed Pydantic state<br/>
+              human_approval=True<br/>
+              Event-sourced audit trail<br/>
+              <span class="timing-total" style="color:var(--success)">Compile to IR → durable runtime</span>
+            </div>
+          </div>
+          <div class="timing-card timing-slow">
+            <div class="timing-label">Google ADK</div>
+            <div class="timing-body">
+              Model-determined reasoning<br/>
+              Mutable dict state<br/>
+              No approval primitive<br/>
+              No audit trail<br/>
+              <span class="timing-total" style="color:var(--error)">In-memory only (OSS)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="try-it">
+        <div class="try-it-label">Try it</div>
+        <div class="try-it-body">
+          git clone https://github.com/jamjet-labs/jamjet<br/>
+          cd examples/wealth-management-agents<br/>
+          python jamjet_impl.py C-1001
+        </div>
+        <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap">
+          <a href="https://github.com/jamjet-labs/jamjet/tree/main/examples/wealth-management-agents" class="btn-primary" target="_blank" rel="noopener" style="font-size:0.85rem">View source</a>
+          <a href="/blog/wealth-management-multi-agent/" class="btn-secondary" style="font-size:0.85rem">Read the deep dive</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Other Use Cases ── -->
+<section style="background: var(--bg-alt);">
   <div class="container">
     <div style="margin-bottom:48px">
       <span class="section-label">More use cases</span>
@@ -213,14 +335,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </section>
 
 <!-- ── CTA ── -->
-<section style="background: var(--bg-alt);">
+<section>
   <div class="container" style="text-align:center;max-width:560px;">
     <h2>Start building</h2>
     <p style="color:var(--text-secondary);margin:16px 0 32px;">
-      Run the due-diligence example in under 5 minutes.
+      Run a working multi-agent example in under 5 minutes.
     </p>
     <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
-      <a href="https://github.com/jamjet-labs/examples/tree/main/due-diligence" class="btn-primary" target="_blank" rel="noopener">View A2A example</a>
+      <a href="https://github.com/jamjet-labs/jamjet/tree/main/examples/wealth-management-agents" class="btn-primary" target="_blank" rel="noopener">Wealth management example</a>
       <a href="/quickstart" class="btn-secondary">Read the quickstart</a>
     </div>
   </div>
@@ -290,6 +412,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
   .try-it-label { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 12px; }
   .try-it-body { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text); line-height: 2; }
+
+  .wm-comparison { margin-top: 40px; }
 
   .uc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
   .uc-card {
