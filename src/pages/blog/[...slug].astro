@@ -150,6 +150,52 @@ const articleLd = {
   .article :global(hr) { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
   .article :global(strong) { color: var(--text); font-weight: 600; }
 
+  /* Tables */
+  .article :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    margin: 1.5rem 0;
+    border: 1px solid rgba(26,26,24,0.10);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .article :global(thead) {
+    background: var(--bg-alt, #f5f4f0);
+  }
+  .article :global(th) {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted, #8b8578);
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    border-bottom: 2px solid rgba(26,26,24,0.12);
+    text-align: left;
+    white-space: nowrap;
+  }
+  .article :global(td) {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid rgba(26,26,24,0.06);
+    color: var(--text-secondary, #6b6b63);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .article :global(tr:last-child td) {
+    border-bottom: none;
+  }
+  .article :global(tr:hover td) {
+    background: rgba(139,115,85,0.03);
+  }
+  .article :global(td code),
+  .article :global(th code) {
+    font-size: 0.78rem;
+    background: rgba(26,26,24,0.06);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
   .share-bar-bottom { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
   .share-bar-bottom p { color: var(--text-muted); font-size: 0.9rem; }
 </style>
