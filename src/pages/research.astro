@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="JamJet for Research — The Multi-Agent Experiment Runtime"
-  description="Run reproducible multi-agent experiments with durable execution, built-in evaluation, strategy comparison, and publication-ready output. Used in peer-reviewed research."
+  description="Run reproducible multi-agent experiments with durable execution, built-in evaluation, strategy comparison, and publication-ready output. Validated in arXiv research preprints."
   canonical="https://jamjet.dev/research"
   currentPage="research"
 >
@@ -13,10 +13,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <section class="r-hero">
   <div class="container">
     <span class="section-label">For researchers</span>
-    <h1>The runtime your<br/>experiments deserve</h1>
+    <h1>Reproducible multi-agent experiments,<br/>from hypothesis to paper-ready results</h1>
     <p class="r-hero-sub">
-      Durable multi-agent execution. Six reasoning strategies. Built-in evaluation.<br/>
-      Publication-ready export. Used in peer-reviewed research at arXiv.
+      Run ablations across strategies and seeds, replay executions from checkpoints,
+      evaluate automatically, and export publication-ready tables —<br/>
+      without building custom experiment infrastructure.
     </p>
     <div class="r-hero-actions">
       <a href="/quickstart" class="btn-primary">Get started</a>
@@ -38,14 +39,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="r-pain">
         <span class="r-pain-pct">60%</span>
         <p>of research time spent on infrastructure, not science</p>
+        <span class="r-pain-src">Industry surveys, 2024–2025 ML practitioner reports</span>
       </div>
       <div class="r-pain">
-        <span class="r-pain-pct">0%</span>
-        <p>of agent frameworks treat reproducibility as a first-class primitive</p>
+        <span class="r-pain-pct">0</span>
+        <p>major agent frameworks with built-in experiment grids, checkpoint replay, and publication export</p>
+        <span class="r-pain-src">Survey of LangGraph, AutoGen, CrewAI, March 2026</span>
       </div>
       <div class="r-pain">
         <span class="r-pain-pct">62&times;</span>
         <p>token overhead in multi-agent experiments without proper orchestration</p>
+        <span class="r-pain-src"><a href="/benchmarks">JamJet benchmark suite</a>, local Ollama runs, March 2026</span>
       </div>
     </div>
   </div>
@@ -156,59 +160,59 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </tr>
           <tr>
             <td>Durable replay</td>
-            <td class="r-highlight r-yes">Yes</td>
-            <td class="r-no">No</td>
-            <td class="r-no">No</td>
-            <td class="r-no">No</td>
+            <td class="r-highlight r-yes">Built-in</td>
+            <td class="r-partial">Custom code needed</td>
+            <td class="r-partial">Custom code needed</td>
+            <td class="r-no">Not built-in</td>
           </tr>
           <tr>
             <td>Strategy comparison</td>
-            <td class="r-highlight r-yes">6 strategies</td>
-            <td class="r-no">No</td>
-            <td class="r-no">No</td>
-            <td>Manual</td>
+            <td class="r-highlight r-yes">6 built-in</td>
+            <td class="r-partial">Custom code needed</td>
+            <td class="r-partial">Custom code needed</td>
+            <td class="r-partial">Custom code needed</td>
           </tr>
           <tr>
             <td>Experiment grid</td>
             <td class="r-highlight r-yes">Built-in</td>
-            <td class="r-no">No</td>
-            <td class="r-no">No</td>
-            <td>Custom</td>
+            <td class="r-no">Not built-in</td>
+            <td class="r-no">Not built-in</td>
+            <td class="r-partial">Custom code needed</td>
           </tr>
           <tr>
             <td>LaTeX export</td>
             <td class="r-highlight r-yes">Built-in</td>
-            <td class="r-no">No</td>
-            <td class="r-no">No</td>
-            <td>Custom</td>
+            <td class="r-no">Not built-in</td>
+            <td class="r-no">Not built-in</td>
+            <td class="r-partial">Custom code needed</td>
           </tr>
           <tr>
             <td>Checkpoint fork</td>
             <td class="r-highlight r-yes">Built-in</td>
-            <td class="r-no">No</td>
-            <td class="r-no">No</td>
-            <td class="r-no">No</td>
+            <td class="r-no">Not built-in</td>
+            <td class="r-no">Not built-in</td>
+            <td class="r-no">Not built-in</td>
           </tr>
           <tr>
             <td>Built-in eval harness</td>
-            <td class="r-highlight r-yes">Yes</td>
-            <td class="r-no">No</td>
-            <td class="r-no">No</td>
-            <td>Custom</td>
+            <td class="r-highlight r-yes">Built-in</td>
+            <td class="r-partial">External tooling</td>
+            <td class="r-partial">External tooling</td>
+            <td class="r-partial">Custom code needed</td>
           </tr>
           <tr>
             <td>Cost / token tracking</td>
             <td class="r-highlight r-yes">Per-node</td>
-            <td>Partial</td>
-            <td class="r-no">No</td>
-            <td>Manual</td>
+            <td class="r-partial">Partial</td>
+            <td class="r-partial">Partial</td>
+            <td class="r-partial">Custom code needed</td>
           </tr>
           <tr>
             <td>Statistical comparison</td>
             <td class="r-highlight r-yes">Built-in</td>
-            <td class="r-no">No</td>
-            <td class="r-no">No</td>
-            <td>Custom</td>
+            <td class="r-no">Not built-in</td>
+            <td class="r-no">Not built-in</td>
+            <td class="r-partial">Custom code needed</td>
           </tr>
         </tbody>
       </table>
@@ -260,11 +264,80 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </div>
 </section>
 
-<!-- ── Used In Research ── -->
+<!-- ── A Day in the Life ── -->
 <section style="background: var(--bg-alt);">
   <div class="container">
+    <span class="section-label">In practice</span>
+    <h2 class="section-title">One research afternoon, end to end</h2>
+    <div class="r-daylife">
+      <div class="r-daylife-step">
+        <span class="r-daylife-num">1</span>
+        <div class="r-daylife-body">
+          <h3>Compare 6 strategies on your dataset</h3>
+          <div class="r-cap-code">
+            <pre><span class="t-w">grid</span> <span class="t-p">=</span> <span class="t-b">ExperimentGrid</span><span class="t-p">(</span>
+  <span class="t-w">conditions</span><span class="t-p">=&#123;</span><span class="t-s">"strategy"</span><span class="t-p">: [</span><span class="t-s">"react"</span><span class="t-p">,</span> <span class="t-s">"plan_and_execute"</span><span class="t-p">,</span>
+    <span class="t-s">"critic"</span><span class="t-p">,</span> <span class="t-s">"reflection"</span><span class="t-p">,</span> <span class="t-s">"consensus"</span><span class="t-p">,</span> <span class="t-s">"debate"</span><span class="t-p">]&#125;,</span>
+  <span class="t-w">seeds</span><span class="t-p">=[</span><span class="t-w">42</span><span class="t-p">,</span> <span class="t-w">123</span><span class="t-p">,</span> <span class="t-w">456</span><span class="t-p">],</span>
+<span class="t-p">)</span>
+<span class="t-w">results</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-w">grid</span><span class="t-p">.</span><span class="t-b">run</span><span class="t-p">()</span></pre>
+          </div>
+        </div>
+      </div>
+      <div class="r-daylife-step">
+        <span class="r-daylife-num">2</span>
+        <div class="r-daylife-body">
+          <h3>Export a LaTeX table for your paper</h3>
+          <div class="r-cap-code">
+            <pre><span class="t-w">results</span><span class="t-p">.</span><span class="t-b">to_latex</span><span class="t-p">(</span><span class="t-s">"table1.tex"</span><span class="t-p">,</span> <span class="t-w">caption</span><span class="t-p">=</span><span class="t-s">"Strategy comparison"</span><span class="t-p">)</span>
+<span class="t-d"># Outputs booktabs table with mean +/- std per condition</span></pre>
+          </div>
+        </div>
+      </div>
+      <div class="r-daylife-step">
+        <span class="r-daylife-num">3</span>
+        <div class="r-daylife-body">
+          <h3>Replay a failed condition — no re-running prior steps</h3>
+          <div class="r-cap-code">
+            <pre><span class="t-d">$ </span><span class="t-w">jamjet replay</span> <span class="t-s">exec_debate_seed42</span>
+<span class="t-d"># Restores from checkpoint. Saves tokens + cost.</span></pre>
+          </div>
+        </div>
+      </div>
+      <div class="r-daylife-step">
+        <span class="r-daylife-num">4</span>
+        <div class="r-daylife-body">
+          <h3>Compute significance between conditions</h3>
+          <div class="r-cap-code">
+            <pre><span class="t-w">results</span><span class="t-p">.</span><span class="t-b">compare</span><span class="t-p">(</span><span class="t-s">"debate"</span><span class="t-p">,</span> <span class="t-s">"react"</span><span class="t-p">)</span>
+<span class="t-d"># => &#123;p_value: 0.023, effect_size: 0.41, significant: true&#125;</span></pre>
+          </div>
+        </div>
+      </div>
+      <div class="r-daylife-step">
+        <span class="r-daylife-num">5</span>
+        <div class="r-daylife-body">
+          <h3>Fork for an ablation study</h3>
+          <div class="r-cap-code">
+            <pre><span class="t-d">$ </span><span class="t-w">jamjet fork</span> <span class="t-s">exec_debate_seed42</span> <span class="t-p">\</span>
+  <span class="t-w">--override-input</span> <span class="t-s">'&#123;"model":"gpt-4o"&#125;'</span>
+<span class="t-d"># Same execution, different model. Instant ablation.</span></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="r-daylife-bridge">
+      Start as a simple Python agent, scale into reproducible experiment runs — without rewriting your stack.
+      <a href="/quickstart">See the quickstart &rarr;</a>
+    </p>
+  </div>
+</section>
+
+<!-- ── Used In Research ── -->
+<section>
+  <div class="container">
     <span class="section-label">Validated in research</span>
-    <h2 class="section-title">Patterns from peer-reviewed work</h2>
+    <h2 class="section-title">Patterns from published research</h2>
     <div class="r-papers">
       <div class="r-paper">
         <span class="r-paper-venue">arXiv 2603.08852</span>
@@ -291,7 +364,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </section>
 
 <!-- ── Target Communities ── -->
-<section>
+<section style="background: var(--bg-alt);">
   <div class="container">
     <span class="section-label">Communities</span>
     <h2 class="section-title">Built for how you work</h2>
@@ -331,7 +404,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </section>
 
 <!-- ── CTA ── -->
-<section style="background: var(--bg-alt);">
+<section>
   <div class="container" style="text-align: center; max-width: 600px;">
     <h2>Start your experiment</h2>
     <p style="color: var(--text-secondary); margin: 16px 0 12px;">
@@ -399,6 +472,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     color: var(--text-secondary);
     font-size: 0.9rem;
     line-height: 1.6;
+  }
+  .r-pain-src {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+    font-style: italic;
+  }
+  .r-pain-src a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .r-pain-src a:hover {
+    text-decoration: underline;
   }
 
   /* ── Capabilities ── */
@@ -473,6 +560,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     font-weight: 500;
   }
   .r-yes { color: #2d7d46 !important; }
+  .r-partial { color: var(--text-muted) !important; font-style: italic; }
   .r-no { color: var(--text-muted) !important; }
 
   /* ── Workflow flow ── */
@@ -545,6 +633,60 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     border-left: 6px solid var(--border-strong);
     border-top: 3.5px solid transparent;
     border-bottom: 3.5px solid transparent;
+  }
+
+  /* ── Day in the life ── */
+  .r-daylife {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 16px;
+  }
+  .r-daylife-step {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .r-daylife-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  .r-daylife-body {
+    flex: 1;
+    max-width: 560px;
+  }
+  .r-daylife-body h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .r-daylife-bridge {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    max-width: 560px;
+  }
+  .r-daylife-bridge a {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .r-daylife-bridge a:hover {
+    text-decoration: underline;
   }
 
   /* ── Papers ── */
