@@ -77,6 +77,14 @@ export default defineConfig({
           tag: 'meta',
           attrs: { property: 'og:type', content: 'website' },
         },
+        {
+          tag: 'script',
+          attrs: { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=G-44L683PK96' },
+        },
+        {
+          tag: 'script',
+          content: "window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-44L683PK96');",
+        },
       ],
     }),
     tailwind({
