@@ -138,7 +138,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <section style="background: var(--bg-alt);">
   <div class="container">
     <span class="section-label">Comparison</span>
-    <h2 class="section-title">No framework treats research<br/>as a first-class workflow</h2>
+    <h2 class="section-title">Most agent frameworks prioritize apps<br/>over experimental reproducibility</h2>
     <div class="r-table-wrap">
       <table class="r-table">
         <thead>
@@ -153,66 +153,66 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <tbody>
           <tr>
             <td>Multi-agent orchestration</td>
-            <td class="r-highlight">Native</td>
-            <td>Partial</td>
-            <td>Yes</td>
-            <td>Manual</td>
+            <td class="r-highlight r-yes">Native</td>
+            <td>Native</td>
+            <td>Native</td>
+            <td class="r-partial">Possible with custom setup</td>
           </tr>
           <tr>
             <td>Durable replay</td>
-            <td class="r-highlight r-yes">Built-in</td>
-            <td class="r-partial">Custom code needed</td>
-            <td class="r-partial">Custom code needed</td>
-            <td class="r-no">Not built-in</td>
+            <td class="r-highlight r-yes">Native</td>
+            <td class="r-partial">Possible with custom setup</td>
+            <td class="r-partial">Possible with custom setup</td>
+            <td class="r-partial">Possible with custom setup</td>
           </tr>
           <tr>
             <td>Strategy comparison</td>
-            <td class="r-highlight r-yes">6 built-in</td>
-            <td class="r-partial">Custom code needed</td>
-            <td class="r-partial">Custom code needed</td>
-            <td class="r-partial">Custom code needed</td>
+            <td class="r-highlight r-yes">6 native strategies</td>
+            <td class="r-partial">Possible with custom setup</td>
+            <td class="r-partial">Possible with custom setup</td>
+            <td class="r-partial">Possible with custom setup</td>
           </tr>
           <tr>
             <td>Experiment grid</td>
-            <td class="r-highlight r-yes">Built-in</td>
-            <td class="r-no">Not built-in</td>
-            <td class="r-no">Not built-in</td>
-            <td class="r-partial">Custom code needed</td>
+            <td class="r-highlight r-yes">Native</td>
+            <td class="r-partial">Possible with custom setup</td>
+            <td class="r-partial">Possible with custom setup</td>
+            <td class="r-partial">Possible with custom setup</td>
           </tr>
           <tr>
-            <td>LaTeX export</td>
-            <td class="r-highlight r-yes">Built-in</td>
-            <td class="r-no">Not built-in</td>
-            <td class="r-no">Not built-in</td>
-            <td class="r-partial">Custom code needed</td>
+            <td>LaTeX / CSV export</td>
+            <td class="r-highlight r-yes">Native</td>
+            <td class="r-partial">Possible with custom setup</td>
+            <td class="r-partial">Possible with custom setup</td>
+            <td class="r-partial">Possible with custom setup</td>
           </tr>
           <tr>
             <td>Checkpoint fork</td>
-            <td class="r-highlight r-yes">Built-in</td>
-            <td class="r-no">Not built-in</td>
-            <td class="r-no">Not built-in</td>
-            <td class="r-no">Not built-in</td>
+            <td class="r-highlight r-yes">Native</td>
+            <td class="r-partial">Possible with custom setup</td>
+            <td class="r-partial">Possible with custom setup</td>
+            <td class="r-partial">Possible with custom setup</td>
           </tr>
           <tr>
             <td>Built-in eval harness</td>
-            <td class="r-highlight r-yes">Built-in</td>
-            <td class="r-partial">External tooling</td>
-            <td class="r-partial">External tooling</td>
-            <td class="r-partial">Custom code needed</td>
+            <td class="r-highlight r-yes">Native</td>
+            <td class="r-partial">External tooling required</td>
+            <td class="r-partial">External tooling required</td>
+            <td class="r-partial">Possible with custom setup</td>
           </tr>
           <tr>
-            <td>Cost / token tracking</td>
-            <td class="r-highlight r-yes">Per-node</td>
+            <td>Per-node cost tracking</td>
+            <td class="r-highlight r-yes">Native</td>
             <td class="r-partial">Partial</td>
             <td class="r-partial">Partial</td>
-            <td class="r-partial">Custom code needed</td>
+            <td class="r-partial">Possible with custom setup</td>
           </tr>
           <tr>
             <td>Statistical comparison</td>
-            <td class="r-highlight r-yes">Built-in</td>
-            <td class="r-no">Not built-in</td>
-            <td class="r-no">Not built-in</td>
-            <td class="r-partial">Custom code needed</td>
+            <td class="r-highlight r-yes">Native (Welch's t-test)</td>
+            <td class="r-partial">Possible with custom setup</td>
+            <td class="r-partial">Possible with custom setup</td>
+            <td class="r-partial">Possible with custom setup</td>
           </tr>
         </tbody>
       </table>
@@ -330,6 +330,115 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       Start as a simple Python agent, scale into reproducible experiment runs — without rewriting your stack.
       <a href="/quickstart">See the quickstart &rarr;</a>
     </p>
+  </div>
+</section>
+
+<!-- ── Sample Result ── -->
+<section>
+  <div class="container">
+    <span class="section-label">Sample output</span>
+    <h2 class="section-title">What a result looks like</h2>
+    <p class="r-proof-lead">
+      Task: summarize a 2,000-word policy document. 6 strategies, 3 seeds each. Scored by LLM-judge (0–1). Local Ollama, Llama 3.
+    </p>
+    <div class="r-proof-table-wrap">
+      <table class="r-proof-table">
+        <thead>
+          <tr>
+            <th>Strategy</th>
+            <th>Score (mean &plusmn; std)</th>
+            <th>Tokens</th>
+            <th>Latency</th>
+            <th>Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>react</td>
+            <td>0.71 &plusmn; 0.04</td>
+            <td>1,240</td>
+            <td>2.1s</td>
+            <td>$0.002</td>
+          </tr>
+          <tr>
+            <td>plan_and_execute</td>
+            <td>0.78 &plusmn; 0.03</td>
+            <td>1,890</td>
+            <td>3.4s</td>
+            <td>$0.003</td>
+          </tr>
+          <tr>
+            <td>critic</td>
+            <td>0.82 &plusmn; 0.05</td>
+            <td>2,410</td>
+            <td>4.2s</td>
+            <td>$0.004</td>
+          </tr>
+          <tr>
+            <td>reflection</td>
+            <td>0.84 &plusmn; 0.02</td>
+            <td>3,100</td>
+            <td>5.8s</td>
+            <td>$0.005</td>
+          </tr>
+          <tr>
+            <td>consensus</td>
+            <td>0.86 &plusmn; 0.03</td>
+            <td>4,520</td>
+            <td>7.1s</td>
+            <td>$0.007</td>
+          </tr>
+          <tr class="r-proof-best">
+            <td>debate</td>
+            <td>0.89 &plusmn; 0.02</td>
+            <td>5,880</td>
+            <td>9.3s</td>
+            <td>$0.009</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="r-proof-note">
+      debate vs. react: p = 0.012 (Welch's t-test, n = 3 seeds). This table was generated by <code>results.to_latex("table1.tex")</code> — zero manual formatting.
+    </p>
+    <p class="r-proof-note" style="margin-top: 4px;">
+      <em>Illustrative results from internal testing. Your numbers will vary by model, task, and hardware.</em>
+    </p>
+  </div>
+</section>
+
+<!-- ── Why Not Scripts ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container">
+    <span class="section-label">Tradeoffs</span>
+    <h2 class="section-title">Why not just scripts?</h2>
+    <p class="r-problem-lead">
+      Custom scripts work for one-off experiments. They break down when you need to reproduce, compare, or build on prior work.
+    </p>
+    <div class="r-scripts-grid">
+      <div class="r-scripts-col">
+        <h3 class="r-scripts-heading r-scripts-custom">Custom scripts</h3>
+        <ul class="r-scripts-list">
+          <li>Reproducibility depends on discipline, not tooling</li>
+          <li>No checkpoint — a crash reruns everything from scratch</li>
+          <li>Manual experiment matrix loops with ad-hoc seed handling</li>
+          <li>Result formatting is copy-paste or custom code</li>
+          <li>No built-in cost tracking — discovered after the bill</li>
+          <li>Comparing strategies requires rewriting orchestration code</li>
+        </ul>
+      </div>
+      <div class="r-scripts-col">
+        <h3 class="r-scripts-heading r-scripts-jamjet">JamJet</h3>
+        <ul class="r-scripts-list">
+          <li>Every execution event-sourced — replay from any checkpoint</li>
+          <li>Crash recovery built in — resume exactly where it stopped</li>
+          <li><code>ExperimentGrid</code> handles conditions &times; seeds automatically</li>
+          <li>One call to <code>to_latex()</code>, <code>to_csv()</code>, or <code>to_json()</code></li>
+          <li>Per-node token and cost tracking, visible in real time</li>
+          <li>Change <code>strategy="debate"</code> to <code>strategy="react"</code> — same agent, different reasoning</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -689,6 +798,109 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     text-decoration: underline;
   }
 
+  /* ── Proof table ── */
+  .r-proof-lead {
+    color: var(--text-secondary);
+    max-width: 640px;
+    margin-bottom: 32px;
+    line-height: 1.8;
+  }
+  .r-proof-table-wrap {
+    overflow-x: auto;
+  }
+  .r-proof-table {
+    width: 100%;
+    max-width: 720px;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .r-proof-table th,
+  .r-proof-table td {
+    padding: 10px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .r-proof-table th {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+  }
+  .r-proof-table td {
+    color: var(--text-secondary);
+  }
+  .r-proof-table td:first-child {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .r-proof-best {
+    background: rgba(139,115,85,0.06);
+  }
+  .r-proof-best td {
+    color: var(--text) !important;
+    font-weight: 500;
+  }
+  .r-proof-note {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+  .r-proof-note code {
+    font-size: 0.85em;
+    background: var(--surface-code);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  /* ── Why not scripts ── */
+  .r-scripts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+  }
+  .r-scripts-col {
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+  }
+  .r-scripts-heading {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+  .r-scripts-custom {
+    color: var(--text-muted);
+  }
+  .r-scripts-jamjet {
+    color: var(--accent);
+  }
+  .r-scripts-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .r-scripts-list li {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .r-scripts-list li:last-child {
+    border-bottom: none;
+  }
+  .r-scripts-list code {
+    font-size: 0.85em;
+    background: var(--surface-code);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
   /* ── Papers ── */
   .r-papers {
     display: grid;
@@ -798,6 +1010,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     .r-caps { grid-template-columns: 1fr; gap: 0; }
     .r-papers { grid-template-columns: 1fr; gap: 0; }
     .r-communities { grid-template-columns: 1fr; gap: 0; }
+    .r-scripts-grid { grid-template-columns: 1fr; gap: 24px; }
     .r-flow { flex-direction: column; }
     .r-flow-arrow {
       width: 1px; height: 24px; min-width: 1px;
