@@ -74,9 +74,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <p>Run every combination of conditions and seeds in a single call. Cartesian product, parallel execution, automatic result collection.</p>
         <div class="r-cap-code">
           <pre><span class="t-w">grid</span> <span class="t-p">=</span> <span class="t-b">ExperimentGrid</span><span class="t-p">(</span>
-  <span class="t-w">conditions</span><span class="t-p">={</span>
+  <span class="t-w">conditions</span><span class="t-p">=&#123;</span>
     <span class="t-s">"strategy"</span><span class="t-p">: [</span><span class="t-s">"react"</span><span class="t-p">,</span> <span class="t-s">"debate"</span><span class="t-p">],</span>
-  <span class="t-p">},</span>
+  <span class="t-p">&#125;,</span>
   <span class="t-w">seeds</span><span class="t-p">=[</span><span class="t-w">42</span><span class="t-p">,</span> <span class="t-w">123</span><span class="t-p">,</span> <span class="t-w">456</span><span class="t-p">],</span>
 <span class="t-p">)</span>
 <span class="t-w">results</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-w">grid</span><span class="t-p">.</span><span class="t-b">run</span><span class="t-p">()</span></pre>
@@ -99,7 +99,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="r-cap-code">
           <pre><span class="t-d">$ </span><span class="t-w">jamjet replay</span> <span class="t-s">exec_abc</span>
 <span class="t-d">$ </span><span class="t-w">jamjet fork</span> <span class="t-s">exec_abc</span> <span class="t-p">\</span>
-  <span class="t-w">--override-input</span> <span class="t-s">'{"model":"gemini"}'</span></pre>
+  <span class="t-w">--override-input</span> <span class="t-s">'&#123;"model":"gemini"&#125;'</span></pre>
         </div>
       </div>
 
