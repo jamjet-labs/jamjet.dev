@@ -1,0 +1,681 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="JamJet for Research — The Multi-Agent Experiment Runtime"
+  description="Run reproducible multi-agent experiments with durable execution, built-in evaluation, strategy comparison, and publication-ready output. Used in peer-reviewed research."
+  canonical="https://jamjet.dev/research"
+  currentPage="research"
+>
+
+<!-- ── Hero ── -->
+<section class="r-hero">
+  <div class="container">
+    <span class="section-label">For researchers</span>
+    <h1>The runtime your<br/>experiments deserve</h1>
+    <p class="r-hero-sub">
+      Durable multi-agent execution. Six reasoning strategies. Built-in evaluation.<br/>
+      Publication-ready export. Used in peer-reviewed research at arXiv.
+    </p>
+    <div class="r-hero-actions">
+      <a href="/quickstart" class="btn-primary">Get started</a>
+      <a href="#capabilities" class="btn-secondary">See capabilities</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── The Problem ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container">
+    <span class="section-label">The problem</span>
+    <h2 class="section-title">Research infrastructure<br/>shouldn't be your research</h2>
+    <p class="r-problem-lead">
+      Multi-agent experiments require orchestration, evaluation, reproducibility, and statistical analysis.
+      Most researchers build this from scratch for every paper — then throw it away.
+    </p>
+    <div class="r-pain-grid">
+      <div class="r-pain">
+        <span class="r-pain-pct">60%</span>
+        <p>of research time spent on infrastructure, not science</p>
+      </div>
+      <div class="r-pain">
+        <span class="r-pain-pct">0%</span>
+        <p>of agent frameworks treat reproducibility as a first-class primitive</p>
+      </div>
+      <div class="r-pain">
+        <span class="r-pain-pct">62&times;</span>
+        <p>token overhead in multi-agent experiments without proper orchestration</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Capabilities ── -->
+<section id="capabilities">
+  <div class="container">
+    <span class="section-label">Capabilities</span>
+    <h2 class="section-title">Everything between<br/>hypothesis and publication</h2>
+    <div class="r-caps">
+
+      <div class="r-cap">
+        <h3>Six Reasoning Strategies</h3>
+        <p>React, plan-and-execute, critic, reflection, consensus, debate — swap with a single parameter. Same agent, different reasoning. Perfect for ablation studies.</p>
+        <div class="r-cap-code">
+          <pre><span class="t-w">agent</span> <span class="t-p">=</span> <span class="t-b">Agent</span><span class="t-p">(</span>
+  <span class="t-w">strategy</span><span class="t-p">=</span><span class="t-s">"debate"</span><span class="t-p">,</span>  <span class="t-d"># swap to compare</span>
+  <span class="t-w">max_iterations</span><span class="t-p">=</span><span class="t-w">6</span><span class="t-p">,</span>
+<span class="t-p">)</span></pre>
+        </div>
+      </div>
+
+      <div class="r-cap">
+        <h3>ExperimentGrid</h3>
+        <p>Run every combination of conditions and seeds in a single call. Cartesian product, parallel execution, automatic result collection.</p>
+        <div class="r-cap-code">
+          <pre><span class="t-w">grid</span> <span class="t-p">=</span> <span class="t-b">ExperimentGrid</span><span class="t-p">(</span>
+  <span class="t-w">conditions</span><span class="t-p">={</span>
+    <span class="t-s">"strategy"</span><span class="t-p">: [</span><span class="t-s">"react"</span><span class="t-p">,</span> <span class="t-s">"debate"</span><span class="t-p">],</span>
+  <span class="t-p">},</span>
+  <span class="t-w">seeds</span><span class="t-p">=[</span><span class="t-w">42</span><span class="t-p">,</span> <span class="t-w">123</span><span class="t-p">,</span> <span class="t-w">456</span><span class="t-p">],</span>
+<span class="t-p">)</span>
+<span class="t-w">results</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-w">grid</span><span class="t-p">.</span><span class="t-b">run</span><span class="t-p">()</span></pre>
+        </div>
+      </div>
+
+      <div class="r-cap">
+        <h3>Publication Export</h3>
+        <p>Export results as LaTeX booktabs tables, CSV for R/pandas, or structured JSON. Mean &plusmn; std computed automatically.</p>
+        <div class="r-cap-code">
+          <pre><span class="t-w">results</span><span class="t-p">.</span><span class="t-b">to_latex</span><span class="t-p">(</span><span class="t-s">"table1.tex"</span><span class="t-p">)</span>
+<span class="t-w">results</span><span class="t-p">.</span><span class="t-b">to_csv</span><span class="t-p">(</span><span class="t-s">"results.csv"</span><span class="t-p">)</span>
+<span class="t-w">results</span><span class="t-p">.</span><span class="t-b">compare</span><span class="t-p">(</span><span class="t-w">A</span><span class="t-p">,</span> <span class="t-w">B</span><span class="t-p">)</span>  <span class="t-d"># p-value</span></pre>
+        </div>
+      </div>
+
+      <div class="r-cap">
+        <h3>Durable Replay</h3>
+        <p>Every execution is checkpointed. Replay any experiment exactly. Fork from any checkpoint with modified parameters for ablation studies.</p>
+        <div class="r-cap-code">
+          <pre><span class="t-d">$ </span><span class="t-w">jamjet replay</span> <span class="t-s">exec_abc</span>
+<span class="t-d">$ </span><span class="t-w">jamjet fork</span> <span class="t-s">exec_abc</span> <span class="t-p">\</span>
+  <span class="t-w">--override-input</span> <span class="t-s">'{"model":"gemini"}'</span></pre>
+        </div>
+      </div>
+
+      <div class="r-cap">
+        <h3>Built-in Evaluation</h3>
+        <p>LLM-as-judge, assertion, latency, and cost scorers. Eval nodes run inside workflows for self-improving agents. CI exit codes on regression.</p>
+        <div class="r-cap-code">
+          <pre><span class="t-d"># workflow.yaml</span>
+<span class="t-w">check</span><span class="t-p">:</span>
+  <span class="t-w">type</span><span class="t-p">:</span> <span class="t-s">eval</span>
+  <span class="t-w">on_fail</span><span class="t-p">:</span> <span class="t-s">retry_with_feedback</span>
+  <span class="t-w">max_retries</span><span class="t-p">:</span> <span class="t-w">2</span></pre>
+        </div>
+      </div>
+
+      <div class="r-cap">
+        <h3>Research Template</h3>
+        <p>One command to scaffold a complete experiment: agents, baselines, evaluation datasets, experiment runner, and results directory.</p>
+        <div class="r-cap-code">
+          <pre><span class="t-d">$ </span><span class="t-w">jamjet init</span> <span class="t-s">my-study</span> <span class="t-p">\</span>
+  <span class="t-w">--template</span> <span class="t-s">research</span>
+<span class="t-d"># agents/ baselines/ experiments/</span>
+<span class="t-d"># evals/ results/ workflow.yaml</span></pre>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Comparison ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container">
+    <span class="section-label">Comparison</span>
+    <h2 class="section-title">No framework treats research<br/>as a first-class workflow</h2>
+    <div class="r-table-wrap">
+      <table class="r-table">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th class="r-highlight">JamJet</th>
+            <th>LangGraph</th>
+            <th>AutoGen</th>
+            <th>Custom scripts</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Multi-agent orchestration</td>
+            <td class="r-highlight">Native</td>
+            <td>Partial</td>
+            <td>Yes</td>
+            <td>Manual</td>
+          </tr>
+          <tr>
+            <td>Durable replay</td>
+            <td class="r-highlight r-yes">Yes</td>
+            <td class="r-no">No</td>
+            <td class="r-no">No</td>
+            <td class="r-no">No</td>
+          </tr>
+          <tr>
+            <td>Strategy comparison</td>
+            <td class="r-highlight r-yes">6 strategies</td>
+            <td class="r-no">No</td>
+            <td class="r-no">No</td>
+            <td>Manual</td>
+          </tr>
+          <tr>
+            <td>Experiment grid</td>
+            <td class="r-highlight r-yes">Built-in</td>
+            <td class="r-no">No</td>
+            <td class="r-no">No</td>
+            <td>Custom</td>
+          </tr>
+          <tr>
+            <td>LaTeX export</td>
+            <td class="r-highlight r-yes">Built-in</td>
+            <td class="r-no">No</td>
+            <td class="r-no">No</td>
+            <td>Custom</td>
+          </tr>
+          <tr>
+            <td>Checkpoint fork</td>
+            <td class="r-highlight r-yes">Built-in</td>
+            <td class="r-no">No</td>
+            <td class="r-no">No</td>
+            <td class="r-no">No</td>
+          </tr>
+          <tr>
+            <td>Built-in eval harness</td>
+            <td class="r-highlight r-yes">Yes</td>
+            <td class="r-no">No</td>
+            <td class="r-no">No</td>
+            <td>Custom</td>
+          </tr>
+          <tr>
+            <td>Cost / token tracking</td>
+            <td class="r-highlight r-yes">Per-node</td>
+            <td>Partial</td>
+            <td class="r-no">No</td>
+            <td>Manual</td>
+          </tr>
+          <tr>
+            <td>Statistical comparison</td>
+            <td class="r-highlight r-yes">Built-in</td>
+            <td class="r-no">No</td>
+            <td class="r-no">No</td>
+            <td>Custom</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── Workflow ── -->
+<section>
+  <div class="container">
+    <span class="section-label">Workflow</span>
+    <h2 class="section-title">From hypothesis to Methods section</h2>
+    <div class="r-flow">
+      <div class="r-flow-step">
+        <span class="r-flow-num">1</span>
+        <h3>Scaffold</h3>
+        <p><code>jamjet init --template research</code></p>
+        <span class="r-flow-time">2 min</span>
+      </div>
+      <div class="r-flow-arrow"></div>
+      <div class="r-flow-step">
+        <span class="r-flow-num">2</span>
+        <h3>Define agents</h3>
+        <p>Tools, strategies, instructions</p>
+        <span class="r-flow-time">15 min</span>
+      </div>
+      <div class="r-flow-arrow"></div>
+      <div class="r-flow-step">
+        <span class="r-flow-num">3</span>
+        <h3>Run experiments</h3>
+        <p><code>ExperimentGrid</code> across conditions</p>
+        <span class="r-flow-time">automated</span>
+      </div>
+      <div class="r-flow-arrow"></div>
+      <div class="r-flow-step">
+        <span class="r-flow-num">4</span>
+        <h3>Export results</h3>
+        <p>LaTeX tables, CSV, statistical tests</p>
+        <span class="r-flow-time">1 command</span>
+      </div>
+      <div class="r-flow-arrow"></div>
+      <div class="r-flow-step">
+        <span class="r-flow-num">5</span>
+        <h3>Reproduce</h3>
+        <p><code>jamjet replay</code> from checkpoint</p>
+        <span class="r-flow-time">exact</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Used In Research ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container">
+    <span class="section-label">Validated in research</span>
+    <h2 class="section-title">Patterns from peer-reviewed work</h2>
+    <div class="r-papers">
+      <div class="r-paper">
+        <span class="r-paper-venue">arXiv 2603.08852</span>
+        <h3>LLM Delegate Protocol</h3>
+        <p>Identity-aware agent routing with quality scores, governed sessions, and provenance tracking. JamJet integration via <code>ProtocolAdapter</code> trait.</p>
+        <div class="r-paper-tags">
+          <span>agent routing</span>
+          <span>identity</span>
+          <span>provenance</span>
+        </div>
+      </div>
+      <div class="r-paper">
+        <span class="r-paper-venue">arXiv 2603.11781</span>
+        <h3>Deliberative Collective Intelligence</h3>
+        <p>Structured multi-agent deliberation with four reasoning archetypes and typed epistemic acts. Patterns now available as JamJet strategies and examples.</p>
+        <div class="r-paper-tags">
+          <span>multi-agent</span>
+          <span>deliberation</span>
+          <span>archetypes</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Target Communities ── -->
+<section>
+  <div class="container">
+    <span class="section-label">Communities</span>
+    <h2 class="section-title">Built for how you work</h2>
+    <div class="r-communities">
+      <div class="r-community">
+        <h3>Multi-agent systems</h3>
+        <p>AAMAS, NeurIPS workshops</p>
+        <span class="r-comm-arrow">Orchestration + evaluation + reproducibility</span>
+      </div>
+      <div class="r-community">
+        <h3>LLM reasoning</h3>
+        <p>CoT, ToT, debate, reflection</p>
+        <span class="r-comm-arrow">Strategy parameter makes A/B testing trivial</span>
+      </div>
+      <div class="r-community">
+        <h3>Tool-augmented LLMs</h3>
+        <p>ReAct, Toolformer</p>
+        <span class="r-comm-arrow">MCP-native tool integration</span>
+      </div>
+      <div class="r-community">
+        <h3>AI safety &amp; alignment</h3>
+        <p>HITL, guardrails</p>
+        <span class="r-comm-arrow">Human-in-the-loop + policy engine</span>
+      </div>
+      <div class="r-community">
+        <h3>Evaluation &amp; benchmarks</h3>
+        <p>AgentBench, GAIA</p>
+        <span class="r-comm-arrow">Eval harness + batch runner + CI gates</span>
+      </div>
+      <div class="r-community">
+        <h3>Agent communication</h3>
+        <p>Negotiation, persuasion</p>
+        <span class="r-comm-arrow">Native A2A + LDP protocol support</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container" style="text-align: center; max-width: 600px;">
+    <h2>Start your experiment</h2>
+    <p style="color: var(--text-secondary); margin: 16px 0 12px;">
+      From <code style="background:var(--surface-code);padding:2px 6px;border-radius:3px;font-size:0.9em">pip install</code> to running multi-agent experiments in under 5 minutes.
+    </p>
+    <div class="r-cta-install">
+      <span class="prompt">$</span>
+      <span class="cmd">pip install jamjet && jamjet init my-study --template research</span>
+    </div>
+    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 32px;">
+      <a href="/quickstart" class="btn-primary">Read the quickstart</a>
+      <a href="/examples" class="btn-secondary">Browse examples</a>
+    </div>
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+  /* ── Hero ── */
+  .r-hero {
+    padding: 100px 24px 80px;
+    text-align: center;
+  }
+  .r-hero h1 {
+    margin-top: 12px;
+  }
+  .r-hero-sub {
+    font-size: clamp(1rem, 2vw, 1.12rem);
+    color: var(--text-secondary);
+    margin: 24px auto 40px;
+    max-width: 640px;
+    line-height: 1.8;
+  }
+  .r-hero-actions {
+    display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
+  }
+
+  /* ── Problem ── */
+  .r-problem-lead {
+    color: var(--text-secondary);
+    max-width: 640px;
+    margin-bottom: 48px;
+    line-height: 1.8;
+  }
+  .r-pain-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px 48px;
+  }
+  .r-pain {
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+  }
+  .r-pain-pct {
+    display: block;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1.1;
+    margin-bottom: 12px;
+    letter-spacing: -0.03em;
+  }
+  .r-pain p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  /* ── Capabilities ── */
+  .r-caps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px 48px;
+  }
+  .r-cap {
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+  }
+  .r-cap h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .r-cap p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .r-cap-code {
+    background: var(--code-bg, #2a2a28);
+    border-radius: 6px;
+    padding: 12px 16px;
+    overflow-x: auto;
+  }
+  .r-cap-code pre {
+    margin: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: #eae8e1;
+  }
+
+  /* ── Comparison table ── */
+  .r-table-wrap {
+    overflow-x: auto;
+    margin-top: 8px;
+  }
+  .r-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .r-table th,
+  .r-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .r-table th {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+  }
+  .r-table td {
+    color: var(--text-secondary);
+  }
+  .r-table td:first-child {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .r-highlight {
+    background: rgba(139,115,85,0.06);
+    color: var(--text) !important;
+    font-weight: 500;
+  }
+  .r-yes { color: #2d7d46 !important; }
+  .r-no { color: var(--text-muted) !important; }
+
+  /* ── Workflow flow ── */
+  .r-flow {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin-top: 16px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .r-flow-step {
+    flex: 1;
+    min-width: 140px;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+    position: relative;
+  }
+  .r-flow-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .r-flow-step h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .r-flow-step p {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .r-flow-step code {
+    font-size: 0.75rem;
+    background: var(--surface-code);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  .r-flow-time {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+  }
+  .r-flow-arrow {
+    width: 32px;
+    min-width: 32px;
+    height: 1px;
+    background: var(--border-strong);
+    margin-top: 52px;
+    position: relative;
+  }
+  .r-flow-arrow::after {
+    content: '';
+    position: absolute;
+    right: 0; top: -3px;
+    width: 0; height: 0;
+    border-left: 6px solid var(--border-strong);
+    border-top: 3.5px solid transparent;
+    border-bottom: 3.5px solid transparent;
+  }
+
+  /* ── Papers ── */
+  .r-papers {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 48px;
+  }
+  .r-paper {
+    padding: 28px 0;
+    border-top: 1px solid var(--border);
+  }
+  .r-paper-venue {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+  }
+  .r-paper h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .r-paper p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+  .r-paper code {
+    font-size: 0.8em;
+    background: var(--surface-code);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  .r-paper-tags {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .r-paper-tags span {
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  /* ── Communities ── */
+  .r-communities {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px 48px;
+  }
+  .r-community {
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+  }
+  .r-community h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--text);
+  }
+  .r-community p {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+  .r-comm-arrow {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  .r-comm-arrow::before {
+    content: '\2192 ';
+    color: var(--accent);
+  }
+
+  /* ── CTA install ── */
+  .r-cta-install {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--code-bg, #2a2a28);
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-top: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+  }
+  .r-cta-install .prompt {
+    color: var(--accent);
+    user-select: none;
+  }
+  .r-cta-install .cmd {
+    color: #eae8e1;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .r-pain-grid { grid-template-columns: 1fr; gap: 0; }
+    .r-caps { grid-template-columns: 1fr; gap: 0; }
+    .r-papers { grid-template-columns: 1fr; gap: 0; }
+    .r-communities { grid-template-columns: 1fr; gap: 0; }
+    .r-flow { flex-direction: column; }
+    .r-flow-arrow {
+      width: 1px; height: 24px; min-width: 1px;
+      margin: 0 0 0 13px;
+    }
+    .r-flow-arrow::after {
+      right: auto; left: -3px; top: auto; bottom: 0;
+      border-left: 3.5px solid transparent;
+      border-right: 3.5px solid transparent;
+      border-top: 6px solid var(--border-strong);
+      border-bottom: none;
+    }
+    .r-cta-install {
+      font-size: 0.65rem;
+      padding: 10px 14px;
+    }
+  }
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .r-pain-grid { grid-template-columns: repeat(3, 1fr); }
+    .r-caps { grid-template-columns: repeat(2, 1fr); }
+    .r-communities { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

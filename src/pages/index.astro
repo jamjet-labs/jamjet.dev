@@ -8,12 +8,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   canonical="https://jamjet.dev/"
 >
 
-<!-- ── Phase 4 Announcement Banner ── -->
+<!-- ── Research-First Announcement Banner ── -->
 <div class="announce-banner">
   <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;max-width:900px;margin:0 auto;">
     <span class="announce-badge">New</span>
-    <span class="announce-text">Phase 4 enterprise security shipped — tenant isolation, PII redaction, OAuth delegation</span>
-    <a href="/blog/phase4-enterprise-security/" class="announce-link">Read the announcement &rarr;</a>
+    <span class="announce-text">Research-first features shipped — ExperimentGrid, EvalNode, reflection/consensus/debate strategies</span>
+    <a href="/research" class="announce-link">Explore the research toolkit &rarr;</a>
   </div>
 </div>
 
@@ -158,6 +158,31 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </div>
 </section>
 
+<!-- ── Built for Research ── -->
+<section class="research-highlight">
+  <div class="container">
+    <span class="section-label">Research-First</span>
+    <h2 class="section-title">Your next paper,<br/>reproducible by default</h2>
+    <div class="research-grid">
+      <div class="research-card">
+        <span class="research-card-label">ExperimentGrid</span>
+        <p>Cartesian product over models, prompts, and temperatures. Parallel execution. Results export to CSV, LaTeX, and JSON with one call.</p>
+      </div>
+      <div class="research-card">
+        <span class="research-card-label">Built-in Strategies</span>
+        <p>ReAct, plan-and-execute, critic, reflection, consensus, and debate — compiled to IR sub-DAGs. Compare strategies across the same dataset.</p>
+      </div>
+      <div class="research-card">
+        <span class="research-card-label">Durable Replay</span>
+        <p>Every decision checkpointed. Replay any execution. Fork with modified inputs. Perfect for ablation studies and failure analysis.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:48px;">
+      <a href="/research" class="btn-primary">Explore the research toolkit</a>
+    </div>
+  </div>
+</section>
+
 <!-- ── CTA ── -->
 <section>
   <div class="container" style="text-align: center; max-width: 560px;">
@@ -295,14 +320,44 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     text-decoration: underline;
   }
 
+  /* Research highlight */
+  .research-highlight {
+    background: var(--bg-alt);
+  }
+  .research-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px 48px;
+  }
+  .research-card {
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+  }
+  .research-card-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .research-card p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
   @media (max-width: 768px) {
     .problems { grid-template-columns: 1fr; gap: 0; }
     .features { grid-template-columns: 1fr; gap: 0; }
+    .research-grid { grid-template-columns: 1fr; gap: 0; }
     .code-section { grid-template-columns: 1fr; gap: 32px; }
   }
   @media (min-width: 769px) and (max-width: 1024px) {
     .problems { grid-template-columns: repeat(2, 1fr); }
     .features { grid-template-columns: repeat(2, 1fr); }
+    .research-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 
