@@ -1,29 +1,31 @@
 /* ══════════════════════════════════════════════════════════
    base.css — JamJet Marketing Pages
    Japanese design: Ma · Kanso · Shibui · Seijaku
+   Palette: Sumi ink on washi paper
    ══════════════════════════════════════════════════════════ */
 
 /* ── Design Tokens ── */
 :root {
-  --bg:             #fafaf8;
-  --bg-alt:         #f5f4f0;
-  --bg-code:        #2a2a28;
+  --bg:             #f6f5f1;
+  --bg-alt:         #edecea;
+  --bg-code:        #1c1c1a;
 
-  --text:           #1a1a18;
-  --text-secondary: #6b6b63;
-  --text-muted:     #8b8578;
+  --text:           #141413;
+  --text-secondary: #555550;
+  --text-muted:     #87867e;
 
-  --accent:         #8b7355;
-  --accent-hover:   #c4956a;
-  --accent-bg:      rgba(139,115,85,0.08);
+  --accent:         #141413;
+  --accent-hover:   #333330;
+  --accent-bg:      rgba(20,20,19,0.05);
 
-  --border:         rgba(26,26,24,0.08);
-  --border-strong:  rgba(26,26,24,0.15);
+  --border:         rgba(20,20,19,0.10);
+  --border-strong:  rgba(20,20,19,0.20);
 
-  --surface-code:   #eae8e1;
+  --surface-code:   #e5e4df;
 
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-body:  'Newsreader', 'Georgia', 'Times New Roman', serif;
+  --font-sans:  'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:  'DM Mono', 'JetBrains Mono', 'Fira Code', monospace;
 
   --space-section:    120px;
   --space-section-sm: 80px;
@@ -37,7 +39,7 @@
 html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   background: var(--bg);
   color: var(--text);
   line-height: 1.7;
@@ -46,20 +48,27 @@ body {
 code, pre, kbd { font-family: var(--font-mono); }
 
 /* ── Typography — Shibui ── */
-h1, h2, h3, h4 { line-height: 1.15; letter-spacing: -0.025em; color: var(--text); }
-h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 700; }
-h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 600; }
-h3 { font-size: 1.1rem; font-weight: 600; }
-p  { font-size: 1rem; line-height: 1.8; }
+h1, h2, h3, h4 {
+  font-family: var(--font-body);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  font-style: normal;
+}
+h1 { font-size: clamp(2.4rem, 5.5vw, 4rem); font-weight: 500; }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 500; }
+h3 { font-size: 1.1rem; font-weight: 600; font-family: var(--font-sans); }
+p  { font-size: 1rem; line-height: 1.85; }
 
 /* ── Layout — Ma ── */
 .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
 section { padding: var(--space-section) 0; }
 
 .section-label {
-  font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.1em; color: var(--accent);
+  font-size: 0.72rem; font-weight: 500; text-transform: uppercase;
+  letter-spacing: 0.14em; color: var(--text-muted);
   margin-bottom: 16px;
+  font-family: var(--font-sans);
 }
 
 /* ── Dividers ── */
@@ -79,8 +88,9 @@ nav {
 .nav-logo {
   text-decoration: none; display: flex; align-items: center; gap: 10px;
   font-family: var(--font-mono);
-  font-size: 1rem; font-weight: 600; color: var(--text);
+  font-size: 0.95rem; font-weight: 500; color: var(--text);
   flex-shrink: 0;
+  letter-spacing: -0.02em;
 }
 .nav-links {
   display: flex; align-items: center; gap: 28px; list-style: none;
@@ -88,8 +98,10 @@ nav {
 }
 .nav-links a {
   color: var(--text-secondary); text-decoration: none;
-  font-size: 0.875rem; font-weight: 500;
+  font-size: 0.82rem; font-weight: 450;
+  font-family: var(--font-sans);
   transition: color 0.2s;
+  letter-spacing: 0.01em;
 }
 .nav-links a:hover { color: var(--text); }
 .nav-links a[aria-current="page"] { color: var(--text); }
@@ -141,22 +153,27 @@ nav {
 .btn-primary {
   background: var(--text);
   color: var(--bg);
-  font-weight: 600; font-size: 0.9rem;
-  text-decoration: none; padding: 12px 24px;
-  border-radius: 6px; transition: opacity 0.2s;
+  font-family: var(--font-sans);
+  font-weight: 500; font-size: 0.85rem;
+  text-decoration: none; padding: 11px 22px;
+  border-radius: 4px; transition: opacity 0.2s;
   display: inline-flex; align-items: center; gap: 8px;
+  letter-spacing: 0.01em;
 }
-.btn-primary:hover { opacity: 0.85; }
+.btn-primary:hover { opacity: 0.8; }
 
 .btn-secondary {
   background: transparent;
   border: 1px solid var(--border-strong);
-  color: var(--text); font-weight: 500; font-size: 0.9rem;
-  text-decoration: none; padding: 12px 24px;
-  border-radius: 6px; transition: border-color 0.2s;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 500; font-size: 0.85rem;
+  text-decoration: none; padding: 11px 22px;
+  border-radius: 4px; transition: border-color 0.2s;
   display: inline-flex; align-items: center; gap: 8px;
+  letter-spacing: 0.01em;
 }
-.btn-secondary:hover { border-color: var(--accent); }
+.btn-secondary:hover { border-color: var(--text); }
 
 /* ── Install Command ── */
 .install-cmd {
@@ -165,7 +182,7 @@ nav {
   border-radius: 8px; padding: 14px 20px;
   font-family: var(--font-mono); font-size: 0.875rem;
 }
-.install-cmd .prompt { color: var(--accent-hover); }
+.install-cmd .prompt { color: #87867e; }
 .install-cmd .cmd { color: #f5f4f0; }
 .copy-btn {
   background: none; border: none; cursor: pointer;
@@ -191,14 +208,14 @@ nav {
   white-space: pre; word-wrap: normal; background: transparent;
 }
 
-/* Syntax tokens */
-.t-kw { color: #c792ea; }
-.t-s  { color: #c3e88d; }
-.t-b  { color: #82aaff; }
-.t-y  { color: #c4956a; }
+/* Syntax tokens — muted, ink-wash palette */
+.t-kw { color: #b8a9c8; }
+.t-s  { color: #a8c4a0; }
+.t-b  { color: #8fafc8; }
+.t-y  { color: #c4b08a; }
 .t-d  { color: #6b6b63; }
-.t-w  { color: #eae8e1; }
-.t-p  { color: #89ddff; }
+.t-w  { color: #e5e4df; }
+.t-p  { color: #8abcc8; }
 
 /* ── Footer — Kanso ── */
 footer {
@@ -211,8 +228,9 @@ footer {
 }
 .footer-desc { font-size: 0.85rem; color: var(--text-muted); margin-top: 16px; line-height: 1.7; }
 .footer-col h4 {
-  font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 16px;
+  font-size: 0.7rem; font-weight: 500; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 16px;
+  font-family: var(--font-sans);
 }
 .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
 .footer-col a {
@@ -234,4 +252,12 @@ footer {
 }
 @media (max-width: 480px) {
   .footer-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Reading Progress — Shibui ── */
+.reading-progress {
+  position: fixed; top: 0; left: 0; z-index: 200;
+  width: 0%; height: 2px;
+  background: var(--text);
+  pointer-events: none;
 }
