@@ -15,7 +15,7 @@ const { Content } = await post.render();
 const site = 'https://jamjet.dev';
 const canonical = `${site}/blog/${post.slug}/`;
 const pageTitle = `${post.data.title} | JamJet Blog`;
-const image = `${site}/og.svg`;
+const image = `${site}/og.png`;
 const tweetText = encodeURIComponent(`${post.data.title}\n\n${canonical}`);
 const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(canonical)}`;
 const articleLd = {

@@ -4,10 +4,23 @@ import HeroAnimation from '../components/HeroAnimation.astro';
 ---
 
 <BaseLayout
-  title="JamJet — The Agent-Native Runtime"
+  title="JamJet — Open Source AI Agent Framework | Durable Execution Runtime"
   description="Production-grade orchestration for AI agents. Durable execution, native MCP + A2A, full observability. Built in Rust. Authored in Python."
   canonical="https://jamjet.dev/"
 >
+<script type="application/ld+json" slot="head">{JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "JamJet",
+  "description": "Open source agent-native runtime with durable execution, native MCP and A2A protocol support. Built in Rust, authored in Python.",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Linux, macOS, Windows",
+  "url": "https://jamjet.dev",
+  "downloadUrl": "https://pypi.org/project/jamjet/",
+  "softwareVersion": "0.2.0",
+  "license": "https://www.apache.org/licenses/LICENSE-2.0",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+})}</script>
 
 <!-- ── Research-First Announcement Banner ── -->
 <div class="announce-banner">
