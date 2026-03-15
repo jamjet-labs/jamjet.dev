@@ -1,23 +1,17 @@
 ---
-const fallbackStars = '50+';
-const fallbackDownloads = '500+';
-const papers = '2';
 ---
 
 <div class="social-proof">
   <div class="container">
     <div class="proof-grid">
       <div class="proof-item">
-        <span class="proof-value" id="github-stars">{fallbackStars}</span>
-        <span class="proof-label">GitHub stars</span>
+        <span class="proof-label">Open source — Apache 2.0</span>
       </div>
       <div class="proof-item">
-        <span class="proof-value" id="pypi-downloads">{fallbackDownloads}</span>
-        <span class="proof-label">weekly downloads</span>
-      </div>
-      <div class="proof-item">
-        <span class="proof-value">{papers}</span>
-        <span class="proof-label">research papers</span>
+        <a href="https://github.com/jamjet-labs/jamjet" target="_blank" rel="noopener" class="proof-link">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:-2px;margin-right:6px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          View on GitHub
+        </a>
       </div>
       <div class="proof-item proof-install">
         <code class="proof-cmd">pip install jamjet</code>
@@ -43,26 +37,22 @@ const papers = '2';
   }
   .proof-item {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .proof-value {
-    font-family: var(--font-body, 'Newsreader', serif);
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: var(--text);
+    align-items: center;
   }
   .proof-label {
     font-family: var(--font-sans);
-    font-size: 0.7rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    font-size: 0.82rem;
     color: var(--text-muted);
   }
+  .proof-link {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .proof-link:hover { color: var(--text); }
   .proof-install {
-    flex-direction: row;
-    align-items: center;
     gap: 12px;
   }
   .proof-cmd {
@@ -76,21 +66,9 @@ const papers = '2';
 
   @media (max-width: 768px) {
     .proof-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
     }
   }
 </style>
-
-<script>
-  fetch('https://api.github.com/repos/jamjet-labs/jamjet')
-    .then(r => r.json())
-    .then(data => {
-      if (data.stargazers_count) {
-        const el = document.getElementById('github-stars');
-        if (el) el.textContent = data.stargazers_count.toLocaleString();
-      }
-    })
-    .catch(() => {});
-</script>
