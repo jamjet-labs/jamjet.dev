@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroAnimation from '../components/HeroAnimation.astro';
 ---
 
 <BaseLayout
@@ -35,6 +36,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <span class="prompt">$</span>
       <span class="cmd">pip install jamjet</span>
       <button class="copy-btn" id="copy-install">copy</button>
+    </div>
+
+    <div class="hero-anim-wrapper">
+      <HeroAnimation />
     </div>
   </div>
 </section>
@@ -216,6 +221,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .hero-actions {
     display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
     margin-bottom: 32px;
+  }
+  .hero-anim-wrapper {
+    margin-top: 48px;
   }
 
   /* Why JamJet */

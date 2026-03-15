@@ -1,0 +1,441 @@
+---
+/**
+ * HeroAnimation — Crash & Recovery staged reveal
+ * Demonstrates JamJet's durable execution: a workflow crashes mid-run
+ * and recovers automatically with zero events lost.
+ *
+ * Three stages:
+ *   Stage 1 (0-3s)   — "The Flow": nodes fade in, dot travels
+ *   Stage 2 (3-8s)   — "The Break and Heal": labels, crash, recovery
+ *   Stage 3 (8s+)    — Completed state (static)
+ */
+---
+
+<div class="hero-animation" data-hero-anim>
+  <svg
+    viewBox="0 0 800 280"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-label="Animation showing a five-node workflow that crashes at the Analyze step and automatically recovers with zero events lost"
+    role="img"
+    class="hero-svg"
+  >
+    <!-- Edges between nodes -->
+    <g class="edges">
+      <line x1="120" y1="140" x2="260" y2="140" class="edge edge-1" />
+      <line x1="260" y1="140" x2="400" y2="140" class="edge edge-2" />
+      <line x1="400" y1="140" x2="540" y2="140" class="edge edge-3" />
+      <line x1="540" y1="140" x2="680" y2="140" class="edge edge-4" />
+    </g>
+
+    <!-- Recovery dashed edge (scheduler -> Analyze) -->
+    <line x1="400" y1="68" x2="400" y2="122" class="recovery-edge" />
+
+    <!-- Scheduler node (small, above Analyze) -->
+    <circle cx="400" cy="56" r="12" class="scheduler-node" />
+    <text x="400" y="36" class="scheduler-label">scheduler</text>
+
+    <!-- Main nodes -->
+    <g class="nodes">
+      <circle cx="120" cy="140" r="18" class="node node-1" />
+      <circle cx="260" cy="140" r="18" class="node node-2" />
+      <circle cx="400" cy="140" r="18" class="node node-3" />
+      <circle cx="540" cy="140" r="18" class="node node-4" />
+      <circle cx="680" cy="140" r="18" class="node node-5" />
+    </g>
+
+    <!-- Node labels (hidden initially) -->
+    <g class="labels">
+      <text x="120" y="178" class="label">Plan</text>
+      <text x="260" y="178" class="label">Research</text>
+      <text x="400" y="178" class="label">Analyze</text>
+      <text x="540" y="178" class="label">Review</text>
+      <text x="680" y="178" class="label">Synthesize</text>
+    </g>
+
+    <!-- Traveling dot -->
+    <circle cx="0" cy="0" r="5" class="data-dot" />
+
+    <!-- Status text -->
+    <text x="400" y="230" class="status-text"></text>
+  </svg>
+</div>
+
+<style>
+  .hero-animation {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  .hero-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+
+  /* ── Edges ── */
+  .edge {
+    stroke: var(--border-strong);
+    stroke-width: 1.5;
+    fill: none;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .hero-animation.stage-1 .edge,
+  .hero-animation.stage-2 .edge,
+  .hero-animation.stage-3 .edge {
+    opacity: 1;
+  }
+
+  /* ── Nodes ── */
+  .node {
+    fill: none;
+    stroke: var(--text);
+    stroke-width: 1.5;
+    opacity: 0;
+    transition: opacity 0.5s ease, fill 0.4s ease, stroke 0.4s ease;
+  }
+
+  .hero-animation.stage-1 .node,
+  .hero-animation.stage-2 .node,
+  .hero-animation.stage-3 .node {
+    opacity: 1;
+  }
+
+  /* Node pulse on arrival */
+  .node.pulse {
+    animation: node-pulse 0.5s ease-out;
+  }
+
+  @keyframes node-pulse {
+    0% { stroke-width: 1.5; }
+    50% { stroke-width: 3; }
+    100% { stroke-width: 1.5; }
+  }
+
+  /* Active/completed node fills in */
+  .node.active {
+    fill: var(--text);
+  }
+
+  /* Crashed state */
+  .node.crashed {
+    stroke: var(--error);
+    fill: rgba(180, 64, 64, 0.12);
+  }
+
+  /* Recovered — back to normal with subtle green */
+  .node.recovered {
+    stroke: var(--text);
+    fill: rgba(45, 125, 70, 0.08);
+  }
+
+  /* Final completed node */
+  .node.completed {
+    fill: var(--success);
+    stroke: var(--success);
+  }
+
+  /* ── Labels ── */
+  .label {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    fill: var(--text-muted);
+    text-anchor: middle;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .hero-animation.stage-2 .label,
+  .hero-animation.stage-3 .label {
+    opacity: 1;
+  }
+
+  /* ── Data dot ── */
+  .data-dot {
+    fill: var(--text);
+    opacity: 0;
+  }
+
+  .data-dot.visible {
+    opacity: 1;
+  }
+
+  /* ── Scheduler node + label ── */
+  .scheduler-node {
+    fill: none;
+    stroke: var(--text);
+    stroke-width: 1.5;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .scheduler-node.visible {
+    opacity: 1;
+  }
+
+  .scheduler-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 400;
+    fill: var(--text-muted);
+    text-anchor: middle;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .scheduler-label.visible {
+    opacity: 1;
+  }
+
+  /* ── Recovery edge (dashed) ── */
+  .recovery-edge {
+    stroke: var(--text);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 4;
+    fill: none;
+    opacity: 0;
+    stroke-dashoffset: 60;
+    transition: opacity 0.3s ease, stroke-dashoffset 0.6s ease;
+  }
+
+  .recovery-edge.drawing {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+
+  /* ── Status text ── */
+  .status-text {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 400;
+    fill: var(--text-muted);
+    text-anchor: middle;
+    opacity: 0;
+    transition: opacity 0.4s ease, fill 0.4s ease;
+  }
+
+  .status-text.visible {
+    opacity: 1;
+  }
+
+  .status-text.error {
+    fill: var(--error);
+  }
+
+  .status-text.success {
+    fill: var(--success);
+  }
+
+  /* ── prefers-reduced-motion: show final state immediately ── */
+  @media (prefers-reduced-motion: reduce) {
+    .edge,
+    .node,
+    .label,
+    .status-text {
+      opacity: 1 !important;
+      transition: none !important;
+      animation: none !important;
+    }
+
+    .data-dot {
+      opacity: 0 !important;
+    }
+
+    .scheduler-node,
+    .scheduler-label,
+    .recovery-edge {
+      opacity: 0 !important;
+      transition: none !important;
+    }
+
+    .node-5 {
+      fill: var(--success) !important;
+      stroke: var(--success) !important;
+    }
+
+    .status-text {
+      fill: var(--success) !important;
+    }
+  }
+</style>
+
+<script>
+  function initHeroAnimation() {
+    const container = document.querySelector('[data-hero-anim]') as HTMLElement | null;
+    if (!container) return;
+
+    // Check reduced motion preference
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const nodes = container.querySelectorAll('.node') as NodeListOf<SVGCircleElement>;
+    const dot = container.querySelector('.data-dot') as SVGCircleElement;
+    const statusText = container.querySelector('.status-text') as SVGTextElement;
+    const schedulerNode = container.querySelector('.scheduler-node') as SVGCircleElement;
+    const schedulerLabel = container.querySelector('.scheduler-label') as SVGTextElement;
+    const recoveryEdge = container.querySelector('.recovery-edge') as SVGLineElement;
+
+    // Reduced motion: show final completed state immediately
+    if (prefersReduced) {
+      container.classList.add('stage-1', 'stage-2', 'stage-3');
+      nodes.forEach(n => n.classList.add('active'));
+      nodes[4]?.classList.add('completed');
+      statusText.textContent = 'completed \u00b7 0 events lost';
+      statusText.classList.add('visible', 'success');
+      return;
+    }
+
+    // Node positions for dot movement
+    const nodePositions = [
+      { x: 120, y: 140 },
+      { x: 260, y: 140 },
+      { x: 400, y: 140 },
+      { x: 540, y: 140 },
+      { x: 680, y: 140 },
+    ];
+
+    // Move the dot to a position
+    function moveDot(x: number, y: number) {
+      dot.setAttribute('cx', String(x));
+      dot.setAttribute('cy', String(y));
+    }
+
+    // Animate dot from one node to the next over duration ms
+    function animateDot(fromIdx: number, toIdx: number, duration: number): Promise<void> {
+      return new Promise(resolve => {
+        const from = nodePositions[fromIdx];
+        const to = nodePositions[toIdx];
+        const startTime = performance.now();
+
+        dot.classList.add('visible');
+        moveDot(from.x, from.y);
+
+        function step(now: number) {
+          const elapsed = now - startTime;
+          const t = Math.min(elapsed / duration, 1);
+          // ease-in-out
+          const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+          const cx = from.x + (to.x - from.x) * ease;
+          const cy = from.y + (to.y - from.y) * ease;
+          moveDot(cx, cy);
+
+          if (t < 1) {
+            requestAnimationFrame(step);
+          } else {
+            resolve();
+          }
+        }
+        requestAnimationFrame(step);
+      });
+    }
+
+    // Helper: wait ms
+    function wait(ms: number): Promise<void> {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    // Set status text
+    function setStatus(text: string, cls?: string) {
+      statusText.textContent = text;
+      statusText.classList.remove('error', 'success');
+      if (cls) statusText.classList.add(cls);
+      statusText.classList.add('visible');
+    }
+
+    function clearStatus() {
+      statusText.classList.remove('visible');
+    }
+
+    // Pulse a node
+    function pulseNode(idx: number) {
+      const node = nodes[idx];
+      node.classList.remove('pulse');
+      // Force reflow to restart animation
+      void (node as any).offsetWidth;
+      node.classList.add('pulse');
+    }
+
+    // ── Timeline ──
+    async function run() {
+      // --- Stage 1: The Flow (0-3s) ---
+      container.classList.add('stage-1');
+
+      // Fade in edges and nodes with slight stagger
+      await wait(400);
+
+      // Dot travels from node 0 to node 2
+      moveDot(nodePositions[0].x, nodePositions[0].y);
+      dot.classList.add('visible');
+      nodes[0].classList.add('active');
+      pulseNode(0);
+
+      await wait(200);
+      await animateDot(0, 1, 800);
+      nodes[1].classList.add('active');
+      pulseNode(1);
+
+      await wait(200);
+      await animateDot(1, 2, 800);
+      pulseNode(2);
+
+      dot.classList.remove('visible');
+
+      // --- Stage 2: The Break and Heal (3-8s) ---
+      // At ~3s: labels appear
+      await wait(400);
+      container.classList.add('stage-2');
+
+      // At ~4.5s: Analyze crashes
+      await wait(1500);
+      nodes[2].classList.remove('active');
+      nodes[2].classList.add('crashed');
+      setStatus('worker crashed', 'error');
+
+      // At ~5.5s: Stillness (Seijaku) — 1 second pause
+      await wait(1000);
+
+      // At ~6.5s: Scheduler appears, recovery edge draws
+      schedulerNode.classList.add('visible');
+      schedulerLabel.classList.add('visible');
+      recoveryEdge.classList.add('drawing');
+      setStatus('lease reclaimed \u00b7 resuming');
+
+      await wait(500);
+      nodes[2].classList.remove('crashed');
+      nodes[2].classList.add('recovered', 'active');
+
+      // At ~7s: Dot continues from Analyze through Review
+      await wait(500);
+      moveDot(nodePositions[2].x, nodePositions[2].y);
+      dot.classList.add('visible');
+
+      await animateDot(2, 3, 600);
+      nodes[3].classList.add('active');
+      pulseNode(3);
+
+      await wait(150);
+      await animateDot(3, 4, 600);
+      pulseNode(4);
+      dot.classList.remove('visible');
+
+      // At ~8s: Final node turns green, status: completed
+      await wait(200);
+      nodes[4].classList.add('completed');
+      container.classList.add('stage-3');
+      setStatus('completed \u00b7 0 events lost', 'success');
+    }
+
+    // Start animation after a short delay
+    setTimeout(run, 300);
+  }
+
+  // Run on initial load
+  initHeroAnimation();
+
+  // Re-run after Astro view transitions
+  document.addEventListener('astro:after-swap', initHeroAnimation);
+</script>
