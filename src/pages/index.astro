@@ -26,7 +26,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       Built in Rust. Authored in Python and Java. Go coming soon.
     </p>
     <div class="hero-actions">
-      <a href="/quickstart" class="btn-primary">Get started</a>
+      <a href="https://docs.jamjet.dev/getting-started" class="btn-primary">Get started</a>
       <a href="https://github.com/jamjet-labs/jamjet" class="btn-secondary" target="_blank" rel="noopener">
         View on GitHub
       </a>
@@ -191,7 +191,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       Get a durable workflow running locally in under 10 minutes.
     </p>
     <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
-      <a href="/quickstart" class="btn-primary">Read the quickstart</a>
+      <a href="https://docs.jamjet.dev/getting-started" class="btn-primary">Read the quickstart</a>
       <a href="https://github.com/jamjet-labs/jamjet" class="btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
     </div>
   </div>
@@ -233,12 +233,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
   .problem-label {
     display: block;
-    font-size: 0.7rem;
-    font-weight: 600;
+    font-size: 0.68rem;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent);
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
     margin-bottom: 12px;
+    font-family: var(--font-sans);
   }
   .problem-text {
     color: var(--text);
@@ -254,7 +255,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
   .problem-solution::before {
     content: '→ ';
-    color: var(--accent);
+    color: var(--text-muted);
   }
 
   /* Code section */
@@ -297,24 +298,27 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
   .announce-badge {
     display: inline-block;
-    font-size: 0.7rem;
-    font-weight: 600;
+    font-size: 0.65rem;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     color: var(--bg);
-    background: var(--accent);
+    background: var(--text);
     padding: 2px 8px;
-    border-radius: 3px;
+    border-radius: 2px;
+    font-family: var(--font-sans);
   }
   .announce-text {
     font-size: 0.85rem;
     color: var(--text-secondary);
+    font-family: var(--font-sans);
   }
   .announce-link {
     font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--accent);
+    font-weight: 500;
+    color: var(--text);
     text-decoration: none;
+    font-family: var(--font-sans);
   }
   .announce-link:hover {
     text-decoration: underline;
@@ -335,12 +339,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
   .research-card-label {
     display: block;
-    font-size: 0.7rem;
-    font-weight: 600;
+    font-size: 0.68rem;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent);
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
     margin-bottom: 12px;
+    font-family: var(--font-sans);
   }
   .research-card p {
     color: var(--text-secondary);
