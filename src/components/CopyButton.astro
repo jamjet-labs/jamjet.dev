@@ -1,0 +1,27 @@
+---
+interface Props {
+  text: string;
+  label?: string;
+}
+const { text, label = 'copy' } = Astro.props;
+---
+
+<button class="copy-btn" data-copy-text={text}>
+  <span class="copy-label">{label}</span>
+</button>
+
+<script>
+  document.querySelectorAll('.copy-btn[data-copy-text]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = btn.getAttribute('data-copy-text') || '';
+      navigator.clipboard.writeText(text).then(() => {
+        const label = btn.querySelector('.copy-label');
+        if (label) {
+          const original = label.textContent;
+          label.textContent = 'copied!';
+          setTimeout(() => { label.textContent = original; }, 1500);
+        }
+      });
+    });
+  });
+</script>

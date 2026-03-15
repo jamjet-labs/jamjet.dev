@@ -1,0 +1,89 @@
+---
+interface Props {
+  lines: string[];
+  title?: string;
+}
+const { lines, title = 'terminal' } = Astro.props;
+---
+
+<div class="terminal-replay" data-terminal>
+  <div class="terminal-header">
+    <span class="terminal-dots">
+      <span></span><span></span><span></span>
+    </span>
+    <span class="terminal-title">{title}</span>
+  </div>
+  <pre class="terminal-body">{lines.map((line, i) => (
+    <span class="terminal-line" style={`--line-index: ${i}; --line-chars: ${line.length}`}>{line}{'\n'}</span>
+  ))}</pre>
+</div>
+
+<style>
+  .terminal-replay {
+    background: var(--bg-code);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .terminal-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 20px;
+    background: #141413;
+  }
+  .terminal-dots {
+    display: flex; gap: 6px;
+  }
+  .terminal-dots span {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+  }
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+  .terminal-body {
+    margin: 0; padding: 24px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.85;
+    color: #e5e4df;
+    background: transparent;
+    overflow-x: auto;
+  }
+  .terminal-line {
+    display: inline-block;
+    overflow: hidden;
+    white-space: pre;
+    width: 0;
+    animation: type-line 0.4s steps(var(--line-chars, 30), end) forwards;
+    animation-delay: calc(var(--line-index) * 0.45s);
+    animation-play-state: paused;
+  }
+  .terminal-replay.playing .terminal-line {
+    animation-play-state: running;
+  }
+
+  @keyframes type-line {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .terminal-line {
+      width: 100% !important;
+      animation: none !important;
+    }
+  }
+</style>
+
+<script>
+  const terminals = document.querySelectorAll('[data-terminal]');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('playing');
+      }
+    });
+  }, { threshold: 0.3 });
+  terminals.forEach(t => observer.observe(t));
+</script>

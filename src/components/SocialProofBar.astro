@@ -1,0 +1,96 @@
+---
+const fallbackStars = '50+';
+const fallbackDownloads = '500+';
+const papers = '2';
+---
+
+<div class="social-proof">
+  <div class="container">
+    <div class="proof-grid">
+      <div class="proof-item">
+        <span class="proof-value" id="github-stars">{fallbackStars}</span>
+        <span class="proof-label">GitHub stars</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-value" id="pypi-downloads">{fallbackDownloads}</span>
+        <span class="proof-label">weekly downloads</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-value">{papers}</span>
+        <span class="proof-label">research papers</span>
+      </div>
+      <div class="proof-item proof-install">
+        <code class="proof-cmd">pip install jamjet</code>
+        <button class="copy-btn" data-copy-text="pip install jamjet">
+          <span class="copy-label">copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .social-proof {
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+  }
+  .proof-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .proof-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .proof-value {
+    font-family: var(--font-body, 'Newsreader', serif);
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .proof-label {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+  .proof-install {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+  .proof-cmd {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    background: var(--accent-bg);
+    padding: 6px 14px;
+    border-radius: 4px;
+  }
+
+  @media (max-width: 768px) {
+    .proof-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+  }
+</style>
+
+<script>
+  fetch('https://api.github.com/repos/jamjet-labs/jamjet')
+    .then(r => r.json())
+    .then(data => {
+      if (data.stargazers_count) {
+        const el = document.getElementById('github-stars');
+        if (el) el.textContent = data.stargazers_count.toLocaleString();
+      }
+    })
+    .catch(() => {});
+</script>

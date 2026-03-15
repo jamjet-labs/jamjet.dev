@@ -1,0 +1,101 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  tags: string[];
+  code: string;
+  codeFile: string;
+  githubUrl: string;
+  index: number;
+}
+const { title, description, tags, code, codeFile, githubUrl, index } = Astro.props;
+---
+
+<div class="usecase-card" data-card={index}>
+  <div class="card-preview" data-card-toggle={index}>
+    <h3 class="card-title">{title}</h3>
+    <p class="card-desc">{description}</p>
+    <div class="card-tags">
+      {tags.map(tag => <span class="card-tag">{tag}</span>)}
+    </div>
+  </div>
+  <div class="card-expanded" id={`card-detail-${index}`}>
+    <div class="code-block" style="margin-top:16px">
+      <div class="code-header">
+        <span>{codeFile}</span>
+        <a href={githubUrl} target="_blank" rel="noopener" style="color:var(--text-muted);font-size:0.7rem;text-decoration:none;">View on GitHub →</a>
+      </div>
+      <pre class="code-body" set:html={code} />
+    </div>
+  </div>
+</div>
+
+<style>
+  .usecase-card {
+    cursor: pointer;
+  }
+  .card-preview {
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+  }
+  .card-title {
+    font-family: var(--font-body, 'Newsreader', serif);
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .card-desc {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  .card-tags {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .card-tag {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    background: var(--accent-bg);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+  .card-expanded {
+    display: none;
+    padding-bottom: 24px;
+  }
+  .usecase-card.active .card-expanded {
+    display: block;
+  }
+  .usecase-card:not(.active) {
+    transition: opacity 0.2s;
+  }
+  :global(.has-active) .usecase-card:not(.active) {
+    opacity: 0.5;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .usecase-card:not(.active) { opacity: 1 !important; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-card-toggle]').forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const index = toggle.getAttribute('data-card-toggle');
+      const card = document.querySelector(`[data-card="${index}"]`);
+      const grid = card?.closest('.usecase-grid');
+      const wasActive = card?.classList.contains('active');
+
+      document.querySelectorAll('.usecase-card').forEach(c => c.classList.remove('active'));
+      grid?.classList.remove('has-active');
+
+      if (!wasActive && card) {
+        card.classList.add('active');
+        grid?.classList.add('has-active');
+      }
+    });
+  });
+</script>
