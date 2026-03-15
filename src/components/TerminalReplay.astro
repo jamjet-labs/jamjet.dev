@@ -4,6 +4,10 @@ interface Props {
   title?: string;
 }
 const { lines, title = 'terminal' } = Astro.props;
+const linesHtml = lines.map((line, i) => {
+  const escaped = line.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return `<span class="terminal-line" style="--line-index: ${i}; --line-chars: ${line.length}">${escaped}\n</span>`;
+}).join('');
 ---
 
 <div class="terminal-replay" data-terminal>
@@ -13,9 +17,7 @@ const { lines, title = 'terminal' } = Astro.props;
     </span>
     <span class="terminal-title">{title}</span>
   </div>
-  <pre class="terminal-body">{lines.map((line, i) => (
-    <span class="terminal-line" style={`--line-index: ${i}; --line-chars: ${line.length}`}>{line}{'\n'}</span>
-  ))}</pre>
+  <pre class="terminal-body" set:html={linesHtml} />
 </div>
 
 <style>
@@ -76,14 +78,20 @@ const { lines, title = 'terminal' } = Astro.props;
   }
 </style>
 
-<script>
-  const terminals = document.querySelectorAll('[data-terminal]');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('playing');
+<script is:inline>
+  (function() {
+    var terminals = document.querySelectorAll('[data-terminal]');
+    function onIntersect(entries) {
+      for (var i = 0; i < entries.length; i++) {
+        if (entries[i].isIntersecting) {
+          entries[i].target.classList.add('playing');
+        }
       }
-    });
-  }, { threshold: 0.3 });
-  terminals.forEach(t => observer.observe(t));
+    }
+    var opts = { threshold: 0.3 };
+    var observer = new IntersectionObserver(onIntersect, opts);
+    for (var i = 0; i < terminals.length; i++) {
+      observer.observe(terminals[i]);
+    }
+  })();
 </script>

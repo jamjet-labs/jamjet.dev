@@ -1,0 +1,306 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroAnimation from '../components/HeroAnimation.astro';
+import TerminalReplay from '../components/TerminalReplay.astro';
+import UseCaseCard from '../components/UseCaseCard.astro';
+import SocialProofBar from '../components/SocialProofBar.astro';
+
+const terminalLines = [
+  '$ jamjet run research-pipeline.yaml',
+  '▸ Starting execution exec_7f3a...',
+  '▸ [Plan]       ✓ completed  420ms',
+  '▸ [Research]   ✓ completed  1.2s',
+  '▸ [Analyze]    ✗ worker crashed',
+  '▸ Lease expired · reclaiming...',
+  '▸ [Analyze]    ✓ resumed    890ms',
+  '▸ [Review]     ✓ completed  650ms',
+  '▸ [Synthesize] ✓ completed  1.1s',
+  '▸ Execution complete · 5/5 nodes · 0 events lost',
+];
+
+const card0Code = `<span class="t-d"># DCI deliberation pattern</span>
+<span class="t-w">grid</span> <span class="t-p">=</span> <span class="t-b">ExperimentGrid</span><span class="t-p">(</span>
+    <span class="t-w">conditions</span><span class="t-p">={</span><span class="t-s">"strategy"</span><span class="t-p">: [</span><span class="t-s">"consensus"</span><span class="t-p">,</span> <span class="t-s">"debate"</span><span class="t-p">]},</span>
+    <span class="t-w">seeds</span><span class="t-p">=[</span><span class="t-w">42</span><span class="t-p">,</span> <span class="t-w">123</span><span class="t-p">,</span> <span class="t-w">456</span><span class="t-p">],</span>
+<span class="t-p">)</span>`;
+
+const card1Code = `<span class="t-w">results</span><span class="t-p">.</span><span class="t-b">compare</span><span class="t-p">(</span><span class="t-s">"debate"</span><span class="t-p">,</span> <span class="t-s">"react"</span><span class="t-p">,</span> <span class="t-w">test</span><span class="t-p">=</span><span class="t-s">"auto"</span><span class="t-p">,</span> <span class="t-w">alpha</span><span class="t-p">=</span><span class="t-w">0.05</span><span class="t-p">)</span>`;
+
+const card2Code = `<span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span><span class="t-w">tools</span><span class="t-p">=[</span><span class="t-w">web_search</span><span class="t-p">,</span> <span class="t-w">calculator</span><span class="t-p">],</span> <span class="t-w">strategy</span><span class="t-p">=</span><span class="t-s">"react"</span><span class="t-p">)</span>
+<span class="t-kw">async def</span> <span class="t-b">research</span><span class="t-p">(</span><span class="t-w">q</span><span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">):</span> <span class="t-w">...</span>`;
+
+const card3Code = `<span class="t-p">@</span><span class="t-w">workflow</span><span class="t-p">.</span><span class="t-b">step</span><span class="t-p">(</span><span class="t-w">type</span><span class="t-p">=</span><span class="t-s">"human_approval"</span><span class="t-p">)</span>
+<span class="t-kw">async def</span> <span class="t-b">approve</span><span class="t-p">(</span><span class="t-w">state</span><span class="t-p">):</span>
+    <span class="t-kw">return await</span> <span class="t-w">state</span><span class="t-p">.</span><span class="t-b">wait_for_approval</span><span class="t-p">()</span>`;
+
+const card4Code = `<span class="t-w">card</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">discover</span><span class="t-p">(</span><span class="t-s">"/.well-known/agent.json"</span><span class="t-p">)</span>
+<span class="t-w">result</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">delegate</span><span class="t-p">(</span><span class="t-w">card</span><span class="t-p">,</span> <span class="t-w">task</span><span class="t-p">=</span><span class="t-s">"analyze report"</span><span class="t-p">)</span>`;
+
+const proofCode = `<span class="t-kw">from</span> <span class="t-w">jamjet</span> <span class="t-kw">import</span> <span class="t-b">task</span><span class="t-p">,</span> <span class="t-b">workflow</span>
+
+<span class="t-p">@</span><span class="t-b">task</span>
+<span class="t-kw">async def</span> <span class="t-b">analyze</span><span class="t-p">(</span><span class="t-w">data</span><span class="t-p">:</span> <span class="t-y">dict</span><span class="t-p">)</span> <span class="t-p">-></span> <span class="t-y">dict</span><span class="t-p">:</span>
+    <span class="t-d"># your logic here — crash-safe by default</span>
+    <span class="t-kw">return</span> <span class="t-p">{</span><span class="t-s">"summary"</span><span class="t-p">:</span> <span class="t-b">llm</span><span class="t-p">.</span><span class="t-b">call</span><span class="t-p">(</span><span class="t-w">data</span><span class="t-p">)}</span>
+
+<span class="t-p">@</span><span class="t-b">workflow</span>
+<span class="t-kw">async def</span> <span class="t-b">pipeline</span><span class="t-p">():</span>
+    <span class="t-w">raw</span>  <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">fetch_data</span><span class="t-p">()</span>
+    <span class="t-w">out</span>  <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">analyze</span><span class="t-p">(</span><span class="t-w">raw</span><span class="t-p">)</span>
+    <span class="t-kw">return</span> <span class="t-w">out</span>`;
+---
+
+<BaseLayout
+  title="Showcase — JamJet Durable Agent Runtime"
+  description="See JamJet in action: crash-safe agent workflows, multi-agent deliberation, human approval loops, A2A delegation, and more — in 12 lines of Python."
+  canonical="https://jamjet.dev/showcase"
+  currentPage="showcase"
+>
+
+<script type="application/ld+json" slot="head">{JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "JamJet",
+  "description": "A durable runtime for reliable and reproducible multi-agent AI systems",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Linux, macOS, Windows",
+  "url": "https://jamjet.dev",
+  "downloadUrl": "https://pypi.org/project/jamjet/",
+  "softwareVersion": "0.2.0",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+})}</script>
+
+<!-- ── Zone 1: Hero ── -->
+<section class="showcase-hero">
+  <HeroAnimation />
+  <div class="hero-text">
+    <h1>Your agents crash.<br/>Ours recover.</h1>
+    <p class="hero-sub">
+      JamJet checkpoints every event as it happens. When a worker dies mid-run,
+      the scheduler reclaims the lease and resumes from exactly where it left off —
+      zero events lost, zero reruns.
+    </p>
+    <div class="hero-actions">
+      <div class="install-cmd">
+        <span class="prompt">$</span>
+        <span class="cmd">pip install jamjet</span>
+        <button class="copy-btn" onclick="navigator.clipboard.writeText('pip install jamjet')">copy</button>
+      </div>
+      <a href="https://docs.jamjet.dev/getting-started" class="btn-secondary">Read the docs</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Zone 2: Code Proof ── -->
+<section>
+  <div class="container">
+    <span class="section-label">Live execution</span>
+    <h2>See it run</h2>
+    <div class="code-proof">
+      <div>
+        <TerminalReplay lines={terminalLines} title="jamjet · research-pipeline.yaml" />
+        <a
+          href="https://github.com/jamjet-labs/jamjet/tree/main/examples/research-deliberation"
+          target="_blank"
+          rel="noopener"
+          class="code-github"
+        >View full example on GitHub →</a>
+      </div>
+      <div>
+        <div class="code-block">
+          <div class="code-header">
+            <span>pipeline.py</span>
+            <span>Python · 12 lines</span>
+          </div>
+          <pre class="code-body" set:html={proofCode} />
+        </div>
+      </div>
+    </div>
+    <p class="code-proof-tagline">12 lines of Python. Crash-safe by default.</p>
+  </div>
+</section>
+
+<!-- ── Zone 3: Use Case Cards ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container">
+    <span class="section-label">Examples</span>
+    <h2>Built for real work</h2>
+    <p class="usecase-intro">Click any card to expand the code.</p>
+    <div class="usecase-grid">
+      <UseCaseCard
+        index={0}
+        title="Multi-Agent Research"
+        description="Run structured deliberation experiments across consensus and debate strategies. Cartesian product over seeds, automatic result collection."
+        tags={["consensus", "debate", "eval"]}
+        code={card0Code}
+        codeFile="deliberation.py"
+        githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/research-deliberation"
+      />
+      <UseCaseCard
+        index={1}
+        title="Strategy Comparison"
+        description="Compare reasoning strategies with a single call. Auto-selects the right statistical test and reports effect size, p-value, and significance."
+        tags={["experiment-grid", "ablation"]}
+        code={card1Code}
+        codeFile="compare.py"
+        githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/eval-harness"
+      />
+      <UseCaseCard
+        index={2}
+        title="Tool-Augmented Agent"
+        description="Attach MCP tools to any task with a single decorator. JamJet handles tool dispatch, retries, and cost tracking automatically."
+        tags={["mcp", "tools", "react"]}
+        code={card2Code}
+        codeFile="tools.py"
+        githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/mcp-tool-consumer"
+      />
+      <UseCaseCard
+        index={3}
+        title="Human Approval Workflow"
+        description="Pause a durable workflow for human review. The execution state persists indefinitely — resume it hours or days later with no data loss."
+        tags={["hitl", "durable"]}
+        code={card3Code}
+        codeFile="approval.py"
+        githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/hitl-approval"
+      />
+      <UseCaseCard
+        index={4}
+        title="Agent-to-Agent Delegation"
+        description="Discover remote agents via Agent Cards and delegate tasks over the A2A protocol. Identity-aware routing with provenance tracking built in."
+        tags={["a2a", "routing"]}
+        code={card4Code}
+        codeFile="delegation.py"
+        githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/a2a-delegation"
+      />
+    </div>
+  </div>
+</section>
+
+<!-- ── Zone 4: Social Proof ── -->
+<SocialProofBar />
+
+</BaseLayout>
+
+<style>
+  /* ── Zone 1: Hero ── */
+  .showcase-hero {
+    min-height: calc(100vh - 64px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px 64px;
+  }
+
+  .hero-text {
+    max-width: 640px;
+    margin-top: 48px;
+    text-align: center;
+  }
+
+  .hero-text h1 {
+    margin-bottom: 20px;
+  }
+
+  .hero-sub {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 36px;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  /* ── Zone 2: Code Proof ── */
+  .code-proof {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 32px;
+  }
+
+  .code-github {
+    display: block;
+    margin-top: 12px;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    text-decoration: none;
+    font-family: var(--font-sans);
+    transition: color 0.15s;
+  }
+
+  .code-github:hover {
+    color: var(--text-secondary);
+  }
+
+  .code-proof-tagline {
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 40px;
+    letter-spacing: 0.01em;
+  }
+
+  /* ── Zone 3: Use Case Cards ── */
+  .usecase-intro {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 8px;
+    margin-bottom: 32px;
+    font-family: var(--font-sans);
+  }
+
+  .usecase-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px 40px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .showcase-hero {
+      padding: 48px 24px 40px;
+      justify-content: flex-start;
+      min-height: auto;
+    }
+
+    .hero-text {
+      margin-top: 32px;
+    }
+
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .hero-actions .install-cmd {
+      justify-content: center;
+    }
+
+    .hero-actions .btn-secondary {
+      justify-content: center;
+    }
+
+    .code-proof {
+      grid-template-columns: 1fr;
+    }
+
+    .usecase-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .usecase-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

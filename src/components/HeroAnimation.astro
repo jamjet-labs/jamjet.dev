@@ -266,31 +266,31 @@
 
 <script>
   function initHeroAnimation() {
-    const container = document.querySelector('[data-hero-anim]') as HTMLElement | null;
+    var container = document.querySelector('[data-hero-anim]');
     if (!container) return;
 
     // Check reduced motion preference
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const nodes = container.querySelectorAll('.node') as NodeListOf<SVGCircleElement>;
-    const dot = container.querySelector('.data-dot') as SVGCircleElement;
-    const statusText = container.querySelector('.status-text') as SVGTextElement;
-    const schedulerNode = container.querySelector('.scheduler-node') as SVGCircleElement;
-    const schedulerLabel = container.querySelector('.scheduler-label') as SVGTextElement;
-    const recoveryEdge = container.querySelector('.recovery-edge') as SVGLineElement;
+    var nodes = container.querySelectorAll('.node');
+    var dot = container.querySelector('.data-dot');
+    var statusText = container.querySelector('.status-text');
+    var schedulerNode = container.querySelector('.scheduler-node');
+    var schedulerLabel = container.querySelector('.scheduler-label');
+    var recoveryEdge = container.querySelector('.recovery-edge');
 
     // Reduced motion: show final completed state immediately
     if (prefersReduced) {
       container.classList.add('stage-1', 'stage-2', 'stage-3');
-      nodes.forEach(n => n.classList.add('active'));
-      nodes[4]?.classList.add('completed');
+      nodes.forEach(function(n) { n.classList.add('active'); });
+      if (nodes[4]) nodes[4].classList.add('completed');
       statusText.textContent = 'completed \u00b7 0 events lost';
       statusText.classList.add('visible', 'success');
       return;
     }
 
     // Node positions for dot movement
-    const nodePositions = [
+    var nodePositions = [
       { x: 120, y: 140 },
       { x: 260, y: 140 },
       { x: 400, y: 140 },
@@ -299,28 +299,28 @@
     ];
 
     // Move the dot to a position
-    function moveDot(x: number, y: number) {
+    function moveDot(x, y) {
       dot.setAttribute('cx', String(x));
       dot.setAttribute('cy', String(y));
     }
 
     // Animate dot from one node to the next over duration ms
-    function animateDot(fromIdx: number, toIdx: number, duration: number): Promise<void> {
-      return new Promise(resolve => {
-        const from = nodePositions[fromIdx];
-        const to = nodePositions[toIdx];
-        const startTime = performance.now();
+    function animateDot(fromIdx, toIdx, duration) {
+      return new Promise(function(resolve) {
+        var from = nodePositions[fromIdx];
+        var to = nodePositions[toIdx];
+        var startTime = performance.now();
 
         dot.classList.add('visible');
         moveDot(from.x, from.y);
 
-        function step(now: number) {
-          const elapsed = now - startTime;
-          const t = Math.min(elapsed / duration, 1);
+        function step(now) {
+          var elapsed = now - startTime;
+          var t = Math.min(elapsed / duration, 1);
           // ease-in-out
-          const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-          const cx = from.x + (to.x - from.x) * ease;
-          const cy = from.y + (to.y - from.y) * ease;
+          var ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+          var cx = from.x + (to.x - from.x) * ease;
+          var cy = from.y + (to.y - from.y) * ease;
           moveDot(cx, cy);
 
           if (t < 1) {
@@ -334,28 +334,24 @@
     }
 
     // Helper: wait ms
-    function wait(ms: number): Promise<void> {
-      return new Promise(resolve => setTimeout(resolve, ms));
+    function wait(ms) {
+      return new Promise(function(resolve) { setTimeout(resolve, ms); });
     }
 
     // Set status text
-    function setStatus(text: string, cls?: string) {
+    function setStatus(text, cls) {
       statusText.textContent = text;
       statusText.classList.remove('error', 'success');
       if (cls) statusText.classList.add(cls);
       statusText.classList.add('visible');
     }
 
-    function clearStatus() {
-      statusText.classList.remove('visible');
-    }
-
     // Pulse a node
-    function pulseNode(idx: number) {
-      const node = nodes[idx];
+    function pulseNode(idx) {
+      var node = nodes[idx];
       node.classList.remove('pulse');
       // Force reflow to restart animation
-      void (node as any).offsetWidth;
+      void node.offsetWidth;
       node.classList.add('pulse');
     }
 
