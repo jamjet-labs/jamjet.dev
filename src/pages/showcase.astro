@@ -18,20 +18,21 @@ const terminalLines = [
   '▸ Execution complete · 5/5 nodes · 0 events lost',
 ];
 
-const card0Code = `<span class="t-d"># DCI deliberation pattern</span>
-<span class="t-w">grid</span> <span class="t-p">=</span> <span class="t-b">ExperimentGrid</span><span class="t-p">(</span>
-    <span class="t-w">conditions</span><span class="t-p">={</span><span class="t-s">"strategy"</span><span class="t-p">: [</span><span class="t-s">"consensus"</span><span class="t-p">,</span> <span class="t-s">"debate"</span><span class="t-p">]},</span>
-    <span class="t-w">seeds</span><span class="t-p">=[</span><span class="t-w">42</span><span class="t-p">,</span> <span class="t-w">123</span><span class="t-p">,</span> <span class="t-w">456</span><span class="t-p">],</span>
-<span class="t-p">)</span>`;
+const card0Code = `<span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span><span class="t-w">model</span><span class="t-p">=</span><span class="t-s">"claude-sonnet-4-6"</span><span class="t-p">,</span> <span class="t-w">tools</span><span class="t-p">=[</span><span class="t-w">market_data</span><span class="t-p">,</span> <span class="t-w">sec_filings</span><span class="t-p">])</span>
+<span class="t-kw">async def</span> <span class="t-b">analyze_company</span><span class="t-p">(</span><span class="t-w">ticker</span><span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">) -&gt;</span> <span class="t-y">Report</span><span class="t-p">:</span>
+    <span class="t-s">"""Deep financial analysis with risk assessment."""</span>`;
 
-const card1Code = `<span class="t-w">results</span><span class="t-p">.</span><span class="t-b">compare</span><span class="t-p">(</span><span class="t-s">"debate"</span><span class="t-p">,</span> <span class="t-s">"react"</span><span class="t-p">,</span> <span class="t-w">test</span><span class="t-p">=</span><span class="t-s">"auto"</span><span class="t-p">,</span> <span class="t-w">alpha</span><span class="t-p">=</span><span class="t-w">0.05</span><span class="t-p">)</span>`;
+const card1Code = `<span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span><span class="t-w">tools</span><span class="t-p">=[</span><span class="t-w">search</span><span class="t-p">,</span> <span class="t-w">retrieve</span><span class="t-p">,</span> <span class="t-w">summarize</span><span class="t-p">])</span>
+<span class="t-kw">async def</span> <span class="t-b">answer</span><span class="t-p">(</span><span class="t-w">question</span><span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">) -&gt;</span> <span class="t-y">str</span><span class="t-p">:</span>
+    <span class="t-s">"""Search knowledge base, retrieve docs, synthesize answer."""</span>`;
 
-const card2Code = `<span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span><span class="t-w">tools</span><span class="t-p">=[</span><span class="t-w">web_search</span><span class="t-p">,</span> <span class="t-w">calculator</span><span class="t-p">],</span> <span class="t-w">strategy</span><span class="t-p">=</span><span class="t-s">"react"</span><span class="t-p">)</span>
-<span class="t-kw">async def</span> <span class="t-b">research</span><span class="t-p">(</span><span class="t-w">q</span><span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">):</span> <span class="t-w">...</span>`;
-
-const card3Code = `<span class="t-p">@</span><span class="t-w">workflow</span><span class="t-p">.</span><span class="t-b">step</span><span class="t-p">(</span><span class="t-w">type</span><span class="t-p">=</span><span class="t-s">"human_approval"</span><span class="t-p">)</span>
+const card2Code = `<span class="t-p">@</span><span class="t-b">workflow.step</span><span class="t-p">(</span><span class="t-w">type</span><span class="t-p">=</span><span class="t-s">"human_approval"</span><span class="t-p">)</span>
 <span class="t-kw">async def</span> <span class="t-b">approve</span><span class="t-p">(</span><span class="t-w">state</span><span class="t-p">):</span>
     <span class="t-kw">return await</span> <span class="t-w">state</span><span class="t-p">.</span><span class="t-b">wait_for_approval</span><span class="t-p">()</span>`;
+
+const card3Code = `<span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span><span class="t-w">tools</span><span class="t-p">=[</span><span class="t-w">web_search</span><span class="t-p">,</span> <span class="t-w">calculator</span><span class="t-p">],</span> <span class="t-w">strategy</span><span class="t-p">=</span><span class="t-s">"react"</span><span class="t-p">)</span>
+<span class="t-kw">async def</span> <span class="t-b">research</span><span class="t-p">(</span><span class="t-w">q</span><span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">) -&gt;</span> <span class="t-y">str</span><span class="t-p">:</span>
+    <span class="t-s">"""Research with MCP tools, crash-safe."""</span>`;
 
 const card4Code = `<span class="t-w">card</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">discover</span><span class="t-p">(</span><span class="t-s">"/.well-known/agent.json"</span><span class="t-p">)</span>
 <span class="t-w">result</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">delegate</span><span class="t-p">(</span><span class="t-w">card</span><span class="t-p">,</span> <span class="t-w">task</span><span class="t-p">=</span><span class="t-s">"analyze report"</span><span class="t-p">)</span>`;
@@ -124,50 +125,50 @@ const proofCode = `<span class="t-kw">from</span> <span class="t-w">jamjet</span
 <section style="background: var(--bg-alt);">
   <div class="container">
     <span class="section-label">Examples</span>
-    <h2>Built for real work</h2>
+    <h2>Production patterns</h2>
     <p class="usecase-intro">Click any card to expand the code.</p>
     <div class="usecase-grid">
       <UseCaseCard
         index={0}
-        title="Multi-Agent Research"
-        description="Run structured deliberation experiments across consensus and debate strategies. Cartesian product over seeds, automatic result collection."
-        tags={["consensus", "debate", "eval"]}
+        title="Investment Due Diligence"
+        description="Multi-agent pipeline: market analyst, financial reviewer, risk assessor, and compliance checker collaborate on investment reports."
+        tags={["multi-agent", "a2a", "durable"]}
         code={card0Code}
-        codeFile="deliberation.py"
-        githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/research-deliberation"
+        codeFile="due-diligence.py"
+        githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/wealth-management-agents"
       />
       <UseCaseCard
         index={1}
-        title="Strategy Comparison"
-        description="Compare reasoning strategies with a single call. Auto-selects the right statistical test and reports effect size, p-value, and significance."
-        tags={["experiment-grid", "ablation"]}
+        title="RAG Assistant"
+        description="Retrieval-augmented agent that searches, retrieves, and synthesizes — with every step checkpointed."
+        tags={["rag", "tools", "durable"]}
         code={card1Code}
-        codeFile="compare.py"
-        githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/eval-harness"
+        codeFile="rag-agent.py"
+        githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/rag-assistant"
       />
       <UseCaseCard
         index={2}
-        title="Tool-Augmented Agent"
-        description="Attach MCP tools to any task with a single decorator. JamJet handles tool dispatch, retries, and cost tracking automatically."
-        tags={["mcp", "tools", "react"]}
-        code={card2Code}
-        codeFile="tools.py"
-        githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/mcp-tool-consumer"
-      />
-      <UseCaseCard
-        index={3}
         title="Human Approval Workflow"
-        description="Pause a durable workflow for human review. The execution state persists indefinitely — resume it hours or days later with no data loss."
-        tags={["hitl", "durable"]}
-        code={card3Code}
+        description="Durable suspension at approval checkpoints. The process sleeps until a human responds — survives restarts."
+        tags={["hitl", "durable", "production"]}
+        code={card2Code}
         codeFile="approval.py"
         githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/hitl-approval"
       />
       <UseCaseCard
+        index={3}
+        title="MCP Tool Integration"
+        description="Connect to any MCP server. Your agent's tool calls are durable workflow steps — crash-safe by default."
+        tags={["mcp", "tools", "interop"]}
+        code={card3Code}
+        codeFile="mcp-agent.py"
+        githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/mcp-tool-consumer"
+      />
+      <UseCaseCard
         index={4}
         title="Agent-to-Agent Delegation"
-        description="Discover remote agents via Agent Cards and delegate tasks over the A2A protocol. Identity-aware routing with provenance tracking built in."
-        tags={["a2a", "routing"]}
+        description="Route tasks to specialized agents via A2A protocol. Identity-aware, cost-aware, fully durable."
+        tags={["a2a", "routing", "production"]}
         code={card4Code}
         codeFile="delegation.py"
         githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/a2a-delegation"
