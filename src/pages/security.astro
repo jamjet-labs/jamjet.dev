@@ -11,6 +11,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <div class="legal">
   <h1>Security</h1>
   <p class="legal-updated">Last updated: March 2026</p>
+  <p class="security-trust-summary">
+    JamJet is designed so the runtime stays under your control: local execution, local state, local audit logs, and no runtime telemetry back to us.
+  </p>
 
   <h2>About JamJet</h2>
   <p>
@@ -72,6 +75,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     color: var(--text-muted);
     font-size: 0.85rem;
     margin-bottom: 2.5rem;
+  }
+  .security-trust-summary {
+    font-size: 1rem;
+    color: var(--text);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    padding: 20px 24px;
+    background: var(--bg-alt);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
   }
   .legal h2 {
     font-size: 1.2rem;

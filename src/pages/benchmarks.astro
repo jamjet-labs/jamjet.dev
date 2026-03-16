@@ -32,16 +32,40 @@ const runs = [
 ---
 
 <BaseLayout
-  title="JamJet Benchmarks — Framework Overhead Comparison"
-  description="How much overhead does your agent framework add? JamJet vs LangGraph vs raw LLM call latency — measured and reproducible with Ollama."
+  title="Runtime Economics and Reliability — JamJet Benchmarks"
+  description="How JamJet changes the operational cost of agent systems: resume vs rerun, replay vs reconstruction, and framework overhead in context."
   canonical="https://jamjet.dev/benchmarks"
 >
 
 <div class="bench-page">
-  <h1>JamJet Benchmarks — Agent Framework Overhead Comparison</h1>
+  <h1>Runtime Economics and Reliability</h1>
   <p class="subtitle">
-    Framework orchestration overhead — JamJet vs LangGraph vs raw LLM call.<br/>
-    All runners make the same LLM call through the same client. The difference is pure framework tax.
+    JamJet's most important benefit is not microsecond-level orchestration overhead.
+    It is the reduction in wasted work when workflows fail, pause, or need to be replayed.
+    These benchmarks show both the raw framework tax and the runtime economics that matter in production.
+  </p>
+
+  <div class="economics-intro">
+    <h2>Why runtime economics matter more than framework tax</h2>
+    <div class="economics-grid">
+      <div class="econ-card">
+        <h3>Resume vs rerun after failure</h3>
+        <p>A 7-step workflow fails on step 6. Plain rerun: repeat all 7 steps. JamJet: resume from step 6. The savings scale with workflow complexity and LLM cost.</p>
+      </div>
+      <div class="econ-card">
+        <h3>Replay savings</h3>
+        <p>Replaying a failed or interesting execution avoids recomputing completed steps. Debug from checkpoints, not from scratch.</p>
+      </div>
+      <div class="econ-card">
+        <h3>Side-effect safety</h3>
+        <p>Durable state and leases reduce duplicate downstream actions after process failure — fewer double-sends, fewer double-charges.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2 style="margin-top:2rem">Framework orchestration overhead</h2>
+  <p class="subtitle" style="margin-bottom:1.5rem">
+    For completeness, here is the raw orchestration tax measured against identical LLM calls.
   </p>
 
   {runs.map((run) => {
@@ -222,6 +246,12 @@ python bench_single_call.py --json results/my-run.json</div>
 <style>
   .bench-page { max-width: 1000px; margin: 0 auto; padding: 3rem 24px 5rem; }
   .bench-page h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+  .economics-intro { margin-bottom: 3rem; }
+  .economics-intro h2 { font-size: 1.3rem; margin-bottom: 1.5rem; }
+  .economics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .econ-card { padding: 20px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px; }
+  .econ-card h3 { font-size: 0.92rem; font-weight: 600; margin-bottom: 8px; }
+  .econ-card p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6; margin: 0; }
   .subtitle { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 3rem; }
 
   .run-heading {
@@ -269,4 +299,7 @@ python bench_single_call.py --json results/my-run.json</div>
   .methodology strong { color: var(--text); }
   .methodology ul { padding-left: 1.25rem; color: var(--text-secondary); font-size: 0.88rem; }
   .methodology ul li { margin-bottom: 0.4rem; }
+  @media (max-width: 768px) {
+    .economics-grid { grid-template-columns: 1fr; }
+  }
 </style>

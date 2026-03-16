@@ -62,7 +62,7 @@ const proofCode = `<span class="t-kw">from</span> <span class="t-w">jamjet</span
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "JamJet",
-  "description": "A durable runtime for reliable and reproducible multi-agent AI systems",
+  "description": "The durable runtime for AI agents. Checkpoint replay, crash recovery, and full execution traces.",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Linux, macOS, Windows",
   "url": "https://jamjet.dev",
@@ -77,9 +77,9 @@ const proofCode = `<span class="t-kw">from</span> <span class="t-w">jamjet</span
   <div class="hero-text">
     <h1>Your agents crash.<br/>Ours recover.</h1>
     <p class="hero-sub">
-      JamJet checkpoints every event as it happens. When a worker dies mid-run,
-      the scheduler reclaims the lease and resumes from exactly where it left off —
-      zero events lost, zero reruns.
+      JamJet checkpoints every step as it happens. When a worker dies mid-run,
+      the scheduler reclaims the lease and resumes from exactly where it stopped —
+      no lost work, no duplicate actions, no reruns.
     </p>
     <div class="hero-actions">
       <div class="install-cmd">
@@ -121,17 +121,43 @@ const proofCode = `<span class="t-kw">from</span> <span class="t-w">jamjet</span
   </div>
 </section>
 
-<!-- ── Zone 3: Use Case Cards ── -->
+<!-- ── Why Teams Care ── -->
 <section style="background: var(--bg-alt);">
   <div class="container">
+    <span class="section-label">Impact</span>
+    <h2>Why teams care</h2>
+    <div class="teams-care-grid">
+      <div class="teams-care-item">
+        <strong>Lower rerun cost</strong>
+        <p>Completed steps stay completed. No wasted tokens after failure.</p>
+      </div>
+      <div class="teams-care-item">
+        <strong>Safer side effects</strong>
+        <p>Downstream actions are less likely to be repeated after failure.</p>
+      </div>
+      <div class="teams-care-item">
+        <strong>Faster debugging</strong>
+        <p>Replay the exact execution instead of reconstructing it from logs.</p>
+      </div>
+      <div class="teams-care-item">
+        <strong>More reliable operations</strong>
+        <p>Long-running workflows survive crashes, restarts, and lease handoffs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Zone 3: Use Case Cards ── -->
+<section>
+  <div class="container">
     <span class="section-label">Examples</span>
-    <h2>Production patterns</h2>
+    <h2>How teams use JamJet in production</h2>
     <p class="usecase-intro">Click any card to expand the code.</p>
     <div class="usecase-grid">
       <UseCaseCard
         index={0}
         title="Investment Due Diligence"
-        description="Multi-agent pipeline: market analyst, financial reviewer, risk assessor, and compliance checker collaborate on investment reports."
+        description="A durable multi-agent workflow for report generation, risk review, and compliance checks."
         tags={["multi-agent", "a2a", "durable"]}
         code={card0Code}
         codeFile="due-diligence.py"
@@ -140,7 +166,7 @@ const proofCode = `<span class="t-kw">from</span> <span class="t-w">jamjet</span
       <UseCaseCard
         index={1}
         title="RAG Assistant"
-        description="Retrieval-augmented agent that searches, retrieves, and synthesizes — with every step checkpointed."
+        description="A retrieval-and-synthesis workflow where every step is checkpointed, traceable, and replayable."
         tags={["rag", "tools", "durable"]}
         code={card1Code}
         codeFile="rag-agent.py"
@@ -149,7 +175,7 @@ const proofCode = `<span class="t-kw">from</span> <span class="t-w">jamjet</span
       <UseCaseCard
         index={2}
         title="Human Approval Workflow"
-        description="Durable suspension at approval checkpoints. The process sleeps until a human responds — survives restarts."
+        description="Pause durably for a human decision, then resume without losing state or re-running prior work."
         tags={["hitl", "durable", "production"]}
         code={card2Code}
         codeFile="approval.py"
@@ -158,7 +184,7 @@ const proofCode = `<span class="t-kw">from</span> <span class="t-w">jamjet</span
       <UseCaseCard
         index={3}
         title="MCP Tool Integration"
-        description="Connect to any MCP server. Your agent's tool calls are durable workflow steps — crash-safe by default."
+        description="Use external tools through MCP while keeping each tool call inside the durable runtime."
         tags={["mcp", "tools", "interop"]}
         code={card3Code}
         codeFile="mcp-agent.py"
@@ -167,7 +193,7 @@ const proofCode = `<span class="t-kw">from</span> <span class="t-w">jamjet</span
       <UseCaseCard
         index={4}
         title="Agent-to-Agent Delegation"
-        description="Route tasks to specialized agents via A2A protocol. Identity-aware, cost-aware, fully durable."
+        description="Delegate to specialized agents via A2A with identity-aware, cost-aware, replayable execution."
         tags={["a2a", "routing", "production"]}
         code={card4Code}
         codeFile="delegation.py"
@@ -265,6 +291,30 @@ const proofCode = `<span class="t-kw">from</span> <span class="t-w">jamjet</span
     gap: 24px 40px;
   }
 
+  /* ── Why Teams Care ── */
+  .teams-care-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 48px;
+    margin-top: 24px;
+  }
+  .teams-care-item {
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+  }
+  .teams-care-item strong {
+    display: block;
+    font-size: 0.92rem;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .teams-care-item p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
   /* ── Responsive ── */
   @media (max-width: 768px) {
     .showcase-hero {
@@ -293,6 +343,8 @@ const proofCode = `<span class="t-kw">from</span> <span class="t-w">jamjet</span
     .code-proof {
       grid-template-columns: 1fr;
     }
+
+    .teams-care-grid { grid-template-columns: 1fr; }
 
     .usecase-grid {
       grid-template-columns: 1fr;

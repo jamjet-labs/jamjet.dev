@@ -107,6 +107,30 @@ const terminalLines = [
   </div>
 </section>
 
+<!-- ── Why This Matters ── -->
+<section class="why-matters">
+  <div class="container">
+    <div class="why-matters-grid">
+      <div class="why-matters-item">
+        <strong>No lost work after failure</strong>
+        <p>Completed steps stay completed. A crash on step 6 doesn't rerun steps 1–5.</p>
+      </div>
+      <div class="why-matters-item">
+        <strong>No repeated side effects</strong>
+        <p>External calls aren't re-executed. Emails aren't re-sent. Charges aren't re-applied.</p>
+      </div>
+      <div class="why-matters-item">
+        <strong>No rerun cost for completed steps</strong>
+        <p>Tokens already spent stay spent. Resume costs only what remains.</p>
+      </div>
+      <div class="why-matters-item">
+        <strong>Exact replay for debugging and audit</strong>
+        <p>Replay the full execution from checkpoints. See exactly what happened, when.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── Outcomes ── -->
 <section style="background: var(--bg-alt);">
   <div class="container">
@@ -119,7 +143,7 @@ const terminalLines = [
           <circle cx="27" cy="16" r="2" fill="currentColor" stroke="none" />
         </svg>
         <h3>Recover from crashes without rerunning everything</h3>
-        <p>Event-sourced execution means completed steps are never repeated. Resume from the exact point of failure.</p>
+        <p>Completed steps are never repeated. JamJet resumes from the exact point of failure instead of forcing a full rerun.</p>
       </div>
       <div class="outcome">
         <svg class="outcome-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -129,7 +153,7 @@ const terminalLines = [
           <circle cx="16" cy="16" r="6" stroke-dasharray="2 2" />
         </svg>
         <h3>Pause safely for human approval</h3>
-        <p>Native human-in-the-loop nodes. The process sleeps durably until a human responds &mdash; even across restarts.</p>
+        <p>Approval gates suspend durably and survive restarts. Long-running workflows stay reliable even when humans are in the loop.</p>
       </div>
       <div class="outcome">
         <svg class="outcome-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -138,7 +162,7 @@ const terminalLines = [
           <line x1="6" y1="28" x2="26" y2="28" stroke-dasharray="2 2" />
         </svg>
         <h3>Replay any execution to debug exactly what happened</h3>
-        <p>Full checkpoint replay with OpenTelemetry traces. Per-node cost attribution. No more guessing.</p>
+        <p>Replay a run from checkpoints, inspect traces, and see per-node cost and latency. No guessing from logs.</p>
       </div>
       <div class="outcome">
         <svg class="outcome-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -151,7 +175,7 @@ const terminalLines = [
           <line x1="22" y1="20" x2="26" y2="24" />
         </svg>
         <h3>Connect tools and external agents with MCP + A2A</h3>
-        <p>Both protocols built in &mdash; client and server. Connect to any tool, delegate to any agent.</p>
+        <p>Use built-in client and server support for both protocols. Connect to tools, delegate to agents, and keep every call inside a durable execution model.</p>
       </div>
       <div class="outcome">
         <svg class="outcome-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -161,7 +185,7 @@ const terminalLines = [
           <rect x="10" y="10" width="12" height="6" rx="1" stroke-dasharray="2 2" />
         </svg>
         <h3>Enforce cost and iteration limits in the runtime</h3>
-        <p>Token budgets, cost caps, iteration limits. Enforced by the Rust runtime, not by convention.</p>
+        <p>Cost caps, token budgets, and iteration limits are enforced by the runtime, not left to application discipline.</p>
       </div>
       <div class="outcome">
         <svg class="outcome-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -170,7 +194,7 @@ const terminalLines = [
           <rect x="6" y="6" width="20" height="20" rx="2" />
         </svg>
         <h3>Evaluate agents like software, not vibes</h3>
-        <p>LLM-as-judge, assertion, latency, and cost scorers. Run evals as workflow nodes. CI exit codes on regression.</p>
+        <p>Run evals as workflow nodes with judge-based, assertion-based, latency, and cost scoring. Fail CI on regressions.</p>
       </div>
       <div class="outcome">
         <svg class="outcome-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -181,7 +205,7 @@ const terminalLines = [
           <path d="M18 22l2 2 4-4" />
         </svg>
         <h3>Deploy with enterprise controls when needed</h3>
-        <p>Tenant isolation, PII redaction, OAuth 2.0 delegation, mTLS federation &mdash; enforced at the runtime layer.</p>
+        <p>Tenant isolation, PII redaction, OAuth delegation, mTLS federation, and retention controls — enforced at the runtime layer.</p>
       </div>
     </div>
   </div>
@@ -228,20 +252,20 @@ const terminalLines = [
         <h2>Coming from LangGraph?</h2>
         <div class="migration-points">
           <div class="migration-point">
-            <strong>Same Python mental model</strong>
-            <p>TypedDict &rarr; pydantic.BaseModel. StateGraph &rarr; Workflow. Familiar patterns, stronger guarantees.</p>
+            <strong>Same mental model</strong>
+            <p>Typed state, workflow steps, routing, and graph-like structure — without relearning how to think.</p>
           </div>
           <div class="migration-point">
-            <strong>Built-in durability</strong>
-            <p>Not optional checkpoint plumbing. Every step is durable by default, enforced by the Rust runtime.</p>
+            <strong>Durability by default</strong>
+            <p>No optional checkpoint plumbing. Every step is durable when you run on the JamJet runtime.</p>
           </div>
           <div class="migration-point">
-            <strong>Per-step validation</strong>
-            <p>Typed schemas at every boundary. Catch errors before they propagate through the graph.</p>
+            <strong>Validation at every boundary</strong>
+            <p>Typed schemas catch state and interface problems before they spread.</p>
           </div>
           <div class="migration-point">
             <strong>Runtime-enforced limits</strong>
-            <p>Cost caps and iteration budgets enforced by the scheduler, not by your code.</p>
+            <p>Budgets and iteration caps live in the scheduler, not in scattered guard code.</p>
           </div>
         </div>
         <div class="migration-actions">
@@ -702,8 +726,32 @@ const terminalLines = [
   }
   .trust-link:hover { text-decoration: underline; }
 
+  /* ── Why This Matters ── */
+  .why-matters {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .why-matters-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+  .why-matters-item strong {
+    display: block;
+    font-size: 0.92rem;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .why-matters-item p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
   /* ── Responsive ── */
   @media (max-width: 768px) {
+    .why-matters-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
     .proof-grid { grid-template-columns: 1fr; gap: 32px; }
     .outcomes { grid-template-columns: 1fr; gap: 0; }
     .code-section { grid-template-columns: 1fr; gap: 32px; }

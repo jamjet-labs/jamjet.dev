@@ -29,7 +29,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <!-- ── The Problem ── -->
 <section style="background: var(--bg-alt);">
   <div class="container">
-    <span class="section-label">The problem</span>
+    <span class="section-label">Why we built this</span>
     <h2 class="section-title">Research infrastructure<br/>shouldn't be your research</h2>
     <p class="r-problem-lead">
       Multi-agent experiments require orchestration, evaluation, reproducibility, and statistical analysis.
@@ -37,19 +37,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </p>
     <div class="r-pain-grid">
       <div class="r-pain">
-        <span class="r-pain-pct">60%</span>
-        <p>of research time spent on infrastructure, not science</p>
-        <span class="r-pain-src">Industry surveys, 2024–2025 ML practitioner reports</span>
+        <span class="r-pain-pct">Most</span>
+        <p>of research time goes to infrastructure instead of science — orchestrating runs, tracking seeds, formatting tables.</p>
       </div>
       <div class="r-pain">
-        <span class="r-pain-pct">0</span>
+        <span class="r-pain-pct">No</span>
         <p>major agent frameworks with built-in experiment grids, checkpoint replay, and publication export</p>
-        <span class="r-pain-src">Survey of LangGraph, AutoGen, CrewAI, March 2026</span>
       </div>
       <div class="r-pain">
-        <span class="r-pain-pct">62&times;</span>
-        <p>token overhead in multi-agent experiments without proper orchestration</p>
-        <span class="r-pain-src"><a href="/benchmarks">JamJet benchmark suite</a>, local Ollama runs, March 2026</span>
+        <span class="r-pain-pct">Real</span>
+        <p>token and cost waste when multi-agent experiments crash and must restart from scratch without checkpoints</p>
       </div>
     </div>
   </div>
@@ -59,12 +56,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <section id="capabilities">
   <div class="container">
     <span class="section-label">Capabilities</span>
-    <h2 class="section-title">Everything between<br/>hypothesis and publication</h2>
+    <h2 class="section-title">What researchers actually need</h2>
     <div class="r-caps">
 
       <div class="r-cap">
-        <h3>Six Reasoning Strategies</h3>
-        <p>React, plan-and-execute, critic, reflection, consensus, debate — swap with a single parameter. Same agent, different reasoning. Perfect for ablation studies.</p>
+        <h3>Compare strategies</h3>
+        <p>Swap reasoning patterns with one parameter and run the same task across conditions. Six built-in strategies: React, plan-and-execute, critic, reflection, consensus, debate.</p>
         <div class="r-cap-code">
           <pre><span class="t-w">agent</span> <span class="t-p">=</span> <span class="t-b">Agent</span><span class="t-p">(</span>
   <span class="t-w">strategy</span><span class="t-p">=</span><span class="t-s">"debate"</span><span class="t-p">,</span>  <span class="t-d"># swap to compare</span>
@@ -74,8 +71,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
 
       <div class="r-cap">
-        <h3>ExperimentGrid</h3>
-        <p>Run every combination of conditions and seeds in a single call. Cartesian product, parallel execution, automatic result collection.</p>
+        <h3>Run seeds and sweeps</h3>
+        <p>ExperimentGrid executes Cartesian combinations and collects results automatically. Parallel execution with durable checkpoints across every condition.</p>
         <div class="r-cap-code">
           <pre><span class="t-w">grid</span> <span class="t-p">=</span> <span class="t-b">ExperimentGrid</span><span class="t-p">(</span>
   <span class="t-w">conditions</span><span class="t-p">=&#123;</span>
@@ -88,8 +85,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
 
       <div class="r-cap">
-        <h3>Publication Export</h3>
-        <p>Export results as LaTeX booktabs tables, CSV for R/pandas, or structured JSON. Mean &plusmn; std computed automatically.</p>
+        <h3>Export paper-ready results</h3>
+        <p>Generate LaTeX booktabs tables, CSV for R/pandas, or structured JSON. Mean &plusmn; std computed automatically. Significance tests built in.</p>
         <div class="r-cap-code">
           <pre><span class="t-w">results</span><span class="t-p">.</span><span class="t-b">to_latex</span><span class="t-p">(</span><span class="t-s">"table1.tex"</span><span class="t-p">)</span>
 <span class="t-w">results</span><span class="t-p">.</span><span class="t-b">to_csv</span><span class="t-p">(</span><span class="t-s">"results.csv"</span><span class="t-p">)</span>
@@ -98,8 +95,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
 
       <div class="r-cap">
-        <h3>Durable Replay</h3>
-        <p>Every execution is checkpointed. Replay any experiment exactly. Fork from any checkpoint with modified parameters for ablation studies.</p>
+        <h3>Replay exact executions</h3>
+        <p>Reproduce a failed or interesting run from checkpoints instead of rebuilding it manually. Fork with modified inputs for ablation studies.</p>
         <div class="r-cap-code">
           <pre><span class="t-d">$ </span><span class="t-w">jamjet replay</span> <span class="t-s">exec_abc</span>
 <span class="t-d">$ </span><span class="t-w">jamjet fork</span> <span class="t-s">exec_abc</span> <span class="t-p">\</span>
@@ -108,8 +105,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
 
       <div class="r-cap">
-        <h3>Built-in Evaluation</h3>
-        <p>LLM-as-judge, assertion, latency, and cost scorers. Eval nodes run inside workflows for self-improving agents. CI exit codes on regression.</p>
+        <h3>Evaluate inside the workflow</h3>
+        <p>Use judge-based, assertion-based, latency, and cost scoring in the same runtime. Eval nodes run inline — during execution, not after.</p>
         <div class="r-cap-code">
           <pre><span class="t-d"># workflow.yaml</span>
 <span class="t-w">check</span><span class="t-p">:</span>
@@ -120,7 +117,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
 
       <div class="r-cap">
-        <h3>Research Template</h3>
+        <h3>Start from a scaffold</h3>
         <p>One command to scaffold a complete experiment: agents, baselines, evaluation datasets, experiment runner, and results directory.</p>
         <div class="r-cap-code">
           <pre><span class="t-d">$ </span><span class="t-w">jamjet init</span> <span class="t-s">my-study</span> <span class="t-p">\</span>
@@ -130,6 +127,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- ── Recipes ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container">
+    <span class="section-label">Recipes</span>
+    <h2 class="section-title">Start from a recipe</h2>
+    <div class="r-recipes">
+      <div class="r-recipe">
+        <strong>Debate vs ReAct benchmark</strong>
+        <p>Compare adversarial and reactive reasoning on your dataset.</p>
+      </div>
+      <div class="r-recipe">
+        <strong>Reflection ablation</strong>
+        <p>Test self-improving loops across models and iteration counts.</p>
+      </div>
+      <div class="r-recipe">
+        <strong>Model swap from checkpoint</strong>
+        <p>Fork a completed run with a different model — instant ablation.</p>
+      </div>
+      <div class="r-recipe">
+        <strong>Judge-loop evaluation</strong>
+        <p>Score, critique, and retry until quality passes a threshold.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -327,7 +350,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
     </div>
     <p class="r-daylife-bridge">
-      Start as a simple Python agent, scale into reproducible experiment runs — without rewriting your stack.
+      The same durability that makes agents reliable in production makes experiments reproducible in research.
       <a href="https://docs.jamjet.dev/en/docs/quickstart">See the quickstart &rarr;</a>
     </p>
   </div>
@@ -582,21 +605,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     font-size: 0.9rem;
     line-height: 1.6;
   }
-  .r-pain-src {
-    display: block;
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    margin-top: 8px;
-    font-style: italic;
-  }
-  .r-pain-src a {
-    color: var(--accent);
-    text-decoration: none;
-  }
-  .r-pain-src a:hover {
-    text-decoration: underline;
-  }
-
   /* ── Capabilities ── */
   .r-caps {
     display: grid;
@@ -620,7 +628,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     margin-bottom: 16px;
   }
   .r-cap-code {
-    background: var(--code-bg, #2a2a28);
+    background: var(--bg-code);
     border-radius: 6px;
     padding: 12px 16px;
     overflow-x: auto;
@@ -989,7 +997,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    background: var(--code-bg, #2a2a28);
+    background: var(--bg-code);
     padding: 12px 20px;
     border-radius: 8px;
     margin-top: 16px;
@@ -1004,10 +1012,34 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     color: #eae8e1;
   }
 
+  /* ── Recipes ── */
+  .r-recipes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .r-recipe {
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+  }
+  .r-recipe strong {
+    display: block;
+    font-size: 0.92rem;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .r-recipe p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
   /* ── Responsive ── */
   @media (max-width: 768px) {
     .r-pain-grid { grid-template-columns: 1fr; gap: 0; }
     .r-caps { grid-template-columns: 1fr; gap: 0; }
+    .r-recipes { grid-template-columns: 1fr 1fr; gap: 16px; }
     .r-papers { grid-template-columns: 1fr; gap: 0; }
     .r-communities { grid-template-columns: 1fr; gap: 0; }
     .r-scripts-grid { grid-template-columns: 1fr; gap: 24px; }
