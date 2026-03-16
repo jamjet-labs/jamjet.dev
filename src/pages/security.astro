@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Security — JamJet"
+  description="JamJet security policy, responsible disclosure, and project information."
+  canonical="https://jamjet.dev/security"
+>
+
+<div class="legal">
+  <h1>Security</h1>
+  <p class="legal-updated">Last updated: March 2026</p>
+
+  <h2>About JamJet</h2>
+  <p>
+    JamJet is an open-source AI agent orchestration framework built in Rust. It provides
+    deterministic, auditable multi-agent workflows for enterprise environments. The project
+    is developed and maintained by <a href="https://github.com/jamjet-labs" target="_blank" rel="noopener">JamJet Labs</a>.
+  </p>
+
+  <h2>License</h2>
+  <p>
+    JamJet is released under the <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Apache License 2.0</a>.
+    The source code is publicly available on <a href="https://github.com/jamjet-labs/jamjet" target="_blank" rel="noopener">GitHub</a>.
+  </p>
+
+  <h2>Responsible Disclosure</h2>
+  <p>
+    If you discover a security vulnerability in JamJet, we ask that you report it responsibly.
+    Please do not open a public GitHub issue for security vulnerabilities.
+  </p>
+  <p>
+    Report vulnerabilities to: <a href="mailto:security@jamjet.dev">security@jamjet.dev</a>
+  </p>
+  <p>
+    We aim to acknowledge reports within 48 hours and provide a fix or mitigation within
+    7 business days depending on severity. We will credit reporters in our release notes
+    unless anonymity is requested.
+  </p>
+
+  <h2>Security Practices</h2>
+  <ul>
+    <li>All runtime execution is local — no data is sent to external servers</li>
+    <li>Workflow state and audit logs remain on your infrastructure</li>
+    <li>No telemetry, no phone-home, no tracking in the runtime</li>
+    <li>Dependencies are monitored for known vulnerabilities</li>
+    <li>The website does not use cookies or collect personal data</li>
+  </ul>
+
+  <h2>Contact</h2>
+  <p>
+    General inquiries: <a href="mailto:hello@jamjet.dev">hello@jamjet.dev</a><br>
+    Security issues: <a href="mailto:security@jamjet.dev">security@jamjet.dev</a>
+  </p>
+</div>
+
+</BaseLayout>
+
+<style>
+  .legal {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 3rem 24px 6rem;
+  }
+  .legal h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .legal-updated {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 2.5rem;
+  }
+  .legal h2 {
+    font-size: 1.2rem;
+    margin: 2rem 0 0.75rem;
+  }
+  .legal p {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+  .legal ul {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+  .legal li {
+    margin-bottom: 0.5rem;
+  }
+  .legal a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .legal a:hover {
+    text-decoration: underline;
+  }
+</style>
