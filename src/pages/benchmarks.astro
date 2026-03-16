@@ -193,13 +193,13 @@ const runs = [
     <div class="code-header">
       <span>Integration — 2 env vars, no custom client</span>
     </div>
-    <div class="code-body">export OPENAI_BASE_URL="https://us-central1-aiplatform.googleapis.com/..."
+    <pre class="code-body">export OPENAI_BASE_URL="https://us-central1-aiplatform.googleapis.com/..."
 export OPENAI_API_KEY=$(gcloud auth print-access-token)
 
 <span class="t-d"># Then just use @task/@tool as normal</span>
 <span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span>model=<span class="t-s">"google/gemini-2.0-flash-001"</span><span class="t-p">,</span> tools=<span class="t-p">[</span>web_search<span class="t-p">])</span>
 <span class="t-kw">async def</span> <span class="t-b">research</span><span class="t-p">(</span>question<span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">)</span> -> <span class="t-y">str</span><span class="t-p">:</span>
-    <span class="t-s">"""Research assistant — search first, then summarize."""</span></div>
+    <span class="t-s">"""Research assistant — search first, then summarize."""</span></pre>
   </div>
 
   <div class="methodology">
@@ -215,7 +215,7 @@ export OPENAI_API_KEY=$(gcloud auth print-access-token)
     </ul>
 
     <div class="code-block" style="margin:1rem 0">
-      <div class="code-body"><span class="t-d"># Reproduce locally (Ollama)</span>
+      <pre class="code-body"><span class="t-d"># Reproduce locally (Ollama)</span>
 export OPENAI_API_KEY="ollama"
 export OPENAI_BASE_URL="http://localhost:11434/v1"
 export MODEL_NAME="llama3.2"
@@ -223,7 +223,7 @@ export MODEL_NAME="llama3.2"
 git clone https://github.com/jamjet-labs/jamjet-benchmarks
 cd jamjet-benchmarks/benchmarks
 pip install -r requirements.txt
-python bench_single_call.py --json results/my-run.json</div>
+python bench_single_call.py --json results/my-run.json</pre>
     </div>
 
     <ul>
