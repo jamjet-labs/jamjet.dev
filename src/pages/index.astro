@@ -1,18 +1,32 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroAnimation from '../components/HeroAnimation.astro';
+import TerminalReplay from '../components/TerminalReplay.astro';
+
+const terminalLines = [
+  '$ jamjet run research-pipeline.yaml',
+  '▸ Starting execution exec_7f3a...',
+  '▸ [Plan]       ✓ completed  420ms',
+  '▸ [Research]   ✓ completed  1.2s',
+  '▸ [Analyze]    ✗ worker crashed',
+  '▸ Lease expired · reclaiming...',
+  '▸ [Analyze]    ✓ resumed    890ms',
+  '▸ [Review]     ✓ completed  650ms',
+  '▸ [Synthesize] ✓ completed  1.1s',
+  '▸ Execution complete · 5/5 nodes · 0 events lost',
+];
 ---
 
 <BaseLayout
-  title="JamJet — Open Source AI Agent Framework | Durable Execution Runtime"
-  description="Production-grade orchestration for AI agents. Durable execution, native MCP + A2A, full observability. Built in Rust. Authored in Python."
+  title="JamJet — Build AI Agents That Don't Lose Their Work"
+  description="JamJet is the durable runtime for production-grade AI agents. Checkpoint replay, native MCP + A2A, built-in eval, full execution traces. Write Python, run with Rust reliability."
   canonical="https://jamjet.dev/"
 >
 <script type="application/ld+json" slot="head">{JSON.stringify({
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "JamJet",
-  "description": "Open source agent-native runtime with durable execution, native MCP and A2A protocol support. Built in Rust, authored in Python.",
+  "description": "The durable runtime for AI agents. Checkpoint replay, native MCP + A2A, built-in eval, full execution traces. Write Python, run with Rust reliability.",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Linux, macOS, Windows",
   "url": "https://jamjet.dev",
@@ -22,76 +36,152 @@ import HeroAnimation from '../components/HeroAnimation.astro';
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
 })}</script>
 
-<!-- ── Research-First Announcement Banner ── -->
-<div class="announce-banner">
-  <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;max-width:900px;margin:0 auto;">
-    <span class="announce-badge">New</span>
-    <span class="announce-text">Research-first features shipped — ExperimentGrid, EvalNode, reflection/consensus/debate strategies</span>
-    <a href="/research" class="announce-link">Explore the research toolkit &rarr;</a>
-  </div>
-</div>
-
 <!-- ── Hero ── -->
 <section class="hero">
   <div class="hero-inner">
-    <h1>The agent-native<br/>runtime</h1>
+    <h1>Build AI agents that<br/>don't lose their work.</h1>
     <p class="hero-sub">
-      Durable execution. Native MCP + A2A. Full observability.<br/>
-      Built in Rust. Authored in Python.
+      JamJet is the durable runtime for AI agents &mdash; with checkpoint replay,
+      full execution traces, and runtime-enforced reliability.<br/>
+      Write Python. Run with Rust reliability.
     </p>
     <div class="hero-actions">
-      <a href="https://docs.jamjet.dev/en/docs/quickstart" class="btn-primary">Get started</a>
-      <a href="https://github.com/jamjet-labs/jamjet" class="btn-secondary" target="_blank" rel="noopener">
-        View on GitHub
-      </a>
+      <a href="#proof" class="btn-primary">See the crash recovery demo &darr;</a>
+      <a href="https://docs.jamjet.dev/en/docs/quickstart" class="btn-secondary">Get started in 60 seconds</a>
     </div>
     <div class="install-cmd">
       <span class="prompt">$</span>
       <span class="cmd">pip install jamjet</span>
       <button class="copy-btn" id="copy-install">copy</button>
     </div>
+  </div>
+</section>
 
-    <div class="hero-anim-wrapper">
+<!-- ── Proof: Crash Recovery Demo ── -->
+<section id="proof">
+  <div class="container">
+    <span class="section-label">See it survive</span>
+    <h2>Your agents crash. Ours recover.</h2>
+    <p class="section-intro">
+      Every step is checkpointed as it happens. When a worker dies mid-run,
+      the scheduler reclaims the lease and resumes exactly where it left off.
+    </p>
+    <div class="proof-anim">
       <HeroAnimation />
+    </div>
+    <div class="proof-grid">
+      <div>
+        <TerminalReplay lines={terminalLines} title="jamjet · crash recovery" />
+      </div>
+      <div class="proof-callouts">
+        <div class="proof-step">
+          <span class="proof-icon">1</span>
+          <div>
+            <strong>Worker crashes mid-execution</strong>
+            <p>The Analyze step fails unexpectedly.</p>
+          </div>
+        </div>
+        <div class="proof-step">
+          <span class="proof-icon">2</span>
+          <div>
+            <strong>Lease reclaimed automatically</strong>
+            <p>The scheduler detects the failure and reclaims work.</p>
+          </div>
+        </div>
+        <div class="proof-step">
+          <span class="proof-icon">3</span>
+          <div>
+            <strong>Resumes from checkpoint</strong>
+            <p>No rerun of completed steps. Picks up exactly where it stopped.</p>
+          </div>
+        </div>
+        <div class="proof-step">
+          <span class="proof-icon">4</span>
+          <div>
+            <strong>Zero events lost</strong>
+            <p>All 5 nodes complete. Full execution integrity preserved.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ── Why JamJet ── -->
+<!-- ── Outcomes ── -->
 <section style="background: var(--bg-alt);">
   <div class="container">
-    <span class="section-label">Why JamJet</span>
-    <h2 class="section-title">Production agents have<br/>unsolved problems</h2>
-    <div class="problems">
-      <div class="problem">
-        <span class="problem-label">Reliability</span>
-        <p class="problem-text">Agents crash and lose everything</p>
-        <p class="problem-solution">Durable graph execution with event sourcing</p>
+    <span class="section-label">What you get</span>
+    <h2 class="section-title">Production outcomes,<br/>not feature lists</h2>
+    <div class="outcomes">
+      <div class="outcome">
+        <svg class="outcome-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 16h6l3-8 4 16 3-8h4" />
+          <circle cx="27" cy="16" r="2" fill="currentColor" stroke="none" />
+        </svg>
+        <h3>Recover from crashes without rerunning everything</h3>
+        <p>Event-sourced execution means completed steps are never repeated. Resume from the exact point of failure.</p>
       </div>
-      <div class="problem">
-        <span class="problem-label">Interop</span>
-        <p class="problem-text">Agents are locked in silos</p>
-        <p class="problem-solution">Native MCP + A2A protocols</p>
+      <div class="outcome">
+        <svg class="outcome-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="8" y="6" width="16" height="20" rx="2" />
+          <line x1="13" y1="16" x2="19" y2="16" />
+          <line x1="16" y1="13" x2="16" y2="19" />
+          <circle cx="16" cy="16" r="6" stroke-dasharray="2 2" />
+        </svg>
+        <h3>Pause safely for human approval</h3>
+        <p>Native human-in-the-loop nodes. The process sleeps durably until a human responds &mdash; even across restarts.</p>
       </div>
-      <div class="problem">
-        <span class="problem-label">Observability</span>
-        <p class="problem-text">You can't see what's happening</p>
-        <p class="problem-solution">OTel GenAI traces + checkpoint replay</p>
+      <div class="outcome">
+        <svg class="outcome-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6,24 12,14 18,18 26,8" />
+          <polyline points="20,8 26,8 26,14" />
+          <line x1="6" y1="28" x2="26" y2="28" stroke-dasharray="2 2" />
+        </svg>
+        <h3>Replay any execution to debug exactly what happened</h3>
+        <p>Full checkpoint replay with OpenTelemetry traces. Per-node cost attribution. No more guessing.</p>
       </div>
-      <div class="problem">
-        <span class="problem-label">Safety</span>
-        <p class="problem-text">Autonomous agents run forever</p>
-        <p class="problem-solution">Compile-time autonomy constraints</p>
+      <div class="outcome">
+        <svg class="outcome-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="10" cy="16" r="4" />
+          <circle cx="22" cy="16" r="4" />
+          <line x1="14" y1="16" x2="18" y2="16" />
+          <line x1="6" y1="8" x2="10" y2="12" />
+          <line x1="6" y1="24" x2="10" y2="20" />
+          <line x1="22" y1="12" x2="26" y2="8" />
+          <line x1="22" y1="20" x2="26" y2="24" />
+        </svg>
+        <h3>Connect tools and external agents with MCP + A2A</h3>
+        <p>Both protocols built in &mdash; client and server. Connect to any tool, delegate to any agent.</p>
       </div>
-      <div class="problem">
-        <span class="problem-label">Process</span>
-        <p class="problem-text">Human approval is bolted on</p>
-        <p class="problem-solution">Human-in-the-loop as a native node type</p>
+      <div class="outcome">
+        <svg class="outcome-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="6" y="6" width="20" height="20" rx="2" />
+          <line x1="6" y1="20" x2="26" y2="20" />
+          <line x1="12" y1="20" x2="12" y2="26" />
+          <rect x="10" y="10" width="12" height="6" rx="1" stroke-dasharray="2 2" />
+        </svg>
+        <h3>Enforce cost and iteration limits in the runtime</h3>
+        <p>Token budgets, cost caps, iteration limits. Enforced by the Rust runtime, not by convention.</p>
       </div>
-      <div class="problem">
-        <span class="problem-label">Performance</span>
-        <p class="problem-text">Python orchestration doesn't scale</p>
-        <p class="problem-solution">Rust async scheduler, microsecond overhead</p>
+      <div class="outcome">
+        <svg class="outcome-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 22l4-4 4 4 8-8" />
+          <circle cx="24" cy="14" r="2" />
+          <rect x="6" y="6" width="20" height="20" rx="2" />
+        </svg>
+        <h3>Evaluate agents like software, not vibes</h3>
+        <p>LLM-as-judge, assertion, latency, and cost scorers. Run evals as workflow nodes. CI exit codes on regression.</p>
+      </div>
+      <div class="outcome">
+        <svg class="outcome-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="8" y="4" width="16" height="24" rx="2" />
+          <line x1="12" y1="10" x2="20" y2="10" />
+          <line x1="12" y1="14" x2="20" y2="14" />
+          <line x1="12" y1="18" x2="16" y2="18" />
+          <path d="M18 22l2 2 4-4" />
+        </svg>
+        <h3>Deploy with enterprise controls when needed</h3>
+        <p>Tenant isolation, PII redaction, OAuth 2.0 delegation, mTLS federation &mdash; enforced at the runtime layer.</p>
       </div>
     </div>
   </div>
@@ -103,96 +193,152 @@ import HeroAnimation from '../components/HeroAnimation.astro';
     <div class="code-section">
       <div class="code-text">
         <span class="section-label">Authoring</span>
-        <h2>Python you<br/>already know</h2>
+        <h2>Python you know.<br/>Durability you don't<br/>have to build.</h2>
         <p style="color: var(--text-secondary); margin-top: 16px;">
-          Decorate functions with <code style="background:var(--surface-code);padding:2px 6px;border-radius:3px;font-size:0.9em">@task</code> and <code style="background:var(--surface-code);padding:2px 6px;border-radius:3px;font-size:0.9em">@tool</code>. The runtime handles durability, cost limits, and telemetry.
+          Every <code style="background:var(--surface-code);padding:2px 6px;border-radius:3px;font-size:0.9em">@task</code> is checkpointed. Every workflow survives crashes. Human approval gates pause durably. Cost limits are enforced by the runtime.
         </p>
       </div>
       <div class="code-block">
         <div class="code-header">
-          <span>agent.py</span>
+          <span>pipeline.py</span>
+          <span>durable workflow</span>
         </div>
-        <pre class="code-body" is:raw><span class="t-kw">from</span> <span class="t-w">jamjet</span> <span class="t-kw">import</span> <span class="t-w">task</span><span class="t-p">,</span> <span class="t-w">tool</span>
+        <pre class="code-body" is:raw><span class="t-kw">from</span> <span class="t-w">jamjet</span> <span class="t-kw">import</span> <span class="t-w">task</span><span class="t-p">,</span> <span class="t-w">workflow</span><span class="t-p">,</span> <span class="t-w">approval</span>
 
-<span class="t-p">@</span><span class="t-b">tool</span>
-<span class="t-kw">async def</span> <span class="t-b">web_search</span><span class="t-p">(</span><span class="t-w">query</span><span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">) -&gt;</span> <span class="t-y">str</span><span class="t-p">:</span>
-    <span class="t-s">"""Search the web for current information."""</span>
-    <span class="t-p">...</span>
+<span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span><span class="t-w">model</span><span class="t-p">=</span><span class="t-s">"claude-sonnet-4-6"</span><span class="t-p">,</span> <span class="t-w">max_cost</span><span class="t-p">=</span><span class="t-y">0.50</span><span class="t-p">)</span>
+<span class="t-kw">async def</span> <span class="t-b">analyze</span><span class="t-p">(</span><span class="t-w">data</span><span class="t-p">:</span> <span class="t-y">dict</span><span class="t-p">) -&gt;</span> <span class="t-y">Report</span><span class="t-p">:</span>
+    <span class="t-s">"""Analyze data — checkpointed, cost-capped."""</span>
 
-<span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span><span class="t-w">model</span><span class="t-p">=</span><span class="t-s">"claude-sonnet-4-6"</span><span class="t-p">,</span> <span class="t-w">tools</span><span class="t-p">=[</span><span class="t-w">web_search</span><span class="t-p">])</span>
-<span class="t-kw">async def</span> <span class="t-b">research</span><span class="t-p">(</span><span class="t-w">question</span><span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">) -&gt;</span> <span class="t-y">str</span><span class="t-p">:</span>
-    <span class="t-s">"""Search first, then summarize clearly."""</span>
-
-<span class="t-w">result</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">research</span><span class="t-p">(</span><span class="t-s">"Latest AI agent trends?"</span><span class="t-p">)</span>
-<span class="t-b">print</span><span class="t-p">(</span><span class="t-w">result</span><span class="t-p">)</span></pre>
+<span class="t-p">@</span><span class="t-b">workflow</span>
+<span class="t-kw">async def</span> <span class="t-b">pipeline</span><span class="t-p">(</span><span class="t-w">raw</span><span class="t-p">:</span> <span class="t-y">dict</span><span class="t-p">):</span>
+    <span class="t-w">report</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">analyze</span><span class="t-p">(</span><span class="t-w">raw</span><span class="t-p">)</span>       <span class="t-d"># crash-safe</span>
+    <span class="t-kw">await</span> <span class="t-b">approval</span><span class="t-p">(</span><span class="t-w">report</span><span class="t-p">)</span>            <span class="t-d"># durable pause</span>
+    <span class="t-kw">return await</span> <span class="t-b">publish</span><span class="t-p">(</span><span class="t-w">report</span><span class="t-p">)</span>     <span class="t-d"># resumes here</span></pre>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── Features ── -->
+<!-- ── Migration Strip ── -->
 <section style="background: var(--bg-alt);">
   <div class="container">
-    <span class="section-label">Capabilities</span>
-    <h2 class="section-title">Everything production demands</h2>
-    <div class="features">
-      <div class="feature">
-        <h3>Durable Graph Execution</h3>
-        <p>Every step checkpointed with event sourcing. Crash the process, restart it — execution resumes exactly where it stopped.</p>
+    <div class="migration-strip">
+      <div class="migration-main">
+        <span class="section-label">Switching is easy</span>
+        <h2>Coming from LangGraph?</h2>
+        <div class="migration-points">
+          <div class="migration-point">
+            <strong>Same Python mental model</strong>
+            <p>TypedDict &rarr; pydantic.BaseModel. StateGraph &rarr; Workflow. Familiar patterns, stronger guarantees.</p>
+          </div>
+          <div class="migration-point">
+            <strong>Built-in durability</strong>
+            <p>Not optional checkpoint plumbing. Every step is durable by default, enforced by the Rust runtime.</p>
+          </div>
+          <div class="migration-point">
+            <strong>Per-step validation</strong>
+            <p>Typed schemas at every boundary. Catch errors before they propagate through the graph.</p>
+          </div>
+          <div class="migration-point">
+            <strong>Runtime-enforced limits</strong>
+            <p>Cost caps and iteration budgets enforced by the scheduler, not by your code.</p>
+          </div>
+        </div>
+        <div class="migration-actions">
+          <a href="https://docs.jamjet.dev/en/docs/migrate/from-langgraph" class="btn-primary">Read the migration guide</a>
+          <a href="https://docs.jamjet.dev/en/docs/compare" class="btn-secondary">Compare all frameworks</a>
+        </div>
       </div>
-      <div class="feature">
-        <h3>Native MCP + A2A</h3>
-        <p>Connect to any tool server. Expose your tools. Delegate to external agents. Both protocols built in, not bolted on.</p>
-      </div>
-      <div class="feature">
-        <h3>Full Observability</h3>
-        <p>OpenTelemetry GenAI traces. Per-node cost attribution. Checkpoint replay. Know exactly what happened and why.</p>
-      </div>
-      <div class="feature">
-        <h3>Human-in-the-Loop</h3>
-        <p>Native workflow node for approvals. Durable suspension — the process sleeps until a human responds, even across restarts.</p>
-      </div>
-      <div class="feature">
-        <h3>Autonomy Limits</h3>
-        <p>Token budgets, cost caps, iteration limits. Enforced by the runtime, not by convention. Agents can't run away.</p>
-      </div>
-      <div class="feature">
-        <h3>Native Eval Harness</h3>
-        <p>LLM-as-judge, assertion, latency, and cost scorers. Run evals as workflow nodes. CI exit codes on regression.</p>
-      </div>
-      <div class="feature">
-        <h3>Typed Schemas</h3>
-        <p>Pydantic and JSON Schema validation at every step boundary. No loose dicts. Catch errors before they propagate.</p>
-      </div>
-      <div class="feature">
-        <h3>Rust Core</h3>
-        <p>Async scheduler built in Rust. Microsecond dispatch overhead. Python is for authoring, not for orchestration.</p>
-      </div>
-      <div class="feature">
-        <h3>Multi-Model</h3>
-        <p>Any OpenAI-compatible API. Anthropic, Ollama, Groq, Azure — swap models per task with a single config change.</p>
+      <div class="migration-also">
+        <p class="migration-also-label">At a glance</p>
+        <div class="migration-compare">
+          <div class="compare-row">
+            <span class="compare-name">Plain Python</span>
+            <span class="compare-desc">Easy start, no durability</span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-name">LangGraph</span>
+            <span class="compare-desc">Graph orchestration, optional checkpoints</span>
+          </div>
+          <div class="compare-row compare-highlight">
+            <span class="compare-name">JamJet</span>
+            <span class="compare-desc">Python mental model + durability by default</span>
+          </div>
+        </div>
+        <p class="migration-also-label" style="margin-top: 20px;">Also migrating from:</p>
+        <a href="https://docs.jamjet.dev/en/docs/migrate/from-crewai">CrewAI &rarr;</a>
+        <a href="https://docs.jamjet.dev/en/docs/migrate/from-openai-direct">OpenAI Agents SDK &rarr;</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── Built for Research ── -->
-<section class="research-highlight">
+<!-- ── Three Persona Cards ── -->
+<section>
   <div class="container">
-    <span class="section-label">Research-First</span>
-    <h2 class="section-title">Your next paper,<br/>reproducible by default</h2>
+    <span class="section-label">One runtime, different reasons to care</span>
+    <h2 class="section-title">Built for your role</h2>
+    <div class="personas">
+      <div class="persona">
+        <svg class="persona-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 28V8l10 5 10-5v20" />
+          <line x1="18" y1="13" x2="18" y2="28" stroke-dasharray="2 3" />
+          <circle cx="18" cy="21" r="3" />
+        </svg>
+        <span class="persona-label">For Builders</span>
+        <h3>Ship agents that survive production</h3>
+        <p>Use your Python mental model, but get durable execution, replayable traces, and runtime-enforced safety. Start with <code>@task</code>, scale to full workflows without rewrites.</p>
+        <a href="https://docs.jamjet.dev/en/docs/quickstart">Read the quickstart &rarr;</a>
+      </div>
+      <div class="persona">
+        <svg class="persona-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="6" y="8" width="24" height="16" rx="2" />
+          <line x1="6" y1="14" x2="30" y2="14" />
+          <line x1="14" y1="14" x2="14" y2="24" />
+          <circle cx="10" cy="11" r="1" fill="currentColor" stroke="none" />
+          <circle cx="22" cy="19" r="3" stroke-dasharray="2 2" />
+          <path d="M14 28h8" />
+          <line x1="18" y1="24" x2="18" y2="28" />
+        </svg>
+        <span class="persona-label">For Platform Teams</span>
+        <h3>Standardize agent infrastructure</h3>
+        <p>One runtime for reliability, observability, eval, and governance. Tenant isolation, PII redaction, OAuth delegation, and mTLS &mdash; all enforced at the Rust layer.</p>
+        <a href="https://docs.jamjet.dev/en/docs/enterprise">Enterprise controls &rarr;</a>
+      </div>
+      <div class="persona">
+        <svg class="persona-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 28c0-6 3-8 8-8s8 2 8 8" />
+          <circle cx="18" cy="12" r="5" />
+          <line x1="28" y1="10" x2="32" y2="6" />
+          <line x1="28" y1="6" x2="32" y2="10" />
+          <line x1="30" y1="6" x2="30" y2="10" />
+        </svg>
+        <span class="persona-label">For Researchers</span>
+        <h3>Run reproducible experiments</h3>
+        <p>The same runtime properties that make agents reliable in production make experiments reproducible in research. ExperimentGrid, checkpoint replay, publication-ready export.</p>
+        <a href="/research">Explore the research toolkit &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Research (Reframed) ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container">
+    <span class="section-label">Research</span>
+    <h2 class="section-title">Reliable agents for production.<br/>Reproducible agents for research.<br/>Same runtime.</h2>
     <div class="research-grid">
       <div class="research-card">
-        <span class="research-card-label">ExperimentGrid</span>
-        <p>Cartesian product over models, prompts, and temperatures. Parallel execution. Results export to CSV, LaTeX, and JSON with one call.</p>
+        <span class="research-card-label">Compare</span>
+        <p>Sweep 6 strategies across models and seeds in one command. Parallel execution with durable checkpoints across every condition.</p>
       </div>
       <div class="research-card">
-        <span class="research-card-label">Built-in Strategies</span>
-        <p>ReAct, plan-and-execute, critic, reflection, consensus, and debate — compiled to IR sub-DAGs. Compare strategies across the same dataset.</p>
+        <span class="research-card-label">Replay</span>
+        <p>Replay the exact failed run. Fork with modified inputs for ablations. No need to rebuild infrastructure or re-run completed conditions.</p>
       </div>
       <div class="research-card">
-        <span class="research-card-label">Durable Replay</span>
-        <p>Every decision checkpointed. Replay any execution. Fork with modified inputs. Perfect for ablation studies and failure analysis.</p>
+        <span class="research-card-label">Export</span>
+        <p>Paper-ready LaTeX tables with mean &plusmn; std, CSV, and JSON. From experiment to results without custom scripts or manual formatting.</p>
       </div>
     </div>
     <div style="text-align:center;margin-top:48px;">
@@ -201,13 +347,37 @@ import HeroAnimation from '../components/HeroAnimation.astro';
   </div>
 </section>
 
-<!-- ── CTA ── -->
+<!-- ── Enterprise Trust Strip ── -->
 <section>
+  <div class="container">
+    <div class="trust-strip">
+      <h3>Enterprise-grade when you need it</h3>
+      <div class="trust-items">
+        <span>Tenant isolation</span>
+        <span class="trust-dot"></span>
+        <span>PII redaction</span>
+        <span class="trust-dot"></span>
+        <span>OAuth 2.0 delegation</span>
+        <span class="trust-dot"></span>
+        <span>mTLS federation</span>
+        <span class="trust-dot"></span>
+        <span>Retention policies</span>
+      </div>
+      <p class="trust-note">All enforced at the Rust runtime layer, not by convention.</p>
+      <a href="/security" class="trust-link">Security &amp; enterprise docs &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Final CTA ── -->
+<section style="background: var(--bg-alt);">
   <div class="container" style="text-align: center; max-width: 560px;">
-    <h2>Start building</h2>
-    <p style="color: var(--text-secondary); margin: 16px 0 32px;">
-      Get a durable workflow running locally in under 10 minutes.
-    </p>
+    <h2>Start building in 60 seconds.</h2>
+    <div class="install-cmd" style="margin: 24px auto 32px; max-width: 400px;">
+      <span class="prompt">$</span>
+      <span class="cmd">jamjet init my-agent</span>
+      <button class="copy-btn" id="copy-final">copy</button>
+    </div>
     <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
       <a href="https://docs.jamjet.dev/en/docs/quickstart" class="btn-primary">Read the quickstart</a>
       <a href="https://github.com/jamjet-labs/jamjet" class="btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
@@ -218,13 +388,14 @@ import HeroAnimation from '../components/HeroAnimation.astro';
 </BaseLayout>
 
 <style>
+  /* ── Hero ── */
   .hero {
     min-height: calc(100vh - 64px);
     display: flex; align-items: center; justify-content: center;
     padding: 80px 24px;
     text-align: center;
   }
-  .hero-inner { max-width: 680px; }
+  .hero-inner { max-width: 720px; }
   .hero-sub {
     font-size: clamp(1rem, 2vw, 1.15rem);
     color: var(--text-secondary);
@@ -235,51 +406,96 @@ import HeroAnimation from '../components/HeroAnimation.astro';
     display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
     margin-bottom: 32px;
   }
-  .hero-anim-wrapper {
-    margin-top: 48px;
-  }
 
-  /* Why JamJet */
+  /* ── Section shared ── */
   .section-title {
     margin: 8px 0 48px;
   }
-  .problems {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px 48px;
+  .section-intro {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 12px 0 40px;
+    max-width: 560px;
   }
-  .problem {
+
+  /* ── Proof section ── */
+  .proof-anim {
+    margin-bottom: 48px;
+  }
+  .proof-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 48px;
+    align-items: center;
+    margin-top: 32px;
+  }
+  .proof-callouts {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .proof-step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .proof-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+  }
+  .proof-step strong {
+    display: block;
+    font-size: 0.92rem;
+    margin-bottom: 4px;
+  }
+  .proof-step p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* ── Outcomes ── */
+  .outcomes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 64px;
+  }
+  .outcome {
     padding: 24px 0;
     border-top: 1px solid var(--border);
   }
-  .problem-label {
+  .outcome-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
     display: block;
-    font-size: 0.68rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--text-muted);
-    margin-bottom: 12px;
-    font-family: var(--font-sans);
   }
-  .problem-text {
-    color: var(--text);
-    font-size: 1.05rem;
+  .outcome h3 {
+    font-size: 0.95rem;
     font-weight: 600;
-    line-height: 1.4;
     margin-bottom: 8px;
+    color: var(--text);
   }
-  .problem-solution {
+  .outcome p {
     color: var(--text-secondary);
-    font-size: 0.9rem;
-    line-height: 1.6;
-  }
-  .problem-solution::before {
-    content: '→ ';
-    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.7;
   }
 
-  /* Code section */
+  /* ── Code section ── */
   .code-section {
     display: grid;
     grid-template-columns: 1fr 1.4fr;
@@ -288,67 +504,136 @@ import HeroAnimation from '../components/HeroAnimation.astro';
   }
   .code-text h2 { margin-bottom: 8px; }
 
-  /* Features */
-  .features {
+  /* ── Migration ── */
+  .migration-strip {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px 48px;
+    grid-template-columns: 1fr auto;
+    gap: 64px;
+    align-items: start;
   }
-  .feature {
-    padding: 24px 0;
-    border-top: 1px solid var(--border);
+  .migration-points {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 48px;
+    margin: 32px 0;
   }
-  .feature h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--text);
+  .migration-point strong {
+    display: block;
+    font-size: 0.92rem;
+    margin-bottom: 6px;
   }
-  .feature p {
+  .migration-point p {
     color: var(--text-secondary);
-    font-size: 0.9rem;
-    line-height: 1.7;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 0;
   }
-
-  /* ── Announcement banner ── */
-  .announce-banner {
-    background: var(--bg-alt);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 24px;
-    text-align: center;
+  .migration-actions {
+    display: flex; gap: 12px; flex-wrap: wrap;
   }
-  .announce-badge {
-    display: inline-block;
-    font-size: 0.65rem;
+  .migration-also {
+    padding: 24px;
+    border-left: 1px solid var(--border);
+    min-width: 180px;
+  }
+  .migration-also-label {
+    font-size: 0.75rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--bg);
-    background: var(--text);
-    padding: 2px 8px;
-    border-radius: 2px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
     font-family: var(--font-sans);
   }
-  .announce-text {
-    font-size: 0.85rem;
+  .migration-also a {
+    display: block;
     color: var(--text-secondary);
+    font-size: 0.88rem;
+    text-decoration: none;
+    margin-bottom: 12px;
+  }
+  .migration-also a:hover {
+    color: var(--text);
+  }
+  .migration-compare {
+    margin-bottom: 20px;
+  }
+  .compare-row {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-name {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text);
     font-family: var(--font-sans);
   }
-  .announce-link {
+  .compare-desc {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .compare-highlight {
+    border-bottom: 2px solid var(--text);
+  }
+  .compare-highlight .compare-name {
+    color: var(--text);
+  }
+  .compare-highlight .compare-desc {
+    color: var(--text-secondary);
+  }
+
+  /* ── Personas ── */
+  .personas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+  }
+  .persona {
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+  }
+  .persona-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    display: block;
+  }
+  .persona-label {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    font-family: var(--font-sans);
+  }
+  .persona h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+  .persona p {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .persona a {
+    color: var(--text);
     font-size: 0.85rem;
     font-weight: 500;
-    color: var(--text);
     text-decoration: none;
     font-family: var(--font-sans);
   }
-  .announce-link:hover {
-    text-decoration: underline;
-  }
+  .persona a:hover { text-decoration: underline; }
 
-  /* Research highlight */
-  .research-highlight {
-    background: var(--bg-alt);
-  }
+  /* ── Research ── */
   .research-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -374,22 +659,79 @@ import HeroAnimation from '../components/HeroAnimation.astro';
     line-height: 1.7;
   }
 
+  /* ── Trust strip ── */
+  .trust-strip {
+    text-align: center;
+    padding: 16px 0;
+  }
+  .trust-strip h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .trust-items {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+  }
+  .trust-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--text-muted);
+  }
+  .trust-note {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    margin-top: 16px;
+    font-family: var(--font-sans);
+  }
+  .trust-link {
+    display: inline-block;
+    margin-top: 12px;
+    color: var(--text);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    font-family: var(--font-sans);
+  }
+  .trust-link:hover { text-decoration: underline; }
+
+  /* ── Responsive ── */
   @media (max-width: 768px) {
-    .problems { grid-template-columns: 1fr; gap: 0; }
-    .features { grid-template-columns: 1fr; gap: 0; }
-    .research-grid { grid-template-columns: 1fr; gap: 0; }
+    .proof-grid { grid-template-columns: 1fr; gap: 32px; }
+    .outcomes { grid-template-columns: 1fr; gap: 0; }
     .code-section { grid-template-columns: 1fr; gap: 32px; }
+    .migration-strip { grid-template-columns: 1fr; gap: 32px; }
+    .migration-also { border-left: none; border-top: 1px solid var(--border); padding: 24px 0 0; min-width: auto; }
+    .migration-points { grid-template-columns: 1fr; }
+    .personas { grid-template-columns: 1fr; gap: 0; }
+    .research-grid { grid-template-columns: 1fr; gap: 0; }
+    .trust-items { gap: 8px; }
+    .trust-dot { display: none; }
   }
   @media (min-width: 769px) and (max-width: 1024px) {
-    .problems { grid-template-columns: repeat(2, 1fr); }
-    .features { grid-template-columns: repeat(2, 1fr); }
+    .outcomes { grid-template-columns: repeat(2, 1fr); }
+    .personas { grid-template-columns: 1fr; gap: 0; }
     .research-grid { grid-template-columns: repeat(2, 1fr); }
+    .migration-points { grid-template-columns: 1fr; }
   }
 </style>
 
 <script>
   document.getElementById('copy-install')?.addEventListener('click', function() {
     navigator.clipboard.writeText('pip install jamjet').then(() => {
+      this.textContent = 'copied!';
+      setTimeout(() => { this.textContent = 'copy'; }, 1500);
+    });
+  });
+  document.getElementById('copy-final')?.addEventListener('click', function() {
+    navigator.clipboard.writeText('jamjet init my-agent').then(() => {
       this.textContent = 'copied!';
       setTimeout(() => { this.textContent = 'copy'; }, 1500);
     });
