@@ -141,3 +141,6 @@ vite.config.ts.timestamp-*
 # Astro build output
 dist/
 .astro/
+
+# Claude Code
+.claude/
