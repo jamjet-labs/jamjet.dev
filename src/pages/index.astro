@@ -198,6 +198,32 @@ const terminalLines = [
       </div>
       <div class="outcome">
         <svg class="outcome-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="16" cy="6" r="4" />
+          <line x1="16" y1="10" x2="16" y2="16" />
+          <line x1="16" y1="16" x2="8" y2="24" />
+          <line x1="16" y1="16" x2="24" y2="24" />
+          <line x1="16" y1="16" x2="16" y2="26" />
+          <circle cx="8" cy="26" r="2" />
+          <circle cx="16" cy="28" r="2" />
+          <circle cx="24" cy="26" r="2" />
+        </svg>
+        <h3>Route to the best agent automatically</h3>
+        <p>The Coordinator discovers agents at runtime, scores them on capability, cost, and latency, and routes to the best fit. Optional LLM tiebreaker when scores are close. Every routing decision lands in the event log.</p>
+      </div>
+      <div class="outcome">
+        <svg class="outcome-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="12" height="10" rx="2" />
+          <rect x="18" y="4" width="12" height="10" rx="2" />
+          <path d="M14 9h4" stroke-dasharray="2 2" />
+          <rect x="10" y="20" width="12" height="10" rx="2" />
+          <path d="M8 14v3a3 3 0 003 3h0" />
+          <path d="M24 14v3a3 3 0 01-3 3h0" />
+        </svg>
+        <h3>Use agents as tools — three modes</h3>
+        <p>Wrap any agent as a callable tool. Sync for quick tasks. Streaming with early termination for long-running work. Conversational for multi-turn refinement — all with budget enforcement.</p>
+      </div>
+      <div class="outcome">
+        <svg class="outcome-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <rect x="8" y="4" width="16" height="24" rx="2" />
           <line x1="12" y1="10" x2="20" y2="10" />
           <line x1="12" y1="14" x2="20" y2="14" />
@@ -367,6 +393,50 @@ const terminalLines = [
     </div>
     <div style="text-align:center;margin-top:48px;">
       <a href="/research" class="btn-primary">Explore the research toolkit</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Agentic Design Patterns ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container">
+    <span class="section-label">Patterns</span>
+    <h2 class="section-title">Six orchestration patterns.<br/>One runtime.</h2>
+    <p style="color: var(--text-secondary); text-align:center; max-width:640px; margin:0 auto 48px;">
+      Every major multi-agent pattern is a first-class primitive — not a workaround.
+      Pick the pattern that fits your problem. JamJet handles the durability, observability, and governance.
+    </p>
+    <div class="outcomes">
+      <div class="outcome">
+        <div style="font-size:2rem;margin-bottom:12px;">&#x1f9e9;</div>
+        <h3>Single Agent</h3>
+        <p><code style="background:var(--surface-code);padding:2px 6px;border-radius:3px;font-size:0.85em">@task</code> decorator. 3 lines of Python. Best for simple prototypes and single-purpose tasks.</p>
+      </div>
+      <div class="outcome">
+        <div style="font-size:2rem;margin-bottom:12px;">&#x27a1;&#xfe0f;</div>
+        <h3>Sequential Pipeline</h3>
+        <p>Chain nodes in a <code style="background:var(--surface-code);padding:2px 6px;border-radius:3px;font-size:0.85em">WorkflowGraph</code>. Each step depends on the previous. Best for ETL, document processing, multi-stage analysis.</p>
+      </div>
+      <div class="outcome">
+        <div style="font-size:2rem;margin-bottom:12px;">&#x1f500;</div>
+        <h3>Parallel Fan-Out</h3>
+        <p><code style="background:var(--surface-code);padding:2px 6px;border-radius:3px;font-size:0.85em">ParallelNode</code> runs branches concurrently. Real async — no GIL. Best for multi-source research, batch classification.</p>
+      </div>
+      <div class="outcome">
+        <div style="font-size:2rem;margin-bottom:12px;">&#x1f504;</div>
+        <h3>Loop &amp; Critic</h3>
+        <p><code style="background:var(--surface-code);padding:2px 6px;border-radius:3px;font-size:0.85em">EvalNode</code> scores output, retries with feedback if quality is low. Best for code review, content generation, anything quality-critical.</p>
+      </div>
+      <div class="outcome">
+        <div style="font-size:2rem;margin-bottom:12px;">&#x1f3af;</div>
+        <h3>Coordinator</h3>
+        <p><code style="background:var(--surface-code);padding:2px 6px;border-radius:3px;font-size:0.85em">CoordinatorNode</code> discovers agents, scores on capability/cost/latency, and routes dynamically. LLM tiebreaker when scores are close. Full scoring in the event log.</p>
+      </div>
+      <div class="outcome">
+        <div style="font-size:2rem;margin-bottom:12px;">&#x1f527;</div>
+        <h3>Agent-as-Tool</h3>
+        <p><code style="background:var(--surface-code);padding:2px 6px;border-radius:3px;font-size:0.85em">agent_tool()</code> wraps any agent as a callable tool. Sync for quick tasks, streaming for long ones with early termination, conversational for multi-turn refinement.</p>
+      </div>
     </div>
   </div>
 </section>
