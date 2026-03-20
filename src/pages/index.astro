@@ -430,12 +430,12 @@ const terminalLines = [
       <div class="outcome">
         <div style="font-size:2rem;margin-bottom:12px;">&#x1f3af;</div>
         <h3>Coordinator</h3>
-        <p><code style="background:var(--surface-code);padding:2px 6px;border-radius:3px;font-size:0.85em">CoordinatorNode</code> discovers agents, scores on capability/cost/latency, and routes dynamically. LLM tiebreaker when scores are close. Full scoring in the event log.</p>
+        <p><code style="background:var(--surface-code);padding:2px 6px;border-radius:3px;font-size:0.85em">CoordinatorNode</code> discovers agents, scores on capability/cost/latency/reasoning modes, and routes dynamically. Async LLM tiebreaker when scores are close. Full scoring in the event log.</p>
       </div>
       <div class="outcome">
         <div style="font-size:2rem;margin-bottom:12px;">&#x1f527;</div>
         <h3>Agent-as-Tool</h3>
-        <p><code style="background:var(--surface-code);padding:2px 6px;border-radius:3px;font-size:0.85em">agent_tool()</code> wraps any agent as a callable tool. Sync for quick tasks, streaming for long ones with early termination, conversational for multi-turn refinement.</p>
+        <p><code style="background:var(--surface-code);padding:2px 6px;border-radius:3px;font-size:0.85em">agent_tool()</code> wraps any agent as a callable tool. Sync for quick tasks, real-time incremental streaming with budget guard and idle timeout, conversational for multi-turn refinement.</p>
       </div>
     </div>
   </div>
