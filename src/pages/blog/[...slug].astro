@@ -60,7 +60,12 @@ const articleLd = {
 
     <header class="post-header">
       <h1>{post.data.title}</h1>
-      <p class="meta">{post.data.date.toISOString().slice(0, 10)}{post.data.author ? ` · ${post.data.author}` : ''}</p>
+      <p class="meta">
+        <time>{post.data.date.toISOString().slice(0, 10)}</time>
+        {post.data.author && (
+          <span> · <a href={`mailto:${post.data.author === 'Sunil Prakash' ? 'sunil@jamjet.dev' : 'hello@jamjet.dev'}`} class="author-link">{post.data.author}</a></span>
+        )}
+      </p>
     </header>
 
     <div class="share-bar">
@@ -111,6 +116,8 @@ const articleLd = {
 
   .post-header h1 { font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.2; margin-bottom: 8px; }
   .meta { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px; }
+  .author-link { color: var(--text-muted); text-decoration: none; border-bottom: 1px solid var(--border); transition: color 0.15s, border-color 0.15s; }
+  .author-link:hover { color: var(--text); border-color: var(--text); }
 
   .share-bar {
     display: flex; align-items: center; gap: 10px;

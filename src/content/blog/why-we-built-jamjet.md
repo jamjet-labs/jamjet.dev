@@ -2,7 +2,7 @@
 title: "Why We Built JamJet"
 date: 2026-03-15
 description: "The demo-to-production gap in AI agents is real. Here is why we built a new runtime instead of reaching for another framework."
-author: jamjet-team
+author: "Sunil Prakash"
 category: "Strategy & Vision"
 ---
 

@@ -2,7 +2,7 @@
 title: "OAuth delegation and federation auth for AI agents"
 date: 2026-03-12
 description: "RFC 8693 token exchange, scope narrowing, per-step scoping, mTLS federation — how JamJet ensures agents never exceed the permissions they were granted."
-author: jamjet-team
+author: "Sunil Prakash"
 category: "Enterprise & Security"
 ---
 

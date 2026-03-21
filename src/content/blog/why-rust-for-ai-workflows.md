@@ -2,7 +2,7 @@
 title: "Why I built JamJet's runtime in Rust"
 date: 2026-03-08
 description: "Not a trendy choice. A conviction-based one. Here is what it cost, what it taught me, and why I would do it again."
-author: jamjet-team
+author: "Sunil Prakash"
 category: "Strategy & Vision"
 ---
 

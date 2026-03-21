@@ -2,7 +2,7 @@
 title: "Announcing JamJet: The Agent-Native Runtime"
 date: 2026-03-07
 description: "We built the runtime we wished existed for AI agents — durable, composable, and built for production from day one."
-author: jamjet-team
+author: "Sunil Prakash"
 category: "Releases & Updates"
 ---
 

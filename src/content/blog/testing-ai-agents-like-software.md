@@ -2,7 +2,7 @@
 title: "Testing AI agents like software"
 date: 2026-03-08
 description: "Most teams test their agents by running them manually and eyeballing the output. There is a better way — and it fits in a CI pipeline."
-author: jamjet-team
+author: "Sunil Prakash"
 category: "Testing & Evaluation"
 ---
 

@@ -2,7 +2,7 @@
 title: "Building a self-evaluating AI agent in 50 lines"
 date: 2026-03-08
 description: "Draft, judge, retry. A workflow that scores its own output and loops until it is good enough — or gives up gracefully."
-author: jamjet-team
+author: "Sunil Prakash"
 category: "Architecture & Deep Dives"
 ---
 

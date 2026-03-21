@@ -2,7 +2,7 @@
 title: "Phase 4: Enterprise security for production agents"
 date: 2026-03-12
 description: "Multi-tenant isolation, PII redaction, OAuth delegation, mTLS federation — the enterprise layer that lets agents handle real data in real organizations."
-author: jamjet-team
+author: "Sunil Prakash"
 category: "Enterprise & Security"
 ---
 
