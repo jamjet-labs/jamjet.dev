@@ -149,3 +149,37 @@ Here is how roles actually evolve:
 The firms that thrive in this transition will not be the ones that "add AI" to their existing processes and call it innovation. They will be the ones that fundamentally redesign how work flows through their organization — with agents handling volume and complexity, and humans handling judgment and relationships. That redesign is a leadership job, not a technology job. It requires understanding what your people are actually good at, where they are wasting their talents on work that machines can do better, and how to redeploy that talent toward the work that only humans can do. The leaders who understand this will shape the transformation. Everyone else will react to it.
 
 ![How roles evolve: some are elevated, some transform, new ones emerge](/blog/ai-agents-role-evolution.svg)
+
+---
+
+## How to get started
+
+You do not need a twelve-month transformation roadmap. You do not need a new department. You need one workflow, one team willing to try something different, and three practical steps.
+
+**1. Pick one workflow, not a department.**
+
+Do not try to "implement AI agents across the organization." That is how you get an eighteen-month steering committee and a PowerPoint deck that outlives every person who worked on it. Instead, pick one specific, well-understood workflow that is slow, repetitive, and has clear inputs and outputs. The wealth management recommendation we walked through is a perfect example — but so is insurance claims processing, contract review, quarterly financial reporting, or supplier qualification. You want a workflow where the steps are known, the data is accessible, and the people involved will tell you honestly what takes too long and where things break down. Start there.
+
+**2. Map the human handoffs.**
+
+Draw the current process on a whiteboard. Not the official process — the real one. Where does work pass from one person to the next? Where does context get lost in the handoff? Where do people wait — for approvals, for information, for someone else to finish their part before the next step can begin? Those handoff points are where agents create the most value. Every handoff is a place where context degrades, where inconsistencies creep in, and where elapsed time accumulates without anyone actually doing productive work. When you can see the handoffs clearly, you can see exactly where agents fit.
+
+**3. Start with human-in-the-loop.**
+
+Deploy agents that do the research, analysis, and synthesis — but require human approval before anything reaches a client, triggers a transaction, or leaves the building. This is not a limitation. It is the right operating model for the first deployment. Human-in-the-loop builds trust with your team, catches edge cases the agents have not seen before, and gives everyone time to learn the new way of working. As confidence grows and the edge cases get handled, you remove guardrails gradually. The goal is not full autonomy on day one. The goal is a system that gets measurably better every week.
+
+![Three steps to get started with AI agents](/blog/ai-agents-getting-started.svg)
+
+---
+
+This is what we built JamJet for.
+
+A runtime where AI agents are durable — they checkpoint every step, recover from failures automatically, and produce complete audit trails without anyone having to reconstruct them after the fact. Where human approval is a first-class capability built into the workflow, not an afterthought bolted on at the end. Where four specialist agents collaborate through a structured, observable workflow — exactly like the wealth management team described above — and every decision, every intermediate result, and every handoff between agents is logged, traceable, and auditable.
+
+The business case for AI agents is real. The technology to build them reliably — with the durability, observability, and human oversight that enterprise workflows demand — is what separates a compelling demo from a system you would actually trust with your clients.
+
+If you want to see how this works under the hood:
+
+- [See the technical architecture →](/blog/wealth-management-multi-agent/)
+- [Try it yourself →](https://github.com/jamjet-labs/jamjet/tree/main/examples/wealth-management-agents)
+- [Read the docs →](https://docs.jamjet.dev)
