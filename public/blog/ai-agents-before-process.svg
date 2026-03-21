@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .small { font-size: 9.5px; }
+    .time { font-size: 11px; font-weight: 600; }
+    .friction { font-size: 9px; font-weight: 500; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="480" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="478" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Title label -->
+  <text x="400" y="28" text-anchor="middle" fill="#8b7355" class="label">Today: How a portfolio recommendation gets made</text>
+
+  <!-- =============== Step 1: Risk Analyst =============== -->
+  <rect x="240" y="44" width="320" height="52" rx="5" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12" stroke-width="1"/>
+  <!-- Step header bar -->
+  <rect x="240" y="44" width="320" height="20" rx="5" fill="rgba(26,26,24,0.04)"/>
+  <rect x="554" y="44" width="6" height="20" fill="rgba(26,26,24,0.04)"/>
+  <text x="252" y="58" fill="#8b8578" class="label">Step 1</text>
+  <text x="304" y="58" fill="#1a1a18" class="title">Risk Analyst</text>
+  <!-- Time badge -->
+  <rect x="486" y="47" width="64" height="14" rx="3" fill="rgba(139,115,85,0.12)"/>
+  <text x="518" y="57" text-anchor="middle" fill="#8b7355" class="mono small">~0.5 day</text>
+  <text x="252" y="82" fill="#6b6b63" class="desc">Reviews client profile, assesses risk tolerance and capacity</text>
+
+  <!-- Arrow 1 -->
+  <line x1="400" y1="96" x2="400" y2="118" stroke="#8b8578" stroke-width="1.5"/>
+  <polygon points="396,116 404,116 400,122" fill="#8b8578"/>
+  <!-- Friction label 1 -->
+  <rect x="418" y="99" width="120" height="16" rx="3" fill="rgba(196,90,60,0.08)"/>
+  <text x="478" y="110" text-anchor="middle" fill="#c45a3c" class="friction">context lost in handoff</text>
+
+  <!-- =============== Step 2: Market Strategist =============== -->
+  <rect x="240" y="124" width="320" height="52" rx="5" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12" stroke-width="1"/>
+  <rect x="240" y="124" width="320" height="20" rx="5" fill="rgba(26,26,24,0.04)"/>
+  <rect x="554" y="124" width="6" height="20" fill="rgba(26,26,24,0.04)"/>
+  <text x="252" y="138" fill="#8b8578" class="label">Step 2</text>
+  <text x="304" y="138" fill="#1a1a18" class="title">Market Strategist</text>
+  <!-- Time badge -->
+  <rect x="494" y="127" width="56" height="14" rx="3" fill="rgba(139,115,85,0.12)"/>
+  <text x="522" y="137" text-anchor="middle" fill="#8b7355" class="mono small">~1 day</text>
+  <text x="252" y="162" fill="#6b6b63" class="desc">Researches market conditions, identifies sector opportunities</text>
+
+  <!-- Arrow 2 -->
+  <line x1="400" y1="176" x2="400" y2="198" stroke="#8b8578" stroke-width="1.5"/>
+  <polygon points="396,196 404,196 400,202" fill="#8b8578"/>
+  <!-- Friction label 2 -->
+  <rect x="418" y="179" width="136" height="16" rx="3" fill="rgba(196,90,60,0.08)"/>
+  <text x="486" y="190" text-anchor="middle" fill="#c45a3c" class="friction">waiting for availability</text>
+
+  <!-- =============== Step 3: Tax Specialist =============== -->
+  <rect x="240" y="204" width="320" height="52" rx="5" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12" stroke-width="1"/>
+  <rect x="240" y="204" width="320" height="20" rx="5" fill="rgba(26,26,24,0.04)"/>
+  <rect x="554" y="204" width="6" height="20" fill="rgba(26,26,24,0.04)"/>
+  <text x="252" y="218" fill="#8b8578" class="label">Step 3</text>
+  <text x="304" y="218" fill="#1a1a18" class="title">Tax Specialist</text>
+  <!-- Time badge -->
+  <rect x="486" y="207" width="64" height="14" rx="3" fill="rgba(139,115,85,0.12)"/>
+  <text x="518" y="217" text-anchor="middle" fill="#8b7355" class="mono small">~0.5 day</text>
+  <text x="252" y="242" fill="#6b6b63" class="desc">Analyzes tax implications, identifies optimization strategies</text>
+
+  <!-- Arrow 3 -->
+  <line x1="400" y1="256" x2="400" y2="278" stroke="#8b8578" stroke-width="1.5"/>
+  <polygon points="396,276 404,276 400,282" fill="#8b8578"/>
+  <!-- Friction label 3 -->
+  <rect x="418" y="259" width="130" height="16" rx="3" fill="rgba(196,90,60,0.08)"/>
+  <text x="483" y="270" text-anchor="middle" fill="#c45a3c" class="friction">different assumptions used</text>
+
+  <!-- =============== Step 4: Senior Portfolio Manager =============== -->
+  <rect x="240" y="284" width="320" height="52" rx="5" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12" stroke-width="1"/>
+  <rect x="240" y="284" width="320" height="20" rx="5" fill="rgba(26,26,24,0.04)"/>
+  <rect x="554" y="284" width="6" height="20" fill="rgba(26,26,24,0.04)"/>
+  <text x="252" y="298" fill="#8b8578" class="label">Step 4</text>
+  <text x="304" y="298" fill="#1a1a18" class="title">Senior Portfolio Manager</text>
+  <!-- Time badge -->
+  <rect x="494" y="287" width="56" height="14" rx="3" fill="rgba(139,115,85,0.12)"/>
+  <text x="522" y="297" text-anchor="middle" fill="#8b7355" class="mono small">~1 day</text>
+  <text x="252" y="322" fill="#6b6b63" class="desc">Synthesizes all inputs into a final recommendation</text>
+
+  <!-- Arrow 4 -->
+  <line x1="400" y1="336" x2="400" y2="358" stroke="#8b8578" stroke-width="1.5"/>
+  <polygon points="396,356 404,356 400,362" fill="#8b8578"/>
+  <!-- Friction label 4 -->
+  <rect x="418" y="339" width="114" height="16" rx="3" fill="rgba(196,90,60,0.08)"/>
+  <text x="475" y="350" text-anchor="middle" fill="#c45a3c" class="friction">re-work if errors found</text>
+
+  <!-- =============== Step 5: Compliance Review =============== -->
+  <rect x="240" y="364" width="320" height="52" rx="5" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12" stroke-width="1"/>
+  <rect x="240" y="364" width="320" height="20" rx="5" fill="rgba(26,26,24,0.04)"/>
+  <rect x="554" y="364" width="6" height="20" fill="rgba(26,26,24,0.04)"/>
+  <text x="252" y="378" fill="#8b8578" class="label">Step 5</text>
+  <text x="304" y="378" fill="#1a1a18" class="title">Compliance Review</text>
+  <!-- Time badge -->
+  <rect x="476" y="367" width="74" height="14" rx="3" fill="rgba(196,90,60,0.12)"/>
+  <text x="513" y="377" text-anchor="middle" fill="#c45a3c" class="mono small">extra wait</text>
+  <text x="252" y="402" fill="#6b6b63" class="desc">Regulatory checks, suitability verification, documentation</text>
+
+  <!-- =============== Left-side timeline bar =============== -->
+  <!-- Vertical timeline line -->
+  <line x1="180" y1="52" x2="180" y2="404" stroke="#c45a3c" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <!-- Top tick -->
+  <line x1="174" y1="52" x2="186" y2="52" stroke="#c45a3c" stroke-width="1.5"/>
+  <!-- Bottom tick -->
+  <line x1="174" y1="404" x2="186" y2="404" stroke="#c45a3c" stroke-width="1.5"/>
+  <!-- Timeline label -->
+  <text x="172" y="215" text-anchor="end" fill="#c45a3c" class="time" transform="rotate(-90 172 215)">3-5 business days</text>
+
+  <!-- =============== Left-side pain point annotations =============== -->
+  <!-- Sequential icon indicators -->
+  <rect x="60" y="60" width="100" height="16" rx="3" fill="rgba(196,90,60,0.06)"/>
+  <text x="110" y="71" text-anchor="middle" fill="#c45a3c" class="friction">sequential only</text>
+
+  <rect x="60" y="140" width="100" height="16" rx="3" fill="rgba(196,90,60,0.06)"/>
+  <text x="110" y="151" text-anchor="middle" fill="#c45a3c" class="friction">no parallelism</text>
+
+  <rect x="60" y="220" width="100" height="16" rx="3" fill="rgba(196,90,60,0.06)"/>
+  <text x="110" y="231" text-anchor="middle" fill="#c45a3c" class="friction">knowledge silos</text>
+
+  <rect x="60" y="300" width="100" height="16" rx="3" fill="rgba(196,90,60,0.06)"/>
+  <text x="110" y="311" text-anchor="middle" fill="#c45a3c" class="friction">manual synthesis</text>
+
+  <rect x="60" y="380" width="100" height="16" rx="3" fill="rgba(196,90,60,0.06)"/>
+  <text x="110" y="391" text-anchor="middle" fill="#c45a3c" class="friction">audit gap risk</text>
+
+  <!-- =============== Bottom summary bar =============== -->
+  <rect x="60" y="436" width="680" height="32" rx="5" fill="rgba(196,90,60,0.06)" stroke="#c45a3c" stroke-opacity="0.25" stroke-width="1"/>
+  <text x="400" y="452" text-anchor="middle" fill="#c45a3c" class="time">Total elapsed: 3-5 business days</text>
+  <text x="400" y="463" text-anchor="middle" fill="#8b8578" class="small">Sequential handoffs, context loss, inconsistent assumptions, compliance bottleneck</text>
+</svg>
