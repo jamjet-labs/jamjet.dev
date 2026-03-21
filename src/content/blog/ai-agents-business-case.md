@@ -113,3 +113,39 @@ The Sarah Chen example is one workflow at one firm. But the implications scale a
 The math is straightforward. If your average advisor manages 40 client relationships today, and agent workflows let them manage 400 without sacrificing quality, you do not need to choose between growth and service levels. You get both. And every competitor who is still running the manual process is operating at a structural disadvantage they cannot close by working harder.
 
 ![Where advisors spend their time: before and after AI agents](/blog/ai-agents-human-focus.svg)
+
+---
+
+## This is not just finance
+
+The wealth management example is detailed because it makes the pattern concrete. But the pattern itself — multiple specialists, sequential handoffs, context loss, inconsistency, and a ceiling on scale — shows up everywhere complex decisions get made.
+
+**Healthcare — Claims Processing.** A patient's insurance claim touches eligibility verification, medical coding, policy matching, and fraud detection. Today that means four departments, two weeks of elapsed time, and a process where errors compound because each step depends on the last. An agent team runs the same analysis in minutes. It cross-references eligibility against policy terms, validates coding accuracy, flags anomalies for fraud review, and routes edge cases to a human reviewer — with a complete audit trail that satisfies regulatory requirements without anyone reconstructing it after the fact. The volume and complexity are handled by agents. The judgment calls — the ambiguous cases, the patient conversations, the regulatory interpretation — stay with people.
+
+**Legal — Contract Review.** Due diligence on an acquisition means reviewing hundreds of contracts for risk clauses, liability exposure, intellectual property issues, and compliance gaps. A paralegal team takes three weeks, and even the best team misses things when they are reading their four-hundredth contract at eleven o'clock at night. A team of agents reads every document, cross-references findings across the entire corpus, and produces a structured risk report — organized by severity, with citations back to the source language. The same work, in an afternoon, with nothing missed. Lawyers still make the judgment calls about which risks matter and how to negotiate around them. But they make those calls with perfect information instead of best-effort summaries.
+
+**Supply Chain — Disruption Response.** When a critical supplier goes down, someone has to assess the downstream impact, find alternative suppliers, check pricing and availability, evaluate lead times, and update commitments to customers. Today that is a war room, a whiteboard, and a lot of phone calls. An agent workflow assesses all of this in parallel — mapping impact across every affected product line, identifying qualified alternatives, comparing pricing and lead times, and presenting a set of options with clear trade-offs to a human decision-maker. The decision still belongs to a person. But instead of spending two days gathering information before they can even begin to decide, they are looking at options within the hour.
+
+The pattern is the same in every case. Agents handle the volume. Agents handle the complexity. Humans handle the judgment, the relationships, and the decisions that require values and context that no system can replicate.
+
+![AI agents apply across industries — healthcare claims, legal review, supply chain response](/blog/ai-agents-industry-cards.svg)
+
+---
+
+## The roles that change
+
+Here is the part of the conversation that most people avoid: some roles will fundamentally change. The analyst who spends 80% of their day pulling data from three systems and assembling summaries in PowerPoint will not be doing that anymore. The associate who manually reviews documents and flags issues will not be doing that either — at least not the way they do it today. Leaders who pretend otherwise, who tell their teams that "nothing will change," will be caught off guard when the change arrives anyway.
+
+But here is the part that matters more: every major platform shift in the last thirty years has created more economic value than it displaced. Cloud computing did not eliminate IT jobs — it created DevOps, site reliability engineering, cloud architecture, and an entire ecosystem of roles that did not exist before. Mobile did not kill desktop software companies — it created UX design, mobile engineering, app store optimization, and a market ten times larger than what preceded it. The same pattern will hold with agents. But it only holds for people and organizations that move early enough to shape the transition instead of being shaped by it.
+
+Here is how roles actually evolve:
+
+**Elevated.** Senior advisors, portfolio managers, relationship leads, managing directors — the people whose value comes from judgment, trust, and client relationships. These roles become more valuable, not less. When agents handle the research, analysis, and synthesis, these professionals spend all of their time on the work that actually differentiates them: understanding what clients really need, weighing tradeoffs that involve values and preferences, building long-term relationships, and making decisions that require experience and nuance. They get better inputs, faster. Their judgment becomes the bottleneck — and that is exactly where you want a human in the loop.
+
+**Transformed.** Junior analysts, research associates, underwriters, paralegals. Their job shifts from "produce the analysis" to "supervise agent quality, handle edge cases, and improve the workflow." They become agent operators — reviewing outputs, catching errors, training the system on new scenarios, and designing better processes. This is not a lesser role. It is a different and highly valuable skill set. The analyst who understands both the domain and the agent workflow becomes indispensable in a way that the analyst who only knows how to pull data never was.
+
+**Emerged.** Roles that do not exist yet. Agent workflow designers who architect how work moves through an organization. AI compliance officers who ensure agent decisions meet regulatory standards. Prompt strategists who optimize how agents reason about complex problems. Every platform shift creates roles that would have been unimaginable five years earlier. Cloud created DevOps. Mobile created UX design. Agents will create their own — and the first generation of people in those roles will come from inside the organizations that move early.
+
+The firms that thrive in this transition will not be the ones that "add AI" to their existing processes and call it innovation. They will be the ones that fundamentally redesign how work flows through their organization — with agents handling volume and complexity, and humans handling judgment and relationships. That redesign is a leadership job, not a technology job. It requires understanding what your people are actually good at, where they are wasting their talents on work that machines can do better, and how to redeploy that talent toward the work that only humans can do. The leaders who understand this will shape the transformation. Everyone else will react to it.
+
+![How roles evolve: some are elevated, some transform, new ones emerge](/blog/ai-agents-role-evolution.svg)
