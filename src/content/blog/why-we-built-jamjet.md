@@ -3,6 +3,7 @@ title: "Why We Built JamJet"
 date: 2026-03-15
 description: "The demo-to-production gap in AI agents is real. Here is why we built a new runtime instead of reaching for another framework."
 author: jamjet-team
+category: "Strategy & Vision"
 ---
 
 Everyone can build an AI agent demo in an afternoon. Getting that same agent to run reliably in production — handling failures, maintaining state across restarts, collaborating with other agents, and producing results you can actually trust — that is a fundamentally different problem. JamJet exists because we got tired of pretending these were the same problem.

@@ -3,7 +3,8 @@ title: "Why AI Agents Are the Next Competitive Advantage — and What Leaders Ne
 date: 2026-03-21
 description: "What AI agents mean for business leaders: faster decisions, better scale, and a new operating model. No code, no jargon — just the strategic case."
 author: jamjet-team
-draft: true
+draft: false
+category: "Strategy & Vision"
 ---
 
 # Why AI Agents Are the Next Competitive Advantage — and What Leaders Need to Know

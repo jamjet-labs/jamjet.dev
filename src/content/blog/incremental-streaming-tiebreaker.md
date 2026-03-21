@@ -3,6 +3,7 @@ title: "What's New: Incremental Streaming, LLM Tiebreaker, and Reasoning Modes"
 date: 2026-03-20
 description: "True incremental NDJSON streaming for agent tools, async LLM tiebreaker for coordinator routing, and reasoning mode scoring for Agent Cards."
 author: jamjet-team
+category: "Releases & Updates"
 ---
 
 # What's New: Incremental Streaming, LLM Tiebreaker, and Reasoning Modes

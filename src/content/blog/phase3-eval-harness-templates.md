@@ -3,6 +3,7 @@ title: "Phase 3: Eval Harness, Project Templates, and the Path to Trustworthy Ag
 date: 2026-03-08
 description: "Shipping the eval harness, four built-in project templates, and why testing your agents the same way you test software is the only path forward."
 author: jamjet-team
+category: "Testing & Evaluation"
 ---
 
 # Phase 3: Eval Harness, Project Templates, and the Path to Trustworthy Agents

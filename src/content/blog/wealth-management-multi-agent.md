@@ -3,6 +3,7 @@ title: "Building a multi-agent wealth advisor with JamJet"
 date: 2026-03-13
 description: "Four specialist AI agents — risk profiler, market analyst, tax strategist, portfolio architect — collaborate through a durable workflow to produce investment recommendations. A deep dive into the architecture, with a side-by-side comparison to Google ADK."
 author: jamjet-team
+category: "Architecture & Deep Dives"
 ---
 
 # Building a multi-agent wealth advisor with JamJet

@@ -3,6 +3,7 @@ title: "Migrating from LangGraph to JamJet: what actually changes"
 date: 2026-03-08
 description: "A side-by-side walkthrough of the same workflow in LangGraph and JamJet — what maps across, what disappears, and what you gain."
 author: jamjet-team
+category: "Architecture & Deep Dives"
 ---
 
 # Migrating from LangGraph to JamJet: what actually changes
