@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" fill="none">
   <style>
     text { font-family: 'Inter', system-ui, sans-serif; }
     .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
@@ -7,131 +7,94 @@
     .desc { font-size: 11px; }
     .small { font-size: 9.5px; }
     .time { font-size: 11px; font-weight: 600; }
-    .attr { font-size: 9px; font-weight: 500; }
   </style>
 
   <!-- Background -->
-  <rect width="800" height="480" rx="8" fill="#fafaf8"/>
-  <rect x="1" y="1" width="798" height="478" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+  <rect width="800" height="460" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="458" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
 
-  <!-- Title label -->
+  <!-- Title -->
   <text x="400" y="28" text-anchor="middle" fill="#8b7355" class="label">With AI Agents: The same recommendation, orchestrated</text>
 
-  <!-- =============== Workflow Orchestrator dashed container =============== -->
-  <rect x="44" y="38" width="712" height="374" rx="6" fill="rgba(139,115,85,0.03)" stroke="#8b7355" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5,3"/>
-  <text x="58" y="52" fill="#8b7355" class="label">Workflow Orchestrator</text>
+  <!-- Workflow Orchestrator container -->
+  <rect x="60" y="40" width="680" height="350" rx="6" fill="rgba(139,115,85,0.03)" stroke="#8b7355" stroke-opacity="0.30" stroke-width="1.2" stroke-dasharray="5,3"/>
+  <text x="74" y="54" fill="#8b7355" class="label">Workflow Orchestrator</text>
 
-  <!-- =============== Step 1: Risk Profiler Agent =============== -->
-  <rect x="240" y="60" width="320" height="52" rx="5" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12" stroke-width="1"/>
-  <!-- Step header bar -->
-  <rect x="240" y="60" width="320" height="20" rx="5" fill="rgba(26,26,24,0.04)"/>
-  <rect x="554" y="60" width="6" height="20" fill="rgba(26,26,24,0.04)"/>
-  <text x="252" y="74" fill="#8b8578" class="label">Agent 1</text>
-  <text x="308" y="74" fill="#1a1a18" class="title">Risk Profiler</text>
-  <!-- Time badge -->
-  <rect x="492" y="63" width="58" height="14" rx="3" fill="rgba(45,125,70,0.10)"/>
-  <text x="521" y="73" text-anchor="middle" fill="#2d7d46" class="mono small">~2 min</text>
-  <text x="252" y="98" fill="#6b6b63" class="desc">Ingests client profile, scores risk tolerance and capacity</text>
+  <!-- ═══ Agent 1: Risk Profiler ═══ -->
+  <rect x="220" y="66" width="350" height="48" rx="5" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <rect x="220" y="66" width="350" height="18" rx="5" fill="rgba(26,26,24,0.04)"/>
+  <rect x="564" y="66" width="6" height="18" fill="rgba(26,26,24,0.04)"/>
+  <text x="232" y="79" fill="#8b8578" class="label">Agent 1</text>
+  <text x="290" y="79" fill="#1a1a18" class="title">Risk Profiler</text>
+  <rect x="500" y="68" width="52" height="14" rx="3" fill="rgba(45,125,70,0.10)"/>
+  <text x="526" y="78" text-anchor="middle" fill="#2d7d46" class="mono small">~2 min</text>
+  <text x="232" y="101" fill="#6b6b63" class="desc">Ingests client profile, scores risk tolerance and capacity</text>
 
-  <!-- Arrow down from Risk Profiler to parallel fork -->
-  <line x1="400" y1="112" x2="400" y2="130" stroke="#8b8578" stroke-width="1.5"/>
-  <!-- Fork horizontal line -->
-  <line x1="282" y1="130" x2="518" y2="130" stroke="#8b8578" stroke-width="1.5"/>
-  <!-- Left branch down -->
-  <line x1="282" y1="130" x2="282" y2="148" stroke="#8b8578" stroke-width="1.5"/>
-  <polygon points="278,146 286,146 282,152" fill="#8b8578"/>
-  <!-- Right branch down -->
-  <line x1="518" y1="130" x2="518" y2="148" stroke="#8b8578" stroke-width="1.5"/>
-  <polygon points="514,146 522,146 518,152" fill="#8b8578"/>
+  <!-- Arrow down + parallel fork -->
+  <line x1="395" y1="114" x2="395" y2="134" stroke="#8b8578" stroke-width="1.5"/>
+  <line x1="230" y1="134" x2="560" y2="134" stroke="#8b8578" stroke-width="1.5"/>
+  <line x1="230" y1="134" x2="230" y2="150" stroke="#8b8578" stroke-width="1.5"/>
+  <polygon points="226,148 234,148 230,154" fill="#8b8578"/>
+  <line x1="560" y1="134" x2="560" y2="150" stroke="#8b8578" stroke-width="1.5"/>
+  <polygon points="556,148 564,148 560,154" fill="#8b8578"/>
 
-  <!-- "parallel" label above fork -->
-  <rect x="334" y="119" width="66" height="14" rx="3" fill="rgba(45,125,70,0.08)"/>
-  <text x="367" y="129" text-anchor="middle" fill="#2d7d46" class="attr">runs in parallel</text>
+  <!-- "runs in parallel" label -->
+  <rect x="358" y="124" width="76" height="14" rx="3" fill="rgba(45,125,70,0.08)"/>
+  <text x="396" y="134" text-anchor="middle" fill="#2d7d46" class="small">runs in parallel</text>
 
-  <!-- =============== Step 2a: Market Analyst Agent (left) =============== -->
-  <rect x="80" y="154" width="284" height="52" rx="5" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12" stroke-width="1"/>
-  <rect x="80" y="154" width="284" height="20" rx="5" fill="rgba(26,26,24,0.04)"/>
-  <rect x="358" y="154" width="6" height="20" fill="rgba(26,26,24,0.04)"/>
-  <text x="92" y="168" fill="#8b8578" class="label">Agent 2</text>
-  <text x="148" y="168" fill="#1a1a18" class="title">Market Analyst</text>
-  <!-- Time badge -->
-  <rect x="298" y="157" width="56" height="14" rx="3" fill="rgba(45,125,70,0.10)"/>
-  <text x="326" y="167" text-anchor="middle" fill="#2d7d46" class="mono small">~8 min</text>
-  <text x="92" y="192" fill="#6b6b63" class="desc">Scans market data, identifies sector opportunities</text>
+  <!-- ═══ Agent 2: Market Analyst (left) ═══ -->
+  <rect x="80" y="156" width="310" height="48" rx="5" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <rect x="80" y="156" width="310" height="18" rx="5" fill="rgba(26,26,24,0.04)"/>
+  <rect x="384" y="156" width="6" height="18" fill="rgba(26,26,24,0.04)"/>
+  <text x="92" y="169" fill="#8b8578" class="label">Agent 2</text>
+  <text x="150" y="169" fill="#1a1a18" class="title">Market Analyst</text>
+  <rect x="322" y="158" width="52" height="14" rx="3" fill="rgba(45,125,70,0.10)"/>
+  <text x="348" y="168" text-anchor="middle" fill="#2d7d46" class="mono small">~8 min</text>
+  <text x="92" y="191" fill="#6b6b63" class="desc">Scans market data, identifies sector opportunities</text>
 
-  <!-- =============== Step 2b: Tax Strategist Agent (right) =============== -->
-  <rect x="436" y="154" width="284" height="52" rx="5" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12" stroke-width="1"/>
-  <rect x="436" y="154" width="284" height="20" rx="5" fill="rgba(26,26,24,0.04)"/>
-  <rect x="714" y="154" width="6" height="20" fill="rgba(26,26,24,0.04)"/>
-  <text x="448" y="168" fill="#8b8578" class="label">Agent 3</text>
-  <text x="504" y="168" fill="#1a1a18" class="title">Tax Strategist</text>
-  <!-- Time badge -->
-  <rect x="654" y="157" width="56" height="14" rx="3" fill="rgba(45,125,70,0.10)"/>
-  <text x="682" y="167" text-anchor="middle" fill="#2d7d46" class="mono small">~7 min</text>
-  <text x="448" y="192" fill="#6b6b63" class="desc">Models tax implications, flags optimization paths</text>
+  <!-- ═══ Agent 3: Tax Strategist (right) ═══ -->
+  <rect x="410" y="156" width="310" height="48" rx="5" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <rect x="410" y="156" width="310" height="18" rx="5" fill="rgba(26,26,24,0.04)"/>
+  <rect x="714" y="156" width="6" height="18" fill="rgba(26,26,24,0.04)"/>
+  <text x="422" y="169" fill="#8b8578" class="label">Agent 3</text>
+  <text x="480" y="169" fill="#1a1a18" class="title">Tax Strategist</text>
+  <rect x="652" y="158" width="52" height="14" rx="3" fill="rgba(45,125,70,0.10)"/>
+  <text x="678" y="168" text-anchor="middle" fill="#2d7d46" class="mono small">~7 min</text>
+  <text x="422" y="191" fill="#6b6b63" class="desc">Models tax implications, flags optimization paths</text>
 
-  <!-- Merge arrows from parallel to join -->
-  <!-- Left branch up to join point -->
-  <line x1="222" y1="206" x2="222" y2="224" stroke="#8b8578" stroke-width="1.5"/>
-  <line x1="222" y1="224" x2="400" y2="224" stroke="#8b8578" stroke-width="1.5"/>
-  <!-- Right branch up to join point -->
-  <line x1="578" y1="206" x2="578" y2="224" stroke="#8b8578" stroke-width="1.5"/>
-  <line x1="578" y1="224" x2="400" y2="224" stroke="#8b8578" stroke-width="1.5"/>
-  <!-- Arrow down from join to Portfolio Architect -->
-  <line x1="400" y1="224" x2="400" y2="242" stroke="#8b8578" stroke-width="1.5"/>
-  <polygon points="396,240 404,240 400,246" fill="#8b8578"/>
+  <!-- Merge arrows -->
+  <line x1="235" y1="204" x2="235" y2="222" stroke="#8b8578" stroke-width="1.5"/>
+  <line x1="235" y1="222" x2="395" y2="222" stroke="#8b8578" stroke-width="1.5"/>
+  <line x1="565" y1="204" x2="565" y2="222" stroke="#8b8578" stroke-width="1.5"/>
+  <line x1="565" y1="222" x2="395" y2="222" stroke="#8b8578" stroke-width="1.5"/>
+  <line x1="395" y1="222" x2="395" y2="240" stroke="#8b8578" stroke-width="1.5"/>
+  <polygon points="391,238 399,238 395,244" fill="#8b8578"/>
 
-  <!-- =============== Step 3: Portfolio Architect Agent =============== -->
-  <rect x="240" y="248" width="320" height="52" rx="5" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12" stroke-width="1"/>
-  <rect x="240" y="248" width="320" height="20" rx="5" fill="rgba(26,26,24,0.04)"/>
-  <rect x="554" y="248" width="6" height="20" fill="rgba(26,26,24,0.04)"/>
-  <text x="252" y="262" fill="#8b8578" class="label">Agent 4</text>
-  <text x="308" y="262" fill="#1a1a18" class="title">Portfolio Architect</text>
-  <!-- Time badge -->
-  <rect x="492" y="251" width="58" height="14" rx="3" fill="rgba(45,125,70,0.10)"/>
-  <text x="521" y="261" text-anchor="middle" fill="#2d7d46" class="mono small">~5 min</text>
-  <text x="252" y="286" fill="#6b6b63" class="desc">Synthesizes all agent outputs into final recommendation</text>
+  <!-- ═══ Agent 4: Portfolio Architect ═══ -->
+  <rect x="220" y="246" width="350" height="48" rx="5" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <rect x="220" y="246" width="350" height="18" rx="5" fill="rgba(26,26,24,0.04)"/>
+  <rect x="564" y="246" width="6" height="18" fill="rgba(26,26,24,0.04)"/>
+  <text x="232" y="259" fill="#8b8578" class="label">Agent 4</text>
+  <text x="290" y="259" fill="#1a1a18" class="title">Portfolio Architect</text>
+  <rect x="500" y="248" width="52" height="14" rx="3" fill="rgba(45,125,70,0.10)"/>
+  <text x="526" y="258" text-anchor="middle" fill="#2d7d46" class="mono small">~5 min</text>
+  <text x="232" y="281" fill="#6b6b63" class="desc">Synthesizes all agent outputs into final recommendation</text>
 
-  <!-- Arrow down to Human Approval -->
-  <line x1="400" y1="300" x2="400" y2="322" stroke="#8b8578" stroke-width="1.5"/>
-  <polygon points="396,320 404,320 400,326" fill="#8b8578"/>
+  <!-- Arrow to Human Approval -->
+  <line x1="395" y1="294" x2="395" y2="314" stroke="#8b8578" stroke-width="1.5"/>
+  <polygon points="391,312 399,312 395,318" fill="#8b8578"/>
 
-  <!-- =============== Human Approval Gate =============== -->
-  <!-- Green highlight: outer glow border -->
-  <rect x="238" y="328" width="324" height="56" rx="6" fill="rgba(45,125,70,0.08)" stroke="#2d7d46" stroke-opacity="0.50" stroke-width="1.5"/>
-  <!-- Header bar -->
-  <rect x="240" y="330" width="320" height="20" rx="5" fill="rgba(45,125,70,0.10)"/>
-  <rect x="554" y="330" width="6" height="20" fill="rgba(45,125,70,0.10)"/>
-  <text x="252" y="344" fill="#2d7d46" class="label">Human Approval Gate</text>
-  <!-- Time badge -->
-  <rect x="492" y="333" width="58" height="14" rx="3" fill="rgba(45,125,70,0.14)"/>
-  <text x="521" y="343" text-anchor="middle" fill="#2d7d46" class="mono small">~3 min</text>
-  <text x="252" y="368" fill="#2d7d46" class="desc">Advisor reviews full audit trail — approves or requests revision</text>
-  <!-- Checkmark icon -->
-  <circle cx="546" cy="361" r="7" fill="rgba(45,125,70,0.12)" stroke="#2d7d46" stroke-width="1"/>
-  <polyline points="542,361 545,364 550,358" stroke="#2d7d46" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- ═══ Human Approval Gate ═══ -->
+  <rect x="220" y="320" width="350" height="48" rx="6" fill="rgba(45,125,70,0.06)" stroke="#2d7d46" stroke-opacity="0.45" stroke-width="1.5"/>
+  <rect x="222" y="322" width="346" height="18" rx="4" fill="rgba(45,125,70,0.08)"/>
+  <text x="234" y="335" fill="#2d7d46" class="label">Human Approval Gate</text>
+  <rect x="500" y="324" width="52" height="14" rx="3" fill="rgba(45,125,70,0.12)"/>
+  <text x="526" y="334" text-anchor="middle" fill="#2d7d46" class="mono small">~3 min</text>
+  <text x="234" y="356" fill="#2d7d46" class="desc">Advisor reviews full audit trail — approves or requests revision</text>
 
-  <!-- =============== Right-side timeline bar =============== -->
-  <line x1="620" y1="60" x2="620" y2="384" stroke="#2d7d46" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <line x1="614" y1="60" x2="626" y2="60" stroke="#2d7d46" stroke-width="1.5"/>
-  <line x1="614" y1="384" x2="626" y2="384" stroke="#2d7d46" stroke-width="1.5"/>
-  <text x="628" y="215" fill="#2d7d46" class="time" transform="rotate(90 628 215)">~20 minutes total</text>
+  <!-- ═══ Bottom summary bar ═══ -->
+  <rect x="80" y="410" width="640" height="36" rx="5" fill="rgba(45,125,70,0.06)" stroke="#2d7d46" stroke-opacity="0.20" stroke-width="1"/>
+  <text x="400" y="427" text-anchor="middle" fill="#2d7d46" class="time">Total: ~20 minutes</text>
+  <text x="400" y="440" text-anchor="middle" fill="#8b8578" class="small">Full audit trail · crash-safe · zero context loss · consistent shared assumptions</text>
 
-  <!-- =============== Left-side positive attribute pills =============== -->
-  <rect x="56" y="76" width="100" height="16" rx="3" fill="rgba(45,125,70,0.07)"/>
-  <text x="106" y="87" text-anchor="middle" fill="#2d7d46" class="attr">shared context</text>
-
-  <rect x="56" y="168" width="100" height="16" rx="3" fill="rgba(45,125,70,0.07)"/>
-  <text x="106" y="179" text-anchor="middle" fill="#2d7d46" class="attr">parallel tasks</text>
-
-  <rect x="56" y="264" width="100" height="16" rx="3" fill="rgba(45,125,70,0.07)"/>
-  <text x="106" y="275" text-anchor="middle" fill="#2d7d46" class="attr">zero context loss</text>
-
-  <rect x="56" y="344" width="100" height="16" rx="3" fill="rgba(45,125,70,0.07)"/>
-  <text x="106" y="355" text-anchor="middle" fill="#2d7d46" class="attr">full audit trail</text>
-
-  <!-- =============== Bottom summary bar =============== -->
-  <rect x="60" y="436" width="680" height="32" rx="5" fill="rgba(45,125,70,0.06)" stroke="#2d7d46" stroke-opacity="0.25" stroke-width="1"/>
-  <text x="400" y="452" text-anchor="middle" fill="#2d7d46" class="time">Total: ~20 minutes</text>
-  <text x="400" y="463" text-anchor="middle" fill="#8b8578" class="small">Full audit trail · crash-safe &amp; resumable · zero context loss · consistent shared assumptions</text>
 </svg>
