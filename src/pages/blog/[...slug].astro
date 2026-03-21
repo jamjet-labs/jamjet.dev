@@ -36,6 +36,7 @@ const articleLd = {
   },
   mainEntityOfPage: canonical,
   image,
+  ...(post.data.category ? { articleSection: post.data.category } : {}),
 };
 ---
 
@@ -44,12 +45,13 @@ const articleLd = {
   description={post.data.description}
   canonical={canonical}
   ogImage={image}
+  ogType="article"
   currentPage="blog"
 >
   <Fragment slot="head">
-    <meta property="og:type" content="article" />
     <meta property="article:published_time" content={post.data.date.toISOString()} />
     <meta property="article:author" content={post.data.author ?? 'JamJet Team'} />
+    {post.data.category && <meta property="article:section" content={post.data.category} />}
     <script type="application/ld+json" set:html={JSON.stringify(articleLd)}></script>
   </Fragment>
 

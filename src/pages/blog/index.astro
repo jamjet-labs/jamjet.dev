@@ -24,6 +24,26 @@ for (const post of posts) {
   if (!grouped.has(cat)) grouped.set(cat, []);
   grouped.get(cat)!.push(post);
 }
+
+const blogLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'JamJet Blog',
+  description: 'Engineering deep dives, architectural patterns, and strategic thinking on building durable, production AI agents.',
+  url: 'https://jamjet.dev/blog/',
+  publisher: {
+    '@type': 'Organization',
+    name: 'JamJet',
+    logo: { '@type': 'ImageObject', url: 'https://jamjet.dev/favicon.svg' },
+  },
+  blogPost: posts.slice(0, 10).map((post) => ({
+    '@type': 'BlogPosting',
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.date.toISOString(),
+    url: `https://jamjet.dev/blog/${post.slug}/`,
+  })),
+};
 ---
 
 <BaseLayout
@@ -33,10 +53,14 @@ for (const post of posts) {
   currentPage="blog"
 >
 
+<Fragment slot="head">
+  <script type="application/ld+json" set:html={JSON.stringify(blogLd)}></script>
+</Fragment>
+
 <div class="blog-page">
 
   <header class="blog-header">
-    <h1>Writing</h1>
+    <h1>Blog</h1>
     <p class="blog-intro">Engineering, architecture, and strategy for durable AI agents.</p>
   </header>
 

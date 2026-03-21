@@ -7,6 +7,7 @@ interface Props {
   description: string;
   canonical: string;
   ogImage?: string;
+  ogType?: string;
   currentPage?: string;
 }
 
@@ -15,6 +16,7 @@ const {
   description,
   canonical,
   ogImage = 'https://jamjet.dev/og.png',
+  ogType = 'website',
   currentPage,
 } = Astro.props;
 ---
@@ -31,7 +33,7 @@ const {
   <meta property="og:description" content={description} />
   <meta property="og:image" content={ogImage} />
   <meta property="og:url" content={canonical} />
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content={ogType} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@jamjetdev" />
   <meta name="twitter:title" content={title} />
