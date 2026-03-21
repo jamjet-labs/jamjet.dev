@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .small { font-size: 9.5px; }
+  </style>
+
+  <!-- Outer background -->
+  <rect width="800" height="280" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="278" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Section header -->
+  <text x="400" y="28" text-anchor="middle" fill="#8b7355" class="label">The same pattern, across industries</text>
+
+  <!-- ======== Card 1: Healthcare ======== -->
+  <!-- Card bg: x=25, width=230 -->
+  <rect x="25" y="46" width="230" height="210" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- Industry label -->
+  <text x="40" y="72" fill="#8b7355" class="label">Healthcare</text>
+
+  <!-- Divider -->
+  <line x1="40" y1="82" x2="241" y2="82" stroke="#1a1a18" stroke-opacity="0.07"/>
+
+  <!-- Today block -->
+  <rect x="40" y="92" width="200" height="48" rx="4" fill="#f5f4f0"/>
+  <text x="52" y="107" fill="#8b8578" class="small" font-weight="600">TODAY</text>
+  <text x="52" y="122" fill="#6b6b63" class="desc">Prior auth request routed</text>
+  <text x="52" y="136" fill="#6b6b63" class="desc">across 4 depts — 2 weeks</text>
+
+  <!-- With agents block -->
+  <rect x="40" y="148" width="200" height="48" rx="4" fill="#f5f4f0"/>
+  <text x="52" y="163" fill="#8b8578" class="small" font-weight="600">WITH AGENTS</text>
+  <text x="52" y="178" fill="#1a1a18" class="desc">Minutes. Edge cases</text>
+  <text x="52" y="192" fill="#1a1a18" class="desc">flagged for review.</text>
+
+  <!-- Human role -->
+  <text x="40" y="216" fill="#8b8578" class="small" font-weight="600">HUMAN ROLE</text>
+  <text x="40" y="230" fill="#8b7355" class="desc">Reviews flagged cases,</text>
+  <text x="40" y="244" fill="#8b7355" class="desc">patient communication</text>
+
+  <!-- ======== Card 2: Legal ======== -->
+  <!-- Card bg: x=285, width=230 -->
+  <rect x="285" y="46" width="230" height="210" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- Industry label -->
+  <text x="300" y="72" fill="#8b7355" class="label">Legal</text>
+
+  <!-- Divider -->
+  <line x1="300" y1="82" x2="501" y2="82" stroke="#1a1a18" stroke-opacity="0.07"/>
+
+  <!-- Today block -->
+  <rect x="300" y="92" width="200" height="48" rx="4" fill="#f5f4f0"/>
+  <text x="312" y="107" fill="#8b8578" class="small" font-weight="600">TODAY</text>
+  <text x="312" y="122" fill="#6b6b63" class="desc">3 weeks of paralegal</text>
+  <text x="312" y="136" fill="#6b6b63" class="desc">contract review</text>
+
+  <!-- With agents block -->
+  <rect x="300" y="148" width="200" height="48" rx="4" fill="#f5f4f0"/>
+  <text x="312" y="163" fill="#8b8578" class="small" font-weight="600">WITH AGENTS</text>
+  <text x="312" y="178" fill="#1a1a18" class="desc">An afternoon.</text>
+  <text x="312" y="192" fill="#1a1a18" class="desc">Nothing missed.</text>
+
+  <!-- Human role -->
+  <text x="300" y="216" fill="#8b8578" class="small" font-weight="600">HUMAN ROLE</text>
+  <text x="300" y="230" fill="#8b7355" class="desc">Final judgment,</text>
+  <text x="300" y="244" fill="#8b7355" class="desc">client counsel</text>
+
+  <!-- ======== Card 3: Supply Chain ======== -->
+  <!-- Card bg: x=545, width=230 -->
+  <rect x="545" y="46" width="230" height="210" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- Industry label -->
+  <text x="560" y="72" fill="#8b7355" class="label">Supply Chain</text>
+
+  <!-- Divider -->
+  <line x1="560" y1="82" x2="761" y2="82" stroke="#1a1a18" stroke-opacity="0.07"/>
+
+  <!-- Today block -->
+  <rect x="560" y="92" width="200" height="48" rx="4" fill="#f5f4f0"/>
+  <text x="572" y="107" fill="#8b8578" class="small" font-weight="600">TODAY</text>
+  <text x="572" y="122" fill="#6b6b63" class="desc">War room, days of</text>
+  <text x="572" y="136" fill="#6b6b63" class="desc">scrambling</text>
+
+  <!-- With agents block -->
+  <rect x="560" y="148" width="200" height="48" rx="4" fill="#f5f4f0"/>
+  <text x="572" y="163" fill="#8b8578" class="small" font-weight="600">WITH AGENTS</text>
+  <text x="572" y="178" fill="#1a1a18" class="desc">Options presented</text>
+  <text x="572" y="192" fill="#1a1a18" class="desc">within the hour.</text>
+
+  <!-- Human role -->
+  <text x="560" y="216" fill="#8b8578" class="small" font-weight="600">HUMAN ROLE</text>
+  <text x="560" y="230" fill="#8b7355" class="desc">Strategic decisions,</text>
+  <text x="560" y="244" fill="#8b7355" class="desc">supplier relationships</text>
+
+</svg>

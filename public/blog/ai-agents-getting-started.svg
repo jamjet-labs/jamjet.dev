@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 220" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .small { font-size: 9.5px; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="220" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="218" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Section label -->
+  <text x="400" y="24" text-anchor="middle" fill="#8b7355" class="label">Getting started</text>
+
+  <!-- ── Step 1: Pick one workflow ── -->
+  <!-- Circle -->
+  <circle cx="166" cy="95" r="38" fill="#8b7355" fill-opacity="0.10" stroke="#8b7355" stroke-width="1.5"/>
+  <!-- Bullseye icon (concentric circles) -->
+  <circle cx="166" cy="95" r="20" stroke="#8b7355" stroke-width="1.5" fill="none"/>
+  <circle cx="166" cy="95" r="13" stroke="#8b7355" stroke-width="1.5" fill="none"/>
+  <circle cx="166" cy="95" r="5" fill="#8b7355"/>
+  <!-- Step number -->
+  <text x="166" y="151" text-anchor="middle" fill="#1a1a18" class="title">Pick one workflow</text>
+  <text x="166" y="168" text-anchor="middle" fill="#6b6b63" class="desc">Slow, repetitive, clear I/O</text>
+
+  <!-- ── Arrow 1→2 ── -->
+  <line x1="210" y1="95" x2="286" y2="95" stroke="#8b7355" stroke-width="1.8"/>
+  <polyline points="280,89 286,95 280,101" stroke="#8b7355" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- ── Step 2: Map the handoffs ── -->
+  <!-- Circle -->
+  <circle cx="400" cy="95" r="38" fill="#8b7355" fill-opacity="0.10" stroke="#8b7355" stroke-width="1.5"/>
+  <!-- Flow/branching arrows icon -->
+  <!-- Entry line -->
+  <line x1="384" y1="95" x2="393" y2="95" stroke="#8b7355" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Branch up -->
+  <path d="M393,95 L393,84 L412,84" stroke="#8b7355" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Branch down -->
+  <path d="M393,95 L393,106 L412,106" stroke="#8b7355" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Arrow tips -->
+  <polyline points="408,80 412,84 408,88" stroke="#8b7355" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <polyline points="408,102 412,106 408,110" stroke="#8b7355" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Labels -->
+  <text x="400" y="151" text-anchor="middle" fill="#1a1a18" class="title">Map the handoffs</text>
+  <text x="400" y="168" text-anchor="middle" fill="#6b6b63" class="desc">Where context gets lost</text>
+
+  <!-- ── Arrow 2→3 ── -->
+  <line x1="444" y1="95" x2="520" y2="95" stroke="#8b7355" stroke-width="1.8"/>
+  <polyline points="514,89 520,95 514,101" stroke="#8b7355" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- ── Step 3: Deploy with human review ── -->
+  <!-- Circle (green accent) -->
+  <circle cx="634" cy="95" r="38" fill="#2d7d46" fill-opacity="0.10" stroke="#2d7d46" stroke-width="1.5"/>
+  <!-- Stick figure + checkmark icon -->
+  <!-- Head -->
+  <circle cx="625" cy="79" r="5" stroke="#2d7d46" stroke-width="1.5" fill="none"/>
+  <!-- Body -->
+  <line x1="625" y1="84" x2="625" y2="97" stroke="#2d7d46" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Arms -->
+  <line x1="616" y1="89" x2="634" y2="89" stroke="#2d7d46" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Legs -->
+  <line x1="625" y1="97" x2="619" y2="107" stroke="#2d7d46" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="625" y1="97" x2="631" y2="107" stroke="#2d7d46" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Checkmark (to the right of figure) -->
+  <polyline points="638,90 642,95 650,83" stroke="#2d7d46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Labels -->
+  <text x="634" y="151" text-anchor="middle" fill="#1a1a18" class="title">Deploy with human review</text>
+  <text x="634" y="168" text-anchor="middle" fill="#6b6b63" class="desc">Trust builds gradually</text>
+
+  <!-- ── Timeline bar ── -->
+  <rect x="160" y="188" width="480" height="4" rx="2" fill="#8b7355" fill-opacity="0.18"/>
+  <!-- Progress fill -->
+  <rect x="160" y="188" width="160" height="4" rx="2" fill="#8b7355" fill-opacity="0.55"/>
+  <!-- Cap dots -->
+  <circle cx="160" cy="190" r="3" fill="#8b7355" fill-opacity="0.5"/>
+  <circle cx="400" cy="190" r="3" fill="#8b7355" fill-opacity="0.5"/>
+  <circle cx="640" cy="190" r="3" fill="#2d7d46" fill-opacity="0.6"/>
+  <!-- Label -->
+  <text x="400" y="210" text-anchor="middle" fill="#8b8578" class="small">Weeks, not months</text>
+</svg>

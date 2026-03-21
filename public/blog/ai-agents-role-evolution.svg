@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .small { font-size: 9.5px; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="350" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="348" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Top label -->
+  <text x="400" y="28" text-anchor="middle" fill="#8b7355" class="label">How roles evolve</text>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- Column 1: Elevated (x=25, width=230) -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <rect x="25" y="44" width="230" height="288" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- Column header band -->
+  <rect x="25" y="44" width="230" height="52" rx="6" fill="#f5f0e8"/>
+  <rect x="25" y="82" width="230" height="14" fill="#f5f0e8"/>
+
+  <text x="140" y="66" text-anchor="middle" fill="#8b7355" class="title">Elevated</text>
+  <text x="140" y="84" text-anchor="middle" fill="#8b7355" font-size="10" font-family="'Inter', system-ui, sans-serif">More valuable than ever</text>
+
+  <!-- Divider -->
+  <line x1="40" y1="105" x2="240" y2="105" stroke="#1a1a18" stroke-opacity="0.08"/>
+
+  <!-- Roles -->
+  <text x="40" y="128" fill="#1a1a18" class="desc">Senior Advisors</text>
+  <text x="40" y="152" fill="#1a1a18" class="desc">Portfolio Managers</text>
+  <text x="40" y="176" fill="#1a1a18" class="desc">Relationship Leads</text>
+
+  <!-- Divider -->
+  <line x1="40" y1="196" x2="240" y2="196" stroke="#1a1a18" stroke-opacity="0.08"/>
+
+  <!-- Note -->
+  <text x="40" y="218" fill="#6b6b63" class="small">Focus shifts to judgment,</text>
+  <text x="40" y="234" fill="#6b6b63" class="small">trust, and client relationships</text>
+
+  <!-- Icon: upward arrow badge -->
+  <circle cx="220" cy="67" r="11" fill="#8b7355" fill-opacity="0.12"/>
+  <text x="220" y="71" text-anchor="middle" fill="#8b7355" font-size="11" font-family="'Inter', system-ui, sans-serif">↑</text>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- Column 2: Transformed (x=285, width=230) -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <rect x="285" y="44" width="230" height="288" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- Column header band -->
+  <rect x="285" y="44" width="230" height="52" rx="6" fill="#fdf3e9"/>
+  <rect x="285" y="82" width="230" height="14" fill="#fdf3e9"/>
+
+  <text x="400" y="66" text-anchor="middle" fill="#c4956a" class="title">Transformed</text>
+  <text x="400" y="84" text-anchor="middle" fill="#c4956a" font-size="10" font-family="'Inter', system-ui, sans-serif">New skills, new value</text>
+
+  <!-- Divider -->
+  <line x1="300" y1="105" x2="500" y2="105" stroke="#1a1a18" stroke-opacity="0.08"/>
+
+  <!-- Role 1 with arrow -->
+  <text x="300" y="128" fill="#6b6b63" class="desc">Junior Analysts</text>
+  <text x="388" y="128" fill="#c4956a" font-size="11" font-family="'Inter', system-ui, sans-serif">→</text>
+  <text x="400" y="128" fill="#1a1a18" class="desc">Agent Operators</text>
+
+  <!-- Spacer line between role pairs -->
+  <line x1="300" y1="142" x2="500" y2="142" stroke="#1a1a18" stroke-opacity="0.05"/>
+
+  <!-- Role 2 with arrow -->
+  <text x="300" y="164" fill="#6b6b63" class="desc">Research Associates</text>
+  <text x="300" y="180" fill="#c4956a" font-size="11" font-family="'Inter', system-ui, sans-serif">→</text>
+  <text x="314" y="180" fill="#1a1a18" class="desc">QA Specialists</text>
+
+  <!-- Divider -->
+  <line x1="300" y1="196" x2="500" y2="196" stroke="#1a1a18" stroke-opacity="0.08"/>
+
+  <!-- Note -->
+  <text x="300" y="218" fill="#6b6b63" class="small">From producing analysis to</text>
+  <text x="300" y="234" fill="#6b6b63" class="small">supervising agent quality</text>
+
+  <!-- Icon: transform badge -->
+  <circle cx="480" cy="67" r="11" fill="#c4956a" fill-opacity="0.12"/>
+  <text x="480" y="71" text-anchor="middle" fill="#c4956a" font-size="11" font-family="'Inter', system-ui, sans-serif">⇄</text>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- Column 3: Emerged (x=545, width=230) -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <rect x="545" y="44" width="230" height="288" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- Column header band -->
+  <rect x="545" y="44" width="230" height="52" rx="6" fill="#eaf4ed"/>
+  <rect x="545" y="82" width="230" height="14" fill="#eaf4ed"/>
+
+  <text x="660" y="66" text-anchor="middle" fill="#2d7d46" class="title">Emerged</text>
+  <text x="660" y="84" text-anchor="middle" fill="#2d7d46" font-size="10" font-family="'Inter', system-ui, sans-serif">Roles that don't exist yet</text>
+
+  <!-- Divider -->
+  <line x1="560" y1="105" x2="760" y2="105" stroke="#1a1a18" stroke-opacity="0.08"/>
+
+  <!-- Roles -->
+  <text x="560" y="128" fill="#1a1a18" class="desc">Agent Workflow Designers</text>
+  <text x="560" y="152" fill="#1a1a18" class="desc">AI Compliance Officers</text>
+  <text x="560" y="176" fill="#1a1a18" class="desc">Prompt Strategists</text>
+
+  <!-- Divider -->
+  <line x1="560" y1="196" x2="760" y2="196" stroke="#1a1a18" stroke-opacity="0.08"/>
+
+  <!-- Note -->
+  <text x="560" y="218" fill="#6b6b63" class="small">Cloud → DevOps.</text>
+  <text x="560" y="234" fill="#6b6b63" class="small">Mobile → UX Design. Agents → ?</text>
+
+  <!-- Icon: spark badge -->
+  <circle cx="740" cy="67" r="11" fill="#2d7d46" fill-opacity="0.12"/>
+  <text x="740" y="71" text-anchor="middle" fill="#2d7d46" font-size="11" font-family="'Inter', system-ui, sans-serif">✦</text>
+
+</svg>

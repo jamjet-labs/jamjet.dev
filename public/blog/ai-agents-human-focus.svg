@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .small { font-size: 9.5px; }
+    .pct { font-size: 20px; font-weight: 700; }
+  </style>
+
+  <!-- Background and border -->
+  <rect width="800" height="320" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="318" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Header label -->
+  <text x="400" y="28" text-anchor="middle" fill="#8b7355" class="label">Where advisors spend their time</text>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- LEFT PIE — "Before" centered at (200, 148) -->
+  <!-- ═══════════════════════════════════════════════════ -->
+
+  <!-- Pie title -->
+  <text x="200" y="52" text-anchor="middle" fill="#1a1a18" class="title">Before</text>
+  <text x="200" y="67" text-anchor="middle" fill="#6b6b63" class="desc">with manual workflows</text>
+
+  <!--
+    Circumference C = 2*pi*80 = 502.655
+    Segments (stroke-dasharray = "length C", rotate to position):
+      1. Research 70%  → length=351.858  starts at   0° → rotate -90°
+      2. Compliance 20% → length=100.531  starts at 252° → rotate 162°
+      3. Client 10%    → length= 50.265  starts at 324° → rotate 234°
+    Rotation formula: rotate = -90 + cumulative_pct*360
+      Research:    cumulative before = 0%   → rotate = -90
+      Compliance:  cumulative before = 70%  → rotate = -90 + 252 = 162
+      Client:      cumulative before = 90%  → rotate = -90 + 324 = 234
+  -->
+
+  <!-- Segment 1: Research & Synthesis 70% — #8b8578 -->
+  <circle cx="200" cy="148" r="80"
+    stroke="#8b8578" stroke-width="48" fill="none"
+    stroke-dasharray="351.858 502.655"
+    transform="rotate(-90 200 148)"/>
+
+  <!-- Segment 2: Compliance 20% — #c4956a -->
+  <circle cx="200" cy="148" r="80"
+    stroke="#c4956a" stroke-width="48" fill="none"
+    stroke-dasharray="100.531 502.655"
+    transform="rotate(162 200 148)"/>
+
+  <!-- Segment 3: Client Relationships 10% — #8b7355 -->
+  <circle cx="200" cy="148" r="80"
+    stroke="#8b7355" stroke-width="48" fill="none"
+    stroke-dasharray="50.265 502.655"
+    transform="rotate(234 200 148)"/>
+
+  <!-- White center circle to create donut -->
+  <circle cx="200" cy="148" r="52" fill="#fafaf8"/>
+
+  <!-- Center label -->
+  <text x="200" y="144" text-anchor="middle" fill="#6b6b63" class="small">time</text>
+  <text x="200" y="158" text-anchor="middle" fill="#6b6b63" class="small">split</text>
+
+  <!-- Left legend — positioned below pie -->
+  <!-- Item 1: Research 70% -->
+  <rect x="84" y="228" width="10" height="10" rx="2" fill="#8b8578"/>
+  <text x="98" y="237" fill="#1a1a18" class="desc">Research &amp; Synthesis</text>
+  <text x="98" y="249" fill="#6b6b63" class="small">70% of advisor time</text>
+
+  <!-- Item 2: Compliance 20% -->
+  <rect x="84" y="258" width="10" height="10" rx="2" fill="#c4956a"/>
+  <text x="98" y="267" fill="#1a1a18" class="desc">Compliance</text>
+  <text x="98" y="279" fill="#6b6b63" class="small">20% of advisor time</text>
+
+  <!-- Item 3: Client Relationships 10% -->
+  <rect x="84" y="288" width="10" height="10" rx="2" fill="#8b7355"/>
+  <text x="98" y="297" fill="#1a1a18" class="desc">Client Relationships</text>
+  <text x="98" y="309" fill="#6b6b63" class="small">10% of advisor time</text>
+
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- DIVIDER -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <line x1="400" y1="44" x2="400" y2="276" stroke="#1a1a18" stroke-opacity="0.08" stroke-dasharray="4 4"/>
+
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- RIGHT PIE — "After" centered at (600, 148) -->
+  <!-- ═══════════════════════════════════════════════════ -->
+
+  <!-- Pie title -->
+  <text x="600" y="52" text-anchor="middle" fill="#1a1a18" class="title">After</text>
+  <text x="600" y="67" text-anchor="middle" fill="#6b6b63" class="desc">with AI agents handling routine work</text>
+
+  <!--
+    Segments:
+      1. Client Relationships 60% → length=301.593  starts at   0% → rotate -90
+      2. Compliance Strategy 25%  → length=125.664  starts at  60% → rotate -90 + 216 = 126
+      3. Review & Oversight 15%   → length= 75.398  starts at  85% → rotate -90 + 306 = 216
+  -->
+
+  <!-- Segment 1: Client Relationships & Judgment 60% — #8b7355 (accent, dominant) -->
+  <circle cx="600" cy="148" r="80"
+    stroke="#8b7355" stroke-width="48" fill="none"
+    stroke-dasharray="301.593 502.655"
+    transform="rotate(-90 600 148)"/>
+
+  <!-- Segment 2: Compliance Strategy 25% — #c4956a -->
+  <circle cx="600" cy="148" r="80"
+    stroke="#c4956a" stroke-width="48" fill="none"
+    stroke-dasharray="125.664 502.655"
+    transform="rotate(126 600 148)"/>
+
+  <!-- Segment 3: Review & Oversight 15% — #8b8578 -->
+  <circle cx="600" cy="148" r="80"
+    stroke="#8b8578" stroke-width="48" fill="none"
+    stroke-dasharray="75.398 502.655"
+    transform="rotate(216 600 148)"/>
+
+  <!-- White center circle to create donut -->
+  <circle cx="600" cy="148" r="52" fill="#fafaf8"/>
+
+  <!-- Center label -->
+  <text x="600" y="144" text-anchor="middle" fill="#6b6b63" class="small">time</text>
+  <text x="600" y="158" text-anchor="middle" fill="#6b6b63" class="small">split</text>
+
+  <!-- Right legend -->
+  <!-- Item 1: Client Relationships 60% — now dominant -->
+  <rect x="484" y="228" width="10" height="10" rx="2" fill="#8b7355"/>
+  <text x="498" y="237" fill="#1a1a18" class="desc">Client Relationships &amp; Judgment</text>
+  <text x="498" y="249" fill="#8b7355" class="small" font-weight="600">60% of advisor time ↑</text>
+
+  <!-- Item 2: Compliance Strategy 25% -->
+  <rect x="484" y="258" width="10" height="10" rx="2" fill="#c4956a"/>
+  <text x="498" y="267" fill="#1a1a18" class="desc">Compliance Strategy</text>
+  <text x="498" y="279" fill="#6b6b63" class="small">25% of advisor time</text>
+
+  <!-- Item 3: Review & Oversight 15% -->
+  <rect x="484" y="288" width="10" height="10" rx="2" fill="#8b8578"/>
+  <text x="498" y="297" fill="#1a1a18" class="desc">Review &amp; Oversight</text>
+  <text x="498" y="309" fill="#6b6b63" class="small">15% of advisor time</text>
+
+</svg>
