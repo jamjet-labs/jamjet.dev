@@ -15,14 +15,8 @@ const terminalLines = [
   '▸ [Synthesize] ✓ completed  1.1s',
   '▸ Execution complete · 5/5 nodes · 0 events lost',
 ];
----
 
-<BaseLayout
-  title="JamJet — Build AI Agents That Don't Lose Their Work"
-  description="JamJet is the durable runtime for production-grade AI agents. Checkpoint replay, native MCP + A2A, built-in eval, full execution traces. Write Python, run with Rust reliability."
-  canonical="https://jamjet.dev/"
->
-<script type="application/ld+json" slot="head">{JSON.stringify({
+const homeLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "JamJet",
@@ -31,10 +25,20 @@ const terminalLines = [
   "operatingSystem": "Linux, macOS, Windows",
   "url": "https://jamjet.dev",
   "downloadUrl": "https://pypi.org/project/jamjet/",
-  "softwareVersion": "0.2.0",
+  "softwareVersion": "0.3.1",
   "license": "https://www.apache.org/licenses/LICENSE-2.0",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
-})}</script>
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+};
+---
+
+<BaseLayout
+  title="JamJet — Build AI Agents That Don't Lose Their Work"
+  description="JamJet is the durable runtime for production-grade AI agents. Checkpoint replay, native MCP + A2A, built-in eval, full execution traces. Write Python, run with Rust reliability."
+  canonical="https://jamjet.dev/"
+>
+<Fragment slot="head">
+  <script type="application/ld+json" set:html={JSON.stringify(homeLd)}></script>
+</Fragment>
 
 <!-- ── Hero ── -->
 <section class="hero">

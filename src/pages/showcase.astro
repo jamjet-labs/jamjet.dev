@@ -49,6 +49,19 @@ const proofCode = `<span class="t-kw">from</span> <span class="t-w">jamjet</span
     <span class="t-w">raw</span>  <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">fetch_data</span><span class="t-p">()</span>
     <span class="t-w">out</span>  <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">analyze</span><span class="t-p">(</span><span class="t-w">raw</span><span class="t-p">)</span>
     <span class="t-kw">return</span> <span class="t-w">out</span>`;
+
+const showcaseLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "JamJet",
+  "description": "The durable runtime for AI agents. Checkpoint replay, crash recovery, and full execution traces.",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Linux, macOS, Windows",
+  "url": "https://jamjet.dev",
+  "downloadUrl": "https://pypi.org/project/jamjet/",
+  "softwareVersion": "0.3.1",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+};
 ---
 
 <BaseLayout
@@ -58,18 +71,9 @@ const proofCode = `<span class="t-kw">from</span> <span class="t-w">jamjet</span
   currentPage="showcase"
 >
 
-<script type="application/ld+json" slot="head">{JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "JamJet",
-  "description": "The durable runtime for AI agents. Checkpoint replay, crash recovery, and full execution traces.",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Linux, macOS, Windows",
-  "url": "https://jamjet.dev",
-  "downloadUrl": "https://pypi.org/project/jamjet/",
-  "softwareVersion": "0.2.0",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
-})}</script>
+<Fragment slot="head">
+  <script type="application/ld+json" set:html={JSON.stringify(showcaseLd)}></script>
+</Fragment>
 
 <!-- ── Zone 1: Hero ── -->
 <section class="showcase-hero">
