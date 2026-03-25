@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .small { font-size: 9.5px; }
+  </style>
+
+  <defs>
+    <marker id="arrow-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#2d7d46" fill-opacity="0.7"/>
+    </marker>
+    <marker id="arrow-amber" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#c27a3a" fill-opacity="0.7"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="240" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="238" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Section header -->
+  <text x="400" y="24" text-anchor="middle" fill="#8b7355" class="label">Klarna's AI journey -- the honest story</text>
+
+  <!-- ============================================================ -->
+  <!-- Panel 1: Deploy (green-tinted) -->
+  <!-- ============================================================ -->
+  <rect x="25" y="40" width="222" height="148" rx="6" fill="#fff" stroke="#2d7d46" stroke-opacity="0.25"/>
+
+  <!-- Green accent bar at top -->
+  <rect x="25" y="40" width="222" height="4" rx="3" fill="#2d7d46" fill-opacity="0.5"/>
+
+  <!-- Phase label -->
+  <rect x="38" y="54" width="56" height="18" rx="9" fill="#2d7d46" fill-opacity="0.10" stroke="#2d7d46" stroke-opacity="0.25"/>
+  <text x="66" y="66" text-anchor="middle" fill="#2d7d46" class="small" font-weight="600">Deploy</text>
+
+  <!-- Stats -->
+  <text x="38" y="92" fill="#1a1a18" class="title">2.3M conversations/mo</text>
+
+  <rect x="38" y="102" width="196" height="1" rx="0" fill="#1a1a18" fill-opacity="0.06"/>
+
+  <text x="38" y="120" fill="#6b6b63" class="desc">2-min resolution</text>
+  <text x="38" y="134" fill="#8b8578" class="small">(was 11 min)</text>
+
+  <rect x="38" y="142" width="196" height="1" rx="0" fill="#1a1a18" fill-opacity="0.06"/>
+
+  <text x="38" y="160" fill="#2d7d46" class="desc" font-weight="600">$40M projected savings</text>
+
+  <!-- Step number -->
+  <circle cx="220" cy="56" r="10" fill="#2d7d46" fill-opacity="0.10"/>
+  <text x="220" y="60" text-anchor="middle" fill="#2d7d46" class="desc" font-weight="700">1</text>
+
+  <!-- ============================================================ -->
+  <!-- Arrow 1: Deploy → Decline -->
+  <!-- ============================================================ -->
+  <line x1="247" y1="114" x2="278" y2="114" stroke="#2d7d46" stroke-opacity="0.5" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <!-- ============================================================ -->
+  <!-- Panel 2: Decline (amber-tinted) -->
+  <!-- ============================================================ -->
+  <rect x="289" y="40" width="222" height="148" rx="6" fill="#fff" stroke="#c27a3a" stroke-opacity="0.25"/>
+
+  <!-- Amber accent bar at top -->
+  <rect x="289" y="40" width="222" height="4" rx="3" fill="#c27a3a" fill-opacity="0.5"/>
+
+  <!-- Phase label -->
+  <rect x="302" y="54" width="60" height="18" rx="9" fill="#c27a3a" fill-opacity="0.10" stroke="#c27a3a" stroke-opacity="0.25"/>
+  <text x="332" y="66" text-anchor="middle" fill="#c27a3a" class="small" font-weight="600">Decline</text>
+
+  <!-- Stats -->
+  <text x="302" y="92" fill="#1a1a18" class="title">Quality drops</text>
+
+  <rect x="302" y="102" width="196" height="1" rx="0" fill="#1a1a18" fill-opacity="0.06"/>
+
+  <text x="302" y="120" fill="#6b6b63" class="desc">CSAT falls</text>
+
+  <rect x="302" y="130" width="196" height="1" rx="0" fill="#1a1a18" fill-opacity="0.06"/>
+
+  <text x="302" y="148" fill="#c27a3a" class="desc" font-weight="600">CEO: cost was</text>
+  <text x="302" y="163" fill="#c27a3a" class="desc" font-weight="600">"too predominant"</text>
+
+  <!-- Step number -->
+  <circle cx="484" cy="56" r="10" fill="#c27a3a" fill-opacity="0.10"/>
+  <text x="484" y="60" text-anchor="middle" fill="#c27a3a" class="desc" font-weight="700">2</text>
+
+  <!-- ============================================================ -->
+  <!-- Arrow 2: Decline → Hybrid -->
+  <!-- ============================================================ -->
+  <line x1="511" y1="114" x2="542" y2="114" stroke="#c27a3a" stroke-opacity="0.5" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+
+  <!-- ============================================================ -->
+  <!-- Panel 3: Hybrid (blue-tinted) -->
+  <!-- ============================================================ -->
+  <rect x="553" y="40" width="222" height="148" rx="6" fill="#fff" stroke="#3b6ea5" stroke-opacity="0.25"/>
+
+  <!-- Blue accent bar at top -->
+  <rect x="553" y="40" width="222" height="4" rx="3" fill="#3b6ea5" fill-opacity="0.5"/>
+
+  <!-- Phase label -->
+  <rect x="566" y="54" width="54" height="18" rx="9" fill="#3b6ea5" fill-opacity="0.10" stroke="#3b6ea5" stroke-opacity="0.25"/>
+  <text x="593" y="66" text-anchor="middle" fill="#3b6ea5" class="small" font-weight="600">Hybrid</text>
+
+  <!-- Stats -->
+  <text x="566" y="92" fill="#1a1a18" class="title">AI handles 2/3 of chats</text>
+
+  <rect x="566" y="102" width="196" height="1" rx="0" fill="#1a1a18" fill-opacity="0.06"/>
+
+  <text x="566" y="120" fill="#6b6b63" class="desc">Humans on complex cases</text>
+
+  <rect x="566" y="130" width="196" height="1" rx="0" fill="#1a1a18" fill-opacity="0.06"/>
+
+  <text x="566" y="148" fill="#3b6ea5" class="desc" font-weight="600">Rehiring begins</text>
+
+  <!-- Step number -->
+  <circle cx="748" cy="56" r="10" fill="#3b6ea5" fill-opacity="0.10"/>
+  <text x="748" y="60" text-anchor="middle" fill="#3b6ea5" class="desc" font-weight="700">3</text>
+
+  <!-- ============================================================ -->
+  <!-- Bottom takeaway bar -->
+  <!-- ============================================================ -->
+  <rect x="100" y="200" width="600" height="28" rx="14" fill="#8b7355" fill-opacity="0.06" stroke="#8b7355" stroke-opacity="0.20"/>
+  <text x="400" y="218" text-anchor="middle" fill="#8b7355" class="desc" font-weight="600">How you deploy matters as much as whether you deploy</text>
+
+</svg>

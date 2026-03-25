@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 220" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .small { font-size: 9.5px; }
+  </style>
+
+  <!-- Outer background -->
+  <rect width="800" height="220" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="218" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Section header -->
+  <text x="400" y="28" text-anchor="middle" fill="#8b7355" class="label">Financial services — who deployed what</text>
+
+  <!-- Table container card -->
+  <rect x="25" y="42" width="750" height="166" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- ===== HEADER ROW ===== -->
+  <rect x="25" y="42" width="750" height="34" rx="6" fill="#8b7355"/>
+  <!-- Flatten bottom corners of header -->
+  <rect x="25" y="62" width="750" height="14" fill="#8b7355"/>
+
+  <!-- Row label column header -->
+  <text x="40" y="64" fill="#fff" class="small" font-weight="600"></text>
+
+  <!-- Column headers -->
+  <text x="285" y="64" text-anchor="middle" fill="#fff" class="title">JPMorgan</text>
+  <text x="445" y="64" text-anchor="middle" fill="#fff" class="title">Morgan Stanley</text>
+  <text x="600" y="64" text-anchor="middle" fill="#fff" class="title">Goldman Sachs</text>
+  <text x="730" y="64" text-anchor="middle" fill="#fff" class="title">Bank of America</text>
+
+  <!-- Column dividers in header -->
+  <line x1="210" y1="46" x2="210" y2="208" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <line x1="365" y1="46" x2="365" y2="208" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <line x1="520" y1="46" x2="520" y2="208" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <line x1="660" y1="46" x2="660" y2="208" stroke="#1a1a18" stroke-opacity="0.06"/>
+
+  <!-- ===== ROW 1: Key deployment (white bg) ===== -->
+  <rect x="25" y="76" width="750" height="44" fill="#fff"/>
+
+  <!-- Row label -->
+  <text x="40" y="95" fill="#8b7355" class="label">Key deployment</text>
+
+  <!-- JPMorgan -->
+  <text x="215" y="93" fill="#1a1a18" class="desc">LLM Suite</text>
+  <text x="215" y="107" fill="#6b6b63" class="small">200K+ employees</text>
+
+  <!-- Morgan Stanley -->
+  <text x="370" y="93" fill="#1a1a18" class="desc">AI Assistant</text>
+  <text x="370" y="107" fill="#6b6b63" class="small">16K advisors</text>
+
+  <!-- Goldman Sachs -->
+  <text x="525" y="93" fill="#1a1a18" class="desc">Claude agents</text>
+  <text x="525" y="107" fill="#6b6b63" class="small">Accounting</text>
+
+  <!-- Bank of America -->
+  <text x="665" y="93" fill="#1a1a18" class="desc">Erica</text>
+  <text x="665" y="107" fill="#6b6b63" class="small">50M users</text>
+
+  <!-- Row divider -->
+  <line x1="25" y1="120" x2="775" y2="120" stroke="#1a1a18" stroke-opacity="0.06"/>
+
+  <!-- ===== ROW 2: Key metric (alt bg) ===== -->
+  <rect x="25" y="120" width="750" height="44" fill="#f5f4f0"/>
+
+  <!-- Row label -->
+  <text x="40" y="139" fill="#8b7355" class="label">Key metric</text>
+
+  <!-- JPMorgan -->
+  <text x="215" y="137" fill="#1a1a18" class="desc" font-weight="600">$2B/yr</text>
+  <text x="215" y="151" fill="#6b6b63" class="small">AI savings</text>
+
+  <!-- Morgan Stanley -->
+  <text x="370" y="137" fill="#1a1a18" class="desc" font-weight="600">10x faster</text>
+  <text x="370" y="151" fill="#6b6b63" class="small">Research</text>
+
+  <!-- Goldman Sachs -->
+  <text x="525" y="137" fill="#1a1a18" class="desc" font-weight="600">30% faster</text>
+  <text x="525" y="151" fill="#6b6b63" class="small">Onboarding</text>
+
+  <!-- Bank of America -->
+  <text x="665" y="137" fill="#1a1a18" class="desc" font-weight="600">3.2B</text>
+  <text x="665" y="151" fill="#6b6b63" class="small">Interactions</text>
+
+  <!-- Row divider -->
+  <line x1="25" y1="164" x2="775" y2="164" stroke="#1a1a18" stroke-opacity="0.06"/>
+
+  <!-- ===== ROW 3: Started (white bg) ===== -->
+  <rect x="25" y="164" width="750" height="44" rx="0" fill="#fff"/>
+  <!-- Bottom corners match card radius -->
+  <rect x="25" y="192" width="750" height="16" rx="6" fill="#fff"/>
+  <rect x="25" y="164" width="750" height="16" fill="#fff"/>
+
+  <!-- Row label -->
+  <text x="40" y="190" fill="#8b7355" class="label">Started</text>
+
+  <!-- JPMorgan -->
+  <text x="215" y="190" fill="#1a1a18" class="desc" font-weight="600">2017</text>
+
+  <!-- Morgan Stanley -->
+  <text x="370" y="190" fill="#1a1a18" class="desc" font-weight="600">2023</text>
+
+  <!-- Goldman Sachs -->
+  <text x="525" y="190" fill="#1a1a18" class="desc" font-weight="600">2025</text>
+
+  <!-- Bank of America -->
+  <text x="665" y="190" fill="#1a1a18" class="desc" font-weight="600">2018</text>
+
+</svg>

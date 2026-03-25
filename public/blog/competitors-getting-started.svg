@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 220" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .small { font-size: 9.5px; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="220" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="218" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Section label -->
+  <text x="400" y="24" text-anchor="middle" fill="#8b7355" class="label">Getting started</text>
+
+  <!-- ── Step 1: Identify the painful handoff ── -->
+  <!-- Circle -->
+  <circle cx="166" cy="95" r="38" fill="#8b7355" fill-opacity="0.10" stroke="#8b7355" stroke-width="1.5"/>
+  <!-- Magnifying glass icon -->
+  <circle cx="161" cy="90" r="12" stroke="#8b7355" stroke-width="1.5" fill="none"/>
+  <line x1="170" y1="99" x2="177" y2="106" stroke="#8b7355" stroke-width="2" stroke-linecap="round"/>
+  <!-- Labels -->
+  <text x="166" y="151" text-anchor="middle" fill="#1a1a18" class="title">Identify the painful handoff</text>
+  <text x="166" y="168" text-anchor="middle" fill="#6b6b63" class="desc">Where context gets lost</text>
+
+  <!-- ── Arrow 1 to 2 ── -->
+  <line x1="210" y1="95" x2="286" y2="95" stroke="#8b7355" stroke-width="1.8"/>
+  <polyline points="280,89 286,95 280,101" stroke="#8b7355" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- ── Step 2: Require durable infrastructure ── -->
+  <!-- Circle -->
+  <circle cx="400" cy="95" r="38" fill="#8b7355" fill-opacity="0.10" stroke="#8b7355" stroke-width="1.5"/>
+  <!-- Checklist icon -->
+  <!-- Clipboard body -->
+  <rect x="388" y="80" width="24" height="30" rx="3" stroke="#8b7355" stroke-width="1.5" fill="none"/>
+  <!-- Clipboard clip -->
+  <rect x="395" y="77" width="10" height="6" rx="1.5" stroke="#8b7355" stroke-width="1.2" fill="#fafaf8"/>
+  <!-- Check lines -->
+  <polyline points="393,90 395,92 399,88" stroke="#8b7355" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <line x1="402" y1="90" x2="408" y2="90" stroke="#8b7355" stroke-width="1.2" stroke-linecap="round"/>
+  <polyline points="393,97 395,99 399,95" stroke="#8b7355" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <line x1="402" y1="97" x2="408" y2="97" stroke="#8b7355" stroke-width="1.2" stroke-linecap="round"/>
+  <polyline points="393,104 395,106 399,102" stroke="#8b7355" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <line x1="402" y1="104" x2="408" y2="104" stroke="#8b7355" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- Labels -->
+  <text x="400" y="151" text-anchor="middle" fill="#1a1a18" class="title">Require durable infrastructure</text>
+  <text x="400" y="168" text-anchor="middle" fill="#6b6b63" class="desc">5 questions, no exceptions</text>
+
+  <!-- ── Arrow 2 to 3 ── -->
+  <line x1="444" y1="95" x2="520" y2="95" stroke="#8b7355" stroke-width="1.8"/>
+  <polyline points="514,89 520,95 514,101" stroke="#8b7355" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- ── Step 3: Design the human boundary ── -->
+  <!-- Circle (green accent) -->
+  <circle cx="634" cy="95" r="38" fill="#2d7d46" fill-opacity="0.10" stroke="#2d7d46" stroke-width="1.5"/>
+  <!-- Human + agent dividing line icon -->
+  <!-- Stick figure (left side) -->
+  <circle cx="622" cy="81" r="4.5" stroke="#2d7d46" stroke-width="1.5" fill="none"/>
+  <line x1="622" y1="85.5" x2="622" y2="97" stroke="#2d7d46" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="615" y1="90" x2="629" y2="90" stroke="#2d7d46" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="622" y1="97" x2="617" y2="105" stroke="#2d7d46" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="622" y1="97" x2="627" y2="105" stroke="#2d7d46" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Dividing line -->
+  <line x1="634" y1="77" x2="634" y2="113" stroke="#2d7d46" stroke-width="1.5" stroke-dasharray="3 2" stroke-linecap="round"/>
+  <!-- Agent/gear icon (right side) -->
+  <circle cx="646" cy="92" r="6" stroke="#2d7d46" stroke-width="1.5" fill="none"/>
+  <circle cx="646" cy="92" r="2" fill="#2d7d46"/>
+  <!-- Gear teeth (small lines radiating out) -->
+  <line x1="646" y1="84" x2="646" y2="86" stroke="#2d7d46" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="646" y1="98" x2="646" y2="100" stroke="#2d7d46" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="638" y1="92" x2="640" y2="92" stroke="#2d7d46" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="652" y1="92" x2="654" y2="92" stroke="#2d7d46" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- Labels -->
+  <text x="634" y="151" text-anchor="middle" fill="#1a1a18" class="title">Design the human boundary</text>
+  <text x="634" y="168" text-anchor="middle" fill="#6b6b63" class="desc">Before you write code</text>
+
+  <!-- ── Timeline bar ── -->
+  <rect x="160" y="188" width="480" height="4" rx="2" fill="#8b7355" fill-opacity="0.18"/>
+  <!-- Progress fill -->
+  <rect x="160" y="188" width="160" height="4" rx="2" fill="#8b7355" fill-opacity="0.55"/>
+  <!-- Cap dots -->
+  <circle cx="160" cy="190" r="3" fill="#8b7355" fill-opacity="0.5"/>
+  <circle cx="400" cy="190" r="3" fill="#8b7355" fill-opacity="0.5"/>
+  <circle cx="640" cy="190" r="3" fill="#2d7d46" fill-opacity="0.6"/>
+  <!-- Label -->
+  <text x="400" y="210" text-anchor="middle" fill="#8b8578" class="small">Start in weeks, not months</text>
+</svg>

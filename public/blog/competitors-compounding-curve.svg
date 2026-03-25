@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 260" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .small { font-size: 9.5px; }
+  </style>
+
+  <!-- Outer background -->
+  <rect width="800" height="260" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="258" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Section header -->
+  <text x="400" y="24" text-anchor="middle" fill="#8b7355" class="label">The cost of waiting — advantage compounds</text>
+
+  <!-- Chart area: x=100..740, y=44..190 -->
+  <!-- Y-axis -->
+  <line x1="100" y1="44" x2="100" y2="190" stroke="#1a1a18" stroke-opacity="0.15" stroke-width="1.5"/>
+  <!-- Y-axis label -->
+  <text x="30" y="90" fill="#8b8578" class="small" transform="rotate(-90 30 90)">Organizational capability</text>
+  <!-- Y-axis arrow -->
+  <polyline points="96,48 100,44 104,48" stroke="#1a1a18" stroke-opacity="0.25" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- X-axis -->
+  <line x1="100" y1="190" x2="740" y2="190" stroke="#1a1a18" stroke-opacity="0.15" stroke-width="1.5"/>
+
+  <!-- X-axis labels: 6 points evenly spaced -->
+  <!-- Q1 2024 = x:100, Q3 2024 = x:228, Q1 2025 = x:356, Q3 2025 = x:484, Q1 2026 = x:612, Q3 2026 = x:740 -->
+  <text x="100" y="206" text-anchor="middle" fill="#8b8578" class="small">Q1 2024</text>
+  <text x="228" y="206" text-anchor="middle" fill="#8b8578" class="small">Q3 2024</text>
+  <text x="356" y="206" text-anchor="middle" fill="#8b8578" class="small">Q1 2025</text>
+  <text x="484" y="206" text-anchor="middle" fill="#8b8578" class="small">Q3 2025</text>
+  <text x="612" y="206" text-anchor="middle" fill="#8b8578" class="small">Q1 2026</text>
+  <text x="740" y="206" text-anchor="middle" fill="#8b8578" class="small">Q3 2026</text>
+
+  <!-- X-axis tick marks -->
+  <line x1="100" y1="190" x2="100" y2="196" stroke="#1a1a18" stroke-opacity="0.15"/>
+  <line x1="228" y1="190" x2="228" y2="196" stroke="#1a1a18" stroke-opacity="0.15"/>
+  <line x1="356" y1="190" x2="356" y2="196" stroke="#1a1a18" stroke-opacity="0.15"/>
+  <line x1="484" y1="190" x2="484" y2="196" stroke="#1a1a18" stroke-opacity="0.15"/>
+  <line x1="612" y1="190" x2="612" y2="196" stroke="#1a1a18" stroke-opacity="0.15"/>
+  <line x1="740" y1="190" x2="740" y2="196" stroke="#1a1a18" stroke-opacity="0.15"/>
+
+  <!-- Light grid lines -->
+  <line x1="228" y1="44" x2="228" y2="190" stroke="#1a1a18" stroke-opacity="0.04"/>
+  <line x1="356" y1="44" x2="356" y2="190" stroke="#1a1a18" stroke-opacity="0.04"/>
+  <line x1="484" y1="44" x2="484" y2="190" stroke="#1a1a18" stroke-opacity="0.04"/>
+  <line x1="612" y1="44" x2="612" y2="190" stroke="#1a1a18" stroke-opacity="0.04"/>
+
+  <!--
+    Chart Y range: 190 (0%) to 44 (100%), so height=146px
+    Early mover: starts ~20% at Q1 2024, curves up to ~85% at Q3 2026
+      Points: (100,160.8) (228,145) (356,124) (484,98) (612,72) (740,53.9)
+    Late mover: starts ~15% at Q1 2026, ends ~35% at Q3 2026
+      Points: (612,168.1) (740,138.9)
+  -->
+
+  <!-- Shaded gap between lines from Q1 2026 onward -->
+  <path d="M612,72 C650,64 700,57 740,53.9 L740,138.9 C700,150 650,162 612,168.1 Z"
+    fill="#8b7355" fill-opacity="0.08"/>
+
+  <!-- Gap label -->
+  <text x="676" y="102" text-anchor="middle" fill="#8b7355" class="small" font-weight="600">Organizational</text>
+  <text x="676" y="114" text-anchor="middle" fill="#8b7355" class="small" font-weight="600">learning advantage</text>
+
+  <!-- Line 1: Early mover (solid, green) -->
+  <path d="M100,160.8 C140,156 180,150 228,145 C280,138 320,131 356,124 C395,116 440,106 484,98 C530,88 570,78 612,72 C660,63 700,57 740,53.9"
+    stroke="#2d7d46" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Dot at start -->
+  <circle cx="100" cy="160.8" r="3" fill="#2d7d46"/>
+  <!-- Dot at end -->
+  <circle cx="740" cy="53.9" r="3" fill="#2d7d46"/>
+
+  <!-- Line 2: Late mover (dashed, orange) -->
+  <path d="M612,168.1 C650,160 700,148 740,138.9"
+    stroke="#c27a3a" stroke-width="2" stroke-dasharray="6 4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Dot at start -->
+  <circle cx="612" cy="168.1" r="3" fill="#c27a3a"/>
+  <!-- Dot at end -->
+  <circle cx="740" cy="138.9" r="3" fill="#c27a3a"/>
+
+  <!-- Legend -->
+  <rect x="240" y="224" width="320" height="28" rx="4" fill="#fff" stroke="#1a1a18" stroke-opacity="0.08"/>
+  <!-- Early mover -->
+  <line x1="260" y1="238" x2="290" y2="238" stroke="#2d7d46" stroke-width="2"/>
+  <text x="296" y="241" fill="#6b6b63" class="small">Early mover (Q1 2024)</text>
+  <!-- Late mover -->
+  <line x1="430" y1="238" x2="460" y2="238" stroke="#c27a3a" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="466" y="241" fill="#6b6b63" class="small">Late mover (Q1 2026)</text>
+
+</svg>

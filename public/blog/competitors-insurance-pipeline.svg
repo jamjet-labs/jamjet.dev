@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .small { font-size: 9.5px; }
+    .time { font-size: 11px; font-weight: 600; }
+    .step { font-size: 10px; font-weight: 500; }
+  </style>
+
+  <!-- Outer background -->
+  <rect width="800" height="280" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="278" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Section header -->
+  <text x="400" y="24" text-anchor="middle" fill="#8b7355" class="label">Insurance underwriting -- before and after AI agents</text>
+
+  <!-- ================================ -->
+  <!-- LEFT: BEFORE section (muted)     -->
+  <!-- ================================ -->
+  <rect x="25" y="38" width="360" height="192" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- BEFORE header -->
+  <rect x="25" y="38" width="360" height="22" rx="6" fill="rgba(26,26,24,0.04)"/>
+  <rect x="25" y="54" width="360" height="6" fill="rgba(26,26,24,0.04)"/>
+  <text x="205" y="53" text-anchor="middle" fill="#8b8578" class="label">Before</text>
+
+  <!-- Pipeline steps (muted) -->
+  <!-- Step 1: Application -->
+  <rect x="120" y="68" width="170" height="22" rx="4" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <text x="205" y="83" text-anchor="middle" fill="#8b8578" class="step">Application</text>
+
+  <!-- Arrow 1 -->
+  <line x1="205" y1="90" x2="205" y2="98" stroke="#8b8578" stroke-opacity="0.4" stroke-width="1"/>
+  <polygon points="202,96 208,96 205,101" fill="#8b8578" fill-opacity="0.4"/>
+
+  <!-- Step 2: Risk Assessment -->
+  <rect x="120" y="102" width="170" height="22" rx="4" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <text x="205" y="117" text-anchor="middle" fill="#8b8578" class="step">Risk Assessment</text>
+
+  <!-- Arrow 2 -->
+  <line x1="205" y1="124" x2="205" y2="132" stroke="#8b8578" stroke-opacity="0.4" stroke-width="1"/>
+  <polygon points="202,130 208,130 205,135" fill="#8b8578" fill-opacity="0.4"/>
+
+  <!-- Step 3: Pricing -->
+  <rect x="120" y="136" width="170" height="22" rx="4" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <text x="205" y="151" text-anchor="middle" fill="#8b8578" class="step">Pricing</text>
+
+  <!-- Arrow 3 -->
+  <line x1="205" y1="158" x2="205" y2="166" stroke="#8b8578" stroke-opacity="0.4" stroke-width="1"/>
+  <polygon points="202,164 208,164 205,169" fill="#8b8578" fill-opacity="0.4"/>
+
+  <!-- Step 4: Compliance -->
+  <rect x="120" y="170" width="170" height="22" rx="4" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <text x="205" y="185" text-anchor="middle" fill="#8b8578" class="step">Compliance</text>
+
+  <!-- Arrow 4 -->
+  <line x1="205" y1="192" x2="205" y2="200" stroke="#8b8578" stroke-opacity="0.4" stroke-width="1"/>
+  <polygon points="202,198 208,198 205,203" fill="#8b8578" fill-opacity="0.4"/>
+
+  <!-- Step 5: Issuance -->
+  <rect x="120" y="204" width="170" height="22" rx="4" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <text x="205" y="219" text-anchor="middle" fill="#8b8578" class="step">Issuance</text>
+
+  <!-- Time label -->
+  <rect x="60" y="135" width="48" height="16" rx="3" fill="rgba(196,90,60,0.08)"/>
+  <text x="84" y="146" text-anchor="middle" fill="#c45a3c" class="small" font-weight="600">Days to</text>
+  <rect x="60" y="153" width="48" height="16" rx="3" fill="rgba(196,90,60,0.08)"/>
+  <text x="84" y="164" text-anchor="middle" fill="#c45a3c" class="small" font-weight="600">weeks</text>
+
+  <!-- Dashed timeline bar on left -->
+  <line x1="46" y1="72" x2="46" y2="222" stroke="#c45a3c" stroke-opacity="0.5" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="42" y1="72" x2="50" y2="72" stroke="#c45a3c" stroke-opacity="0.5" stroke-width="1"/>
+  <line x1="42" y1="222" x2="50" y2="222" stroke="#c45a3c" stroke-opacity="0.5" stroke-width="1"/>
+
+  <!-- ================================ -->
+  <!-- RIGHT: AFTER section (active)    -->
+  <!-- ================================ -->
+  <rect x="415" y="38" width="360" height="192" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- AFTER header -->
+  <rect x="415" y="38" width="360" height="22" rx="6" fill="rgba(139,115,85,0.08)"/>
+  <rect x="415" y="54" width="360" height="6" fill="rgba(139,115,85,0.08)"/>
+  <text x="595" y="53" text-anchor="middle" fill="#8b7355" class="label">After</text>
+
+  <!-- Compressed pipeline steps (active, with AI icons) -->
+  <!-- Step 1: Application -->
+  <rect x="480" y="68" width="220" height="22" rx="4" fill="rgba(139,115,85,0.06)" stroke="#8b7355" stroke-opacity="0.2"/>
+  <!-- AI icon -->
+  <rect x="488" y="73" width="12" height="12" rx="2" fill="rgba(139,115,85,0.15)"/>
+  <text x="494" y="82" text-anchor="middle" fill="#8b7355" style="font-size:8px;font-weight:700;">AI</text>
+  <text x="595" y="83" text-anchor="middle" fill="#1a1a18" class="step">Application</text>
+
+  <!-- Arrow 1 -->
+  <line x1="590" y1="90" x2="590" y2="98" stroke="#8b7355" stroke-width="1"/>
+  <polygon points="587,96 593,96 590,101" fill="#8b7355"/>
+
+  <!-- Step 2: Risk Assessment -->
+  <rect x="480" y="102" width="220" height="22" rx="4" fill="rgba(139,115,85,0.06)" stroke="#8b7355" stroke-opacity="0.2"/>
+  <rect x="488" y="107" width="12" height="12" rx="2" fill="rgba(139,115,85,0.15)"/>
+  <text x="494" y="116" text-anchor="middle" fill="#8b7355" style="font-size:8px;font-weight:700;">AI</text>
+  <text x="595" y="117" text-anchor="middle" fill="#1a1a18" class="step">Risk Assessment</text>
+  <!-- Company tag -->
+  <rect x="640" y="106" width="52" height="14" rx="3" fill="rgba(45,125,70,0.08)"/>
+  <text x="666" y="116" text-anchor="middle" fill="#2d7d46" class="small">Zurich</text>
+
+  <!-- Arrow 2 -->
+  <line x1="590" y1="124" x2="590" y2="132" stroke="#8b7355" stroke-width="1"/>
+  <polygon points="587,130 593,130 590,135" fill="#8b7355"/>
+
+  <!-- Step 3: Pricing -->
+  <rect x="480" y="136" width="220" height="22" rx="4" fill="rgba(139,115,85,0.06)" stroke="#8b7355" stroke-opacity="0.2"/>
+  <rect x="488" y="141" width="12" height="12" rx="2" fill="rgba(139,115,85,0.15)"/>
+  <text x="494" y="150" text-anchor="middle" fill="#8b7355" style="font-size:8px;font-weight:700;">AI</text>
+  <text x="595" y="151" text-anchor="middle" fill="#1a1a18" class="step">Pricing</text>
+  <!-- Company tag -->
+  <rect x="636" y="140" width="56" height="14" rx="3" fill="rgba(45,125,70,0.08)"/>
+  <text x="664" y="150" text-anchor="middle" fill="#2d7d46" class="small">Allianz</text>
+
+  <!-- Arrow 3 -->
+  <line x1="590" y1="158" x2="590" y2="166" stroke="#8b7355" stroke-width="1"/>
+  <polygon points="587,164 593,164 590,169" fill="#8b7355"/>
+
+  <!-- Step 4: Compliance -->
+  <rect x="480" y="170" width="220" height="22" rx="4" fill="rgba(139,115,85,0.06)" stroke="#8b7355" stroke-opacity="0.2"/>
+  <rect x="488" y="175" width="12" height="12" rx="2" fill="rgba(139,115,85,0.15)"/>
+  <text x="494" y="184" text-anchor="middle" fill="#8b7355" style="font-size:8px;font-weight:700;">AI</text>
+  <text x="595" y="185" text-anchor="middle" fill="#1a1a18" class="step">Compliance</text>
+
+  <!-- Arrow 4 -->
+  <line x1="590" y1="192" x2="590" y2="200" stroke="#8b7355" stroke-width="1"/>
+  <polygon points="587,198 593,198 590,203" fill="#8b7355"/>
+
+  <!-- Step 5: Issuance -->
+  <rect x="480" y="204" width="220" height="22" rx="4" fill="rgba(139,115,85,0.06)" stroke="#8b7355" stroke-opacity="0.2"/>
+  <rect x="488" y="209" width="12" height="12" rx="2" fill="rgba(139,115,85,0.15)"/>
+  <text x="494" y="218" text-anchor="middle" fill="#8b7355" style="font-size:8px;font-weight:700;">AI</text>
+  <text x="595" y="219" text-anchor="middle" fill="#1a1a18" class="step">Issuance</text>
+  <!-- Company tag -->
+  <rect x="627" y="208" width="72" height="14" rx="3" fill="rgba(45,125,70,0.08)"/>
+  <text x="663" y="218" text-anchor="middle" fill="#2d7d46" class="small">Lemonade</text>
+
+  <!-- Time label -->
+  <rect x="434" y="146" width="34" height="16" rx="3" fill="rgba(45,125,70,0.08)"/>
+  <text x="451" y="157" text-anchor="middle" fill="#2d7d46" class="small" font-weight="600">Hours</text>
+
+  <!-- Solid timeline bar on left of AFTER section -->
+  <line x1="436" y1="72" x2="436" y2="222" stroke="#2d7d46" stroke-opacity="0.4" stroke-width="1.5"/>
+  <line x1="432" y1="72" x2="440" y2="72" stroke="#2d7d46" stroke-opacity="0.4" stroke-width="1.5"/>
+  <line x1="432" y1="222" x2="440" y2="222" stroke="#2d7d46" stroke-opacity="0.4" stroke-width="1.5"/>
+
+  <!-- ================================ -->
+  <!-- BOTTOM: AI adoption bar          -->
+  <!-- ================================ -->
+  <rect x="25" y="242" width="750" height="28" rx="5" fill="rgba(139,115,85,0.06)" stroke="#8b7355" stroke-opacity="0.15" stroke-width="1"/>
+
+  <!-- Label -->
+  <text x="40" y="260" fill="#1a1a18" class="small" font-weight="600">AI adoption in underwriting:</text>
+
+  <!-- Progress track -->
+  <rect x="220" y="252" width="300" height="6" rx="3" fill="rgba(26,26,24,0.06)"/>
+  <!-- Filled portion (14% to ~70%) -->
+  <rect x="220" y="252" width="60" height="6" rx="3" fill="#8b8578"/>
+  <!-- Target marker -->
+  <rect x="220" y="252" width="210" height="6" rx="3" fill="rgba(139,115,85,0.3)"/>
+  <rect x="220" y="252" width="60" height="6" rx="3" fill="#8b7355"/>
+
+  <!-- Start label -->
+  <text x="220" y="248" fill="#8b8578" class="small">14%</text>
+
+  <!-- End label -->
+  <text x="430" y="248" fill="#8b7355" class="small" font-weight="600">70% by 2028</text>
+
+  <!-- Arrow indicator -->
+  <text x="540" y="260" fill="#8b7355" class="small">projected growth</text>
+
+</svg>

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .small { font-size: 9.5px; }
+  </style>
+
+  <!-- Outer background -->
+  <rect width="800" height="200" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="198" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Section header -->
+  <text x="400" y="24" text-anchor="middle" fill="#8b7355" class="label">Three patterns the leaders share</text>
+
+  <!-- ======== Card 1: Start with one workflow ======== -->
+  <rect x="25" y="42" width="230" height="142" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- Icon: single straight arrow -->
+  <line x1="106" y1="80" x2="168" y2="80" stroke="#8b7355" stroke-width="2.5" stroke-linecap="round"/>
+  <polyline points="161,74 168,80 161,86" stroke="#8b7355" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- Labels -->
+  <text x="140" y="115" text-anchor="middle" fill="#1a1a18" class="title">Start with one workflow</text>
+  <text x="140" y="132" text-anchor="middle" fill="#6b6b63" class="desc">Not an org-wide strategy</text>
+
+  <!-- ======== Card 2: Humans in the loop ======== -->
+  <rect x="285" y="42" width="230" height="142" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- Icon: stick figure + circular arrow (feedback loop) -->
+  <!-- Stick figure -->
+  <circle cx="383" cy="63" r="5" stroke="#2d7d46" stroke-width="1.5" fill="none"/>
+  <line x1="383" y1="68" x2="383" y2="81" stroke="#2d7d46" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="375" y1="73" x2="391" y2="73" stroke="#2d7d46" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="383" y1="81" x2="377" y2="90" stroke="#2d7d46" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="383" y1="81" x2="389" y2="90" stroke="#2d7d46" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Circular arrow (feedback loop arc around figure) -->
+  <path d="M396,68 A18,18 0 1,1 396,85" stroke="#2d7d46" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <polyline points="393,83 396,85 399,83" stroke="#2d7d46" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- Labels -->
+  <text x="400" y="115" text-anchor="middle" fill="#1a1a18" class="title">Humans in the loop</text>
+  <text x="400" y="132" text-anchor="middle" fill="#6b6b63" class="desc">Judgment stays with people</text>
+
+  <!-- ======== Card 3: Production infrastructure ======== -->
+  <rect x="545" y="42" width="230" height="142" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- Icon: checkpoint/shield (stacked layers with shield shape) -->
+  <!-- Shield outline -->
+  <path d="M660,60 L676,66 L676,80 C676,88 668,94 660,97 C652,94 644,88 644,80 L644,66 Z" stroke="#3b6ea5" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+  <!-- Checkmark inside shield -->
+  <polyline points="652,78 658,84 669,72" stroke="#3b6ea5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- Labels -->
+  <text x="660" y="115" text-anchor="middle" fill="#1a1a18" class="title">Production infrastructure</text>
+  <text x="660" y="132" text-anchor="middle" fill="#6b6b63" class="desc">Durable, auditable, recoverable</text>
+
+</svg>

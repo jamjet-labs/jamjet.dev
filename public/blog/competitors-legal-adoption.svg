@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .small { font-size: 9.5px; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="240" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="238" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Vertical divider -->
+  <line x1="400" y1="14" x2="400" y2="226" stroke="#1a1a18" stroke-opacity="0.10" stroke-dasharray="4 4"/>
+
+  <!-- ============================================================ -->
+  <!-- LEFT HALF: Bar Chart — AI adoption among legal professionals -->
+  <!-- ============================================================ -->
+
+  <text x="200" y="26" text-anchor="middle" fill="#8b7355" class="label">AI adoption among legal professionals</text>
+
+  <!-- Chart area: bars sit on baseline y=200, max bar height ~130px -->
+
+  <!-- Bar 1: 2023 — 19% -->
+  <!-- 19% of 130px = ~25px height -->
+  <rect x="115" y="175" width="50" height="25" rx="3" fill="#2d7d46"/>
+  <text x="140" y="170" text-anchor="middle" fill="#2d7d46" class="title">19%</text>
+  <text x="140" y="216" text-anchor="middle" fill="#6b6b63" class="desc">2023</text>
+
+  <!-- Bar 2: 2024 — 79% -->
+  <!-- 79% of 130px = ~103px height -->
+  <rect x="215" y="97" width="50" height="103" rx="3" fill="#2d7d46"/>
+  <text x="240" y="92" text-anchor="middle" fill="#2d7d46" class="title">79%</text>
+  <text x="240" y="216" text-anchor="middle" fill="#6b6b63" class="desc">2024</text>
+
+  <!-- Baseline -->
+  <line x1="95" y1="200" x2="285" y2="200" stroke="#1a1a18" stroke-opacity="0.10" stroke-width="1"/>
+
+  <!-- Callout: 4x increase -->
+  <rect x="100" y="42" width="180" height="28" rx="14" fill="#2d7d46" fill-opacity="0.08" stroke="#2d7d46" stroke-opacity="0.25"/>
+  <text x="190" y="60" text-anchor="middle" fill="#2d7d46" class="desc" font-weight="600">4x increase in 12 months</text>
+
+  <!-- Arrow from callout to gap between bars -->
+  <line x1="190" y1="70" x2="190" y2="85" stroke="#2d7d46" stroke-opacity="0.4" stroke-width="1"/>
+  <polygon points="186,84 194,84 190,90" fill="#2d7d46" fill-opacity="0.4"/>
+
+  <!-- ============================================================ -->
+  <!-- RIGHT HALF: Two stat cards -->
+  <!-- ============================================================ -->
+
+  <text x="600" y="26" text-anchor="middle" fill="#8b7355" class="label">Firms with AI strategy vs. ad-hoc</text>
+
+  <!-- Card 1: 2x revenue growth -->
+  <rect x="425" y="44" width="160" height="130" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <text x="505" y="94" text-anchor="middle" fill="#2d7d46" font-size="36" font-weight="700" font-family="'Inter', system-ui, sans-serif">2x</text>
+  <text x="505" y="116" text-anchor="middle" fill="#1a1a18" class="desc" font-weight="600">more likely to see</text>
+  <text x="505" y="132" text-anchor="middle" fill="#1a1a18" class="desc" font-weight="600">revenue growth</text>
+  <text x="505" y="152" text-anchor="middle" fill="#8b8578" class="small">Firms with AI strategy vs. ad-hoc</text>
+
+  <!-- Card 2: 4x ROI -->
+  <rect x="615" y="44" width="160" height="130" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <text x="695" y="94" text-anchor="middle" fill="#2d7d46" font-size="36" font-weight="700" font-family="'Inter', system-ui, sans-serif">4x</text>
+  <text x="695" y="116" text-anchor="middle" fill="#1a1a18" class="desc" font-weight="600">more likely to</text>
+  <text x="695" y="132" text-anchor="middle" fill="#1a1a18" class="desc" font-weight="600">see ROI</text>
+  <text x="695" y="152" text-anchor="middle" fill="#8b8578" class="small">Strategic vs. ad-hoc adoption</text>
+
+  <!-- Source line -->
+  <text x="600" y="216" text-anchor="middle" fill="#8b8578" class="small">Source: Thomson Reuters / Clio</text>
+
+</svg>

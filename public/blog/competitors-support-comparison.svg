@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 220" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .small { font-size: 9.5px; }
+    .big-num { font-size: 28px; font-weight: 700; }
+  </style>
+
+  <!-- Outer background -->
+  <rect width="800" height="220" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="218" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Section header -->
+  <text x="400" y="24" text-anchor="middle" fill="#8b7355" class="label">Customer support AI -- resolution rates and reliability</text>
+
+  <!-- ======== Card 1: Salesforce Agentforce ======== -->
+  <rect x="25" y="40" width="238" height="166" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- Company label -->
+  <text x="40" y="60" fill="#8b7355" class="label">Salesforce Agentforce</text>
+
+  <!-- Divider -->
+  <line x1="40" y1="68" x2="249" y2="68" stroke="#1a1a18" stroke-opacity="0.07"/>
+
+  <!-- Big number -->
+  <text x="40" y="102" fill="#2d7d46" class="big-num">83%</text>
+
+  <!-- Description lines -->
+  <text x="40" y="118" fill="#1a1a18" class="desc">autonomous resolution</text>
+
+  <!-- Stats -->
+  <rect x="40" y="128" width="203" height="32" rx="4" fill="#f5f4f0"/>
+  <text x="52" y="142" fill="#6b6b63" class="small">2M+ conversations</text>
+  <text x="52" y="154" fill="#6b6b63" class="small">$50M projected savings</text>
+
+  <!-- Reliability -->
+  <circle cx="46" cy="182" r="4" fill="#2d7d46"/>
+  <text x="56" y="186" fill="#2d7d46" class="small">Verified (self-deployed)</text>
+
+  <!-- ======== Card 2: Intercom Fin ======== -->
+  <rect x="281" y="40" width="238" height="166" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- Company label -->
+  <text x="296" y="60" fill="#8b7355" class="label">Intercom Fin</text>
+
+  <!-- Divider -->
+  <line x1="296" y1="68" x2="505" y2="68" stroke="#1a1a18" stroke-opacity="0.07"/>
+
+  <!-- Big number -->
+  <text x="296" y="102" fill="#c27a3a" class="big-num">41-67%</text>
+
+  <!-- Description lines -->
+  <text x="296" y="118" fill="#1a1a18" class="desc">resolution rate (varies)</text>
+
+  <!-- Stats -->
+  <rect x="296" y="128" width="209" height="32" rx="4" fill="#f5f4f0"/>
+  <text x="308" y="142" fill="#6b6b63" class="small">40M+ conversations resolved</text>
+  <text x="308" y="154" fill="#6b6b63" class="small"> </text>
+
+  <!-- Reliability -->
+  <circle cx="302" cy="182" r="4" fill="#c27a3a"/>
+  <text x="312" y="186" fill="#c27a3a" class="small">Varies by implementation</text>
+
+  <!-- ======== Card 3: Zendesk AI ======== -->
+  <rect x="537" y="40" width="238" height="166" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- Company label -->
+  <text x="552" y="60" fill="#8b7355" class="label">Zendesk AI</text>
+
+  <!-- Divider -->
+  <line x1="552" y1="68" x2="761" y2="68" stroke="#1a1a18" stroke-opacity="0.07"/>
+
+  <!-- Big number -->
+  <text x="552" y="102" fill="#8b8578" class="big-num">80%</text>
+
+  <!-- Description lines -->
+  <text x="552" y="118" fill="#1a1a18" class="desc">claimed capability</text>
+
+  <!-- Stats -->
+  <rect x="552" y="128" width="209" height="32" rx="4" fill="#f5f4f0"/>
+  <text x="564" y="142" fill="#6b6b63" class="small">20K customers</text>
+  <text x="564" y="154" fill="#6b6b63" class="small"> </text>
+
+  <!-- Reliability -->
+  <circle cx="558" cy="182" r="4" fill="#8b8578"/>
+  <text x="568" y="186" fill="#8b8578" class="small">Marketing claim</text>
+
+</svg>
