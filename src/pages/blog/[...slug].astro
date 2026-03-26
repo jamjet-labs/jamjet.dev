@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCTA from '../../components/BlogCTA.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -12,6 +13,27 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props as { post: CollectionEntry<'blog'> };
 const { Content } = await post.render();
+
+// Related posts query
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const currentSlug = post.slug;
+const currentCategory = post.data.category;
+
+let relatedPosts = allPosts
+  .filter(p => p.slug !== currentSlug && p.data.category === currentCategory)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+let relatedLabel = currentCategory ? `MORE ON ${currentCategory.toUpperCase()}` : 'MORE FROM THE BLOG';
+
+if (relatedPosts.length < 2) {
+  relatedPosts = allPosts
+    .filter(p => p.slug !== currentSlug)
+    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+    .slice(0, 3);
+  relatedLabel = 'MORE FROM THE BLOG';
+}
+
 const site = 'https://jamjet.dev';
 const canonical = `${site}/blog/${post.slug}/`;
 const pageTitle = `${post.data.title} | JamJet Blog`;
@@ -87,6 +109,27 @@ const articleLd = {
     <article class="article">
       <Content />
     </article>
+
+    <BlogCTA category={post.data.category ?? ''} />
+
+    {relatedPosts.length > 0 && (
+      <div class="related-posts">
+        <span class="related-label">{relatedLabel}</span>
+        <div class="related-grid">
+          {relatedPosts.map(rp => (
+            <a href={`/blog/${rp.slug}/`} class="related-card">
+              <span class="related-title">{rp.data.title}</span>
+              <span class="related-date">{rp.data.date.toISOString().slice(0, 10)}</span>
+              <span class="related-desc">
+                {rp.data.description && rp.data.description.length > 120
+                  ? rp.data.description.slice(0, 120) + '…'
+                  : rp.data.description}
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
 
     <div class="share-bar-bottom">
       <p>Found this useful? Share it.</p>
@@ -211,6 +254,60 @@ const articleLd = {
 
   .share-bar-bottom { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
   .share-bar-bottom p { color: var(--text-muted); font-size: 0.9rem; }
+
+  .related-posts {
+    margin: 40px 0;
+  }
+  .related-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+    margin-bottom: 20px;
+  }
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .related-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    transition: border-color 0.15s;
+  }
+  .related-card:hover {
+    border-color: var(--accent);
+  }
+  .related-title {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .related-date {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .related-desc {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  @media (max-width: 768px) {
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 
 <script>
