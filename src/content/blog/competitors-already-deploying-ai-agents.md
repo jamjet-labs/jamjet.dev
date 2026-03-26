@@ -1,15 +1,15 @@
 ---
-title: "What Your Competitors Are Already Doing With AI Agents"
+title: "What the Market Leaders Are Already Doing With AI Agents"
 date: 2026-03-25
-description: "Named companies, real metrics, sourced data. How finance, legal, support, and insurance deploy AI agents in production — and what it means if you haven't started."
+description: "Named companies, real metrics, sourced data. How finance, legal, support, and insurance deploy AI agents in production — and what the evidence says about what actually creates durable advantage."
 author: "Sunil Prakash"
 draft: false
 category: "Strategy & Vision"
 ---
 
-# What Your Competitors Are Already Doing With AI Agents — And Why the Gap Is Widening
+# What the Market Leaders Are Already Doing With AI Agents — And Why the Gap Is Widening
 
-*This is not a trend piece. Every number in this article is sourced. Every company is named. The evidence says the same thing: the organizations deploying AI agents today are building advantages that late movers will not be able to close by working harder.*
+*This is not a trend piece. Every number in this article is sourced. Every company is named. The evidence points to a single conclusion: the moat is not access to models. It is the ability to redesign workflows, keep humans at the right boundary, and run agents reliably enough that the organization actually learns.*
 
 In February 2026, Goldman Sachs announced that autonomous AI agents — built on Anthropic's Claude — are now doing trade accounting, compliance work, and client onboarding at the firm. Not as a pilot. Not in a sandbox. Anthropic engineers spent six months embedded at Goldman co-developing the systems. Internal tests showed 30% faster client onboarding and over 20% developer productivity gains.
 
@@ -17,15 +17,13 @@ Goldman's CTO framed the move carefully: these agents are "digital co-workers" d
 
 ([Source: CNBC, February 2026](https://www.cnbc.com/2026/02/06/anthropic-goldman-sachs-ai-model-accounting.html))
 
-If Goldman is trusting AI agents with trade accounting, what is your organization still evaluating?
+The advantage Goldman is building is not about having access to Claude. Every company can license a frontier model. Their advantage is operational: they spent six months redesigning workflows around agents, they kept human oversight on every critical decision, and they built the infrastructure for the organization to learn from every run. That is the pattern this article documents — across finance, legal, support, and insurance.
 
 ---
 
-## This is not an experiment anymore
+## The scale of what is already happening
 
-There is a version of the AI conversation that sounds like this: "We're watching the space." "We have a task force." "We ran a proof of concept last quarter." These are reasonable things to say — in 2024. In 2026, they are statements of strategic risk.
-
-The numbers tell a different story than "we're still evaluating":
+The numbers across industries tell a consistent story:
 
 | Signal | Number | Source |
 |--------|--------|--------|
@@ -36,7 +34,7 @@ The numbers tell a different story than "we're still evaluating":
 | Salesforce Agentforce ARR | $1.4 billion | [Futurum Group, Q3 FY2026](https://futurumgroup.com/insights/salesforce-q3-fy-2026-ai-agents-data-360-lift-bookings-and-fy26-outlook/) |
 | McKinsey: AI revenue unlock in insurance | $50–70 billion | [McKinsey, Feb 2026](https://www.mckinsey.com/industries/financial-services/our-insights/ai-in-insurance-understanding-the-implications-for-investors) |
 
-These are not projections about what might happen. They are measurements of what is already happening. The question is not whether AI agents will transform your industry. It is whether you will be the one deploying them or the one competing against someone who did.
+These are not projections. They are measurements. But the more interesting question is not *whether* organizations are deploying agents — it is what separates the ones getting durable results from the ones generating press releases. That is what the case studies below reveal.
 
 ![Timeline of major AI agent deployments across industries, 2023–2026, showing accelerating adoption](/blog/competitors-timeline.svg)
 
@@ -91,13 +89,13 @@ Erica, Bank of America's AI assistant, has processed 3.2 billion client interact
 
 ![Financial services AI deployment comparison — JPMorgan, Morgan Stanley, Goldman Sachs, Bank of America: what they deployed, when, and at what scale](/blog/competitors-finance-table.svg)
 
-**What this means for you:** The largest financial institutions — the ones with the most to lose from getting this wrong — have moved past evaluation. They are not asking "should we?" They are competing on "how fast can we scale?" If you operate in financial services and you are still running proofs of concept, you are already two to three years behind the firms setting the pace.
+**What this means:** The largest financial institutions — the ones with the most to lose from getting this wrong — have moved past evaluation. They are competing on "how fast can we scale?" These are frontier adopters with resources most organizations do not have. But the patterns they are establishing — workflow-specific deployment, human oversight, durable infrastructure — are setting the standard for the rest of the industry. The longer an organization waits to develop its own operational muscle, the harder it becomes to close the gap in institutional knowledge.
 
 > **Want to see how a multi-agent workflow actually operates in wealth management?** We built a detailed walkthrough — four specialist agents collaborating through a structured workflow, with the same kind of human oversight Goldman and Morgan Stanley use — in [The Business Case for AI Agents](/blog/ai-agents-business-case/).
 
 ---
 
-## Legal: AI is outperforming lawyers on legal research
+## Legal: AI-assisted research is changing the economics of law
 
 The legal industry's AI adoption curve might be the steepest in any profession. According to the Clio Legal Trends Report, AI adoption among legal professionals jumped from 19% in 2023 to 79% in 2024. Not a gradual climb — a four-fold increase in twelve months.
 
@@ -126,13 +124,13 @@ One specific use case: preparing witness statements from multiple documents and 
 
 *Note: CMS's 118-hour figure is based on internal self-reported surveys, not independently audited.*
 
-### AI is now outscoring lawyers
+### AI is closing the accuracy gap on legal research
 
-The Vals AI VLAIR Legal Benchmark — an independent evaluation — tested legal AI systems against lawyer baselines on legal research tasks. The result: AI systems scored an average accuracy of **80%**, compared to a lawyer baseline of **71%**. AI outperformed lawyers by 9 percentage points on legal research accuracy.
+The Vals AI VLAIR Legal Benchmark — an independent evaluation — tested legal AI systems against lawyer baselines on legal research tasks. On this specific benchmark, AI systems scored an average accuracy of **80%**, compared to a lawyer baseline of **71%**.
 
 ([Source: Vals AI, Oct 2025](https://www.lawnext.com/2025/10/vals-ais-latest-benchmark-finds-legal-and-general-ai-now-outperform-lawyers-in-legal-research-accuracy.html))
 
-This does not mean AI replaces lawyers. It means AI handles the research — the volume-heavy, time-consuming work — while lawyers focus on judgment, strategy, and client relationships. The firms using these tools are not just faster. They are more accurate on the research component than firms relying on human review alone.
+A benchmark is not the whole job — legal work involves judgment, strategy, and contextual reasoning that no research accuracy score captures. But on the research component specifically — the volume-heavy, time-consuming work that consumes most junior associate hours — AI tools are reaching and in some cases exceeding the human baseline. The firms using these tools are augmenting their research capacity, not replacing lawyers.
 
 ### The revenue impact is measurable
 
@@ -142,7 +140,7 @@ Thomson Reuters' Future of Professionals Report found that firms with a visible 
 
 ![Legal industry AI adoption curve — 19% to 79% in one year, with revenue impact comparison for firms with AI strategy vs. ad-hoc adoption](/blog/competitors-legal-adoption.svg)
 
-**What this means for you:** If your legal team — in-house or outside counsel — is not using AI-assisted review and research, they are working slower and, according to the benchmarks, less accurately than teams that are. The productivity gap is not marginal. It is measured in hundreds of hours per lawyer per year.
+**What this means:** Legal teams using AI-assisted research are seeing measurable productivity gains — CMS reports 118 hours saved per lawyer per year. The economics are shifting: firms with a visible AI strategy are twice as likely to see revenue growth. For legal departments that have not started, the question is less about whether AI works in legal and more about how quickly the competitive baseline moves.
 
 ---
 
@@ -208,7 +206,7 @@ Individual customer results tell the story: Lightspeed Commerce sees up to 65% r
 
 ![Customer support AI comparison — Salesforce, Intercom, Zendesk: resolution rates, scale, and deployment model](/blog/competitors-support-comparison.svg)
 
-**What this means for you:** AI agents can genuinely handle high volumes of routine customer queries. The data is clear on that. But the Klarna reversal — and the variation in Intercom's resolution rates — shows that the infrastructure behind the agent matters enormously. Durable state, quality monitoring, human escalation paths, and the ability to recover gracefully when something goes wrong are not optional features. They are the difference between a system that saves $50 million a year and one that damages your brand.
+**What this means:** AI agents can handle high volumes of routine customer queries — the data is clear. But the Klarna reversal and the variation in Intercom's resolution rates show that the operating model matters as much as the technology. Workflow design, quality monitoring, human escalation paths, and the ability to recover gracefully when something goes wrong are the difference between a system that saves $50 million a year and one that damages your brand.
 
 ---
 
@@ -263,7 +261,7 @@ Quoting times in commercial lines are moving from **multiple days to hours**. In
 
 ![Insurance underwriting pipeline — before (weeks, manual handoffs) vs. after (hours, AI-assisted) with named companies at each stage](/blog/competitors-insurance-pipeline.svg)
 
-**What this means for you:** If you are in insurance and your underwriting pipeline still runs on sequential manual reviews, your competitors are processing the same work in a fraction of the time — with better loss ratios. Lemonade's 27-point improvement in gross loss ratio over two years is not a marginal optimization. It is a structural advantage in pricing and profitability.
+**What this means:** Insurers still running sequential manual underwriting reviews are competing against organizations processing the same work in a fraction of the time — with better loss ratios. Lemonade's 27-point improvement in gross loss ratio over two years is not a marginal optimization. It is a structural advantage in pricing and profitability that compounds with each quarter of operational refinement.
 
 ---
 
@@ -297,27 +295,21 @@ There is a meaningful difference between a prototype that works in a demo and a 
 
 The companies still "evaluating" are often evaluating prototyping tools — frameworks designed to build demos quickly. The companies already deploying at scale long ago moved past prototyping into durable, observable, auditable infrastructure.
 
-Here is the uncomfortable truth: Goldman embedded Anthropic engineers for six months to build their agent infrastructure. JPMorgan has 2,000+ AI/ML specialists and an $18 billion technology budget. Most organizations do not have those resources. But the infrastructure requirements — durability, auditability, human-in-the-loop, crash recovery — are the same regardless of your budget. The question is whether you build it from scratch or start with a runtime that provides these capabilities out of the box.
-
-This is the gap a purpose-built agent runtime closes. Instead of spending your first six months building reliability infrastructure around your agents, you start with durability, checkpointing, and audit trails as the default execution model — and spend that time building the workflows that matter to your business.
+Here is the uncomfortable truth: Goldman embedded Anthropic engineers for six months to build their agent infrastructure. JPMorgan has 2,000+ AI/ML specialists and an $18 billion technology budget. Most organizations do not have those resources. But the infrastructure requirements — durability, auditability, human-in-the-loop, crash recovery — are the same regardless of budget. The question for most teams is not whether they need these capabilities, but how to get them without a multi-year internal build.
 
 ![Three patterns shared by AI agent leaders — started with one workflow, kept humans in the loop, invested in production infrastructure](/blog/competitors-three-patterns.svg)
 
 ---
 
-## The cost of waiting
+## The real advantage is organizational learning
 
-Here is the part of this article that is hardest to quantify but most important to understand: the advantage compounds.
+Here is the part of this article that is hardest to quantify but most important to understand: the durable advantage is not the technology. It is what the organization learns by operating it.
 
-Morgan Stanley's research tool has been live since September 2023. That means they have had over two years of advisor feedback, workflow refinement, edge case resolution, and institutional learning about how AI agents fit into wealth management. Every quarter that tool runs, it gets better — not just the model, but the organization's ability to use it effectively.
+Morgan Stanley's research tool has been live since September 2023. That means over two years of advisor feedback, workflow refinement, edge case resolution, and institutional knowledge about where AI adds value and where it does not. Every quarter that tool runs, Morgan Stanley gets better at deploying the *next* tool — not because the model improved, but because the organization did.
 
-JPMorgan started their AI journey in 2017 with COiN. They have nine years of compounding operational knowledge. When they deploy agentic AI in 2025, they are not starting from zero. They are building on an institutional muscle that most competitors do not have.
+JPMorgan started their AI journey in 2017 with COiN. When they deploy agentic AI in 2025, they are building on nine years of institutional muscle: how to scope a workflow, how to validate results, how to earn internal trust.
 
-This is the dynamic that makes "we'll catch up later" a dangerous strategy. The technology itself will be available to everyone. But the organizational knowledge — how to identify the right workflows, how to design human-AI boundaries, how to handle edge cases, how to build trust with employees and clients — that only comes from doing. And every quarter you wait, the organizations that started earlier add another layer of compounding advantage.
-
-Goldman Sachs is not deploying AI agents because they think it might work. They embedded Anthropic engineers for six months. They are deploying because they have seen enough evidence — from their own pilots and from watching competitors — to treat this as a strategic imperative.
-
-The question is not whether your industry will adopt AI agents. The data in this article answers that question decisively. The question is whether you will be among the organizations that shaped how agents work in your industry — or among the ones that adopted someone else's playbook two years late.
+The technology will be available to everyone. Models are commoditizing. But the organizational knowledge — how to redesign workflows around agents, how to set the right human boundaries, how to handle the edge cases that only surface in production — that only comes from doing. Every quarter of operational experience compounds. This is why "we'll catch up later" is a riskier bet than it appears: the gap is not in technology access, it is in operational maturity.
 
 ![Compounding advantage curve — early movers' lead widens each quarter as organizational learning accumulates](/blog/competitors-compounding-curve.svg)
 
@@ -357,27 +349,13 @@ Klarna's lesson: decide where humans stay in the loop before you deploy, not aft
 
 ---
 
-## Why we built JamJet for exactly this problem
+## The infrastructure question
 
-The five infrastructure questions above — crash recovery, automatic audit trails, human-in-the-loop, model flexibility, agent interoperability — are not a wish list. They are table stakes for production AI agents. Every successful deployment in this article has them. Goldman spent six months with embedded Anthropic engineers building them. JPMorgan has a $2 billion annual AI budget to maintain them.
+Goldman spent six months with embedded Anthropic engineers building the reliability layer beneath their agents. JPMorgan has a $2 billion annual AI budget. Most organizations do not have those resources — but they face the same infrastructure requirements.
 
-You should not need Goldman's budget to deploy AI agents reliably.
+The five questions in the previous section — crash recovery, audit trails, human-in-the-loop, model flexibility, interoperability — are not aspirational. They are what separates a demo from a system you would trust with your clients. The organizations in this article answered them through massive internal investment. The question for everyone else is whether that same foundation can be adopted rather than built from scratch.
 
-[JamJet](/) is an open-source runtime — Apache 2.0 licensed — built specifically for production AI agent workflows. Here is how it maps to the patterns the leaders share:
-
-| What the leaders do | How JamJet delivers it |
-|---------------------|----------------------|
-| **Resume from failures, never restart** | Every workflow is event-sourced. Before each step runs, JamJet writes a checkpoint. If the runtime crashes, it replays completed steps from the event log and continues. No re-execution, no lost work. |
-| **Complete audit trails by default** | Every state transition, tool call, and model response is persisted as an event — automatically. Compliance teams get full traceability without anyone reconstructing it after the fact. |
-| **Human approval built into the workflow** | Human-in-the-loop is a first-class node type, not a bolt-on. Your workflow pauses, presents the decision to a human, and resumes when they approve — with the approval logged in the audit trail. |
-| **Model-agnostic, no vendor lock-in** | JamJet treats models as interchangeable resources. Route to Claude for reasoning, Gemini for code generation, and a local model for sensitive data — in the same workflow. |
-| **Standard protocol support (MCP + A2A)** | Native support for Model Context Protocol and Agent-to-Agent Protocol. Your agents can collaborate with agents in other frameworks, other organizations, other runtimes — through standard interfaces. |
-
-The core is Rust — no garbage collector, real parallelism, checkpoint writes at native speed. The authoring surface is Python (and Java). You write Python, your workflows run at Rust throughput.
-
-**Start simple, scale as you go.** A single `@task` decorator gives you a durable function with checkpointing. An `Agent` gives you a stateful entity with tools and an identity. A `Workflow` gives you a full DAG with typed state, conditional routing, eval loops, and protocol integrations. No framework tax on day one.
-
-The evidence in this article is clear: the leaders in every industry are already deploying AI agents in production. The infrastructure gap — the thing that separates a compelling demo from a system you would trust with your clients — is solvable today, without building it yourself.
+This is why we built [JamJet](/) — an open-source runtime (Apache 2.0) that provides event-sourced durability, automatic audit trails, first-class human-in-the-loop, model-agnostic execution, and native MCP + A2A protocol support. Rust core, Python and Java authoring surface. The goal is to make the infrastructure patterns the leaders share available without requiring their budgets.
 
 - [Read the full business case for AI agents →](/blog/ai-agents-business-case/)
 - [See the wealth management architecture →](/blog/wealth-management-multi-agent/)
