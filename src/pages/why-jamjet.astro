@@ -1,0 +1,226 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CopyButton from '../components/CopyButton.astro';
+
+const canonical = 'https://jamjet.dev/why-jamjet/';
+
+const capabilities = [
+  {
+    label: 'CRASH RECOVERY',
+    title: 'Resume from failures, never restart',
+    context: "Goldman Sachs doesn't re-run trade accounting from scratch when a system fails. Neither should you.",
+    mechanism: 'Every workflow step writes a checkpoint before execution. On crash, JamJet replays completed steps from the event log and continues from the exact point of failure.',
+  },
+  {
+    label: 'AUTOMATIC AUDIT TRAILS',
+    title: 'Complete traceability by default',
+    context: 'Regulated industries — finance, legal, insurance — require full traceability. The firms that built audit trails into their agent workflows from day one avoided the compliance headaches that catch teams who bolt it on later.',
+    mechanism: 'Every state transition, tool call, and model response is persisted as an event automatically. No manual logging, no reconstruction after the fact.',
+  },
+  {
+    label: 'HUMAN-IN-THE-LOOP',
+    title: 'Human oversight as a first-class capability',
+    context: "Klarna's public reversal made this lesson impossible to ignore: human-in-the-loop cannot be bolted on after quality degrades. It must be designed in from the start.",
+    mechanism: 'Human approval is a first-class node type. Your workflow pauses, presents the decision to a human, and resumes when they approve — with the approval logged in the audit trail.',
+  },
+  {
+    label: 'MODEL FLEXIBILITY',
+    title: 'Route to any model, no vendor lock-in',
+    context: 'Goldman routes across OpenAI, Gemini, and Llama by task type. Model flexibility is how you avoid vendor dependency and optimize cost.',
+    mechanism: 'Models are interchangeable resources. Route to Claude for reasoning, Gemini for code generation, and a local model for sensitive data — in the same workflow.',
+  },
+  {
+    label: 'AGENT INTEROPERABILITY',
+    title: 'Standard protocols, not proprietary walls',
+    context: 'The industry is converging on standard protocols. Agents that cannot interoperate are agents that cannot scale beyond your own walls.',
+    mechanism: 'Native support for Model Context Protocol (MCP) and Agent-to-Agent Protocol (A2A). Your agents collaborate with agents in other frameworks, other organizations, other runtimes.',
+  },
+];
+
+const differentiators = [
+  { title: 'Rust core', desc: 'No garbage collector, real parallelism, checkpoint writes at native speed.' },
+  { title: 'Event-sourced by default', desc: 'Durability is the execution model, not an add-on.' },
+  { title: 'Protocol-native', desc: 'MCP + A2A built into the runtime, not wrapped around it.' },
+  { title: 'Open source', desc: 'Apache 2.0. No vendor lock-in.' },
+];
+---
+
+<BaseLayout
+  title="Why JamJet — The Infrastructure Patterns Behind Successful AI Agent Deployments"
+  description="The moat is not model access. It is workflow redesign, human-boundary design, and reliable infrastructure. See how JamJet delivers the patterns the market leaders share."
+  canonical={canonical}
+>
+
+<!-- ── Hero ── -->
+<section class="why-hero">
+  <div class="container">
+    <h1>The infrastructure patterns behind every successful AI agent deployment.</h1>
+    <p class="why-hero-sub">
+      The moat is not access to models. It is the ability to redesign workflows,
+      keep humans at the right boundary, and run agents reliably enough that the
+      organization actually learns.
+    </p>
+  </div>
+</section>
+
+<!-- ── Five Capabilities ── -->
+{capabilities.map((cap, i) => (
+  <section style={i % 2 === 0 ? '' : 'background: var(--bg-alt);'}>
+    <div class="container">
+      <span class="section-label">{cap.label}</span>
+      <h2 class="cap-title">{cap.title}</h2>
+      <div class="cap-content">
+        <div class="cap-context">
+          <h3>Why it matters</h3>
+          <p>{cap.context}</p>
+        </div>
+        <div class="cap-mechanism">
+          <h3>How JamJet delivers it</h3>
+          <p>{cap.mechanism}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+))}
+
+<!-- ── Differentiation Strip ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container">
+    <span class="section-label">What makes JamJet different</span>
+    <div class="diff-grid">
+      {differentiators.map(d => (
+        <div class="diff-item">
+          <strong>{d.title}</strong>
+          <p>{d.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ── Two-Path CTA ── -->
+<section>
+  <div class="container">
+    <div class="two-path">
+      <div class="path-card">
+        <h3>Try it now</h3>
+        <div class="install-cmd" style="margin: 16px 0 20px;">
+          <span class="prompt">$</span>
+          <span class="cmd">pip install jamjet</span>
+          <CopyButton text="pip install jamjet" />
+        </div>
+        <a href="https://docs.jamjet.dev/en/docs/quickstart" class="btn-primary">Read the quickstart →</a>
+      </div>
+      <div class="path-card">
+        <h3>See it in action</h3>
+        <p class="path-desc">Walk through a production architecture — multi-agent coordination, human oversight, and durable execution.</p>
+        <a href="/showcase" class="btn-secondary">See the showcase →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+  .why-hero {
+    padding: var(--space-section) 0;
+    text-align: center;
+  }
+  .why-hero h1 {
+    max-width: 780px;
+    margin: 0 auto 24px;
+  }
+  .why-hero-sub {
+    max-width: 640px;
+    margin: 0 auto;
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .cap-title {
+    margin-bottom: 32px;
+  }
+  .cap-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  .cap-content h3 {
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+    margin-bottom: 12px;
+  }
+  .cap-content p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+
+  .diff-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    margin-top: 32px;
+  }
+  .diff-item strong {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+  .diff-item p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .two-path {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .path-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px;
+  }
+  .path-card h3 {
+    font-family: var(--font-body);
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .path-desc {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .cap-content {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .diff-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .two-path {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 480px) {
+    .diff-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
