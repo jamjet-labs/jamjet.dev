@@ -1,0 +1,97 @@
+---
+interface Props {
+  category: string;
+}
+
+const { category } = Astro.props;
+
+const variants: Record<string, { headline: string; body: string; button: string; link: string }> = {
+  strategy: {
+    headline: 'Convinced the infrastructure matters?',
+    body: 'See how JamJet delivers the patterns the leaders share.',
+    button: 'Read why JamJet →',
+    link: '/why-jamjet',
+  },
+  technical: {
+    headline: 'Ready to try it?',
+    body: 'One install, durable workflows from the first line of code.',
+    button: 'Get started →',
+    link: 'https://docs.jamjet.dev/en/docs/quickstart',
+  },
+  enterprise: {
+    headline: 'Building for production?',
+    body: 'Event-sourced durability, audit trails, and human-in-the-loop — out of the box.',
+    button: 'See the architecture →',
+    link: '/showcase',
+  },
+};
+
+const categoryMap: Record<string, string> = {
+  'strategy & vision': 'strategy',
+  'business': 'strategy',
+  'testing & evaluation': 'technical',
+  'technical': 'technical',
+  'code patterns': 'technical',
+  'migration': 'technical',
+  'features': 'technical',
+  'enterprise': 'enterprise',
+  'security': 'enterprise',
+  'architecture & deep dives': 'enterprise',
+};
+
+const variantKey = categoryMap[category?.toLowerCase().trim()] ?? 'technical';
+const v = variants[variantKey];
+---
+
+<div class="blog-cta">
+  <div class="blog-cta-text">
+    <h3 class="blog-cta-headline">{v.headline}</h3>
+    <p class="blog-cta-body">{v.body}</p>
+  </div>
+  <a href={v.link} class="btn-primary blog-cta-btn">{v.button}</a>
+</div>
+
+<style>
+  .blog-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin: 48px 0 32px;
+  }
+  .blog-cta-text {
+    flex: 1;
+  }
+  .blog-cta-headline {
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+  .blog-cta-body {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .blog-cta-btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  @media (max-width: 768px) {
+    .blog-cta {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 24px;
+    }
+    .blog-cta-btn {
+      align-self: flex-start;
+    }
+  }
+</style>
