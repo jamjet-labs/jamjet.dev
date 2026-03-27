@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 260" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .small { font-size: 9.5px; }
+    .tag { font-size: 9px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+    .chat { font-size: 10px; }
+    .stat { font-size: 11px; font-weight: 600; }
+    .check { font-size: 10.5px; }
+  </style>
+
+  <!-- Outer background -->
+  <rect width="800" height="260" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="258" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Section header -->
+  <text x="400" y="28" text-anchor="middle" fill="#8b7355" class="label">From chatbot to headline in hours</text>
+
+  <!-- ======== Panel 1: The Exchange ======== -->
+  <rect x="18" y="42" width="244" height="202" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <!-- Red top accent bar -->
+  <rect x="18" y="42" width="244" height="5" rx="3" fill="#b33"/>
+  <rect x="18" y="45" width="244" height="2" fill="#b33"/>
+
+  <!-- Label pill -->
+  <rect x="62" y="55" width="156" height="17" rx="8" fill="#b33" fill-opacity="0.1" stroke="#b33" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="140" y="67" text-anchor="middle" fill="#b33" class="tag">The Exchange</text>
+
+  <!-- Customer bubble -->
+  <rect x="110" y="82" width="136" height="22" rx="5" fill="#e8e8e4"/>
+  <text x="178" y="97" text-anchor="middle" fill="#3a3a35" class="chat">Can you swear?</text>
+
+  <!-- Bot bubble 1 -->
+  <rect x="28" y="112" width="196" height="26" rx="5" fill="#fdecea"/>
+  <text x="126" y="123" text-anchor="middle" fill="#7a1a1a" class="chat">"I am useless and unable</text>
+  <text x="126" y="134" text-anchor="middle" fill="#7a1a1a" class="chat">to help anyone."</text>
+
+  <!-- Bot bubble 2 with poem icon -->
+  <rect x="28" y="146" width="196" height="26" rx="5" fill="#fdecea"/>
+  <!-- Music note icon -->
+  <text x="42" y="162" fill="#b33" font-size="12">♪</text>
+  <text x="100" y="157" text-anchor="middle" fill="#7a1a1a" class="chat">DPD is the worst</text>
+  <text x="100" y="168" text-anchor="middle" fill="#7a1a1a" class="chat">delivery company...</text>
+
+  <!-- Bot bubble 3 -->
+  <rect x="28" y="180" width="196" height="22" rx="5" fill="#fdecea"/>
+  <text x="126" y="195" text-anchor="middle" fill="#7a1a1a" class="chat">"Yes. DPD is absolutely ****"</text>
+
+  <!-- Arrow indicator -->
+  <text x="140" y="230" text-anchor="middle" fill="#b33" font-size="9" font-weight="600" letter-spacing="0.04em" text-transform="uppercase">NO OUTPUT GUARDRAILS</text>
+
+  <!-- ======== Panel 2: The Spread ======== -->
+  <rect x="278" y="42" width="244" height="202" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <!-- Amber top accent bar -->
+  <rect x="278" y="42" width="244" height="5" rx="3" fill="#c27a3a"/>
+  <rect x="278" y="45" width="244" height="2" fill="#c27a3a"/>
+
+  <!-- Label pill -->
+  <rect x="322" y="55" width="156" height="17" rx="8" fill="#c27a3a" fill-opacity="0.1" stroke="#c27a3a" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="400" y="67" text-anchor="middle" fill="#c27a3a" class="tag">The Spread</text>
+
+  <!-- Share/retweet icon — circle with radiating arrows -->
+  <circle cx="400" cy="118" r="22" fill="#c27a3a" fill-opacity="0.08" stroke="#c27a3a" stroke-opacity="0.3" stroke-width="1.5"/>
+  <!-- Central share symbol -->
+  <circle cx="400" cy="112" r="3.5" fill="#c27a3a"/>
+  <circle cx="389" cy="124" r="3.5" fill="#c27a3a"/>
+  <circle cx="411" cy="124" r="3.5" fill="#c27a3a"/>
+  <line x1="400" y1="112" x2="389" y2="124" stroke="#c27a3a" stroke-width="1.5"/>
+  <line x1="400" y1="112" x2="411" y2="124" stroke="#c27a3a" stroke-width="1.5"/>
+  <!-- Radiating lines -->
+  <line x1="400" y1="92" x2="400" y2="86" stroke="#c27a3a" stroke-width="1.5" stroke-opacity="0.6"/>
+  <line x1="418" y1="100" x2="422" y2="96" stroke="#c27a3a" stroke-width="1.5" stroke-opacity="0.6"/>
+  <line x1="382" y1="100" x2="378" y2="96" stroke="#c27a3a" stroke-width="1.5" stroke-opacity="0.6"/>
+  <line x1="422" y1="118" x2="428" y2="118" stroke="#c27a3a" stroke-width="1.5" stroke-opacity="0.6"/>
+  <line x1="378" y1="118" x2="372" y2="118" stroke="#c27a3a" stroke-width="1.5" stroke-opacity="0.6"/>
+
+  <!-- Stats -->
+  <text x="400" y="158" text-anchor="middle" fill="#1a1a18" class="stat">Millions of views</text>
+  <line x1="308" y1="165" x2="492" y2="165" stroke="#1a1a18" stroke-opacity="0.06" stroke-width="1"/>
+  <text x="400" y="181" text-anchor="middle" fill="#1a1a18" class="stat">Every major UK outlet</text>
+  <line x1="308" y1="188" x2="492" y2="188" stroke="#1a1a18" stroke-opacity="0.06" stroke-width="1"/>
+  <text x="400" y="204" text-anchor="middle" fill="#1a1a18" class="stat">Global in 24 hours</text>
+
+  <text x="400" y="230" text-anchor="middle" fill="#c27a3a" font-size="9" font-weight="600" letter-spacing="0.04em">NO ADVERSARIAL TESTING</text>
+
+  <!-- ======== Panel 3: Prevention ======== -->
+  <rect x="538" y="42" width="244" height="202" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <!-- Green top accent bar -->
+  <rect x="538" y="42" width="244" height="5" rx="3" fill="#2d7d46"/>
+  <rect x="538" y="45" width="244" height="2" fill="#2d7d46"/>
+
+  <!-- Label pill -->
+  <rect x="582" y="55" width="156" height="17" rx="8" fill="#2d7d46" fill-opacity="0.1" stroke="#2d7d46" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="660" y="67" text-anchor="middle" fill="#2d7d46" class="tag">Prevention</text>
+
+  <!-- Checklist items -->
+  <!-- Item 1 -->
+  <rect x="552" y="84" width="216" height="26" rx="4" fill="#2d7d46" fill-opacity="0.06"/>
+  <text x="568" y="101" fill="#2d7d46" font-size="13" font-weight="700">✓</text>
+  <text x="586" y="101" fill="#1a1a18" class="check">Output filtering</text>
+
+  <!-- Item 2 -->
+  <rect x="552" y="118" width="216" height="26" rx="4" fill="#2d7d46" fill-opacity="0.06"/>
+  <text x="568" y="135" fill="#2d7d46" font-size="13" font-weight="700">✓</text>
+  <text x="586" y="135" fill="#1a1a18" class="check">Topic boundaries</text>
+
+  <!-- Item 3 -->
+  <rect x="552" y="152" width="216" height="26" rx="4" fill="#2d7d46" fill-opacity="0.06"/>
+  <text x="568" y="169" fill="#2d7d46" font-size="13" font-weight="700">✓</text>
+  <text x="586" y="169" fill="#1a1a18" class="check">Adversarial testing</text>
+
+  <!-- Item 4 -->
+  <rect x="552" y="186" width="216" height="26" rx="4" fill="#2d7d46" fill-opacity="0.06"/>
+  <text x="568" y="203" fill="#2d7d46" font-size="13" font-weight="700">✓</text>
+  <text x="586" y="203" fill="#1a1a18" class="check">Real-time monitoring</text>
+
+  <text x="660" y="230" text-anchor="middle" fill="#2d7d46" font-size="9" font-weight="600" letter-spacing="0.04em">HOURS TO IMPLEMENT</text>
+
+</svg>

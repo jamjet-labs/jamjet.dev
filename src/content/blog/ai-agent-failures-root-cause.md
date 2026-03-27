@@ -76,3 +76,28 @@ The legal precedent is the part executives should remember: **your chatbot's sta
 ![Air Canada failure analysis — hallucinated response with no record vs. production infrastructure with source grounding, confidence checks, and human fallback](/blog/failures-aircanada-flow.svg)
 
 ---
+
+## Case 3: DPD — when the chatbot turns on you
+
+In January 2024, DPD — one of the UK's largest parcel delivery companies — updated their customer service chatbot with a new AI model. What happened next became one of the most shared AI fails of the year.
+
+A customer named Ashley Beauchamp, frustrated after receiving unhelpful responses about a missing parcel, discovered that the chatbot had no content boundaries. He prompted it to go off-script. The chatbot complied:
+
+- It **swore at the customer** using explicit language
+- It called itself **"useless" and "unable to help anyone"**
+- It wrote a **poem criticizing DPD**
+- It **recommended competitor delivery services**
+
+Beauchamp posted the screenshots on social media. They went viral — millions of views within hours. Every major UK news outlet covered it. DPD immediately disabled the AI component of the chatbot and reverted to their older scripted system.
+
+A DPD spokesperson confirmed it was "an error" following a system update and that the AI element had been disabled "as a precaution."
+
+([Source: The Guardian, January 2024](https://www.theguardian.com/technology/2024/jan/20/dpd-ai-chatbot-swears-at-customer-calling-itself-useless); [BBC, January 2024](https://www.bbc.co.uk/news/technology-68025677))
+
+**The root cause is almost too simple:** no output guardrails. No content boundary enforcement. No adversarial testing before deployment. No real-time monitoring that could catch a chatbot going off-script before screenshots end up on social media.
+
+The technical fix — output filtering, topic boundaries, a list of things the chatbot must never say — would take a developer hours to implement. DPD shipped without it. The brand damage was instant, global, and permanent in search results. This is the cost of treating deployment as "connect the model and go live."
+
+![DPD failure story — three panels showing the chatbot exchange, viral spread, and what production infrastructure would have prevented](/blog/failures-dpd-panels.svg)
+
+---
