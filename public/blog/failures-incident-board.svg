@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 260" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .small { font-size: 9.5px; }
+    .tag { font-size: 9px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+  </style>
+
+  <!-- Outer background -->
+  <rect width="800" height="260" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="258" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Section header -->
+  <text x="400" y="28" text-anchor="middle" fill="#8b7355" class="label">Three incidents. One root cause.</text>
+
+  <!-- ======== Card 1: Klarna ======== -->
+  <rect x="25" y="46" width="230" height="192" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <!-- Red top accent bar -->
+  <rect x="25" y="46" width="230" height="5" rx="3" fill="#b33"/>
+  <rect x="25" y="49" width="230" height="2" fill="#b33"/>
+
+  <!-- Company name -->
+  <text x="140" y="80" text-anchor="middle" fill="#1a1a18" class="title">Klarna</text>
+
+  <!-- Divider -->
+  <line x1="45" y1="90" x2="235" y2="90" stroke="#1a1a18" stroke-opacity="0.08" stroke-width="1"/>
+
+  <!-- Description -->
+  <text x="140" y="112" text-anchor="middle" fill="#6b6b63" class="desc">Quality collapsed after</text>
+  <text x="140" y="128" text-anchor="middle" fill="#6b6b63" class="desc">removing humans from</text>
+  <text x="140" y="144" text-anchor="middle" fill="#6b6b63" class="desc">the loop.</text>
+
+  <!-- Tag pill -->
+  <rect x="44" y="210" width="152" height="18" rx="9" fill="#b33" fill-opacity="0.1" stroke="#b33" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="120" y="222" text-anchor="middle" fill="#b33" class="tag">No Quality Monitoring</text>
+
+  <!-- ======== Card 2: Air Canada ======== -->
+  <rect x="285" y="46" width="230" height="192" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <!-- Red top accent bar -->
+  <rect x="285" y="46" width="230" height="5" rx="3" fill="#b33"/>
+  <rect x="285" y="49" width="230" height="2" fill="#b33"/>
+
+  <!-- Company name -->
+  <text x="400" y="80" text-anchor="middle" fill="#1a1a18" class="title">Air Canada</text>
+
+  <!-- Divider -->
+  <line x1="305" y1="90" x2="495" y2="90" stroke="#1a1a18" stroke-opacity="0.08" stroke-width="1"/>
+
+  <!-- Description -->
+  <text x="400" y="112" text-anchor="middle" fill="#6b6b63" class="desc">Chatbot fabricated a refund</text>
+  <text x="400" y="128" text-anchor="middle" fill="#6b6b63" class="desc">policy. Airline lost</text>
+  <text x="400" y="144" text-anchor="middle" fill="#6b6b63" class="desc">the tribunal.</text>
+
+  <!-- Tag pill -->
+  <rect x="294" y="210" width="192" height="18" rx="9" fill="#b33" fill-opacity="0.1" stroke="#b33" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="390" y="222" text-anchor="middle" fill="#b33" class="tag">No Hallucination Guardrails</text>
+
+  <!-- ======== Card 3: DPD ======== -->
+  <rect x="545" y="46" width="230" height="192" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <!-- Red top accent bar -->
+  <rect x="545" y="46" width="230" height="5" rx="3" fill="#b33"/>
+  <rect x="545" y="49" width="230" height="2" fill="#b33"/>
+
+  <!-- Company name -->
+  <text x="660" y="80" text-anchor="middle" fill="#1a1a18" class="title">DPD</text>
+
+  <!-- Divider -->
+  <line x1="565" y1="90" x2="755" y2="90" stroke="#1a1a18" stroke-opacity="0.08" stroke-width="1"/>
+
+  <!-- Description -->
+  <text x="660" y="112" text-anchor="middle" fill="#6b6b63" class="desc">Chatbot swore at customer.</text>
+  <text x="660" y="128" text-anchor="middle" fill="#6b6b63" class="desc">Went viral.</text>
+
+  <!-- Tag pill -->
+  <rect x="574" y="210" width="172" height="18" rx="9" fill="#b33" fill-opacity="0.1" stroke="#b33" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="660" y="222" text-anchor="middle" fill="#b33" class="tag">No Content Boundaries</text>
+
+</svg>
