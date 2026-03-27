@@ -52,3 +52,27 @@ Klarna reversed course. They began rehiring human agents and moved to a hybrid m
 ![Klarna failure analysis — what actually happened vs. what production infrastructure looks like: no quality gate or escalation path on the left, confidence scoring and human escalation on the right](/blog/failures-klarna-flow.svg)
 
 ---
+
+## Case 2: Air Canada — when the chatbot makes promises you cannot keep
+
+In late 2022, Air Canada deployed a chatbot on its customer support page. A passenger named Jake Moffatt was looking for information about bereavement fares — discounted tickets for people traveling due to a family member's death.
+
+The chatbot told Moffatt he could book a full-price ticket and apply for a bereavement discount retroactively within 90 days. This was clear, specific, and wrong. No such policy existed.
+
+Moffatt booked the ticket. He flew to the funeral. He applied for the bereavement rate. Air Canada denied the request and told him the chatbot had been incorrect — he should have checked the actual policy page on the website.
+
+Moffatt filed a complaint with the Civil Resolution Tribunal of British Columbia. Air Canada's defense was remarkable: they argued the chatbot was a "separate legal entity" responsible for its own actions, and that the airline could not be held liable for what it said.
+
+The tribunal rejected this entirely. In its February 2024 ruling, tribunal member Christopher Rivers wrote that Air Canada "does not explain why the webpage titled 'Bereavement travel' should be trusted over its chatbot." The airline was responsible for **all information on its website**, including information provided by its chatbot.
+
+Air Canada was ordered to pay Moffatt approximately $812 in damages and tribunal fees — a small financial penalty but a precedent with enormous implications.
+
+([Source: Civil Resolution Tribunal of BC, Moffatt v. Air Canada, Feb 2024](https://decisions.civilresolutionbc.ca/crt/crtd/en/item/521133/index.do); [The Verge, Feb 2024](https://www.theverge.com/2024/2/15/24074791/air-canada-chatbot-mangled-refund-policy-lawsuit); [BBC, Feb 2024](https://www.bbc.com/travel/article/20240222-air-canada-chatbot-))
+
+**The root cause was not hallucination itself** — large language models hallucinate. That is a known behavior. The root cause was that Air Canada deployed an LLM with no source grounding, no content boundaries, no fallback to a human agent, and no audit trail of what it told customers. The chatbot was not constrained to answer from verified policy documents. It generated responses from its training data and presented them with the same confidence as verified information.
+
+The legal precedent is the part executives should remember: **your chatbot's statements are your company's statements.** Without guardrails and an audit trail, every AI-generated response is an unreviewed legal commitment your organization is responsible for.
+
+![Air Canada failure analysis — hallucinated response with no record vs. production infrastructure with source grounding, confidence checks, and human fallback](/blog/failures-aircanada-flow.svg)
+
+---
