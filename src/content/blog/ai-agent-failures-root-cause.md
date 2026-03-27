@@ -20,3 +20,35 @@ These are not stories about AI being bad. They are stories about infrastructure 
 ![Incident board showing the three anchor AI agent failure cases — Klarna, Air Canada, DPD — each with failure summary and infrastructure gap tag](/blog/failures-incident-board.svg)
 
 ---
+
+## Case 1: Klarna — when cost replaces quality as the metric
+
+In January 2024, Klarna launched an AI assistant built on GPT-4 across 23 markets and 35+ languages. The initial numbers were the kind every executive wants to see:
+
+- **2.3 million conversations** handled in the first month
+- **Two-thirds of all customer service chats** handled by AI
+- Resolution time dropped from **11 minutes to under 2 minutes**
+- **25% drop** in repeat inquiries
+- Projected **$40 million** profit improvement for 2024
+
+Klarna reduced headcount from roughly 5,500 to 3,400, primarily through attrition and a hiring freeze. The AI agent was doing the work. The numbers proved it.
+
+([Source: Klarna press release, February 2024](https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/))
+
+Then quality caught up.
+
+In May 2025 — shortly after a successful US IPO — CEO Sebastian Siemiatkowski publicly admitted the AI push went too far. His words to Bloomberg:
+
+> *"As cost unfortunately seems to have been a too predominant evaluation factor when organizing this, what you end up having is lower quality."*
+
+Customer satisfaction dropped. Customers complained of generic, repetitive responses for complex issues. Forrester analyst Kate Leggett summarized it: *"They overpivoted to cost containment, without thinking about the longer-term impact of customer experience."*
+
+Klarna reversed course. They began rehiring human agents and moved to a hybrid model — AI handles routine queries, humans handle complex and sensitive cases.
+
+([Source: Bloomberg, May 2025](https://www.bloomberg.com/news/articles/2025-05-08/klarna-turns-from-ai-to-real-person-customer-service); [Fortune, May 2025](https://fortune.com/2025/05/09/klarna-ai-humans-return-on-investment/))
+
+**The root cause was not the AI.** The AI still handles roughly two-thirds of Klarna's chats today. The root cause was the operating model: no quality monitoring loop, no human escalation path designed into the system, and cost metrics that replaced quality metrics entirely. When the only number you optimize is cost, quality becomes the thing you discover you lost — after your customers already noticed.
+
+![Klarna failure analysis — what actually happened vs. what production infrastructure looks like: no quality gate or escalation path on the left, confidence scoring and human escalation on the right](/blog/failures-klarna-flow.svg)
+
+---

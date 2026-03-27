@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .node-label { font-size: 10.5px; font-weight: 600; }
+    .small { font-size: 9.5px; }
+    .tag { font-size: 9px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+    .annot { font-size: 9.5px; }
+  </style>
+
+  <defs>
+    <marker id="arrow-red" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#b33" fill-opacity="0.8"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#2d7d46" fill-opacity="0.8"/>
+    </marker>
+    <marker id="arrow-amber" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#c27a3a" fill-opacity="0.8"/>
+    </marker>
+  </defs>
+
+  <!-- Outer background -->
+  <rect width="800" height="280" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="278" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Section header -->
+  <text x="400" y="24" text-anchor="middle" fill="#8b7355" class="label">What happened vs. what should have existed</text>
+
+  <!-- ============================================================ -->
+  <!-- LEFT PANEL — "What shipped" (red-tinted) -->
+  <!-- Panel: x=20, y=34, w=366, h=232 -->
+  <!-- ============================================================ -->
+  <rect x="20" y="34" width="366" height="232" rx="6" fill="#fff7f7" stroke="#b33" stroke-opacity="0.18"/>
+
+  <!-- Label pill — top-left -->
+  <rect x="32" y="44" width="78" height="18" rx="9" fill="#b33" fill-opacity="0.10" stroke="#b33" stroke-opacity="0.30" stroke-width="1"/>
+  <text x="71" y="56" text-anchor="middle" fill="#b33" class="tag">What shipped</text>
+
+  <!-- Flow nodes — centred at x=204 -->
+  <!-- Node 1: Customer Query (y=44) -->
+  <rect x="142" y="44" width="124" height="28" rx="5" fill="#fff" stroke="#b33" stroke-opacity="0.35" stroke-width="1.2"/>
+  <text x="204" y="62" text-anchor="middle" fill="#1a1a18" class="node-label">Customer Query</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="204" y1="72" x2="204" y2="92" stroke="#b33" stroke-opacity="0.6" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+
+  <!-- Node 2: AI Agent (y=92) -->
+  <rect x="142" y="92" width="124" height="28" rx="5" fill="#fff" stroke="#b33" stroke-opacity="0.35" stroke-width="1.2"/>
+  <text x="204" y="110" text-anchor="middle" fill="#1a1a18" class="node-label">AI Agent</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="204" y1="120" x2="204" y2="140" stroke="#b33" stroke-opacity="0.6" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+
+  <!-- Node 3: Response (y=140) -->
+  <rect x="142" y="140" width="124" height="28" rx="5" fill="#fff" stroke="#b33" stroke-opacity="0.35" stroke-width="1.2"/>
+  <text x="204" y="158" text-anchor="middle" fill="#1a1a18" class="node-label">Response</text>
+
+  <!-- Divider above annotations -->
+  <line x1="36" y1="182" x2="372" y2="182" stroke="#b33" stroke-opacity="0.12" stroke-width="1"/>
+
+  <!-- Red annotations -->
+  <text x="38" y="196" fill="#b33" class="annot">&#x2717;  No confidence scoring</text>
+  <text x="38" y="211" fill="#b33" class="annot">&#x2717;  No escalation path</text>
+  <text x="38" y="226" fill="#b33" class="annot">&#x2717;  No quality monitoring</text>
+
+  <!-- Verdict pill -->
+  <rect x="88" y="240" width="208" height="18" rx="9" fill="#b33" fill-opacity="0.08" stroke="#b33" stroke-opacity="0.30" stroke-width="1"/>
+  <text x="192" y="252" text-anchor="middle" fill="#b33" class="tag">Quality degraded silently</text>
+
+  <!-- ============================================================ -->
+  <!-- RIGHT PANEL — "Production infrastructure" (green-tinted) -->
+  <!-- Panel: x=414, y=34, w=366, h=232 -->
+  <!-- ============================================================ -->
+  <rect x="414" y="34" width="366" height="232" rx="6" fill="#f4fbf6" stroke="#2d7d46" stroke-opacity="0.18"/>
+
+  <!-- Label pill -->
+  <rect x="426" y="44" width="148" height="18" rx="9" fill="#2d7d46" fill-opacity="0.10" stroke="#2d7d46" stroke-opacity="0.30" stroke-width="1"/>
+  <text x="500" y="56" text-anchor="middle" fill="#2d7d46" class="tag">Production infrastructure</text>
+
+  <!-- Flow nodes — centred at x=597 -->
+  <!-- Node 1: Customer Query (y=44) -->
+  <rect x="535" y="44" width="124" height="28" rx="5" fill="#fff" stroke="#2d7d46" stroke-opacity="0.35" stroke-width="1.2"/>
+  <text x="597" y="62" text-anchor="middle" fill="#1a1a18" class="node-label">Customer Query</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="597" y1="72" x2="597" y2="92" stroke="#2d7d46" stroke-opacity="0.6" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <!-- Node 2: AI Agent (y=92) -->
+  <rect x="535" y="92" width="124" height="28" rx="5" fill="#fff" stroke="#2d7d46" stroke-opacity="0.35" stroke-width="1.2"/>
+  <text x="597" y="110" text-anchor="middle" fill="#1a1a18" class="node-label">AI Agent</text>
+
+  <!-- Arrow 2→diamond -->
+  <line x1="597" y1="120" x2="597" y2="136" stroke="#2d7d46" stroke-opacity="0.6" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <!-- Diamond: Confidence Check — centred at (597, 154) -->
+  <polygon points="597,136 636,154 597,172 558,154" fill="#fff" stroke="#2d7d46" stroke-opacity="0.45" stroke-width="1.2"/>
+  <text x="597" y="158" text-anchor="middle" fill="#1a1a18" class="small" font-weight="600">Confidence?</text>
+
+  <!-- High confidence → right → approved node -->
+  <line x1="636" y1="154" x2="690" y2="154" stroke="#2d7d46" stroke-opacity="0.7" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <text x="663" y="149" text-anchor="middle" fill="#2d7d46" class="small">high</text>
+  <!-- Approved node (y=140, h=28) centred at x=730 -->
+  <rect x="690" y="140" width="76" height="28" rx="5" fill="#fff" stroke="#2d7d46" stroke-opacity="0.45" stroke-width="1.2"/>
+  <text x="728" y="158" text-anchor="middle" fill="#2d7d46" class="node-label">&#x2713; Done</text>
+
+  <!-- Low confidence → down → Human Agent -->
+  <line x1="597" y1="172" x2="597" y2="192" stroke="#c27a3a" stroke-opacity="0.7" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+  <text x="612" y="186" fill="#c27a3a" class="small">low</text>
+  <!-- Human Agent node (y=192, h=28) -->
+  <rect x="535" y="192" width="124" height="28" rx="5" fill="#fff" stroke="#c27a3a" stroke-opacity="0.45" stroke-width="1.2"/>
+  <text x="597" y="210" text-anchor="middle" fill="#c27a3a" class="node-label">Human Agent</text>
+
+  <!-- Divider above annotations -->
+  <line x1="430" y1="234" x2="766" y2="234" stroke="#2d7d46" stroke-opacity="0.12" stroke-width="1"/>
+
+  <!-- Green annotations — two columns -->
+  <text x="430" y="248" fill="#2d7d46" class="annot">&#x2713;  Confidence scoring</text>
+  <text x="430" y="262" fill="#2d7d46" class="annot">&#x2713;  Quality metrics</text>
+  <text x="590" y="248" fill="#2d7d46" class="annot">&#x2713;  Escalation path</text>
+  <text x="590" y="262" fill="#2d7d46" class="annot">&#x2713;  Audit trail</text>
+
+</svg>
