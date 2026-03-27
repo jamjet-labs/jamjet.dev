@@ -101,3 +101,30 @@ The technical fix — output filtering, topic boundaries, a list of things the c
 ![DPD failure story — three panels showing the chatbot exchange, viral spread, and what production infrastructure would have prevented](/blog/failures-dpd-panels.svg)
 
 ---
+
+## It keeps happening
+
+The three cases above are the most instructive, but they are not isolated. Here are four more — all public, all sourced, all sharing the same root cause.
+
+| Company | What Happened | Infrastructure Gap | Source |
+|---------|--------------|-------------------|--------|
+| **NYC MyCity Chatbot** (2024) | The city's official AI chatbot told business owners they could legally discriminate based on source of income, serve food containing rodent droppings, and take worker tips. Every answer was wrong — and delivered with confidence. | No source grounding. No content boundaries. No human review of outputs. | [The Markup, Mar 2024](https://themarkup.org/news/2024/03/29/nycs-ai-chatbot-told-businesses-to-break-the-law) |
+| **Chevrolet Dealership** (2023) | A Chevy dealer's ChatGPT-powered chatbot agreed to sell a brand-new Chevrolet Tahoe for $1 after a customer asked creatively. The chatbot confirmed: "That's a deal, and I'll hold you to it." | No transaction guardrails. No output constraints. No escalation for financial commitments. | [Business Insider, Dec 2023](https://www.businessinsider.com/chatgpt-chevrolet-dealer-chatbot-tricked-into-selling-car-for-1-2023-12) |
+| **Samsung** (2023) | Samsung engineers pasted proprietary semiconductor source code and confidential meeting notes into ChatGPT for debugging and summarization. The data was sent to OpenAI's servers. Samsung banned all generative AI tools internally within weeks. | No data loss prevention. No input filtering. No boundary between internal data and external services. | [TechCrunch, May 2023](https://techcrunch.com/2023/05/02/samsung-bans-use-of-generative-ai-tools-like-chatgpt-after-internal-data-leak/) |
+| **Lawyer cites fake cases** (2023) | New York attorney Steven Schwartz used ChatGPT for legal research and submitted a court brief containing six completely fabricated case citations. The cases did not exist. The court sanctioned Schwartz and his firm. | No hallucination verification. No human review gate. No source validation before submission. | [NY Times, Jun 2023](https://www.nytimes.com/2023/06/08/nyregion/lawyer-chatgpt-sanctions.html) |
+
+![Wall of incidents — AI agent failure cases with infrastructure gap tags](/blog/failures-wall-of-incidents.svg)
+
+## The pattern
+
+Every failure in this article — seven companies, four countries, billions of dollars in collective market cap — shares the same root cause.
+
+It is not that the AI was bad. In most of these cases, the AI was doing exactly what it was designed to do: generate plausible-sounding responses. The failures happened because **prototype-grade infrastructure was deployed in production.**
+
+No guardrails to constrain outputs. No human escalation when confidence was low. No audit trail to record what was said. No content boundaries to keep the system on-topic. No quality monitoring to catch degradation before customers did.
+
+These are not AI problems. They are engineering problems with known solutions. The organizations in our [companion article](/blog/competitors-already-deploying-ai-agents/) — Goldman Sachs, Morgan Stanley, JPMorgan — solved them. They just spent six months and millions of dollars doing it.
+
+![Root cause tree — the shared infrastructure gaps behind every AI agent failure, mapped to each company](/blog/failures-root-cause-tree.svg)
+
+---

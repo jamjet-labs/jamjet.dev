@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 210" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; }
+    .tag { font-size: 9px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+  </style>
+
+  <!-- Outer background -->
+  <rect width="800" height="210" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="208" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Section header -->
+  <text x="400" y="24" text-anchor="middle" fill="#8b7355" class="label">It keeps happening</text>
+
+  <!-- ======== Card 1: NYC ======== -->
+  <rect x="20" y="38" width="175" height="155" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <!-- Red top accent bar -->
+  <rect x="20" y="38" width="175" height="5" rx="3" fill="#b33"/>
+  <rect x="20" y="41" width="175" height="2" fill="#b33"/>
+
+  <!-- Building icon -->
+  <rect x="96" y="56" width="24" height="18" rx="1" fill="none" stroke="#1a1a18" stroke-opacity="0.3" stroke-width="1.2"/>
+  <rect x="100" y="60" width="4" height="4" rx="0.5" fill="#1a1a18" fill-opacity="0.2"/>
+  <rect x="108" y="60" width="4" height="4" rx="0.5" fill="#1a1a18" fill-opacity="0.2"/>
+  <rect x="100" y="67" width="4" height="4" rx="0.5" fill="#1a1a18" fill-opacity="0.2"/>
+  <rect x="108" y="67" width="4" height="4" rx="0.5" fill="#1a1a18" fill-opacity="0.2"/>
+  <line x1="108" y1="56" x2="108" y2="47" stroke="#1a1a18" stroke-opacity="0.3" stroke-width="1.2"/>
+  <polygon points="108,44 104,48 112,48" fill="#1a1a18" fill-opacity="0.2"/>
+
+  <!-- Company name -->
+  <text x="107" y="92" text-anchor="middle" fill="#1a1a18" class="title">NYC Chatbot</text>
+
+  <!-- Divider -->
+  <line x1="35" y1="100" x2="180" y2="100" stroke="#1a1a18" stroke-opacity="0.08" stroke-width="1"/>
+
+  <!-- Description -->
+  <text x="107" y="118" text-anchor="middle" fill="#6b6b63" class="desc">Told businesses</text>
+  <text x="107" y="132" text-anchor="middle" fill="#6b6b63" class="desc">to break the law</text>
+
+  <!-- Tag pill (red) -->
+  <rect x="28" y="172" width="159" height="16" rx="8" fill="#b33" fill-opacity="0.1" stroke="#b33" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="107" y="183" text-anchor="middle" fill="#b33" class="tag">No Source Grounding</text>
+
+  <!-- ======== Card 2: Chevy ======== -->
+  <rect x="210" y="38" width="175" height="155" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <!-- Amber top accent bar -->
+  <rect x="210" y="38" width="175" height="5" rx="3" fill="#c27a3a"/>
+  <rect x="210" y="41" width="175" height="2" fill="#c27a3a"/>
+
+  <!-- Car icon -->
+  <rect x="271" y="64" width="52" height="16" rx="4" fill="none" stroke="#1a1a18" stroke-opacity="0.3" stroke-width="1.2"/>
+  <path d="M278 64 L282 54 L310 54 L316 64" stroke="#1a1a18" stroke-opacity="0.3" stroke-width="1.2" fill="none" stroke-linejoin="round"/>
+  <circle cx="280" cy="80" r="4" fill="none" stroke="#1a1a18" stroke-opacity="0.3" stroke-width="1.2"/>
+  <circle cx="314" cy="80" r="4" fill="none" stroke="#1a1a18" stroke-opacity="0.3" stroke-width="1.2"/>
+  <rect x="271" y="73" width="52" height="7" rx="0" fill="none" stroke="#1a1a18" stroke-opacity="0.08" stroke-width="0"/>
+
+  <!-- Company name -->
+  <text x="297" y="97" text-anchor="middle" fill="#1a1a18" class="title">Chevy Dealer</text>
+
+  <!-- Divider -->
+  <line x1="225" y1="105" x2="370" y2="105" stroke="#1a1a18" stroke-opacity="0.08" stroke-width="1"/>
+
+  <!-- Description -->
+  <text x="297" y="123" text-anchor="middle" fill="#6b6b63" class="desc">Agreed to sell</text>
+  <text x="297" y="137" text-anchor="middle" fill="#6b6b63" class="desc">Tahoe for $1</text>
+
+  <!-- Tag pill (amber) -->
+  <rect x="216" y="172" width="163" height="16" rx="8" fill="#c27a3a" fill-opacity="0.08" stroke="#c27a3a" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="297" y="183" text-anchor="middle" fill="#c27a3a" class="tag">No Output Constraints</text>
+
+  <!-- ======== Card 3: Samsung ======== -->
+  <rect x="400" y="38" width="175" height="155" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <!-- Amber top accent bar -->
+  <rect x="400" y="38" width="175" height="5" rx="3" fill="#c27a3a"/>
+  <rect x="400" y="41" width="175" height="2" fill="#c27a3a"/>
+
+  <!-- Chip/circuit icon -->
+  <rect x="476" y="53" width="22" height="22" rx="2" fill="none" stroke="#1a1a18" stroke-opacity="0.3" stroke-width="1.2"/>
+  <rect x="480" y="57" width="14" height="14" rx="1" fill="none" stroke="#1a1a18" stroke-opacity="0.2" stroke-width="1"/>
+  <!-- chip pins left -->
+  <line x1="470" y1="58" x2="476" y2="58" stroke="#1a1a18" stroke-opacity="0.25" stroke-width="1.2"/>
+  <line x1="470" y1="64" x2="476" y2="64" stroke="#1a1a18" stroke-opacity="0.25" stroke-width="1.2"/>
+  <line x1="470" y1="70" x2="476" y2="70" stroke="#1a1a18" stroke-opacity="0.25" stroke-width="1.2"/>
+  <!-- chip pins right -->
+  <line x1="498" y1="58" x2="504" y2="58" stroke="#1a1a18" stroke-opacity="0.25" stroke-width="1.2"/>
+  <line x1="498" y1="64" x2="504" y2="64" stroke="#1a1a18" stroke-opacity="0.25" stroke-width="1.2"/>
+  <line x1="498" y1="70" x2="504" y2="70" stroke="#1a1a18" stroke-opacity="0.25" stroke-width="1.2"/>
+  <!-- chip pins top -->
+  <line x1="482" y1="47" x2="482" y2="53" stroke="#1a1a18" stroke-opacity="0.25" stroke-width="1.2"/>
+  <line x1="488" y1="47" x2="488" y2="53" stroke="#1a1a18" stroke-opacity="0.25" stroke-width="1.2"/>
+  <line x1="494" y1="47" x2="494" y2="53" stroke="#1a1a18" stroke-opacity="0.25" stroke-width="1.2"/>
+  <!-- chip pins bottom -->
+  <line x1="482" y1="75" x2="482" y2="81" stroke="#1a1a18" stroke-opacity="0.25" stroke-width="1.2"/>
+  <line x1="488" y1="75" x2="488" y2="81" stroke="#1a1a18" stroke-opacity="0.25" stroke-width="1.2"/>
+  <line x1="494" y1="75" x2="494" y2="81" stroke="#1a1a18" stroke-opacity="0.25" stroke-width="1.2"/>
+
+  <!-- Company name -->
+  <text x="487" y="97" text-anchor="middle" fill="#1a1a18" class="title">Samsung</text>
+
+  <!-- Divider -->
+  <line x1="415" y1="105" x2="560" y2="105" stroke="#1a1a18" stroke-opacity="0.08" stroke-width="1"/>
+
+  <!-- Description -->
+  <text x="487" y="123" text-anchor="middle" fill="#6b6b63" class="desc">Engineers leaked</text>
+  <text x="487" y="137" text-anchor="middle" fill="#6b6b63" class="desc">proprietary code</text>
+
+  <!-- Tag pill (amber) -->
+  <rect x="406" y="172" width="163" height="16" rx="8" fill="#c27a3a" fill-opacity="0.08" stroke="#c27a3a" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="487" y="183" text-anchor="middle" fill="#c27a3a" class="tag">No Data Boundaries</text>
+
+  <!-- ======== Card 4: Lawyer ======== -->
+  <rect x="590" y="38" width="175" height="155" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <!-- Red top accent bar -->
+  <rect x="590" y="38" width="175" height="5" rx="3" fill="#b33"/>
+  <rect x="590" y="41" width="175" height="2" fill="#b33"/>
+
+  <!-- Gavel icon -->
+  <rect x="658" y="52" width="28" height="10" rx="3" fill="none" stroke="#1a1a18" stroke-opacity="0.3" stroke-width="1.2" transform="rotate(-40 672 57)"/>
+  <line x1="665" y1="67" x2="678" y2="54" stroke="#1a1a18" stroke-opacity="0.3" stroke-width="2" stroke-linecap="round"/>
+  <line x1="656" y1="78" x2="668" y2="66" stroke="#1a1a18" stroke-opacity="0.25" stroke-width="3" stroke-linecap="round"/>
+  <line x1="660" y1="82" x2="690" y2="82" stroke="#1a1a18" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Company name -->
+  <text x="677" y="97" text-anchor="middle" fill="#1a1a18" class="title">Schwartz v. Court</text>
+
+  <!-- Divider -->
+  <line x1="605" y1="105" x2="750" y2="105" stroke="#1a1a18" stroke-opacity="0.08" stroke-width="1"/>
+
+  <!-- Description -->
+  <text x="677" y="123" text-anchor="middle" fill="#6b6b63" class="desc">6 fabricated case</text>
+  <text x="677" y="137" text-anchor="middle" fill="#6b6b63" class="desc">citations</text>
+
+  <!-- Tag pill (red) -->
+  <rect x="596" y="169" width="168" height="16" rx="8" fill="#b33" fill-opacity="0.1" stroke="#b33" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="680" y="180" text-anchor="middle" fill="#b33" class="tag">No Hallucination Check</text>
+
+</svg>
