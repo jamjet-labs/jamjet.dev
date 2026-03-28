@@ -128,3 +128,31 @@ These are not AI problems. They are engineering problems with known solutions. T
 ![Root cause tree — the shared infrastructure gaps behind every AI agent failure, mapped to each company](/blog/failures-root-cause-tree.svg)
 
 ---
+
+## What failed vs. what production infrastructure provides
+
+Every failure maps to a specific infrastructure capability that was absent. Here is the complete picture:
+
+| What Failed | What Production Infrastructure Provides | Which Cases |
+|------------|----------------------------------------|-------------|
+| AI hallucinated confidently | **Source grounding** — responses constrained to verified documents only | Air Canada, NYC, Lawyer |
+| No human could intervene | **Human-in-the-loop** as a first-class workflow step, not a bolt-on | Klarna, DPD |
+| No record of what was said | **Automatic audit trail** — every input, output, and decision logged | Air Canada, Samsung |
+| Output went off-script | **Output guardrails** and content boundary enforcement | DPD, Chevy, NYC |
+| Quality degraded silently | **Quality monitoring loop** — metrics beyond cost | Klarna |
+| Failure was total, not graceful | **Durable execution** — crash recovery, partial progress preserved | All |
+
+![Demo infrastructure vs. production infrastructure — side-by-side comparison of a fragile pipeline versus an instrumented, resilient one](/blog/failures-demo-vs-production.svg)
+
+These capabilities are not novel. The organizations in our [companion article](/blog/competitors-already-deploying-ai-agents/) — Goldman Sachs, Morgan Stanley, JPMorgan — built them internally. Goldman embedded Anthropic engineers for six months. JPMorgan has 2,000+ AI/ML specialists and an $18 billion technology budget. The infrastructure requirements are the same regardless of budget. The question for most teams is not whether they need these capabilities, but how to get them without a multi-year internal build.
+
+This is why we built [JamJet](/) — an open-source runtime (Apache 2.0) that provides event-sourced durability, automatic audit trails, first-class human-in-the-loop, model-agnostic execution, and native MCP + A2A protocol support. Rust core for performance. Python and Java authoring surface for accessibility. The goal: make the infrastructure patterns the leaders share available without requiring their budgets.
+
+Every failure in this article was avoidable. The engineering is known. The patterns are proven. The only question is whether your organization builds on production infrastructure from the start — or discovers, like Klarna and Air Canada, what happens when you don't.
+
+- [What your competitors are already doing →](/blog/competitors-already-deploying-ai-agents/)
+- [The business case for AI agents →](/blog/ai-agents-business-case/)
+- [Multi-agent wealth management architecture →](/blog/wealth-management-multi-agent/)
+- [Try JamJet — `pip install jamjet` →](https://github.com/jamjet-labs/jamjet)
+- [Read the docs →](https://docs.jamjet.dev)
+- [Join the community →](https://discord.gg/jamjet)

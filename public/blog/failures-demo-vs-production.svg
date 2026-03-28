@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .node-label { font-size: 10.5px; font-weight: 600; }
+    .small { font-size: 9px; }
+    .tag { font-size: 9px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+    .annot { font-size: 9.5px; }
+    .layer-box { font-size: 8.5px; font-weight: 600; }
+
+    @keyframes glitch {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-1px); }
+      75% { transform: translateX(1px); }
+    }
+    .glitch-pipeline {
+      animation: glitch 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+    .layer-pulse {
+      animation: pulse 3s infinite;
+    }
+  </style>
+
+  <defs>
+    <marker id="arrow-red" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#b33" fill-opacity="0.8"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#2d7d46" fill-opacity="0.8"/>
+    </marker>
+  </defs>
+
+  <!-- Outer background -->
+  <rect width="800" height="300" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="298" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <!-- Section header -->
+  <text x="400" y="22" text-anchor="middle" fill="#8b7355" class="label">The infrastructure gap</text>
+
+  <!-- ============================================================ -->
+  <!-- LEFT PANEL — Demo Infrastructure (red) -->
+  <!-- Panel: x=16, y=32, w=370, h=254 -->
+  <!-- ============================================================ -->
+  <rect x="16" y="32" width="370" height="254" rx="6" fill="#fff7f7" stroke="#b33" stroke-opacity="0.18"/>
+
+  <!-- Label pill -->
+  <rect x="28" y="42" width="136" height="18" rx="9" fill="#b33" fill-opacity="0.10" stroke="#b33" stroke-opacity="0.30" stroke-width="1"/>
+  <text x="96" y="54" text-anchor="middle" fill="#b33" class="tag">Demo Infrastructure</text>
+
+  <!-- Glitch pipeline group — centred at x=201 -->
+  <g class="glitch-pipeline">
+    <!-- Node: Input -->
+    <rect x="151" y="62" width="100" height="26" rx="5" fill="#fff" stroke="#b33" stroke-opacity="0.45" stroke-width="1.2" stroke-dasharray="4 3"/>
+    <text x="201" y="79" text-anchor="middle" fill="#1a1a18" class="node-label">Input</text>
+
+    <!-- Dashed arrow -->
+    <line x1="201" y1="88" x2="201" y2="106" stroke="#b33" stroke-opacity="0.55" stroke-width="1.4" stroke-dasharray="3 3" marker-end="url(#arrow-red)"/>
+
+    <!-- Node: LLM -->
+    <rect x="151" y="108" width="100" height="26" rx="5" fill="#fff" stroke="#b33" stroke-opacity="0.45" stroke-width="1.2" stroke-dasharray="4 3"/>
+    <text x="201" y="125" text-anchor="middle" fill="#1a1a18" class="node-label">LLM</text>
+
+    <!-- Dashed arrow -->
+    <line x1="201" y1="134" x2="201" y2="152" stroke="#b33" stroke-opacity="0.55" stroke-width="1.4" stroke-dasharray="3 3" marker-end="url(#arrow-red)"/>
+
+    <!-- Node: Output -->
+    <rect x="151" y="154" width="100" height="26" rx="5" fill="#fff" stroke="#b33" stroke-opacity="0.45" stroke-width="1.2" stroke-dasharray="4 3"/>
+    <text x="201" y="171" text-anchor="middle" fill="#1a1a18" class="node-label">Output</text>
+
+    <!-- Dashed arrow -->
+    <line x1="201" y1="180" x2="201" y2="198" stroke="#b33" stroke-opacity="0.55" stroke-width="1.4" stroke-dasharray="3 3" marker-end="url(#arrow-red)"/>
+
+    <!-- Node: User -->
+    <rect x="151" y="200" width="100" height="26" rx="5" fill="#fff" stroke="#b33" stroke-opacity="0.45" stroke-width="1.2" stroke-dasharray="4 3"/>
+    <text x="201" y="217" text-anchor="middle" fill="#1a1a18" class="node-label">User</text>
+  </g>
+
+  <!-- Label underneath -->
+  <text x="201" y="248" text-anchor="middle" fill="#b33" class="annot">No guardrails. No audit. No recovery.</text>
+
+  <!-- Verdict pill -->
+  <rect x="80" y="256" width="242" height="18" rx="9" fill="#b33" fill-opacity="0.08" stroke="#b33" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="201" y="268" text-anchor="middle" fill="#b33" class="tag">Fragile by design</text>
+
+  <!-- ============================================================ -->
+  <!-- RIGHT PANEL — Production Infrastructure (green) -->
+  <!-- Panel: x=414, y=32, w=370, h=254 -->
+  <!-- ============================================================ -->
+  <rect x="414" y="32" width="370" height="254" rx="6" fill="#f4fbf6" stroke="#2d7d46" stroke-opacity="0.18"/>
+
+  <!-- Label pill -->
+  <rect x="426" y="42" width="162" height="18" rx="9" fill="#2d7d46" fill-opacity="0.10" stroke="#2d7d46" stroke-opacity="0.30" stroke-width="1"/>
+  <text x="507" y="54" text-anchor="middle" fill="#2d7d46" class="tag">Production Infrastructure</text>
+
+  <!-- Core pipeline — centred at x=597 -->
+  <!-- Node: Input -->
+  <rect x="547" y="62" width="100" height="26" rx="5" fill="#fff" stroke="#2d7d46" stroke-opacity="0.45" stroke-width="1.2"/>
+  <text x="597" y="79" text-anchor="middle" fill="#1a1a18" class="node-label">Input</text>
+
+  <!-- Arrow -->
+  <line x1="597" y1="88" x2="597" y2="106" stroke="#2d7d46" stroke-opacity="0.6" stroke-width="1.4" marker-end="url(#arrow-green)"/>
+
+  <!-- Node: LLM -->
+  <rect x="547" y="108" width="100" height="26" rx="5" fill="#fff" stroke="#2d7d46" stroke-opacity="0.45" stroke-width="1.2"/>
+  <text x="597" y="125" text-anchor="middle" fill="#1a1a18" class="node-label">LLM</text>
+
+  <!-- Arrow -->
+  <line x1="597" y1="134" x2="597" y2="152" stroke="#2d7d46" stroke-opacity="0.6" stroke-width="1.4" marker-end="url(#arrow-green)"/>
+
+  <!-- Node: Output -->
+  <rect x="547" y="154" width="100" height="26" rx="5" fill="#fff" stroke="#2d7d46" stroke-opacity="0.45" stroke-width="1.2"/>
+  <text x="597" y="171" text-anchor="middle" fill="#1a1a18" class="node-label">Output</text>
+
+  <!-- Arrow -->
+  <line x1="597" y1="180" x2="597" y2="198" stroke="#2d7d46" stroke-opacity="0.6" stroke-width="1.4" marker-end="url(#arrow-green)"/>
+
+  <!-- Node: User -->
+  <rect x="547" y="200" width="100" height="26" rx="5" fill="#fff" stroke="#2d7d46" stroke-opacity="0.45" stroke-width="1.2"/>
+  <text x="597" y="217" text-anchor="middle" fill="#1a1a18" class="node-label">User</text>
+
+  <!-- Layer boxes with pulse animation -->
+
+  <!-- Input row: Input Filtering (right) -->
+  <g class="layer-pulse">
+    <rect x="658" y="62" width="80" height="26" rx="4" fill="#f4fbf6" stroke="#2d7d46" stroke-opacity="0.50" stroke-width="1"/>
+    <text x="698" y="76" text-anchor="middle" fill="#2d7d46" class="layer-box">Input Filtering</text>
+    <line x1="647" y1="75" x2="658" y2="75" stroke="#2d7d46" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="2 2"/>
+  </g>
+
+  <!-- LLM row: Source Grounding (left) + Confidence Scoring (right) -->
+  <g class="layer-pulse" style="animation-delay: 0.5s">
+    <rect x="422" y="108" width="86" height="26" rx="4" fill="#f4fbf6" stroke="#2d7d46" stroke-opacity="0.50" stroke-width="1"/>
+    <text x="465" y="122" text-anchor="middle" fill="#2d7d46" class="layer-box">Source Grounding</text>
+    <line x1="508" y1="121" x2="547" y2="121" stroke="#2d7d46" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="2 2"/>
+  </g>
+  <g class="layer-pulse" style="animation-delay: 1s">
+    <rect x="658" y="108" width="88" height="26" rx="4" fill="#f4fbf6" stroke="#2d7d46" stroke-opacity="0.50" stroke-width="1"/>
+    <text x="702" y="122" text-anchor="middle" fill="#2d7d46" class="layer-box">Confidence Scoring</text>
+    <line x1="647" y1="121" x2="658" y2="121" stroke="#2d7d46" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="2 2"/>
+  </g>
+
+  <!-- Output row: Guardrails (left) + Audit Trail (right) -->
+  <g class="layer-pulse" style="animation-delay: 1.5s">
+    <rect x="436" y="154" width="72" height="26" rx="4" fill="#f4fbf6" stroke="#2d7d46" stroke-opacity="0.50" stroke-width="1"/>
+    <text x="472" y="168" text-anchor="middle" fill="#2d7d46" class="layer-box">Guardrails</text>
+    <line x1="508" y1="167" x2="547" y2="167" stroke="#2d7d46" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="2 2"/>
+  </g>
+  <g class="layer-pulse" style="animation-delay: 2s">
+    <rect x="658" y="154" width="72" height="26" rx="4" fill="#f4fbf6" stroke="#2d7d46" stroke-opacity="0.50" stroke-width="1"/>
+    <text x="694" y="168" text-anchor="middle" fill="#2d7d46" class="layer-box">Audit Trail</text>
+    <line x1="647" y1="167" x2="658" y2="167" stroke="#2d7d46" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="2 2"/>
+  </g>
+
+  <!-- User row: Human Escalation (right) -->
+  <g class="layer-pulse" style="animation-delay: 2.5s">
+    <rect x="658" y="200" width="90" height="26" rx="4" fill="#f4fbf6" stroke="#2d7d46" stroke-opacity="0.50" stroke-width="1"/>
+    <text x="703" y="214" text-anchor="middle" fill="#2d7d46" class="layer-box">Human Escalation</text>
+    <line x1="647" y1="213" x2="658" y2="213" stroke="#2d7d46" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="2 2"/>
+  </g>
+
+  <!-- Label underneath -->
+  <text x="597" y="248" text-anchor="middle" fill="#2d7d46" class="annot">Every step instrumented. Every decision logged.</text>
+
+  <!-- Verdict pill -->
+  <rect x="476" y="256" width="242" height="18" rx="9" fill="#2d7d46" fill-opacity="0.08" stroke="#2d7d46" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="597" y="268" text-anchor="middle" fill="#2d7d46" class="tag">Resilient by design</text>
+
+</svg>
