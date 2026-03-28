@@ -1,15 +1,15 @@
 ---
-title: "JamJet and the JVM AI Ecosystem: Where Java, Kotlin, and Scala Meet Production Agents"
+title: "AI Agents Need Their Spring Moment — It Starts with the Runtime"
 date: 2026-03-28
-description: "A sourced comparison of every major JVM AI framework — Spring AI, LangChain4j, LangGraph4j, Koog, Embabel, Google ADK — and where JamJet's Rust-powered runtime fills the production gap. With Java, Kotlin, and Scala perspectives."
+description: "Spring transformed how Java built enterprise apps. AI agents need the same transformation — not another framework, but a production runtime. A sourced comparison of every major JVM AI framework and where the gap remains."
 author: "Sunil Prakash"
 draft: false
 category: "Technical Deep Dive"
 ---
 
-# JamJet and the JVM AI Ecosystem: Where Java, Kotlin, and Scala Meet Production Agents
+# AI Agents Need Their Spring Moment — It Starts with the Runtime
 
-*The JVM AI ecosystem has matured faster than most people realize. This article maps the entire landscape — every major framework, what it optimizes for, and where the production gap remains. JamJet exists to fill that gap.*
+*Spring didn't just give Java developers a framework. It gave them a way to build enterprise applications that actually worked in production. The JVM AI ecosystem has the frameworks now — Spring AI, LangChain4j, Koog, Embabel. What it still needs is that same production transformation. This article maps the landscape, the gap, and what fills it.*
 
 In 2023, building AI agents on the JVM meant writing raw HTTP calls to OpenAI. By mid-2026, the ecosystem includes nine frameworks, three protocol standards, and first-class support across Java, Kotlin, and Scala. The landscape at [AI4JVM](https://ai4jvm.com/) — curated by Java Champion James Ward — lists 15 agent frameworks and libraries. Spring AI and LangChain4j both hit 1.0 GA in May 2025. MCP server downloads grew from 100K to 8M+ in six months.
 
