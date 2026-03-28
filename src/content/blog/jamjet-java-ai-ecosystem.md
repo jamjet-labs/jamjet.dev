@@ -11,7 +11,7 @@ category: "Technical Deep Dive"
 
 *Spring didn't just give Java developers a framework. It gave them a way to build enterprise applications that actually worked in production. The JVM AI ecosystem has the frameworks now — Spring AI, LangChain4j, Koog, Embabel. What it still needs is that same production transformation. This article maps the landscape, the gap, and what fills it.*
 
-In 2023, building AI agents on the JVM meant writing raw HTTP calls to OpenAI. By mid-2026, the ecosystem includes nine frameworks, three protocol standards, and first-class support across Java, Kotlin, and Scala. The landscape at [AI4JVM](https://ai4jvm.com/) lists 15 agent frameworks and libraries. Spring AI and LangChain4j both hit 1.0 GA in May 2025. MCP server downloads grew from 100K to 8M+ in six months.
+In 2023, building AI agents on the JVM meant writing raw HTTP calls to OpenAI. By mid-2026, the ecosystem includes nine frameworks, three protocol standards, and first-class support across Java, Kotlin, and Scala. Spring AI and LangChain4j both hit 1.0 GA in May 2025. MCP server downloads grew from 100K to 8M+ in six months.
 
 The question is no longer "can I build AI agents on the JVM?" It is "which framework solves my specific problem — and what happens when I need to run it in production?"
 
