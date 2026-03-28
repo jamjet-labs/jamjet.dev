@@ -1,13 +1,13 @@
 ---
-title: "What the Market Leaders Are Already Doing With AI Agents"
+title: "What Your Competitors Are Already Doing With AI Agents"
 date: 2026-03-25
-description: "Named companies, real metrics, sourced data. How finance, legal, support, and insurance deploy AI agents in production — and what the evidence says about what actually creates durable advantage."
+description: "Named companies, real metrics, sourced data. How finance, legal, support, and insurance deploy AI agents in production — and what it means if you haven't started."
 author: "Sunil Prakash"
 draft: false
 category: "Strategy & Vision"
 ---
 
-# What the Market Leaders Are Already Doing With AI Agents — And Why the Gap Is Widening
+# What Your Competitors Are Already Doing With AI Agents — And Why the Gap Is Widening
 
 *This is not a trend piece. Every number in this article is sourced. Every company is named. The evidence points to a single conclusion: the moat is not access to models. It is the ability to redesign workflows, keep humans at the right boundary, and run agents reliably enough that the organization actually learns.*
 
@@ -357,6 +357,7 @@ The five questions in the previous section — crash recovery, audit trails, hum
 
 This is why we built [JamJet](/) — an open-source runtime (Apache 2.0) that provides event-sourced durability, automatic audit trails, first-class human-in-the-loop, model-agnostic execution, and native MCP + A2A protocol support. Rust core, Python and Java authoring surface. The goal is to make the infrastructure patterns the leaders share available without requiring their budgets.
 
+- [What happens when AI agents fail — sourced post-mortems →](/blog/ai-agent-failures-root-cause/)
 - [Read the full business case for AI agents →](/blog/ai-agents-business-case/)
 - [See the wealth management architecture →](/blog/wealth-management-multi-agent/)
 - [Try JamJet — `pip install jamjet` →](https://github.com/jamjet-labs/jamjet)
