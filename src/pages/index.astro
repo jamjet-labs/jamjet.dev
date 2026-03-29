@@ -247,17 +247,20 @@ const homeLd = {
     <div class="code-section">
       <div class="code-text">
         <span class="section-label">Authoring</span>
-        <h2>Python you know.<br/>Durability you don't<br/>have to build.</h2>
+        <h2>Your language.<br/>Production-grade<br/>from day one.</h2>
         <p style="color: var(--text-secondary); margin-top: 16px;">
-          Every <code style="background:var(--surface-code);padding:2px 6px;border-radius:3px;font-size:0.9em">@task</code> is checkpointed. Every workflow survives crashes. Human approval gates pause durably. Cost limits are enforced by the runtime.
+          Agent strategies, workflow orchestration, cost guardrails, crash recovery. Define agents and workflows in Python or Java &mdash; the Rust runtime handles the rest.
         </p>
       </div>
       <div class="code-block">
         <div class="code-header">
-          <span>pipeline.py</span>
-          <span>durable workflow</span>
+          <div class="code-tabs">
+            <button class="code-tab active" data-tab="python">Python</button>
+            <button class="code-tab" data-tab="java">Java</button>
+          </div>
+          <span class="code-tab-label" id="code-tab-label">durable workflow</span>
         </div>
-        <pre class="code-body" is:raw><span class="t-kw">from</span> <span class="t-w">jamjet</span> <span class="t-kw">import</span> <span class="t-w">task</span><span class="t-p">,</span> <span class="t-w">workflow</span><span class="t-p">,</span> <span class="t-w">approval</span>
+        <pre class="code-body" id="code-python" is:raw><span class="t-kw">from</span> <span class="t-w">jamjet</span> <span class="t-kw">import</span> <span class="t-w">task</span><span class="t-p">,</span> <span class="t-w">workflow</span><span class="t-p">,</span> <span class="t-w">approval</span>
 
 <span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span><span class="t-w">model</span><span class="t-p">=</span><span class="t-s">"claude-sonnet-4-6"</span><span class="t-p">,</span> <span class="t-w">max_cost</span><span class="t-p">=</span><span class="t-y">0.50</span><span class="t-p">)</span>
 <span class="t-kw">async def</span> <span class="t-b">analyze</span><span class="t-p">(</span><span class="t-w">data</span><span class="t-p">:</span> <span class="t-y">dict</span><span class="t-p">) -&gt;</span> <span class="t-y">Report</span><span class="t-p">:</span>
@@ -268,6 +271,19 @@ const homeLd = {
     <span class="t-w">report</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">analyze</span><span class="t-p">(</span><span class="t-w">raw</span><span class="t-p">)</span>       <span class="t-d"># crash-safe</span>
     <span class="t-kw">await</span> <span class="t-b">approval</span><span class="t-p">(</span><span class="t-w">report</span><span class="t-p">)</span>            <span class="t-d"># durable pause</span>
     <span class="t-kw">return await</span> <span class="t-b">publish</span><span class="t-p">(</span><span class="t-w">report</span><span class="t-p">)</span>     <span class="t-d"># resumes here</span></pre>
+        <pre class="code-body" id="code-java" style="display:none" is:raw><span class="t-y">Agent</span> <span class="t-w">analyst</span> <span class="t-p">=</span> <span class="t-y">Agent</span><span class="t-p">.</span><span class="t-b">builder</span><span class="t-p">()</span>
+    <span class="t-p">.</span><span class="t-b">name</span><span class="t-p">(</span><span class="t-s">"analyst"</span><span class="t-p">)</span>
+    <span class="t-p">.</span><span class="t-b">model</span><span class="t-p">(</span><span class="t-s">"claude-sonnet-4-6"</span><span class="t-p">)</span>
+    <span class="t-p">.</span><span class="t-b">strategy</span><span class="t-p">(</span><span class="t-y">Strategy</span><span class="t-p">.</span><span class="t-w">REFLECTION</span><span class="t-p">)</span>
+    <span class="t-p">.</span><span class="t-b">tools</span><span class="t-p">(</span><span class="t-w">searchTool</span><span class="t-p">,</span> <span class="t-w">sqlTool</span><span class="t-p">)</span>
+    <span class="t-p">.</span><span class="t-b">maxCost</span><span class="t-p">(</span><span class="t-y">0.50</span><span class="t-p">)</span>                   <span class="t-d">// budget enforced</span>
+    <span class="t-p">.</span><span class="t-b">build</span><span class="t-p">();</span>
+
+<span class="t-y">WorkflowGraph</span> <span class="t-w">pipeline</span> <span class="t-p">=</span> <span class="t-y">WorkflowGraph</span><span class="t-p">.</span><span class="t-b">builder</span><span class="t-p">()</span>
+    <span class="t-p">.</span><span class="t-b">node</span><span class="t-p">(</span><span class="t-w">analyst</span><span class="t-p">)</span>                    <span class="t-d">// crash-safe</span>
+    <span class="t-p">.</span><span class="t-b">node</span><span class="t-p">(</span><span class="t-y">ApprovalGate</span><span class="t-p">.</span><span class="t-b">create</span><span class="t-p">())</span>     <span class="t-d">// durable pause</span>
+    <span class="t-p">.</span><span class="t-b">node</span><span class="t-p">(</span><span class="t-w">publisher</span><span class="t-p">)</span>                  <span class="t-d">// resumes here</span>
+    <span class="t-p">.</span><span class="t-b">build</span><span class="t-p">();</span></pre>
       </div>
     </div>
   </div>
@@ -445,6 +461,28 @@ const homeLd = {
   </div>
 </section>
 
+<!-- ── JVM Ecosystem Strip ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container">
+    <div class="trust-strip">
+      <h3>Full JVM ecosystem support</h3>
+      <div class="trust-items">
+        <span>Maven Central</span>
+        <span class="trust-dot"></span>
+        <span>Java 21+ SDK (agents, workflows, tools)</span>
+        <span class="trust-dot"></span>
+        <span>Spring Boot Starter</span>
+        <span class="trust-dot"></span>
+        <span>LangChain4j Integration</span>
+        <span class="trust-dot"></span>
+        <span><a href="https://github.com/nicobao/ai4jvm" target="_blank" rel="noopener" style="color:var(--text-secondary);text-decoration:underline;text-underline-offset:2px;">Listed on ai4jvm</a></span>
+      </div>
+      <p class="trust-note">Zero custom repositories. Standard Maven coordinates, drop into any build.</p>
+      <a href="https://docs.jamjet.dev/en/docs/java-quickstart" class="trust-link">Java quickstart &rarr;</a>
+    </div>
+  </div>
+</section>
+
 <!-- ── Enterprise Trust Strip ── -->
 <section>
   <div class="container">
@@ -591,6 +629,35 @@ const homeLd = {
     color: var(--text-secondary);
     font-size: 0.88rem;
     line-height: 1.7;
+  }
+
+  /* ── Code tabs ── */
+  .code-tabs {
+    display: flex;
+    gap: 0;
+  }
+  .code-tab {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 500;
+    font-family: var(--font-sans);
+    padding: 6px 14px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .code-tab:hover {
+    color: var(--text-secondary);
+  }
+  .code-tab.active {
+    color: var(--text);
+    border-bottom-color: var(--text);
+  }
+  .code-tab-label {
+    font-size: 0.82rem;
+    color: var(--text-muted);
   }
 
   /* ── Code section ── */
@@ -856,6 +923,20 @@ const homeLd = {
     navigator.clipboard.writeText('jamjet init my-agent').then(() => {
       this.textContent = 'copied!';
       setTimeout(() => { this.textContent = 'copy'; }, 1500);
+    });
+  });
+
+  // Code tab switching
+  const tabLabels = { python: 'durable workflow', java: 'agent builder' };
+  document.querySelectorAll('.code-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      const lang = this.getAttribute('data-tab');
+      document.querySelectorAll('.code-tab').forEach(function(t) { t.classList.remove('active'); });
+      this.classList.add('active');
+      document.getElementById('code-python').style.display = lang === 'python' ? '' : 'none';
+      document.getElementById('code-java').style.display = lang === 'java' ? '' : 'none';
+      var label = document.getElementById('code-tab-label');
+      if (label) label.textContent = tabLabels[lang] || '';
     });
   });
 </script>
