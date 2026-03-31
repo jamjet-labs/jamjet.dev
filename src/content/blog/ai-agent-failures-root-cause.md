@@ -151,6 +151,7 @@ This is why we built [JamJet](/) — an open-source runtime (Apache 2.0) that pr
 Every failure in this article was avoidable. The engineering is known. The patterns are proven. The only question is whether your organization builds on production infrastructure from the start — or discovers, like Klarna and Air Canada, what happens when you don't.
 
 - [What your competitors are already doing →](/blog/competitors-already-deploying-ai-agents/)
+- [The operational gap is compounding — why starting now matters →](/blog/companies-quietly-replacing-workflows/)
 - [The business case for AI agents →](/blog/ai-agents-business-case/)
 - [Multi-agent wealth management architecture →](/blog/wealth-management-multi-agent/)
 - [Try JamJet — `pip install jamjet` →](https://github.com/jamjet-labs/jamjet)

@@ -182,5 +182,6 @@ The business case for AI agents is real. The technology to build them reliably �
 If you want to see how this works under the hood:
 
 - [See the technical architecture →](/blog/wealth-management-multi-agent/)
+- [Why the window to start is closing →](/blog/companies-quietly-replacing-workflows/)
 - [Try it yourself →](https://github.com/jamjet-labs/jamjet/tree/main/examples/wealth-management-agents)
 - [Read the docs →](https://docs.jamjet.dev)
