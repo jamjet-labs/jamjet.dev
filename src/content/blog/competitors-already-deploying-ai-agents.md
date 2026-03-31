@@ -357,6 +357,7 @@ The five questions in the previous section — crash recovery, audit trails, hum
 
 This is why we built [JamJet](/) — an open-source runtime (Apache 2.0) that provides event-sourced durability, automatic audit trails, first-class human-in-the-loop, model-agnostic execution, and native MCP + A2A protocol support. Rust core, Python and Java authoring surface. The goal is to make the infrastructure patterns the leaders share available without requiring their budgets.
 
+- [The operational gap is widening — here's the three-month window →](/blog/companies-quietly-replacing-workflows/)
 - [What happens when AI agents fail — sourced post-mortems →](/blog/ai-agent-failures-root-cause/)
 - [Read the full business case for AI agents →](/blog/ai-agents-business-case/)
 - [See the wealth management architecture →](/blog/wealth-management-multi-agent/)
