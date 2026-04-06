@@ -14,14 +14,37 @@ The existing solutions ask you to spin up vector databases, graph stores, and ex
 
 Today we're releasing **Engram** — a durable memory layer for AI agents. One binary. Zero infrastructure. SQLite all the way down.
 
-## Install it in 10 seconds
+## Get started in 10 seconds
 
+**Python:**
+```bash
+pip install jamjet
+```
+
+```python
+from jamjet.engram import EngramClient
+
+async with EngramClient() as memory:
+    await memory.add(messages=[{"role": "user", "content": "I live in Austin"}], user_id="alice")
+    facts = await memory.recall("where does the user live", user_id="alice")
+```
+
+**Java:**
+```xml
+<dependency>
+  <groupId>dev.jamjet</groupId>
+  <artifactId>jamjet-sdk</artifactId>
+  <version>0.4.0</version>
+</dependency>
+```
+
+**Standalone MCP server** (for Claude Code, Cursor, etc.):
 ```bash
 cargo install jamjet-engram-server
 engram serve --db memory.db
 ```
 
-That's it. You now have an MCP server with 7 memory tools that any AI agent can use.
+That last command gives you an MCP server with 7 memory tools that any AI agent can use.
 
 ## How it works
 
@@ -114,50 +137,6 @@ curl -X POST localhost:9090/v1/memory/context \
   -d '{"query": "where does the user live", "user_id": "alice", "token_budget": 1000}'
 ```
 
-## SDKs for Python and Java
-
-### Python
-
-```bash
-pip install jamjet
-```
-
-```python
-from jamjet.engram import EngramClient
-
-async with EngramClient("http://localhost:9090") as client:
-    await client.add(
-        messages=[{"role": "user", "content": "I prefer dark mode"}],
-        user_id="alice",
-    )
-
-    ctx = await client.context("user preferences", user_id="alice")
-    print(ctx.text)       # <memory><conversation>- User prefers dark mode...
-    print(ctx.token_count) # 42
-```
-
-### Java
-
-```xml
-<dependency>
-  <groupId>dev.jamjet</groupId>
-  <artifactId>jamjet-sdk</artifactId>
-  <version>0.4.0</version>
-</dependency>
-```
-
-```java
-try (var client = new EngramClient()) {
-    client.add(
-        List.of(Map.of("role", "user", "content", "I prefer dark mode")),
-        "alice", null, null
-    );
-
-    var ctx = client.context("user preferences", "alice", null, 2000, "system_prompt");
-    System.out.println(ctx.get("text"));
-}
-```
-
 ## Context assembly that respects your token budget
 
 The `memory_context` tool doesn't just dump all facts into your prompt. It:
@@ -209,14 +188,12 @@ Zero mandatory infrastructure. Swap backends when you need scale.
 ## Try it
 
 ```bash
-# Install
-cargo install jamjet-engram-server
-
-# Start
-engram serve --db memory.db
-
-# Or use the Python SDK
+# Python SDK
 pip install jamjet
+
+# Standalone MCP server (Rust)
+cargo install jamjet-engram-server
+engram serve --db memory.db
 ```
 
 Source: [github.com/jamjet-labs/jamjet](https://github.com/jamjet-labs/jamjet) (Apache 2.0)
