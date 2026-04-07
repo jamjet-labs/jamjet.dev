@@ -61,6 +61,20 @@ const homeLd = {
   </div>
 </section>
 
+<!-- ── New: Engram Announcement Strip ── -->
+<section class="announcement-strip">
+  <div class="container">
+    <a href="/blog/engram-agent-memory/" class="announcement">
+      <span class="announcement-badge">NEW</span>
+      <span class="announcement-text">
+        <strong>Engram</strong> &mdash; the first Java-native memory layer for AI agents is live.
+        Fact extraction, temporal knowledge graph, hybrid retrieval, consolidation engine. One SQLite file.
+      </span>
+      <span class="announcement-arrow">&rarr;</span>
+    </a>
+  </div>
+</section>
+
 <!-- ── Proof: Crash Recovery Demo ── -->
 <section id="proof">
   <div class="container">
@@ -464,21 +478,95 @@ const homeLd = {
 <!-- ── JVM Ecosystem Strip ── -->
 <section style="background: var(--bg-alt);">
   <div class="container">
-    <div class="trust-strip">
-      <h3>Full JVM ecosystem support</h3>
-      <div class="trust-items">
-        <span>Maven Central</span>
-        <span class="trust-dot"></span>
-        <span>Java 21+ SDK (agents, workflows, tools)</span>
-        <span class="trust-dot"></span>
-        <span>Spring Boot Starter</span>
-        <span class="trust-dot"></span>
-        <span>LangChain4j Integration</span>
-        <span class="trust-dot"></span>
-        <span><a href="https://github.com/nicobao/ai4jvm" target="_blank" rel="noopener" style="color:var(--text-secondary);text-decoration:underline;text-underline-offset:2px;">Listed on ai4jvm</a></span>
+    <div class="jvm-strip">
+      <div class="jvm-strip-header">
+        <span class="section-label">JVM &amp; Spring</span>
+        <h2 class="section-title">Java first, not Java later.</h2>
+        <p class="jvm-strip-intro">
+          On Maven Central today. Agent runtime, memory layer, Spring Boot starter, and LangChain4j integration &mdash;
+          all under the <code>dev.jamjet</code> group. Drop-in dependencies, zero custom repositories.
+        </p>
       </div>
-      <p class="trust-note">Zero custom repositories. Standard Maven coordinates, drop into any build.</p>
-      <a href="https://docs.jamjet.dev/en/docs/java-quickstart" class="trust-link">Java quickstart &rarr;</a>
+
+      <div class="jvm-strip-grid">
+        <div class="jvm-snippet">
+          <div class="jvm-snippet-label">Agent runtime + memory</div>
+          <pre class="jvm-code"><code>&lt;dependency&gt;
+  &lt;groupId&gt;dev.jamjet&lt;/groupId&gt;
+  &lt;artifactId&gt;jamjet-sdk&lt;/artifactId&gt;
+  &lt;version&gt;0.4.3&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+        </div>
+        <div class="jvm-features">
+          <div class="jvm-feature">
+            <strong>Engram memory layer</strong>
+            <p>Fact extraction, temporal graph, hybrid retrieval, consolidation. <a href="/blog/state-of-memory-java-ai-agents/">Read the landscape &rarr;</a></p>
+          </div>
+          <div class="jvm-feature">
+            <strong>Spring Boot starter</strong>
+            <p>Auto-configuration, durability advisor, audit trails, approval workflows.</p>
+          </div>
+          <div class="jvm-feature">
+            <strong>LangChain4j integration</strong>
+            <p>Use JamJet durability with your existing LangChain4j agents.</p>
+          </div>
+          <div class="jvm-feature">
+            <strong>Virtual threads, records, fluent builders</strong>
+            <p>Idiomatic Java 21+ APIs. Not a thin port of a Python SDK.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="jvm-strip-cta">
+        <a href="https://central.sonatype.com/artifact/dev.jamjet/jamjet-sdk" target="_blank" rel="noopener" class="btn-secondary">View on Maven Central</a>
+        <a href="https://docs.jamjet.dev/en/docs/java-quickstart" class="btn-secondary">Java quickstart &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── What's New ── -->
+<section>
+  <div class="container">
+    <span class="section-label">Shipping regularly</span>
+    <h2 class="section-title">What's new</h2>
+    <div class="whats-new-list">
+      <div class="whats-new-item">
+        <span class="whats-new-date">Apr 7</span>
+        <div class="whats-new-body">
+          <strong>Engram v0.3.1 &mdash; memory layer for AI agents</strong>
+          <p>
+            Fact extraction, conflict detection, hybrid retrieval (vector + FTS5 keyword + graph),
+            token-budgeted context assembly, and a 5-operation consolidation engine.
+            Published as <code>jamjet-engram</code> on crates.io and included in
+            <code>dev.jamjet:jamjet-sdk</code> on Maven Central.
+          </p>
+          <a href="/blog/engram-agent-memory/">Read the announcement &rarr;</a>
+        </div>
+      </div>
+      <div class="whats-new-item">
+        <span class="whats-new-date">Apr 7</span>
+        <div class="whats-new-body">
+          <strong>The State of Memory in Java AI Agents</strong>
+          <p>
+            A landscape survey of every option Java developers have for adding persistent memory
+            to AI agents &mdash; LangChain4j, Spring AI, Koog, Embabel, Google ADK, and the rest.
+            Why every option stops at chat history.
+          </p>
+          <a href="/blog/state-of-memory-java-ai-agents/">Read the landscape &rarr;</a>
+        </div>
+      </div>
+      <div class="whats-new-item">
+        <span class="whats-new-date">Mar 29</span>
+        <div class="whats-new-body">
+          <strong>JamJet Spring Boot Starter on Maven Central</strong>
+          <p>
+            One dependency gives your Spring AI app crash recovery, audit trails, replay testing,
+            and human-in-the-loop gates.
+          </p>
+          <a href="/blog/jamjet-spring-boot-starter/">Read more &rarr;</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -909,6 +997,194 @@ const homeLd = {
     .personas { grid-template-columns: 1fr; gap: 0; }
     .research-grid { grid-template-columns: repeat(2, 1fr); }
     .migration-points { grid-template-columns: 1fr; }
+  }
+
+  /* Engram announcement strip */
+  .announcement-strip {
+    padding: 16px 0 0;
+    background: var(--bg);
+  }
+  .announcement {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .announcement:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .announcement-badge {
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 4px;
+  }
+  .announcement-text {
+    flex: 1;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+  .announcement-text strong {
+    color: var(--text);
+  }
+  .announcement-arrow {
+    flex-shrink: 0;
+    font-size: 18px;
+    color: var(--accent);
+  }
+  @media (max-width: 640px) {
+    .announcement { flex-wrap: wrap; gap: 10px; }
+    .announcement-text { font-size: 14px; flex-basis: 100%; order: 3; }
+    .announcement-arrow { margin-left: auto; }
+  }
+
+  /* JVM Ecosystem Strip — expanded */
+  .jvm-strip {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .jvm-strip-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .jvm-strip-intro {
+    max-width: 640px;
+    margin: 16px auto 0;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .jvm-strip-intro code {
+    background: var(--bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+  .jvm-strip-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .jvm-snippet-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+  }
+  .jvm-code {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px;
+    margin: 0;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .jvm-code code {
+    font-family: 'IBM Plex Mono', 'Consolas', monospace;
+    color: var(--text);
+  }
+  .jvm-features {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .jvm-feature strong {
+    display: block;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .jvm-feature p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .jvm-feature a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .jvm-feature a:hover {
+    text-decoration: underline;
+  }
+  .jvm-strip-cta {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 768px) {
+    .jvm-strip-grid { grid-template-columns: 1fr; gap: 24px; }
+  }
+
+  /* What's New */
+  .whats-new-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 760px;
+    margin: 32px auto 0;
+  }
+  .whats-new-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .whats-new-item:last-child {
+    border-bottom: none;
+  }
+  .whats-new-date {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding-top: 2px;
+  }
+  .whats-new-body strong {
+    display: block;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .whats-new-body p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0 0 8px 0;
+    font-size: 15px;
+  }
+  .whats-new-body code {
+    background: var(--bg-alt);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 0.88em;
+    font-family: 'IBM Plex Mono', 'Consolas', monospace;
+  }
+  .whats-new-body a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .whats-new-body a:hover {
+    text-decoration: underline;
+  }
+  @media (max-width: 640px) {
+    .whats-new-item { grid-template-columns: 1fr; gap: 8px; }
   }
 </style>
 
