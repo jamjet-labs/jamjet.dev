@@ -138,131 +138,121 @@ jamjet approve exec_claims_4821 --decision approved --reviewer "Jane Park, Senio
 
 ## The JamJet version
 
-Here is the same claims agent in JamJet. The YAML workflow defines the execution graph; the Python code submits it.
-
-```yaml
-id: claims-processor
-version: "0.1.0"
-
-nodes:
-  intake:
-    type: model
-    model: claude-sonnet-4-6
-    prompt: |
-      Extract structured claim details from this submission:
-      {{ state.submission }}
-      
-      Return: claim type, damage description, location, date of loss.
-    output_key: claim_analysis
-    next: parallel_lookup
-
-  parallel_lookup:
-    type: parallel
-    branches:
-      - photo_analysis
-      - policy_lookup
-    next: assessment
-
-  photo_analysis:
-    type: tool
-    server: vision-tools
-    tool: analyze_damage_photos
-    arguments:
-      urls: "{{ state.photo_urls }}"
-    output_key: damage_report
-    retry:
-      max_attempts: 3
-      backoff: exponential
-
-  policy_lookup:
-    type: tool
-    server: insurance-db
-    tool: get_policy
-    arguments:
-      customer_id: "{{ state.customer_id }}"
-    output_key: policy
-
-  assessment:
-    type: model
-    model: claude-sonnet-4-6
-    prompt: |
-      Estimate repair cost based on:
-      Damage report: {{ state.damage_report }}
-      Policy coverage: {{ state.policy }}
-      Claim analysis: {{ state.claim_analysis }}
-      
-      Return: estimated total cost, line items, coverage determination.
-    output_key: assessment
-    next: fraud_check
-
-  fraud_check:
-    type: tool
-    server: fraud-detection
-    tool: check_claim_history
-    arguments:
-      claim_id: "{{ state.claim_id }}"
-      customer_id: "{{ state.customer_id }}"
-    output_key: fraud_result
-    next: approval_gate
-
-  approval_gate:
-    type: condition
-    expression: "state.assessment.estimated_cost > 10000"
-    if_true: human_review
-    if_false: resolution
-
-  human_review:
-    type: wait
-    prompt: "Claim {{ state.claim_id }}: ${{ state.assessment.estimated_cost }} estimated. Fraud score: {{ state.fraud_result.risk_score }}. Approve?"
-    next: resolution
-
-  resolution:
-    type: model
-    model: claude-sonnet-4-6
-    prompt: |
-      Generate a formal decision letter for claim {{ state.claim_id }}.
-      Assessment: {{ state.assessment }}
-      Fraud check: {{ state.fraud_result }}
-      Policy: {{ state.policy }}
-      
-      Include: claim decision, approved amount, deductible applied,
-      payment timeline, and appeal instructions.
-    output_key: decision
-    next: evaluate
-
-  evaluate:
-    type: eval
-    scorers:
-      - type: assertion
-        check: "len(state.decision) > 100"
-      - type: llm_judge
-        model: claude-haiku-4-5-20251001
-        rubric: |
-          Is this decision letter professional, complete, and consistent
-          with the damage assessment and policy terms? Does it include
-          all required elements: decision, amount, deductible, timeline,
-          and appeal instructions?
-    fail_under: 4.0
-```
-
-And the Python runner:
+Here is the same claims agent in JamJet's native Python SDK. Four specialist agents, typed Pydantic state, and a workflow that compiles to durable IR.
 
 ```python
-from jamjet import JamJetClient
+from pydantic import BaseModel
+from jamjet import Agent, Workflow, tool
 
-client = JamJetClient()
-result = await client.run("claims-processor", input={
-    "claim_id": "CLM-4821",
-    "customer_id": "CUST-1092",
-    "submission": "Hail damage to roof and north-facing siding. Storm date: March 12. Multiple shingles missing, two downspouts detached.",
-    "photo_urls": [
-        "s3://claims/4821/roof-overview.jpg",
-        "s3://claims/4821/shingle-detail.jpg",
-        "s3://claims/4821/siding-damage.jpg",
-    ],
-})
+# Tools -- structured capabilities
+@tool
+def analyze_photos(photo_urls: list[str]) -> dict:
+    """Analyze damage photos using a vision model."""
+    return {"damage_type": "hail", "severity": 7, "affected_areas": ["roof", "gutter"]}
 
-# Full execution trace -- every step, every cost
+@tool
+def lookup_policy(customer_id: str) -> dict:
+    """Retrieve the customer's insurance policy."""
+    return {"coverage_limit": 150_000, "deductible": 1_000, "covered_perils": ["hail"]}
+
+@tool
+def check_fraud(claim_id: str, customer_id: str) -> dict:
+    """Cross-reference claim history for anomalies."""
+    return {"risk_score": 0.12, "flags": [], "recommendation": "proceed"}
+
+# Agents -- each with a role, strategy, and tools
+intake_agent = Agent(
+    name="intake_specialist",
+    model="claude-sonnet-4-6",
+    tools=[analyze_photos],
+    instructions="You are a claims intake specialist. Extract damage details and analyze photos.",
+    strategy="react",
+    max_iterations=3,
+)
+
+damage_assessor = Agent(
+    name="damage_assessor",
+    model="claude-sonnet-4-6",
+    tools=[lookup_policy],
+    instructions="Estimate repair cost against policy terms. Be specific with dollar amounts.",
+    strategy="plan-and-execute",
+    max_iterations=5,
+)
+
+fraud_analyst = Agent(
+    name="fraud_analyst",
+    model="claude-haiku-4-5-20251001",
+    tools=[check_fraud],
+    instructions="Run fraud checks. Provide clear proceed/flag/reject recommendation.",
+    strategy="react",
+    max_iterations=2,
+)
+
+resolution_writer = Agent(
+    name="resolution_writer",
+    model="claude-sonnet-4-6",
+    instructions="Write a professional decision letter with amounts, conditions, and next steps.",
+    strategy="critic",
+    max_iterations=3,
+)
+
+# Typed state -- validated at every step
+workflow = Workflow("claims_processor", version="0.1.0")
+
+@workflow.state
+class ClaimsState(BaseModel):
+    claim_id: str
+    customer_id: str
+    submission: str
+    photo_urls: list[str]
+    claim_analysis: str | None = None
+    assessment: str | None = None
+    fraud_result: str | None = None
+    decision: str | None = None
+
+# Workflow steps -- each runs an agent and updates state
+@workflow.step
+async def intake(state: ClaimsState) -> ClaimsState:
+    result = await intake_agent.run(f"Process claim {state.claim_id}: {state.submission}")
+    return state.model_copy(update={"claim_analysis": result.output})
+
+@workflow.step(parallel=["analyze_photos_step", "lookup_policy_step"])
+async def parallel_lookup(state: ClaimsState) -> ClaimsState:
+    return state  # branches run concurrently
+
+@workflow.step
+async def assess_damage(state: ClaimsState) -> ClaimsState:
+    result = await damage_assessor.run(f"Assess claim {state.claim_id}:\n{state.claim_analysis}")
+    return state.model_copy(update={"assessment": result.output})
+
+@workflow.step
+async def check_fraud_step(state: ClaimsState) -> ClaimsState:
+    result = await fraud_analyst.run(f"Check fraud for {state.claim_id}")
+    return state.model_copy(update={"fraud_result": result.output})
+
+@workflow.step(human_approval=True)  # Pauses here. Survives restarts.
+async def approve_claim(state: ClaimsState) -> ClaimsState:
+    return state
+
+@workflow.step
+async def resolve(state: ClaimsState) -> ClaimsState:
+    result = await resolution_writer.run(
+        f"Write decision for {state.claim_id}:\n{state.assessment}\n{state.fraud_result}"
+    )
+    return state.model_copy(update={"decision": result.output})
+```
+
+Run it:
+
+```python
+result = await workflow.run(ClaimsState(
+    claim_id="CLM-4821",
+    customer_id="CUST-1092",
+    submission="Hail damage to roof, multiple shingles missing...",
+    photo_urls=["s3://claims/4821/roof.jpg", "s3://claims/4821/gutter.jpg"],
+))
+
+# Per-step trace -- every step, every cost
 for event in result.events:
     print(f"{event.node}: {event.duration_ms}ms, {event.tokens} tokens, ${event.cost:.4f}")
 
@@ -271,22 +261,19 @@ for event in result.events:
 # policy_lookup:   145ms,     0 tokens, $0.0000
 # assessment:     2100ms, 2,891 tokens, $0.0217
 # fraud_check:     310ms,     0 tokens, $0.0010
-# human_review:  PAUSED  (waiting for approval)
+# approve_claim: PAUSED  (waiting for human approval)
 # resolution:     1950ms, 3,102 tokens, $0.0233
-# evaluate:        680ms,   412 tokens, $0.0025
-# ─────────────────────────────────────────
-# Total: $0.1379, 7,652 tokens, 7.95s active
 ```
 
 A few things to notice:
 
-**Parallel branches.** Photo analysis and policy lookup run concurrently. In ADK, you would use a `ParallelAgent` with two sub-agents -- similar concept, different syntax.
+**It is Python, not config.** Agents are Python objects with strategies (`react`, `plan-and-execute`, `critic`). State is a Pydantic model with compile-time validation. Workflow steps are async functions. If you can read the ADK version, you can read this. The mental model is the same -- define agents, define tools, orchestrate.
 
-**Retry with backoff.** The photo analysis node has `retry: max_attempts: 3, backoff: exponential`. Vision APIs are flaky. This is declarative, not a try/except loop.
+**Parallel branches.** Photo analysis and policy lookup run concurrently via `parallel=["analyze_photos_step", "lookup_policy_step"]`. In ADK, you would use `ParallelAgent` -- similar concept, different syntax.
 
-**Conditional routing.** `approval_gate` checks the estimated cost. Claims under $10K skip straight to resolution. Claims over $10K pause for human review. This is a workflow node, not an if-statement buried in a tool function.
+**Human approval is a decorator.** `@workflow.step(human_approval=True)` pauses the workflow and persists state. It survives process restarts, deployments, even server migrations. No polling. No external queue. In ADK, you build this yourself.
 
-**Quality gate.** The `evaluate` node at the end scores the decision letter. If the LLM judge scores it below 4.0, the workflow can route to a retry or escalation. In CI, `--fail-under 4.0` catches quality regressions before deployment.
+**Agent strategies matter.** The intake agent uses `react` (tight tool-use loop). The assessor uses `plan-and-execute` (structured multi-step). The resolution writer uses `critic` (draft, evaluate, refine). Each strategy is suited to the task. ADK agents do not have pluggable strategies.
 
 **Per-step cost attribution.** Every event carries token count and dollar cost. You know exactly which step is expensive and where to optimize. This is not logging you build -- it is the execution model.
 
