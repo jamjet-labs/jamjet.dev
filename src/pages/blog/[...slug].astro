@@ -37,7 +37,7 @@ if (relatedPosts.length < 2) {
 const site = 'https://jamjet.dev';
 const canonical = `${site}/blog/${post.slug}/`;
 const pageTitle = `${post.data.title} | JamJet Blog`;
-const image = `${site}/og.png`;
+const image = `${site}/og/${post.slug}.png`;
 const tweetText = encodeURIComponent(`${post.data.title}\n\n${canonical}`);
 const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(canonical)}`;
 const articleLd = {
