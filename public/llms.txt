@@ -12,7 +12,7 @@
 - Name: JamJet
 - Tagline: The agent-native runtime for production AI
 - PyPI: jamjet (pip install jamjet)
-- Version: 0.2.0
+- Version: 0.5.0
 - License: Apache 2.0
 - Language: Python SDK, Rust runtime
 

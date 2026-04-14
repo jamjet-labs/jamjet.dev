@@ -5,14 +5,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://jamjet.dev',
   integrations: [
-    sitemap({
-      filter: (page) =>
-        !page.includes('/quickstart') &&
-        !page.includes('/concepts') &&
-        !page.includes('/mcp') &&
-        !page.includes('/a2a') &&
-        !page.includes('/compare'),
-    }),
+    sitemap(),
     tailwind({
       applyBaseStyles: false,
     }),
