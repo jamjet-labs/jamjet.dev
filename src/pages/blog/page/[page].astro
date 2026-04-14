@@ -36,7 +36,12 @@ const canonical = `https://jamjet.dev/blog/page/${pageNumber}/`;
     {page.data.map((post) => (
       <a class="card" href={`/blog/${post.slug}/`}>
         <h2 class="card-title">{post.data.title}</h2>
-        <p class="card-meta">{post.data.date.toISOString().slice(0, 10)}{post.data.author ? ` · ${post.data.author}` : ''}</p>
+        <p class="card-meta">{(() => {
+          const now = new Date();
+          const d = post.data.date;
+          const isCurrentMonth = d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+          return isCurrentMonth ? d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : '';
+        })()}{post.data.author ? ` · ${post.data.author}` : ''}</p>
         <p class="card-desc">{post.data.description}</p>
       </a>
     ))}

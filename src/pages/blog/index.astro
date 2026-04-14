@@ -79,7 +79,14 @@ const blogLd = {
                 <p class="post-entry-desc">{post.data.description}</p>
               </div>
               <div class="post-entry-meta">
-                <time>{post.data.date.toISOString().slice(0, 10)}</time>
+                {(() => {
+                  const now = new Date();
+                  const d = post.data.date;
+                  const isCurrentMonth = d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+                  return isCurrentMonth
+                    ? <time>{d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</time>
+                    : null;
+                })()}
                 <span class="read-link">Read</span>
               </div>
             </a>
