@@ -289,29 +289,31 @@ A few things to notice:
 | Human approval for $47K claim | Custom DB flag + polling + state reconstruction | `type: wait` (built-in, durable, survives restarts) |
 | Quality regression in decision letters | Manual review or external test suite | `type: eval` with `fail_under: 4.0` in the workflow |
 | Per-step cost visibility | Build your own instrumentation | `result.events` -- per-node tokens, duration, cost |
-| Time to first working prototype | Faster (fewer concepts upfront) | Slightly longer (more concepts, more guarantees) |
+| Time to first working prototype | Fast (define agents, compose) | Fast (`pip install jamjet`, Agent + Workflow) |
 
 ---
 
 ## Where ADK wins
 
-Being honest about this makes the comparison useful.
+Being honest makes the comparison useful. But being honest also means not giving away ground JamJet already covers.
 
-**Gemini integration.** If you are building on Gemini, ADK's native features are hard to match. Built-in code execution lets the agent write and run Python in a sandbox. Google Search grounding gives model responses verifiable sources. Vertex AI deployment gives you managed infrastructure with Google's SLA. These are not things you bolt on -- they are first-class features of the platform.
+**Gemini-specific features.** If you are committed to Gemini, ADK gives you capabilities that are tightly coupled to the model: built-in code execution (the agent writes and runs Python in a sandbox), Google Search grounding (model responses cite verifiable sources), and Vertex AI Agent Engine for managed deployment with Google's SLA. These are Gemini platform features, not framework features -- you get them because ADK is Google's framework for Google's model. If Gemini is your model, this integration depth is real. If you use multiple models or want provider flexibility, it is irrelevant.
 
-**A2A protocol.** Google co-developed the Agent-to-Agent protocol. ADK's A2A support is mature, with both client and server implementations and a clean integration story. The human-in-the-loop A2A sample demonstrates cross-agent approval workflows, and it works.
-
-**ADK Web UI.** The built-in development interface is polished. It captures agent interactions, lets you step through execution, inspect tool calls and state changes, and record conversations as golden test datasets. For debugging during development, it is genuinely good.
-
-**Composable primitives.** `SequentialAgent`, `ParallelAgent`, `LoopAgent` -- these are clean, intuitive building blocks. You compose complex workflows from simple, well-named components. The mental model is immediately clear: agents are the unit of composition.
-
-**Ecosystem breadth.** ADK supports LangChain tools, CrewAI tools, MCP servers, and custom function tools out of the box. If you have existing tool implementations in another framework, the migration path is straightforward.
-
-**Speed to prototype.** Fewer concepts to learn upfront. Define agents, give them tools, compose them. You can have a working multi-agent system in under an hour. ADK optimizes for time-to-first-result.
+**Google Cloud managed deployment.** Vertex AI Agent Engine gives you a managed runtime without operating your own infrastructure. For teams already on Google Cloud, this removes operational overhead. JamJet deploys anywhere -- Docker, Kubernetes, bare metal -- which is more flexible but requires you to manage the runtime yourself.
 
 ---
 
 ## Where JamJet wins
+
+**Native A2A and MCP -- both protocols, first-class.** Google co-developed A2A, and ADK supports it. But JamJet also has native A2A support built into the runtime -- both client and server. And JamJet has native MCP support, which gives your agents access to hundreds of community-built tool servers (databases, file systems, APIs, search) without writing adapter code. ADK added MCP client support, but JamJet treats both protocols as core primitives, not integrations.
+
+**Agent strategies.** JamJet agents ship with pluggable reasoning strategies: `react` (tight tool-use loops), `plan-and-execute` (structured multi-step reasoning), `critic` (draft-evaluate-refine), `consensus`, and `debate`. Each strategy is suited to different tasks -- the claims example uses three different strategies across four agents. ADK agents do not have pluggable strategies; the reasoning approach is implicit in the prompt.
+
+**Composability beyond linear pipelines.** ADK's `SequentialAgent`, `ParallelAgent`, and `LoopAgent` are clean primitives. JamJet matches all of them -- sequential via `@workflow.step` chains, parallel via `parallel=["step_a", "step_b"]`, loops via conditional routing -- and adds coordinator nodes with structured scoring for dynamic agent routing, agent-as-tool invocation in three modes (sync, streaming, conversational), and typed Pydantic state validated at every transition. The composability surface is broader.
+
+**Web Companion and CLI debugging.** JamJet has a Web Companion Inspector (React SPA embedded in the runtime binary) with graph visualization, node detail, event timeline, and state inspection. Plus `jamjet inspect` for full execution traces in the terminal and `jamjet replay` / `jamjet fork` for deterministic reproduction. ADK's Web UI captures interactions during development -- JamJet's tooling works on production executions too.
+
+**Ecosystem via MCP.** ADK supports LangChain tools, CrewAI tools, and MCP servers. JamJet's approach is simpler: MCP is the standard, so JamJet speaks MCP natively. Any MCP server works out of the box -- no adapters, no compatibility layers. And JamJet can also serve your workflows as MCP tools for other agents to call.
 
 **Durable execution is the default.** Every workflow execution is event-sourced. Every node checkpoint is persisted before execution begins. Crash recovery is not a feature you enable or a service you integrate -- it is the execution model. There is no "in-memory mode" that silently loses your state.
 
@@ -333,34 +335,28 @@ Being honest about this makes the comparison useful.
 
 ## How to decide
 
-There is no universal answer. The right choice depends on your constraints.
+There is no universal answer. But the decision space is narrower than it looks.
 
-**Building on Google Cloud with Gemini?** ADK is the natural choice. Native Vertex AI deployment, Google Search grounding, built-in code execution -- you get capabilities that require significant integration work in any other framework.
+**Committed to Gemini on Google Cloud?** ADK gives you Gemini-specific features (code execution, grounding) and Vertex AI managed deployment that no other framework matches. If your stack is Gemini + Google Cloud, ADK is purpose-built for it.
 
-**Need crash recovery and audit trails?** JamJet. Durable execution and structured event logs are the core of the runtime, not features you add later.
+**Everything else?** JamJet covers the ground. Durable execution, native MCP and A2A, pluggable agent strategies, typed state, human-in-the-loop, eval harness, replay debugging, cost tracking, audit trails -- these are all built in. You get model-agnostic multi-model workflows, JVM support via Spring Boot, and deployment flexibility (Docker, Kubernetes, bare metal, any cloud).
 
-**Enterprise Java team?** JamJet. Spring Boot starter, Maven Central artifacts, Micrometer and OpenTelemetry integration. ADK is Python-first (with a Go SDK in development).
+**Enterprise Java team?** JamJet. Spring Boot starter, Maven Central artifacts, Micrometer and OpenTelemetry integration, LangChain4j bridge. ADK is Python-first.
 
-**Need human-in-the-loop that survives restarts?** JamJet. `type: wait` is a durable primitive. In ADK, you build this yourself.
+**Regulated industry?** JamJet. The structured event log is an audit trail by default -- every prompt, response, tool call, and state transition, timestamped and immutable.
 
-**Want the fastest path to a working agent?** ADK. Fewer concepts, faster iteration, excellent developer tooling with the Web UI.
+**Multi-model workflows?** JamJet. Use Claude for reasoning, Gemini for code generation, and a local Llama for classification -- in the same workflow, with different agent strategies. No adapter layer needed.
 
-**Need reproducible experiments and eval?** JamJet. Replay testing, execution forking, and quality gates are built into the workflow model.
-
-**Multi-model workflows?** JamJet. Use Claude for reasoning, Gemini for code generation, and a local Llama for classification -- in the same workflow, declared in YAML. ADK can do this through LiteLLM, but the ergonomics favor Gemini.
-
-**Regulated industry with compliance requirements?** JamJet. The structured event log is an audit trail by default. In ADK, you build your own compliance layer.
+**Need reproducible experiments?** JamJet. Replay testing, execution forking, ExperimentGrid for parameter sweeps, and statistical comparison are built into the workflow model.
 
 ---
 
 ## The real difference
 
-Both frameworks build agents. Both have tools, state management, and multi-agent composition. The architectural difference is what each framework considers a first-class concern.
+ADK is Google's framework for Google's model on Google's cloud. If that is your stack, the integration depth is genuine and hard to replicate elsewhere.
 
-ADK treats agent composition and model integration as first-class concerns. It gives you elegant primitives for building agent topologies and tight integration with the Gemini ecosystem. It optimizes for the path from idea to working prototype.
+JamJet is a general-purpose agent runtime that treats production concerns -- durability, audit, human approval, quality, cost -- as first-class primitives rather than afterthoughts. It is model-agnostic, cloud-agnostic, and language-flexible (Python and Java). It matches ADK on agent composition, exceeds it on production guarantees, and gives you the protocol support (MCP + A2A) and debugging tools (replay, fork, inspect) that production systems actually need.
 
-JamJet treats durability, observability, and operational safety as first-class concerns. It gives you crash recovery, audit trails, human approval gates, and quality evaluation as built-in workflow primitives. It optimizes for the path from prototype to production.
-
-Both are good frameworks. They just make different promises about what happens after the demo.
+The question is not which framework has more features. It is whether your production requirements are met by default or require you to build them yourself.
 
 Try the claims processing example: [github.com/jamjet-labs/jamjet/examples/claims-processing](https://github.com/jamjet-labs/jamjet/examples/claims-processing)
