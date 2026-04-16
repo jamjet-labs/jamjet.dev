@@ -303,6 +303,49 @@ const homeLd = {
   </div>
 </section>
 
+<!-- ── Pick Your Path ── -->
+<section class="pick-path">
+  <div class="container">
+    <span class="section-label">Pick your path</span>
+    <h2 class="section-title">One question decides your authoring approach.</h2>
+    <p class="section-intro" style="max-width:600px;">All three compile to the same IR and run on the same Rust runtime. Pick the one that fits how your agents think.</p>
+
+    <div class="path-flow">
+      <div class="path-question">Do your agents need reasoning strategies?</div>
+      <div class="path-branches">
+        <div class="path-branch path-yes">
+          <span class="path-arrow">Yes</span>
+          <div class="path-card path-card-primary">
+            <h3>Agent + Workflow SDK</h3>
+            <p>Multi-agent systems with specialist agents. Each gets a strategy: <code>react</code>, <code>plan-and-execute</code>, <code>critic</code>. Typed Pydantic state. Human-in-the-loop.</p>
+            <code class="path-import">from jamjet import Agent, Workflow, tool</code>
+          </div>
+        </div>
+        <div class="path-branch path-no">
+          <span class="path-arrow">No</span>
+          <div class="path-fork">
+            <div class="path-subq">Config-driven?</div>
+            <div class="path-sub-branches">
+              <div class="path-card">
+                <h3>YAML Workflows</h3>
+                <p>Tool pipelines, MCP orchestration, routing. Change flows without code deploys.</p>
+                <code class="path-import">jamjet run workflow.yaml</code>
+              </div>
+              <div class="path-card">
+                <h3>Python Decorators</h3>
+                <p>Custom logic inside nodes. Full Python library access. Class-based workflows.</p>
+                <code class="path-import">from jamjet import workflow, node</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p style="text-align:center;color:var(--text-muted);font-size:0.85rem;margin-top:2rem;">All three produce the same IR &rarr; same Rust runtime &rarr; same durability, replay, and audit trails. <a href="https://docs.jamjet.dev/en/docs/concepts#choosing-an-authoring-approach" style="color:var(--accent);">Full guide &rarr;</a></p>
+  </div>
+</section>
+
 <!-- ── Migration Strip ── -->
 <section style="background: var(--bg-alt);">
   <div class="container">
@@ -1197,6 +1240,118 @@ const homeLd = {
   }
   @media (max-width: 640px) {
     .whats-new-item { grid-template-columns: 1fr; gap: 8px; }
+  }
+
+  /* ── Pick Your Path ── */
+  .pick-path {
+    padding: 5rem 0;
+  }
+  .path-flow {
+    max-width: 820px;
+    margin: 2.5rem auto 0;
+  }
+  .path-question {
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text);
+    padding: 1rem 1.5rem;
+    border: 2px solid var(--border-strong);
+    border-radius: 12px;
+    background: var(--bg);
+    max-width: 420px;
+    margin: 0 auto 2rem;
+  }
+  .path-branches {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .path-branch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .path-arrow {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 4px 16px;
+    border-radius: 20px;
+  }
+  .path-yes .path-arrow {
+    background: rgba(139, 115, 85, 0.12);
+    color: var(--accent);
+  }
+  .path-no .path-arrow {
+    background: rgba(26, 26, 24, 0.06);
+    color: var(--text-muted);
+  }
+  .path-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: left;
+    transition: border-color 0.15s;
+  }
+  .path-card:hover {
+    border-color: var(--accent);
+  }
+  .path-card-primary {
+    border-color: var(--accent);
+    background: rgba(139, 115, 85, 0.04);
+  }
+  .path-card h3 {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .path-card p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+  .path-card code {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+  .path-import {
+    display: block;
+    padding: 6px 10px;
+    background: var(--bg-code, rgba(26,26,24,0.04));
+    border-radius: 6px;
+  }
+  .path-fork {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .path-subq {
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .path-sub-branches {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  @media (max-width: 768px) {
+    .path-branches {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 
