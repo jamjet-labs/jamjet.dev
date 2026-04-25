@@ -1,0 +1,380 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const compareLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "JamJet vs Temporal for AI Agents",
+  "description": "An honest comparison of JamJet and Temporal for AI agent workloads. Where each excels, where each falls short, and when to use which.",
+  "author": { "@type": "Person", "name": "Sunil Prakash" },
+  "publisher": { "@type": "Organization", "name": "JamJet" },
+};
+---
+
+<BaseLayout
+  title="JamJet vs Temporal for AI Agents — Honest Comparison"
+  description="Temporal is the gold standard for durable workflows. JamJet adds agent-native governance: policy enforcement, audit trails, human approval, agent memory, and cost controls. Here's when to use which."
+  canonical="https://jamjet.dev/compare/temporal"
+>
+<Fragment slot="head">
+  <script type="application/ld+json" set:html={JSON.stringify(compareLd)}></script>
+</Fragment>
+
+<div class="compare-wrap">
+  <a class="back-link" href="/">Back to JamJet</a>
+
+  <header class="compare-header">
+    <span class="section-label">Comparison</span>
+    <h1>JamJet vs Temporal<br/>for AI Agents</h1>
+    <p class="compare-intro">
+      Temporal is the gold standard for durable execution. It earned that reputation with a $5B valuation,
+      1,000+ enterprise customers, and 9.1 trillion lifetime actions. It is excellent at what it does.
+    </p>
+    <p class="compare-intro">
+      But durable execution alone doesn't make AI agents production-safe. Agents need policy enforcement,
+      audit trails, human approval, cost governance, and memory &mdash; none of which Temporal provides natively.
+      That's where JamJet comes in.
+    </p>
+  </header>
+
+  <section class="compare-section">
+    <h2>The quick version</h2>
+    <div class="tldr-grid">
+      <div class="tldr-card">
+        <h3>Choose Temporal when</h3>
+        <ul>
+          <li>You already use Temporal for non-AI workflows</li>
+          <li>You need battle-tested durability at massive scale</li>
+          <li>You want the largest ecosystem and enterprise support</li>
+          <li>You're building general distributed workflows, not just AI agents</li>
+          <li>You have a team comfortable with Temporal's programming model</li>
+        </ul>
+      </div>
+      <div class="tldr-card">
+        <h3>Choose JamJet when</h3>
+        <ul>
+          <li>Your agents need policy controls and governance</li>
+          <li>You need audit trails for compliance (EU AI Act, financial regs)</li>
+          <li>You need human-in-the-loop as a first-class primitive</li>
+          <li>You want agent memory built into the runtime</li>
+          <li>You need cost governance at the runtime level</li>
+          <li>You want MCP/A2A protocol-native integration</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="compare-section">
+    <h2>Feature comparison</h2>
+    <div class="table-wrap">
+      <table class="ftable">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>Temporal</th>
+            <th>JamJet</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Durable execution</strong></td>
+            <td class="strong">Best-in-class. Event-sourced, battle-tested at massive scale. The industry standard.</td>
+            <td>Event-sourced with checkpoint snapshots. Proven in tests and examples, not yet at Temporal scale.</td>
+          </tr>
+          <tr>
+            <td><strong>Policy engine</strong></td>
+            <td class="weak">None. No way to block tool calls, enforce model restrictions, or scope agent permissions at the runtime level.</td>
+            <td class="strong">4-level hierarchy (global &rarr; tenant &rarr; workflow &rarr; node). Glob-pattern tool blocking, model allowlists, delegation scoping. 76 tests.</td>
+          </tr>
+          <tr>
+            <td><strong>Audit trails</strong></td>
+            <td class="weak">Workflow history only. Not separate, not retention-aware, not designed for compliance export.</td>
+            <td class="strong">Separate append-only audit log. Per-entry retention policies. Actor enrichment. Designed for compliance.</td>
+          </tr>
+          <tr>
+            <td><strong>Human-in-the-loop</strong></td>
+            <td>Via signals &mdash; functional but manual. Not a first-class workflow primitive. Requires custom handling.</td>
+            <td class="strong">First-class pause/resume/approval nodes. Durable across restarts. Built into workflow IR.</td>
+          </tr>
+          <tr>
+            <td><strong>Agent memory</strong></td>
+            <td class="weak">None. Bring your own.</td>
+            <td class="strong">Engram: temporal knowledge graph, fact extraction, conflict detection, hybrid retrieval, consolidation. 11 MCP tools.</td>
+          </tr>
+          <tr>
+            <td><strong>Cost governance</strong></td>
+            <td class="weak">None. No per-agent or per-workflow cost tracking or enforcement.</td>
+            <td class="strong">Per-workflow and per-agent token/dollar budgets. Runtime-enforced. Automatic escalation.</td>
+          </tr>
+          <tr>
+            <td><strong>MCP support</strong></td>
+            <td class="weak">None natively. You build it.</td>
+            <td class="strong">Client + server. Full spec. 11 Engram tools. MCP Registry listed.</td>
+          </tr>
+          <tr>
+            <td><strong>A2A protocol</strong></td>
+            <td class="weak">None.</td>
+            <td class="strong">Client + server. Streaming, failure handling, agent discovery.</td>
+          </tr>
+          <tr>
+            <td><strong>Multi-tenant isolation</strong></td>
+            <td>Namespace-based (Temporal Cloud). Functional but limited scoping.</td>
+            <td class="strong">Row-level partitioning. Per-tenant policies, resource limits, cost caps.</td>
+          </tr>
+          <tr>
+            <td><strong>Evaluation / testing</strong></td>
+            <td class="weak">None. Separate tool needed.</td>
+            <td>Built-in eval harness. LLM judge, assertions, cost scoring. CI exit codes on regression.</td>
+          </tr>
+          <tr>
+            <td><strong>PII redaction</strong></td>
+            <td class="weak">None.</td>
+            <td>Built-in. Runtime-enforced.</td>
+          </tr>
+          <tr>
+            <td><strong>OAuth delegation</strong></td>
+            <td class="weak">None.</td>
+            <td>RFC 8693 token exchange. Scope narrowing. Per-step scoping.</td>
+          </tr>
+          <tr>
+            <td><strong>Programming model</strong></td>
+            <td>Workflows + Activities + Signals + Queries. Powerful but steep learning curve.</td>
+            <td>Progressive: <code>@task</code> (3 lines) &rarr; Agent &rarr; Workflow. Python, Java, YAML.</td>
+          </tr>
+          <tr>
+            <td><strong>Language SDKs</strong></td>
+            <td class="strong">Python, TypeScript, Go, Java, .NET. Best-in-class breadth.</td>
+            <td>Python, Java. Go planned. Fewer languages but deeper agent-native features per SDK.</td>
+          </tr>
+          <tr>
+            <td><strong>Runtime language</strong></td>
+            <td>Go core</td>
+            <td>Rust core + Java native runtime</td>
+          </tr>
+          <tr>
+            <td><strong>Community</strong></td>
+            <td class="strong">~12K GitHub stars. 1,000+ customers. Large Slack community. Enterprise proven.</td>
+            <td class="weak">Early-stage. Small community. Production examples but few known production deployments.</td>
+          </tr>
+          <tr>
+            <td><strong>Pricing</strong></td>
+            <td>Self-hosted: free. Cloud: $100/mo minimum + $50/million actions + storage fees. Costs can scale unpredictably.</td>
+            <td>Fully open source. No commercial offering yet. Self-hosted only.</td>
+          </tr>
+          <tr>
+            <td><strong>Maturity</strong></td>
+            <td class="strong">Proven at scale. Netflix, Snap, DoorDash, Box. $5B valuation. 431 employees.</td>
+            <td class="weak">Pre-revenue. Solo founder. Strong engineering, unproven at scale.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="compare-section">
+    <h2>Where Temporal excels</h2>
+    <p>Temporal's durability model is the best in the industry. If your primary concern is "my distributed workflows must never lose progress," Temporal is the safe, proven choice. It handles:</p>
+    <ul class="pros-list">
+      <li>Massive-scale durable execution (trillions of actions)</li>
+      <li>Complex workflow patterns (signals, queries, child workflows, continue-as-new)</li>
+      <li>Multi-language support (5 SDKs, all production-grade)</li>
+      <li>Enterprise support with SLAs and managed cloud</li>
+      <li>Active integrations with OpenAI Agents SDK, Vercel AI SDK, Pydantic AI</li>
+    </ul>
+    <p>Temporal is also building AI agent integrations rapidly. Their <code>activity_as_tool</code> helper for OpenAI Agents SDK shows they're taking this space seriously.</p>
+  </section>
+
+  <section class="compare-section">
+    <h2>Where JamJet goes further</h2>
+    <p>JamJet's thesis is that durable execution alone isn't enough for AI agents in production. Agents create unique challenges:</p>
+    <ul class="pros-list">
+      <li><strong>Agents call tools autonomously</strong> &mdash; you need policy enforcement to prevent unauthorized actions, not just retry logic</li>
+      <li><strong>Agents make decisions with real consequences</strong> &mdash; you need audit trails that are separate from execution history and designed for compliance</li>
+      <li><strong>Agents need human oversight</strong> &mdash; you need first-class pause/resume/approval, not manual signal handling</li>
+      <li><strong>Agents accumulate context</strong> &mdash; you need governed memory with conflict detection, not just a key-value store</li>
+      <li><strong>Agents spend money (LLM calls)</strong> &mdash; you need runtime-enforced cost budgets, not just monitoring</li>
+      <li><strong>Agents need to interoperate</strong> &mdash; you need MCP/A2A protocol support, not custom integration for each tool</li>
+    </ul>
+    <p>These are not features you can easily add to Temporal. They require agent-native abstractions built into the runtime from the ground up.</p>
+  </section>
+
+  <section class="compare-section">
+    <h2>Can you use both?</h2>
+    <p>
+      Technically, yes &mdash; but it would be unusual. Both are execution runtimes. Using both would mean running
+      Temporal for durability and JamJet for governance, which adds operational complexity.
+    </p>
+    <p>
+      More practically: if you already use Temporal for non-AI workflows and want to add AI agent governance,
+      JamJet's MCP Gateway (coming soon) can sit between your agent and its tools to add policy enforcement
+      and audit trails without replacing Temporal.
+    </p>
+    <p>
+      If you're starting fresh with AI agents, JamJet gives you durability <em>and</em> governance in one runtime.
+    </p>
+  </section>
+
+  <section class="compare-section">
+    <h2>The honest tradeoff</h2>
+    <div class="tradeoff-grid">
+      <div class="tradeoff-card">
+        <h3>Temporal gives you</h3>
+        <p>Battle-tested durability, massive scale, enterprise support, broad language coverage, proven at thousands of companies. You sacrifice agent-native governance &mdash; you'll build policy, audit, HITL, memory, and cost controls yourself.</p>
+      </div>
+      <div class="tradeoff-card">
+        <h3>JamJet gives you</h3>
+        <p>Agent-native governance, durability, memory, and protocol support in one open-source runtime. You sacrifice scale confidence, enterprise support, language breadth, and the comfort of a $5B-backed platform. JamJet is early-stage.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="compare-section" style="text-align: center;">
+    <h2>Ready to try JamJet?</h2>
+    <p style="max-width: 500px; margin: 16px auto 32px; color: var(--text-secondary);">
+      Start with a 60-second quickstart. Add governance controls as you need them.
+    </p>
+    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+      <a href="https://docs.jamjet.dev/en/docs/quickstart" class="btn-primary">Read the quickstart</a>
+      <a href="https://github.com/jamjet-labs/jamjet" class="btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
+    </div>
+  </section>
+</div>
+
+</BaseLayout>
+
+<style>
+  .compare-wrap {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2rem 24px 4rem;
+  }
+
+  .back-link {
+    color: var(--accent); text-decoration: none; font-size: 0.9rem; font-weight: 500;
+    display: inline-block; margin-bottom: 24px;
+  }
+  .back-link:hover { text-decoration: underline; }
+
+  .compare-header {
+    margin-bottom: 48px;
+  }
+  .compare-header h1 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    margin: 8px 0 24px;
+  }
+  .compare-intro {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  .compare-section {
+    margin-bottom: 64px;
+  }
+  .compare-section h2 {
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    margin-bottom: 20px;
+  }
+  .compare-section p {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  .tldr-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .tldr-card {
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .tldr-card h3 {
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+  }
+  .tldr-card ul {
+    padding-left: 1.2rem;
+    margin: 0;
+  }
+  .tldr-card li {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .table-wrap { overflow-x: auto; }
+  .ftable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    min-width: 700px;
+  }
+  .ftable th {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    font-weight: 600;
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--border-strong);
+    text-align: left;
+    font-family: var(--font-sans);
+  }
+  .ftable td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    vertical-align: top;
+  }
+  .ftable td strong { color: var(--text); }
+  .ftable td.strong { color: var(--text); }
+  .ftable td.weak { color: var(--text-muted); }
+  .ftable code {
+    font-size: 0.8rem;
+    background: var(--bg-alt);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .pros-list {
+    padding-left: 1.4rem;
+    margin-bottom: 20px;
+  }
+  .pros-list li {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+  .pros-list li strong { color: var(--text); }
+
+  .tradeoff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .tradeoff-card {
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .tradeoff-card h3 {
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+  }
+  .tradeoff-card p {
+    font-size: 0.88rem;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .tldr-grid { grid-template-columns: 1fr; }
+    .tradeoff-grid { grid-template-columns: 1fr; }
+  }
+</style>

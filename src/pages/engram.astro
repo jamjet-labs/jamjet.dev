@@ -1,0 +1,508 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const engramLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Engram",
+  "description": "Open-source memory for AI agents. Temporal knowledge graph with fact extraction, conflict detection, hybrid retrieval, and consolidation. Works with any framework through MCP.",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Linux, macOS, Windows",
+  "url": "https://jamjet.dev/engram",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+};
+---
+
+<BaseLayout
+  title="Engram — Memory for AI Agents | JamJet"
+  description="Open-source memory for AI agents. Temporal knowledge graph with hybrid retrieval, conflict detection, and MCP-native tools. Works with Claude, Cursor, LangChain, CrewAI, and any MCP client."
+  canonical="https://jamjet.dev/engram"
+>
+<Fragment slot="head">
+  <script type="application/ld+json" set:html={JSON.stringify(engramLd)}></script>
+</Fragment>
+
+<!-- ── Hero ── -->
+<section class="engram-hero">
+  <div class="engram-hero-inner">
+    <span class="section-label">Part of JamJet</span>
+    <h1>Memory for<br/>AI agents.</h1>
+    <p class="engram-sub">
+      Your AI agent forgets everything between sessions. Engram gives it persistent,
+      intelligent memory &mdash; a temporal knowledge graph that extracts facts, detects
+      conflicts, and consolidates over time. Open source. Works with any framework through MCP.
+    </p>
+    <div class="engram-actions">
+      <a href="#quickstart" class="btn-primary">Start in 60 seconds</a>
+      <a href="https://github.com/jamjet-labs/jamjet/tree/main/runtime/engram-server" class="btn-secondary" target="_blank" rel="noopener">View source</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Problem ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container">
+    <div class="problem-grid">
+      <div class="problem-item">
+        <strong>No memory</strong>
+        <p>Every conversation starts from zero. Your agent re-asks the same questions, forgets preferences, loses project context.</p>
+      </div>
+      <div class="problem-item">
+        <strong>Vector stores are not memory</strong>
+        <p>Embedding raw messages is not understanding. There is no fact extraction, no conflict resolution, no temporal awareness.</p>
+      </div>
+      <div class="problem-item">
+        <strong>Too much infrastructure</strong>
+        <p>Mem0 needs Qdrant. Zep needs Neo4j. Letta needs PostgreSQL. By the time you have configured the stack, you have forgotten what you were building.</p>
+      </div>
+      <div class="problem-item">
+        <strong>Framework lock-in</strong>
+        <p>Most memory solutions are tied to one framework. Switch from LangChain to CrewAI and your memory layer breaks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── What Engram Does ── -->
+<section>
+  <div class="container">
+    <span class="section-label">How Engram works</span>
+    <h2>Not a vector store.<br/>A knowledge graph that learns.</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <strong>Fact extraction</strong>
+        <p>Raw conversation messages go in. Structured facts come out. Entities, relationships, preferences, events &mdash; all extracted automatically via LLM.</p>
+      </div>
+      <div class="feature">
+        <strong>Conflict detection</strong>
+        <p>When new information contradicts existing facts, Engram detects the conflict and supersedes the old fact. "I moved to Austin" invalidates "I live in Seattle."</p>
+      </div>
+      <div class="feature">
+        <strong>Hybrid retrieval</strong>
+        <p>Vector search + FTS5 keyword search + graph spreading activation. Six retrieval signals combined: semantic similarity, temporal proximity, node importance, calibrated confidence, keyword match, and graph connections.</p>
+      </div>
+      <div class="feature">
+        <strong>Consolidation</strong>
+        <p>Background engine that decays stale facts, promotes important ones, deduplicates, summarizes entity histories, and builds preference rollups. Memory stays clean over time.</p>
+      </div>
+      <div class="feature">
+        <strong>Temporal grounding</strong>
+        <p>Facts carry timestamps. Queries understand "last week" and "recently." Context output is date-annotated so your agent knows when things happened.</p>
+      </div>
+      <div class="feature">
+        <strong>Provider-agnostic</strong>
+        <p>One binary speaks Ollama (local, free), OpenAI-compatible endpoints, Anthropic Claude, Google Gemini, or a shell-out command. Set one env var.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Works With ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container" style="text-align: center;">
+    <span class="section-label">Works with everything via MCP</span>
+    <h2>One memory layer. Any framework.</h2>
+    <p style="color: var(--text-secondary); max-width: 560px; margin: 16px auto 40px;">
+      Engram exposes 11 MCP tools. Any client that speaks MCP can use it &mdash; no adapter code, no integration library, no lock-in.
+    </p>
+    <div class="compat-grid">
+      <div class="compat-item">Claude Desktop</div>
+      <div class="compat-item">Cursor</div>
+      <div class="compat-item">VS Code</div>
+      <div class="compat-item">Windsurf</div>
+      <div class="compat-item">LangChain</div>
+      <div class="compat-item">CrewAI</div>
+      <div class="compat-item">Spring AI</div>
+      <div class="compat-item">Custom agents</div>
+    </div>
+    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 24px;">
+      Also available as: Rust library (embed in your app) &middot; REST API &middot; Python client &middot; Java client &middot; Spring Boot starter
+    </p>
+  </div>
+</section>
+
+<!-- ── Quickstart ── -->
+<section id="quickstart">
+  <div class="container">
+    <span class="section-label">Get started</span>
+    <h2>Running in 60 seconds.</h2>
+    <div class="qs-grid">
+      <div class="qs-option">
+        <h3>Docker (recommended)</h3>
+        <pre class="qs-code"><code>docker run --rm -i \
+  -v engram-data:/data \
+  ghcr.io/jamjet-labs/engram-server:0.5.0</code></pre>
+        <p>Uses local Ollama by default. Zero config.</p>
+      </div>
+      <div class="qs-option">
+        <h3>Cargo install</h3>
+        <pre class="qs-code"><code>cargo install jamjet-engram-server
+engram serve --db memory.db</code></pre>
+        <p>Native binary. ~3MB. Starts instantly.</p>
+      </div>
+      <div class="qs-option">
+        <h3>MCP config (Claude Desktop)</h3>
+        <pre class="qs-code"><code set:html={`{
+  "mcpServers": {
+    "memory": {
+      "command": "engram",
+      "args": ["serve", "--db", "memory.db"]
+    }
+  }
+}`}></code></pre>
+        <p>Add to your MCP config and restart. Done.</p>
+      </div>
+    </div>
+    <div class="qs-tools">
+      <span class="section-label" style="margin-bottom: 12px;">11 MCP tools</span>
+      <div class="tools-list">
+        <code>memory_add</code>
+        <code>memory_recall</code>
+        <code>memory_context</code>
+        <code>memory_search</code>
+        <code>memory_forget</code>
+        <code>memory_stats</code>
+        <code>memory_consolidate</code>
+        <code>messages_save</code>
+        <code>messages_get</code>
+        <code>messages_list</code>
+        <code>messages_delete</code>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Comparison ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container">
+    <span class="section-label">How Engram compares</span>
+    <h2>Honest comparison.</h2>
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>Engram</th>
+            <th>Mem0</th>
+            <th>Zep</th>
+            <th>Letta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fact extraction</td>
+            <td class="yes">Yes (LLM-based)</td>
+            <td class="yes">Yes</td>
+            <td class="partial">Basic</td>
+            <td class="no">No</td>
+          </tr>
+          <tr>
+            <td>Conflict detection</td>
+            <td class="yes">Yes (auto-supersede)</td>
+            <td class="partial">Partial</td>
+            <td class="no">No</td>
+            <td class="no">No</td>
+          </tr>
+          <tr>
+            <td>Knowledge graph</td>
+            <td class="yes">Yes (entities + relationships)</td>
+            <td class="partial">v2 (new)</td>
+            <td class="yes">Yes</td>
+            <td class="no">No</td>
+          </tr>
+          <tr>
+            <td>Hybrid retrieval</td>
+            <td class="yes">Vector + FTS5 + graph (6 signals)</td>
+            <td class="partial">Vector + graph</td>
+            <td class="yes">Hybrid</td>
+            <td class="partial">Vector only</td>
+          </tr>
+          <tr>
+            <td>Consolidation engine</td>
+            <td class="yes">5 ops (decay, promote, dedup, summarize, reflect)</td>
+            <td class="no">No</td>
+            <td class="no">No</td>
+            <td class="no">No</td>
+          </tr>
+          <tr>
+            <td>MCP server</td>
+            <td class="yes">Yes (11 tools)</td>
+            <td class="no">No</td>
+            <td class="no">No</td>
+            <td class="no">No</td>
+          </tr>
+          <tr>
+            <td>Zero-infra quickstart</td>
+            <td class="yes">SQLite (single file)</td>
+            <td class="no">Needs Qdrant</td>
+            <td class="no">Needs Neo4j + Docker</td>
+            <td class="no">Needs PostgreSQL</td>
+          </tr>
+          <tr>
+            <td>LLM provider choice</td>
+            <td class="yes">Ollama, OpenAI, Anthropic, Google, shell-out</td>
+            <td class="partial">OpenAI default</td>
+            <td class="partial">OpenAI default</td>
+            <td class="partial">OpenAI default</td>
+          </tr>
+          <tr>
+            <td>Message store</td>
+            <td class="yes">Built-in (save/get/list/delete)</td>
+            <td class="no">No</td>
+            <td class="yes">Yes</td>
+            <td class="yes">Yes</td>
+          </tr>
+          <tr>
+            <td>Spring Boot starter</td>
+            <td class="yes">Maven Central</td>
+            <td class="no">No</td>
+            <td class="no">No</td>
+            <td class="no">No</td>
+          </tr>
+          <tr>
+            <td>Maturity</td>
+            <td class="partial">New (v0.5.0, small community)</td>
+            <td class="yes">Established (large community)</td>
+            <td class="yes">Established</td>
+            <td class="yes">Established (ex-MemGPT)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-top: 20px;">
+      All frameworks evolve. Check their docs for the latest. Engram&apos;s advantage is MCP-native distribution + zero-infra + consolidation.
+      Its disadvantage is a smaller community and fewer production deployments.
+    </p>
+  </div>
+</section>
+
+<!-- ── Distribution ── -->
+<section>
+  <div class="container" style="text-align: center;">
+    <span class="section-label">Available everywhere</span>
+    <h2>5 registries. One install.</h2>
+    <div class="registries-grid">
+      <a href="https://crates.io/crates/jamjet-engram" target="_blank" rel="noopener" class="registry-item">
+        <strong>crates.io</strong>
+        <span>jamjet-engram</span>
+      </a>
+      <a href="https://crates.io/crates/jamjet-engram-server" target="_blank" rel="noopener" class="registry-item">
+        <strong>crates.io</strong>
+        <span>jamjet-engram-server</span>
+      </a>
+      <a href="https://pypi.org/project/jamjet/" target="_blank" rel="noopener" class="registry-item">
+        <strong>PyPI</strong>
+        <span>jamjet (engram module)</span>
+      </a>
+      <a href="https://central.sonatype.com/artifact/dev.jamjet/jamjet-sdk" target="_blank" rel="noopener" class="registry-item">
+        <strong>Maven Central</strong>
+        <span>dev.jamjet:jamjet-sdk</span>
+      </a>
+      <a href="https://ghcr.io/jamjet-labs/engram-server" target="_blank" rel="noopener" class="registry-item">
+        <strong>GHCR</strong>
+        <span>Docker image</span>
+      </a>
+      <a href="https://registry.modelcontextprotocol.io/servers/io.github.jamjet-labs/engram-server" target="_blank" rel="noopener" class="registry-item">
+        <strong>MCP Registry</strong>
+        <span>Official listing</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Upsell to JamJet ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container" style="text-align: center; max-width: 600px;">
+    <h2>Need more than memory?</h2>
+    <p style="color: var(--text-secondary); margin: 16px 0 32px; line-height: 1.7;">
+      Engram is part of JamJet &mdash; the open-source runtime for production-safe AI agents.
+      When your agents need policy controls, audit trails, human approval, crash recovery,
+      and cost governance, JamJet has it built in.
+    </p>
+    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+      <a href="/" class="btn-primary">Learn about JamJet</a>
+      <a href="https://github.com/jamjet-labs/jamjet" class="btn-secondary" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .engram-hero {
+    min-height: 70vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 80px 24px;
+    text-align: center;
+  }
+  .engram-hero-inner { max-width: 680px; }
+  .engram-sub {
+    font-size: clamp(1rem, 2vw, 1.1rem);
+    color: var(--text-secondary);
+    margin: 24px 0 40px;
+    line-height: 1.8;
+  }
+  .engram-actions {
+    display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
+  }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 64px;
+  }
+  .problem-item {
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+  }
+  .problem-item strong {
+    display: block; font-size: 0.95rem; margin-bottom: 8px; color: var(--text);
+  }
+  .problem-item p {
+    color: var(--text-secondary); font-size: 0.88rem; line-height: 1.7; margin: 0;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 64px;
+    margin-top: 48px;
+  }
+  .feature {
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+  }
+  .feature strong {
+    display: block; font-size: 0.95rem; margin-bottom: 8px; color: var(--text);
+  }
+  .feature p {
+    color: var(--text-secondary); font-size: 0.88rem; line-height: 1.7; margin: 0;
+  }
+
+  .compat-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .compat-item {
+    padding: 10px 20px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  .qs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 40px;
+  }
+  .qs-option h3 {
+    font-size: 0.92rem; margin-bottom: 12px;
+  }
+  .qs-code {
+    background: var(--bg-code);
+    color: #eae8e1;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin-bottom: 12px;
+  }
+  .qs-code code {
+    font-family: var(--font-mono);
+  }
+  .qs-option p {
+    color: var(--text-muted); font-size: 0.85rem;
+  }
+
+  .qs-tools {
+    margin-top: 48px;
+    text-align: center;
+  }
+  .tools-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tools-list code {
+    padding: 6px 14px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+  }
+
+  .compare-table-wrap {
+    overflow-x: auto;
+    margin-top: 32px;
+  }
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    min-width: 600px;
+  }
+  .compare-table th {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    font-weight: 600;
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--border-strong);
+    text-align: left;
+    font-family: var(--font-sans);
+  }
+  .compare-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .compare-table td.yes { color: var(--text); font-weight: 500; }
+  .compare-table td.partial { color: var(--text-muted); }
+  .compare-table td.no { color: var(--text-muted); opacity: 0.6; }
+
+  .registries-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 700px;
+    margin: 32px auto 0;
+  }
+  .registry-item {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: border-color 0.15s;
+  }
+  .registry-item:hover { border-color: var(--accent); }
+  .registry-item strong {
+    font-size: 0.82rem;
+    font-family: var(--font-sans);
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .registry-item span {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+  }
+
+  @media (max-width: 768px) {
+    .problem-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .qs-grid { grid-template-columns: 1fr; }
+    .registries-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</BaseLayout>

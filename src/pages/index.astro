@@ -20,7 +20,7 @@ const homeLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "JamJet",
-  "description": "The durable runtime for AI agents. Checkpoint replay, native MCP + A2A, built-in eval, full execution traces. Write Python, run with Rust reliability.",
+  "description": "Open-source runtime for production-safe AI agents. Policy controls, audit trails, human approval, crash recovery, cost governance, and agent memory — without cloud lock-in. Works with any framework through MCP and A2A.",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Linux, macOS, Windows",
   "url": "https://jamjet.dev",
@@ -32,8 +32,8 @@ const homeLd = {
 ---
 
 <BaseLayout
-  title="JamJet — Build AI Agents That Don't Lose Their Work"
-  description="JamJet is the durable runtime for production-grade AI agents. Checkpoint replay, native MCP + A2A, built-in eval, full execution traces. Write Python, run with Rust reliability."
+  title="JamJet — Production-Safe AI Agents"
+  description="Open-source runtime that makes AI agents production-safe. Policy controls, audit trails, human approval, crash recovery, cost governance, and memory — without locking you into a cloud or framework."
   canonical="https://jamjet.dev/"
 >
 <Fragment slot="head">
@@ -43,14 +43,15 @@ const homeLd = {
 <!-- ── Hero ── -->
 <section class="hero">
   <div class="hero-inner">
-    <h1>Build AI agents that<br/>don't lose their work.</h1>
+    <h1>Production-safe<br/>AI agents.</h1>
     <p class="hero-sub">
-      JamJet is the durable runtime for AI agents &mdash; with checkpoint replay,
-      full execution traces, and runtime-enforced reliability.<br/>
-      Write Python. Run with Rust reliability.
+      JamJet is an open-source runtime that gives AI agents policy controls, audit trails,
+      human approval, crash recovery, cost governance, and memory &mdash;
+      without locking you into a cloud or framework.
     </p>
+    <p class="hero-note">Not another agent framework. The safety layer behind them.</p>
     <div class="hero-actions">
-      <a href="#proof" class="btn-primary">See the crash recovery demo &darr;</a>
+      <a href="#safety" class="btn-primary">See what production safety means &darr;</a>
       <a href="https://docs.jamjet.dev/en/docs/quickstart" class="btn-secondary">Get started in 60 seconds</a>
     </div>
     <div class="install-cmd">
@@ -61,22 +62,78 @@ const homeLd = {
   </div>
 </section>
 
-<!-- ── New: Java Runtime Launch Announcement ── -->
+<!-- ── Announcement ── -->
 <section class="announcement-strip">
   <div class="container">
     <a href="/blog/zero-sidecar-durable-agents-java/" class="announcement">
-      <span class="announcement-badge">LAUNCH</span>
+      <span class="announcement-badge">NEW</span>
       <span class="announcement-text">
-        <strong>JamJet Java Runtime v0.1.1</strong> &mdash; pure-Java agent runtime. @DurableAgent crash recovery,
-        8.9x faster than sidecar, virtual threads, MCP native. No Docker. No sidecar. One annotation.
+        <strong>Java Runtime v0.1.1</strong> &mdash; embed durable execution directly in your JVM.
+        @DurableAgent crash recovery, 8.9x faster than sidecar, virtual threads, MCP native.
       </span>
       <span class="announcement-arrow">&rarr;</span>
     </a>
   </div>
 </section>
 
-<!-- ── Proof: Crash Recovery Demo ── -->
-<section id="proof">
+<!-- ── Six Pillars of Production Safety ── -->
+<section id="safety">
+  <div class="container">
+    <span class="section-label">What production safety means</span>
+    <h2>Six layers between your agent and production failure.</h2>
+    <p class="section-intro">
+      Other tools observe what agents do. JamJet actively prevents unsafe behavior,
+      recovers from failures, and creates audit evidence &mdash; at the runtime layer.
+    </p>
+    <div class="safety-pillars">
+      <div class="safety-pillar">
+        <div class="safety-num">1</div>
+        <div>
+          <strong>Policy enforcement</strong>
+          <p>Block unauthorized tool calls, restrict model usage, scope delegation permissions. 4-level policy hierarchy enforced before execution, not after.</p>
+        </div>
+      </div>
+      <div class="safety-pillar">
+        <div class="safety-num">2</div>
+        <div>
+          <strong>Audit trails</strong>
+          <p>Immutable, append-only log of every decision, tool call, delegation, and approval. Separate from execution data. Retention-aware. Ready for compliance export.</p>
+        </div>
+      </div>
+      <div class="safety-pillar">
+        <div class="safety-num">3</div>
+        <div>
+          <strong>Human approval</strong>
+          <p>First-class pause/resume/approval nodes. Workflows survive restarts while waiting for human input. Not a callback &mdash; a durable primitive.</p>
+        </div>
+      </div>
+      <div class="safety-pillar">
+        <div class="safety-num">4</div>
+        <div>
+          <strong>Crash recovery</strong>
+          <p>Event-sourced durable execution. Kill the process. Restart. It resumes from the exact checkpoint. Completed steps are never re-run.</p>
+        </div>
+      </div>
+      <div class="safety-pillar">
+        <div class="safety-num">5</div>
+        <div>
+          <strong>Cost governance</strong>
+          <p>Per-workflow and per-agent token and dollar budgets. Enforced by the runtime, not by application discipline. Automatic escalation when limits are reached.</p>
+        </div>
+      </div>
+      <div class="safety-pillar">
+        <div class="safety-num">6</div>
+        <div>
+          <strong>Agent memory</strong>
+          <p>Engram: temporal knowledge graph with fact extraction, conflict detection, and consolidation. Long-running agents maintain accurate context. Works via MCP with any framework.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Crash Recovery Demo ── -->
+<section id="proof" style="background: var(--bg-alt);">
   <div class="container">
     <span class="section-label">See it survive</span>
     <h2>Your agents crash. Ours recover.</h2>
@@ -120,30 +177,6 @@ const homeLd = {
             <p>All 5 nodes complete. Full execution integrity preserved.</p>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Why This Matters ── -->
-<section class="why-matters">
-  <div class="container">
-    <div class="why-matters-grid">
-      <div class="why-matters-item">
-        <strong>No lost work after failure</strong>
-        <p>Completed steps stay completed. A crash on step 6 doesn't rerun steps 1–5.</p>
-      </div>
-      <div class="why-matters-item">
-        <strong>No repeated side effects</strong>
-        <p>External calls aren't re-executed. Emails aren't re-sent. Charges aren't re-applied.</p>
-      </div>
-      <div class="why-matters-item">
-        <strong>No rerun cost for completed steps</strong>
-        <p>Tokens already spent stay spent. Resume costs only what remains.</p>
-      </div>
-      <div class="why-matters-item">
-        <strong>Exact replay for debugging and audit</strong>
-        <p>Replay the full execution from checkpoints. See exactly what happened, when.</p>
       </div>
     </div>
   </div>
@@ -462,8 +495,8 @@ const homeLd = {
           <line x1="18" y1="24" x2="18" y2="28" />
         </svg>
         <span class="persona-label">For Platform Teams</span>
-        <h3>Standardize agent infrastructure</h3>
-        <p>One runtime for reliability, observability, eval, and governance. Tenant isolation, PII redaction, OAuth delegation, and mTLS &mdash; all enforced at the Rust layer.</p>
+        <h3>Govern agents before they reach production</h3>
+        <p>Policy enforcement, audit trails, cost controls, tenant isolation, PII redaction, and OAuth delegation &mdash; enforced at the runtime layer, not scattered across application code.</p>
         <a href="https://docs.jamjet.dev/en/docs/enterprise">Enterprise controls &rarr;</a>
       </div>
       <div class="persona">
@@ -677,19 +710,25 @@ const homeLd = {
 <section>
   <div class="container">
     <div class="trust-strip">
-      <h3>Enterprise-grade when you need it</h3>
+      <h3>Built for regulated industries</h3>
       <div class="trust-items">
+        <span>Policy engine</span>
+        <span class="trust-dot"></span>
+        <span>Audit trails</span>
+        <span class="trust-dot"></span>
         <span>Tenant isolation</span>
         <span class="trust-dot"></span>
         <span>PII redaction</span>
         <span class="trust-dot"></span>
         <span>OAuth 2.0 delegation</span>
         <span class="trust-dot"></span>
+        <span>RBAC</span>
+        <span class="trust-dot"></span>
         <span>mTLS federation</span>
         <span class="trust-dot"></span>
         <span>Retention policies</span>
       </div>
-      <p class="trust-note">All enforced at the Rust runtime layer, not by convention.</p>
+      <p class="trust-note">All enforced at the Rust runtime layer, not by convention. Open source, cloud-agnostic, no lock-in.</p>
       <a href="/security" class="trust-link">Security &amp; enterprise docs &rarr;</a>
     </div>
   </div>
@@ -697,11 +736,14 @@ const homeLd = {
 
 <!-- ── Final CTA ── -->
 <section style="background: var(--bg-alt);">
-  <div class="container" style="text-align: center; max-width: 560px;">
-    <h2>Start building in 60 seconds.</h2>
+  <div class="container" style="text-align: center; max-width: 600px;">
+    <h2>Make your agents production-safe.</h2>
+    <p style="color: var(--text-secondary); margin: 12px 0 32px; line-height: 1.7;">
+      Start with a 60-second quickstart. Add policy controls, audit trails, and governance as you need them.
+    </p>
     <div class="install-cmd" style="margin: 24px auto 32px; max-width: 400px;">
       <span class="prompt">$</span>
-      <span class="cmd">jamjet init my-agent</span>
+      <span class="cmd">pip install jamjet</span>
       <button class="copy-btn" id="copy-final">copy</button>
     </div>
     <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
@@ -733,6 +775,14 @@ const homeLd = {
     margin-bottom: 32px;
   }
 
+  .hero-note {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin: -8px 0 40px;
+    font-family: var(--font-sans);
+  }
+
   /* ── Section shared ── */
   .section-title {
     margin: 8px 0 48px;
@@ -743,6 +793,51 @@ const homeLd = {
     line-height: 1.7;
     margin: 12px 0 40px;
     max-width: 560px;
+  }
+
+  /* ── Safety Pillars ── */
+  .safety-pillars {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 64px;
+    margin-top: 48px;
+  }
+  .safety-pillar {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+  }
+  .safety-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-alt);
+    border: 1.5px solid var(--border);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text);
+    font-family: var(--font-sans);
+    flex-shrink: 0;
+  }
+  .safety-pillar strong {
+    display: block;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .safety-pillar p {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    line-height: 1.7;
+    margin: 0;
+  }
+  @media (max-width: 768px) {
+    .safety-pillars { grid-template-columns: 1fr; gap: 0; }
   }
 
   /* ── Proof section ── */
@@ -1474,7 +1569,7 @@ const homeLd = {
     });
   });
   document.getElementById('copy-final')?.addEventListener('click', function() {
-    navigator.clipboard.writeText('jamjet init my-agent').then(() => {
+    navigator.clipboard.writeText('pip install jamjet').then(() => {
       this.textContent = 'copied!';
       setTimeout(() => { this.textContent = 'copy'; }, 1500);
     });
