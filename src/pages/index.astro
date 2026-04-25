@@ -49,10 +49,11 @@ const homeLd = {
       human approval, crash recovery, cost governance, and memory &mdash;
       without locking you into a cloud or framework.
     </p>
-    <p class="hero-note">Not another agent framework. The safety layer behind them.</p>
+    <p class="hero-note">Not another agent framework. An open-source governance runtime for agentic systems.</p>
     <div class="hero-actions">
       <a href="#safety" class="btn-primary">See what production safety means &darr;</a>
       <a href="https://docs.jamjet.dev/en/docs/quickstart" class="btn-secondary">Get started in 60 seconds</a>
+      <a href="/security" class="btn-secondary">View enterprise controls</a>
     </div>
     <div class="install-cmd">
       <span class="prompt">$</span>
@@ -614,7 +615,7 @@ const homeLd = {
           </div>
           <div class="jvm-feature">
             <strong>8.9x faster than sidecar</strong>
-            <p>In-process method calls instead of REST hops. Virtual threads for 1M concurrent agents. Zero connection pool contention.</p>
+            <p>In-process method calls instead of REST hops. Virtual threads for 1M concurrent agents. Zero connection pool contention. <a href="/blog/zero-sidecar-durable-agents-java/">Benchmark details &rarr;</a></p>
           </div>
           <div class="jvm-feature">
             <strong>Works with your stack</strong>
@@ -701,6 +702,33 @@ const homeLd = {
           </p>
           <a href="/blog/jamjet-spring-boot-starter/">Read more &rarr;</a>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Engram Wedge ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container">
+    <div class="engram-wedge">
+      <div class="engram-wedge-text">
+        <span class="section-label">Start here</span>
+        <h2>Need memory first?<br/>Start with Engram.</h2>
+        <p>Open-source memory for MCP-native AI agents. Use it standalone today with Claude, Cursor, or any MCP client &mdash; then add JamJet governance when your agents move toward production.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px;">
+          <a href="/engram" class="btn-primary">Explore Engram</a>
+          <a href="https://github.com/jamjet-labs/jamjet/tree/main/runtime/engram-server" class="btn-secondary" target="_blank" rel="noopener">Source</a>
+        </div>
+      </div>
+      <div class="engram-wedge-code">
+        <div class="engram-wedge-label">Add to Claude Desktop</div>
+        <pre class="engram-wedge-pre"><code>"mcpServers": &#123;
+  "memory": &#123;
+    "command": "engram",
+    "args": ["serve", "--db", "memory.db"]
+  &#125;
+&#125;</code></pre>
+        <p class="engram-wedge-note">11 MCP tools &middot; Ollama / OpenAI / Anthropic / Google &middot; SQLite or Postgres</p>
       </div>
     </div>
   </div>
@@ -1151,6 +1179,49 @@ const homeLd = {
     font-family: var(--font-sans);
   }
   .trust-link:hover { text-decoration: underline; }
+
+  /* ── Engram Wedge ── */
+  .engram-wedge {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .engram-wedge-text h2 { margin: 8px 0 16px; }
+  .engram-wedge-text p {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  .engram-wedge-label {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .engram-wedge-pre {
+    background: var(--bg-code);
+    color: #eae8e1;
+    padding: 18px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 0;
+  }
+  .engram-wedge-pre code { font-family: var(--font-mono); }
+  .engram-wedge-note {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-family: var(--font-sans);
+    margin-top: 10px;
+  }
+  @media (max-width: 768px) {
+    .engram-wedge { grid-template-columns: 1fr; gap: 32px; }
+  }
 
   /* ── Why This Matters ── */
   .why-matters {
