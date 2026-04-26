@@ -53,7 +53,7 @@ const engramLd = {
       </div>
       <div class="problem-item">
         <strong>Too much infrastructure</strong>
-        <p>Mem0 needs Qdrant. Zep needs Neo4j. Letta needs PostgreSQL. By the time you have configured the stack, you have forgotten what you were building.</p>
+        <p>Many memory tools need an external vector or graph database before you can store a single fact. Engram starts with a single SQLite file and moves to Postgres only when you need it.</p>
       </div>
       <div class="problem-item">
         <strong>Framework lock-in</strong>
@@ -92,6 +92,100 @@ const engramLd = {
       <div class="feature">
         <strong>Provider-agnostic</strong>
         <p>One binary speaks Ollama (local, free), OpenAI-compatible endpoints, Anthropic Claude, Google Gemini, or a shell-out command. Set one env var.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Memory in Action ── -->
+<section>
+  <div class="container">
+    <span class="section-label">Memory in action</span>
+    <h2>Watch facts accumulate, conflicts resolve.</h2>
+    <p style="color: var(--text-secondary); max-width: 640px; margin: 16px 0 0; line-height: 1.7;">
+      Two short scenarios. The first shows what your agent remembers across sessions.
+      The second shows how Engram supersedes a stale fact when reality changes.
+    </p>
+
+    <div class="demo-pair">
+      <!-- Demo 1: Before / After session memory -->
+      <div class="demo-card">
+        <div class="demo-card-head">
+          <span class="demo-tag">Scenario 1</span>
+          <strong>Before / after memory</strong>
+        </div>
+        <div class="demo-split">
+          <div class="demo-side">
+            <div class="demo-side-label">Session 1</div>
+            <pre class="demo-pre"><code><span class="t-d"># User says:</span>
+"I prefer concise answers and
+my project is JamJet Cloud."
+
+<span class="t-d"># Engram extracts:</span>
+<span class="t-kw">fact</span> user.style    = <span class="t-s">"concise"</span>
+<span class="t-kw">fact</span> user.project  = <span class="t-s">"JamJet Cloud"</span></code></pre>
+          </div>
+          <div class="demo-arrow" aria-hidden="true">
+            <svg viewBox="0 0 60 24" width="60" height="24"><path d="M2 12 H56 M50 6 L56 12 L50 18" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>seven sessions later</span>
+          </div>
+          <div class="demo-side">
+            <div class="demo-side-label">Session 8</div>
+            <pre class="demo-pre"><code><span class="t-d"># User says:</span>
+"Draft the release note for
+the dashboard."
+
+<span class="t-d"># Agent recalls:</span>
+project = <span class="t-s">"JamJet Cloud"</span>
+style   = <span class="t-s">"concise"</span>
+recent  = <span class="t-s">"policy violations panel"</span></code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Demo 2: Conflict resolution graph -->
+      <div class="demo-card">
+        <div class="demo-card-head">
+          <span class="demo-tag">Scenario 2</span>
+          <strong>Conflict resolution</strong>
+        </div>
+        <div class="demo-conflict">
+          <svg viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Knowledge graph: an old fact 'Sunil lives in Pune' is superseded by a newer message 'I moved to Amsterdam'">
+            <!-- old fact -->
+            <g class="cf-node cf-old">
+              <rect x="20" y="40" width="160" height="48" rx="8"/>
+              <text x="100" y="60" text-anchor="middle" class="cf-title">Sunil — lives in</text>
+              <text x="100" y="78" text-anchor="middle" class="cf-value">Pune</text>
+            </g>
+            <text x="100" y="104" text-anchor="middle" class="cf-meta">stored Jan 2025</text>
+
+            <!-- new statement -->
+            <g class="cf-node cf-new">
+              <rect x="300" y="40" width="160" height="48" rx="8"/>
+              <text x="380" y="60" text-anchor="middle" class="cf-title">incoming</text>
+              <text x="380" y="78" text-anchor="middle" class="cf-value">"I moved to Amsterdam"</text>
+            </g>
+            <text x="380" y="104" text-anchor="middle" class="cf-meta">today</text>
+
+            <!-- arrow -->
+            <g class="cf-arrow">
+              <path d="M180 64 H300" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M292 58 L300 64 L292 70" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </g>
+
+            <!-- decision badge -->
+            <g class="cf-decision">
+              <rect x="140" y="140" width="200" height="56" rx="10"/>
+              <text x="240" y="160" text-anchor="middle" class="cf-decision-title">supersede</text>
+              <text x="240" y="180" text-anchor="middle" class="cf-decision-sub">newer explicit statement &middot; same entity</text>
+            </g>
+            <path class="cf-decision-line" d="M240 110 V140" stroke-linecap="round" stroke-dasharray="3 3"/>
+          </svg>
+          <p class="demo-foot">
+            Old fact is kept in history (replayable, auditable) but no longer surfaces in retrieval.
+            Reason and timestamp are recorded.
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -310,18 +404,47 @@ engram serve --db memory.db</code></pre>
   </div>
 </section>
 
+<!-- ── Hosted Engram ── -->
+<section>
+  <div class="container">
+    <div class="hosted-engram">
+      <div class="hosted-engram-text">
+        <span class="section-label">Hosted Engram</span>
+        <h2>Want memory without<br/>running a server?</h2>
+        <p>
+          Hosted Engram is a managed surface inside JamJet Cloud. Same MCP API, same retrieval
+          quality &mdash; no Postgres, no Docker, no provisioning. Memory spaces per agent, retention
+          controls per project, audit trail for every read and write.
+        </p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;">
+          <a href="/cloud" class="btn-primary">View JamJet Cloud</a>
+          <a href="mailto:hello@jamjet.dev?subject=Hosted%20Engram%20waitlist" class="btn-secondary">Join waitlist</a>
+        </div>
+      </div>
+      <div class="hosted-engram-grid">
+        <div class="hosted-card"><strong>Managed Postgres</strong><span>Auto-provisioned, encrypted, backed up</span></div>
+        <div class="hosted-card"><strong>API keys &amp; scopes</strong><span>Per-agent, per-project, per-environment</span></div>
+        <div class="hosted-card"><strong>Team memory spaces</strong><span>Shared facts across an agent fleet</span></div>
+        <div class="hosted-card"><strong>Retention controls</strong><span>TTL, archival, hard delete on request</span></div>
+        <div class="hosted-card"><strong>Audit logs</strong><span>Every read and write, exportable</span></div>
+        <div class="hosted-card"><strong>Export &amp; delete</strong><span>Move out anytime &mdash; no lock-in</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── Upsell to JamJet ── -->
 <section style="background: var(--bg-alt);">
   <div class="container" style="text-align: center; max-width: 600px;">
     <h2>Need more than memory?</h2>
     <p style="color: var(--text-secondary); margin: 16px 0 32px; line-height: 1.7;">
-      Engram is part of JamJet &mdash; the open-source runtime for production-safe AI agents.
-      When your agents need policy controls, audit trails, human approval, crash recovery,
-      and cost governance, JamJet has it built in.
+      Engram is part of JamJet &mdash; the open-source safety layer for AI agents.
+      When your agents need policy checks, audit trails, human approval, crash recovery,
+      and cost limits, JamJet has it built in.
     </p>
     <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
-      <a href="/" class="btn-primary">Learn about JamJet</a>
-      <a href="https://github.com/jamjet-labs/jamjet" class="btn-secondary" target="_blank" rel="noopener">GitHub</a>
+      <a href="#quickstart" class="btn-primary">Add memory to Claude Desktop</a>
+      <a href="/" class="btn-secondary">Learn about JamJet</a>
     </div>
   </div>
 </section>
@@ -498,11 +621,201 @@ engram serve --db memory.db</code></pre>
     font-family: var(--font-mono);
   }
 
+  /* ── Memory in action demos ── */
+  .demo-pair {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 40px;
+  }
+  .demo-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px 28px 28px;
+  }
+  .demo-card-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .demo-card-head strong {
+    font-size: 1rem;
+    color: var(--text);
+  }
+  .demo-tag {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--bg-alt);
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+  .demo-split {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 16px;
+    align-items: center;
+  }
+  .demo-side-label {
+    font-size: 0.72rem;
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .demo-pre {
+    background: var(--bg-code, #0e1116);
+    color: #eae8e1;
+    padding: 16px 18px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    font-family: var(--font-mono);
+    margin: 0;
+    overflow-x: auto;
+  }
+  .demo-pre .t-d { color: #888; }
+  .demo-pre .t-kw { color: #c8a2ff; }
+  .demo-pre .t-s { color: #a3d977; }
+  .demo-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text-muted);
+  }
+  .demo-arrow span {
+    font-size: 0.7rem;
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 6px;
+    color: var(--text-muted);
+  }
+  .demo-conflict {
+    text-align: center;
+  }
+  .demo-conflict svg {
+    width: 100%;
+    height: auto;
+    max-width: 480px;
+    color: var(--text);
+  }
+  .cf-node rect {
+    stroke-width: 1.5;
+    fill: var(--surface);
+    stroke: var(--border-strong, var(--border));
+  }
+  .cf-old rect {
+    stroke-dasharray: 4 3;
+    opacity: 0.7;
+  }
+  .cf-new rect { fill: var(--bg-alt); stroke: var(--text); }
+  .cf-title {
+    font-size: 11px;
+    fill: var(--text-muted);
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .cf-value {
+    font-size: 14px;
+    fill: var(--text);
+    font-family: var(--font-mono);
+    font-weight: 500;
+  }
+  .cf-meta {
+    font-size: 10px;
+    fill: var(--text-muted);
+    font-family: var(--font-sans);
+  }
+  .cf-arrow path {
+    stroke: var(--text-muted);
+    stroke-width: 1.5;
+    fill: none;
+  }
+  .cf-decision rect {
+    fill: var(--text);
+    stroke: var(--text);
+  }
+  .cf-decision-title {
+    font-size: 13px;
+    fill: var(--bg);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .cf-decision-sub {
+    font-size: 10px;
+    fill: var(--bg);
+    opacity: 0.7;
+    font-family: var(--font-sans);
+  }
+  .cf-decision-line {
+    stroke: var(--text-muted);
+    fill: none;
+  }
+  .demo-foot {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin-top: 16px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── Hosted Engram ── */
+  .hosted-engram {
+    display: grid;
+    grid-template-columns: 0.85fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .hosted-engram-text h2 { margin: 8px 0 16px; }
+  .hosted-engram-text p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+  }
+  .hosted-engram-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .hosted-card {
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .hosted-card strong {
+    display: block;
+    font-size: 0.92rem;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .hosted-card span {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
   @media (max-width: 768px) {
     .problem-grid { grid-template-columns: 1fr; }
     .features-grid { grid-template-columns: 1fr; }
     .qs-grid { grid-template-columns: 1fr; }
     .registries-grid { grid-template-columns: 1fr; }
+    .demo-split { grid-template-columns: 1fr; }
+    .demo-arrow { transform: rotate(90deg); margin: 8px 0; }
+    .hosted-engram { grid-template-columns: 1fr; gap: 32px; }
+    .hosted-engram-grid { grid-template-columns: 1fr; }
   }
 </style>
 </BaseLayout>

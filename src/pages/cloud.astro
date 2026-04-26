@@ -5,7 +5,7 @@ const cloudLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "JamJet Cloud",
-  "description": "Hosted control plane for AI agents. Drop-in governance, audit trails, hosted memory, and multi-agent visibility — for any Python (and soon Java) agent.",
+  "description": "The cockpit for agent runs. Hosted control plane with traces, policy decisions, approvals, cost guardrails, audit export, and hosted memory — for any Python or Java agent.",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Web",
   "url": "https://jamjet.dev/cloud",
@@ -14,9 +14,10 @@ const cloudLd = {
 ---
 
 <BaseLayout
-  title="JamJet Cloud — Production-safe AI agents"
-  description="The hosted control plane for AI agents. Two-line drop-in: traces, policies, audit trails, hosted memory. Multi-agent network graph + Java SDK shipping Q3 2026."
+  title="JamJet Cloud — The cockpit for agent runs"
+  description="Trace, govern, approve, replay, and audit agent runs across your team. The OSS runtime runs your agents; JamJet Cloud shows what happened, what was blocked, and what needs review."
   canonical="https://jamjet.dev/cloud"
+  currentPage="cloud"
 >
 <Fragment slot="head">
   <script type="application/ld+json" set:html={JSON.stringify(cloudLd)}></script>
@@ -25,86 +26,297 @@ const cloudLd = {
 <!-- ── Hero ── -->
 <section class="cloud-hero">
   <div class="cloud-hero-inner">
-    <span class="section-label">JamJet Cloud</span>
-    <h1>Production-safe<br/>AI agents.</h1>
+    <span class="cloud-pill">JamJet Cloud</span>
+    <h1>The cockpit<br/>for agent runs.</h1>
     <p class="cloud-sub">
-      The hosted control plane for your agent fleet. Two lines of Python add traces,
-      policies, audit trails, and hosted memory to any OpenAI or Anthropic agent.
-      Open-source JamJet stays free; Cloud is the paid surface for teams that need
-      shared visibility, retained audit, and multi-agent governance.
+      Trace, govern, approve, replay, and audit agent runs across your team.
+      The open-source runtime runs your agents. Cloud shows what happened, what was blocked,
+      what needs approval, where cost is going, and what can be replayed.
     </p>
     <div class="cloud-actions">
       <a href="https://app.jamjet.dev" class="btn-primary">Sign up free</a>
-      <a href="https://docs.jamjet.dev/docs/en/cloud-quickstart" class="btn-secondary">Quickstart</a>
+      <a href="#features" class="btn-secondary">See the cockpit &darr;</a>
     </div>
     <p class="cloud-note">
-      <strong>jamjet 0.6.0 is on PyPI</strong> &mdash; <code>pip install jamjet[openai]</code>
+      <code>pip install jamjet[openai]</code> &middot; two lines, then the dashboard fills in.
+    </p>
+  </div>
+
+  <!-- Creative architecture diagram -->
+  <div class="cloud-arch">
+    <svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture: agents emit events to the JamJet Cloud control plane, where traces, policies, approvals, costs, and audit live for the team">
+      <!-- Left: agents -->
+      <g class="arch-cluster">
+        <rect x="20" y="40" width="170" height="200" rx="10" fill="none" stroke="currentColor" stroke-opacity="0.15" stroke-dasharray="4 4" />
+        <text x="105" y="32" text-anchor="middle" class="arch-label">Your runtime</text>
+
+        <g class="arch-node">
+          <rect x="40" y="60" width="130" height="38" rx="6" />
+          <text x="105" y="84" text-anchor="middle">Python agent</text>
+        </g>
+        <g class="arch-node">
+          <rect x="40" y="110" width="130" height="38" rx="6" />
+          <text x="105" y="134" text-anchor="middle">Java @DurableAgent</text>
+        </g>
+        <g class="arch-node">
+          <rect x="40" y="160" width="130" height="38" rx="6" />
+          <text x="105" y="184" text-anchor="middle">MCP / A2A peers</text>
+        </g>
+        <g class="arch-node arch-engram">
+          <rect x="40" y="210" width="130" height="22" rx="6" />
+          <text x="105" y="226" text-anchor="middle">Engram local</text>
+        </g>
+      </g>
+
+      <!-- Wires to center -->
+      <g class="arch-wire">
+        <path d="M190 79 Q260 79 290 110" />
+        <path d="M190 129 Q260 129 290 130" />
+        <path d="M190 179 Q260 179 290 150" />
+      </g>
+
+      <!-- Center: Cloud -->
+      <g class="arch-cloud">
+        <rect x="290" y="60" width="200" height="160" rx="14" />
+        <text x="390" y="92" text-anchor="middle" class="arch-cloud-title">JamJet Cloud</text>
+        <text x="390" y="112" text-anchor="middle" class="arch-cloud-sub">control plane</text>
+
+        <g class="arch-chip"><rect x="306" y="128" width="80" height="22" rx="4"/><text x="346" y="143" text-anchor="middle">traces</text></g>
+        <g class="arch-chip"><rect x="394" y="128" width="80" height="22" rx="4"/><text x="434" y="143" text-anchor="middle">policy</text></g>
+        <g class="arch-chip"><rect x="306" y="156" width="80" height="22" rx="4"/><text x="346" y="171" text-anchor="middle">approvals</text></g>
+        <g class="arch-chip"><rect x="394" y="156" width="80" height="22" rx="4"/><text x="434" y="171" text-anchor="middle">cost</text></g>
+        <g class="arch-chip"><rect x="306" y="184" width="80" height="22" rx="4"/><text x="346" y="199" text-anchor="middle">audit</text></g>
+        <g class="arch-chip"><rect x="394" y="184" width="80" height="22" rx="4"/><text x="434" y="199" text-anchor="middle">replay</text></g>
+      </g>
+
+      <!-- Wires out to team -->
+      <g class="arch-wire">
+        <path d="M490 110 Q560 110 590 79" />
+        <path d="M490 140 Q560 140 590 129" />
+        <path d="M490 170 Q560 170 590 179" />
+      </g>
+
+      <!-- Right: team -->
+      <g class="arch-cluster">
+        <rect x="590" y="40" width="150" height="200" rx="10" fill="none" stroke="currentColor" stroke-opacity="0.15" stroke-dasharray="4 4" />
+        <text x="665" y="32" text-anchor="middle" class="arch-label">Your team</text>
+
+        <g class="arch-node arch-person">
+          <rect x="610" y="60" width="110" height="38" rx="6" />
+          <text x="665" y="84" text-anchor="middle">Builders</text>
+        </g>
+        <g class="arch-node arch-person">
+          <rect x="610" y="110" width="110" height="38" rx="6" />
+          <text x="665" y="134" text-anchor="middle">Platform</text>
+        </g>
+        <g class="arch-node arch-person">
+          <rect x="610" y="160" width="110" height="38" rx="6" />
+          <text x="665" y="184" text-anchor="middle">Compliance</text>
+        </g>
+        <g class="arch-node arch-engram">
+          <rect x="610" y="210" width="110" height="22" rx="6" />
+          <text x="665" y="226" text-anchor="middle">SIEM export</text>
+        </g>
+      </g>
+    </svg>
+    <p class="cloud-arch-caption">
+      OSS runtime stays free. Cloud is the cockpit.
     </p>
   </div>
 </section>
 
-<!-- ── Two-line snippet ── -->
-<section class="cloud-section">
+<!-- ── Two-line drop-in ── -->
+<section class="cloud-section cloud-section-alt">
   <div class="cloud-section-inner">
-    <h2>Two lines. Then your agent is governed.</h2>
+    <span class="section-label">Two lines</span>
+    <h2>Then the dashboard fills in.</h2>
     <pre class="cloud-code"><code>{`import jamjet.cloud as jamjet
 from openai import OpenAI
 
-jamjet.configure(api_key="jj_xxxxxxxxxxxx", project="my-agent")
+jamjet.configure(api_key="jj_xxxx", project="my-agent")  # 1
+# 2: every OpenAI / Anthropic call is captured automatically
 
-# Every OpenAI / Anthropic call is now captured automatically.
 OpenAI().chat.completions.create(
     model="gpt-4o-mini",
     messages=[{"role": "user", "content": "hello"}],
 )`}</code></pre>
-    <p>
-      Open <a href="https://app.jamjet.dev/dashboard/traces">app.jamjet.dev/dashboard/traces</a>
-      &mdash; the call appears within ~5 seconds with model, token counts, cost, and duration.
+    <p class="cloud-section-note">
+      Open <a href="https://app.jamjet.dev/dashboard/traces">app.jamjet.dev/dashboard/traces</a>.
+      The call appears within ~5 seconds with model, token counts, cost, latency, and the policy decisions that ran.
     </p>
   </div>
 </section>
 
-<!-- ── What's included ── -->
+<!-- ── Six features ── -->
+<section id="features" class="cloud-section">
+  <div class="cloud-section-inner cloud-features-wide">
+    <span class="section-label">In Cloud today</span>
+    <h2>Six surfaces for the team that ships agents.</h2>
+    <div class="cloud-feature-grid">
+      <div class="cloud-feature-card">
+        <div class="cloud-feature-glyph">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="6" y1="10" x2="26" y2="10"/><line x1="6" y1="16" x2="26" y2="16"/><line x1="6" y1="22" x2="20" y2="22"/>
+            <circle cx="10" cy="10" r="2" fill="currentColor"/><circle cx="18" cy="16" r="2" fill="currentColor"/><circle cx="14" cy="22" r="2" fill="currentColor"/>
+          </svg>
+        </div>
+        <strong>Trace timeline</strong>
+        <p>Every model call, tool call, policy decision, approval, and checkpoint &mdash; in order, with cost and latency on each row.</p>
+      </div>
+      <div class="cloud-feature-card">
+        <div class="cloud-feature-glyph">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 4l10 4v8c0 6-4 10-10 12C10 26 6 22 6 16V8z"/>
+            <line x1="11" y1="11" x2="21" y2="21"/><line x1="21" y1="11" x2="11" y2="21"/>
+          </svg>
+        </div>
+        <strong>Policy violations</strong>
+        <p>What was blocked, why, and how to fix it. 4-level rule hierarchy with diff-friendly history.</p>
+      </div>
+      <div class="cloud-feature-card">
+        <div class="cloud-feature-glyph">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="8" width="20" height="16" rx="2"/>
+            <path d="M11 16l3 3 7-7"/>
+          </svg>
+        </div>
+        <strong>Approval queue</strong>
+        <p>High-risk actions wait. Reviewer assignment, SLA, and per-tool routing. Decisions land in the audit log.</p>
+      </div>
+      <div class="cloud-feature-card">
+        <div class="cloud-feature-glyph">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6,24 12,16 18,20 26,8"/>
+            <line x1="6" y1="28" x2="26" y2="28"/>
+            <circle cx="26" cy="8" r="3"/>
+          </svg>
+        </div>
+        <strong>Cost guardrails</strong>
+        <p>Track and enforce spend per agent, run, and environment. Alerts before limits hit; hard caps stop the call.</p>
+      </div>
+      <div class="cloud-feature-card">
+        <div class="cloud-feature-glyph">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="8" y="4" width="16" height="24" rx="2"/>
+            <line x1="12" y1="10" x2="20" y2="10"/><line x1="12" y1="14" x2="20" y2="14"/><line x1="12" y1="18" x2="16" y2="18"/>
+            <path d="M19 22l2 2 4-4"/>
+          </svg>
+        </div>
+        <strong>Audit export</strong>
+        <p>Evidence packages for incidents, reviews, and compliance. CSV, JSON, PDF, or SIEM-ready stream.</p>
+      </div>
+      <div class="cloud-feature-card">
+        <div class="cloud-feature-glyph">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="10" cy="10" r="3"/><circle cx="22" cy="10" r="3"/><circle cx="16" cy="22" r="3"/>
+            <line x1="13" y1="10" x2="19" y2="10"/><line x1="11" y1="13" x2="15" y2="20"/><line x1="21" y1="13" x2="17" y2="20"/>
+          </svg>
+        </div>
+        <strong>Hosted Engram</strong>
+        <p>Shared memory for agents and teams. Same MCP API, no Postgres to run, retention controls per project.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── OSS vs Cloud ── -->
+<section class="cloud-section cloud-section-alt">
+  <div class="cloud-section-inner">
+    <span class="section-label">OSS vs Cloud</span>
+    <h2>Everything local stays free.</h2>
+    <p class="cloud-section-intro">
+      The runtime, Engram, and SDKs are Apache 2.0 forever. Cloud adds the team surface
+      &mdash; shared traces, hosted memory, retained audit, and approvals across people.
+    </p>
+    <div class="osvc-table">
+      <div class="osvc-row osvc-head">
+        <div>Capability</div>
+        <div>OSS runtime</div>
+        <div>JamJet Cloud</div>
+      </div>
+      <div class="osvc-row"><div>Local execution &amp; durability</div><div class="yes">Yes</div><div class="yes">Yes</div></div>
+      <div class="osvc-row"><div>Policy engine</div><div class="yes">Yes</div><div class="yes">Yes</div></div>
+      <div class="osvc-row"><div>Audit log (local)</div><div class="yes">Yes</div><div class="yes">Yes</div></div>
+      <div class="osvc-row"><div>Engram memory</div><div class="yes">Self-hosted</div><div class="yes">Hosted</div></div>
+      <div class="osvc-row"><div>Trace dashboard</div><div class="partial">Local web companion</div><div class="yes">Team-wide</div></div>
+      <div class="osvc-row"><div>Approval queue across reviewers</div><div class="partial">API only</div><div class="yes">Hosted UI + SLA</div></div>
+      <div class="osvc-row"><div>Retention &amp; SIEM export</div><div class="no">Manual</div><div class="yes">Built-in</div></div>
+      <div class="osvc-row"><div>SSO / RBAC / projects</div><div class="no">&mdash;</div><div class="yes">Team / Enterprise</div></div>
+      <div class="osvc-row"><div>Cross-agent trace propagation</div><div class="partial">Manual</div><div class="yes">W3C traceparent</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Pricing / waitlist ── -->
 <section class="cloud-section">
   <div class="cloud-section-inner">
-    <h2>What's in Cloud today</h2>
-    <ul class="cloud-features">
-      <li><strong>Trace dashboard.</strong> Every LLM call captured with token counts, cost, latency, model, status. Auto-instruments OpenAI and Anthropic.</li>
-      <li><strong>Policy filtering.</strong> Block tools by name pattern; require human approval for sensitive actions.</li>
-      <li><strong>Budget caps.</strong> Hard spend limit per process; SDK raises before the call goes out.</li>
-      <li><strong>Approval queue.</strong> Pause execution until a human approves in the dashboard.</li>
-      <li><strong>Append-only audit log.</strong> Every policy decision and approval recorded.</li>
-      <li><strong>Cost analytics.</strong> Per-project, per-model breakdowns.</li>
-      <li><strong>Three-tier rate limiting.</strong> Per-IP, per-API-key, per-IP — env-tunable for self-hosted.</li>
-    </ul>
+    <span class="section-label">Plans</span>
+    <h2>Start free. Pay when your team needs it.</h2>
+    <div class="plans-grid">
+      <div class="plan-card">
+        <div class="plan-name">OSS</div>
+        <div class="plan-price">Free, forever</div>
+        <p class="plan-desc">Apache 2.0. Self-host the runtime and Engram. Unlimited.</p>
+        <ul class="plan-list">
+          <li>Runtime, Engram, all SDKs</li>
+          <li>Local traces &amp; audit</li>
+          <li>Policy + approvals via API</li>
+          <li>Community Discord</li>
+        </ul>
+        <a href="https://github.com/jamjet-labs/jamjet" class="btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
+      <div class="plan-card plan-card-featured">
+        <div class="plan-name">Cloud Free</div>
+        <div class="plan-price">$0</div>
+        <p class="plan-desc">For solo developers. No card, no commitment.</p>
+        <ul class="plan-list">
+          <li>1k traces / month</li>
+          <li>7-day retention</li>
+          <li>Hosted Engram (1 project)</li>
+          <li>Approval queue (1 reviewer)</li>
+        </ul>
+        <a href="https://app.jamjet.dev" class="btn-primary">Sign up free</a>
+      </div>
+      <div class="plan-card">
+        <div class="plan-name">Team</div>
+        <div class="plan-price">Coming soon</div>
+        <p class="plan-desc">For small teams shipping agents together.</p>
+        <ul class="plan-list">
+          <li>Higher trace volume</li>
+          <li>Projects + reviewer roles</li>
+          <li>Retention controls</li>
+          <li>Cost guardrails per project</li>
+        </ul>
+        <a href="mailto:hello@jamjet.dev?subject=JamJet%20Cloud%20Team%20waitlist" class="btn-secondary">Join waitlist</a>
+      </div>
+      <div class="plan-card">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-price">Talk to us</div>
+        <p class="plan-desc">For regulated teams &amp; self-hosted control planes.</p>
+        <ul class="plan-list">
+          <li>SSO / SAML / OIDC</li>
+          <li>RBAC + tenant isolation</li>
+          <li>SIEM export, audit retention</li>
+          <li>Self-hosted option</li>
+        </ul>
+        <a href="mailto:hello@jamjet.dev?subject=JamJet%20Cloud%20Enterprise" class="btn-secondary">Contact us</a>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ── What's coming ── -->
-<section class="cloud-section">
+<section class="cloud-section cloud-section-alt">
   <div class="cloud-section-inner">
-    <h2>What's coming</h2>
-    <ul class="cloud-features">
-      <li><strong>Multi-agent network graph (Q3 2026).</strong> Live force-directed view of how your agents communicate &mdash; nodes are agents and MCP servers, edges show calls, costs, error rates. Drill down to traces.</li>
-      <li><strong>Java cloud SDK (Q3 2026).</strong> Same drop-in for Spring AI / LangChain4j developers. Auto-instruments <code>ChatClient</code>, <code>ChatModel</code>.</li>
+    <span class="section-label">Roadmap</span>
+    <h2>What's coming next.</h2>
+    <ul class="cloud-coming">
+      <li><strong>Multi-agent network graph (Q3 2026).</strong> Force-directed view of how your agents communicate &mdash; nodes are agents and MCP servers, edges show calls, costs, error rates. Drill down to traces.</li>
+      <li><strong>Java cloud SDK (Q3 2026).</strong> Same drop-in for Spring AI / LangChain4j. Auto-instruments <code>ChatClient</code> and <code>ChatModel</code>.</li>
       <li><strong>Cross-agent trace propagation.</strong> When agent A calls agent B (over A2A or MCP), traces link automatically. W3C <code>traceparent</code> + custom <code>tracestate</code>.</li>
-      <li><strong>Hosted Engram, bundled.</strong> Memory becomes a Cloud feature, scoped per agent, shared across an agent fleet. Open-source Engram local mode stays free.</li>
-      <li><strong>Centralized policy with AIP delegation chains.</strong> Visualize who-authorized-what. Compliance-grade audit.</li>
-      <li><strong>Replay.</strong> Re-run any trace with input recordings. Ideal for debugging incidents or testing prompt changes.</li>
-      <li><strong>OTel GenAI ingestion.</strong> Point your existing Phoenix / OpenLLMetry / Langfuse-instrumented apps at JamJet without an SDK migration.</li>
-    </ul>
-  </div>
-</section>
-
-<!-- ── Why Cloud (not just LangSmith) ── -->
-<section class="cloud-section">
-  <div class="cloud-section-inner">
-    <h2>What makes Cloud different</h2>
-    <ul class="cloud-features">
-      <li><strong>Polyglot control plane (when Q3 ships).</strong> Python (Rust runtime) + Java (embedded runtime) &mdash; one dashboard. No competitor does this. LangSmith is Python-only and LangChain-coupled.</li>
-      <li><strong>Built around agent identity.</strong> Agents are first-class entities, not just spans. Agent Cards, A2A, native MCP server &mdash; folded into the dashboard, not bolted on.</li>
-      <li><strong>Drop-in governance, not observability.</strong> LangSmith owns observability. Cloud owns policy, audit, and approval as a service &mdash; for compliance and security teams, not just data science.</li>
-      <li><strong>Vertical from runtime to dashboard.</strong> JamJet runtime + JamJet Cloud are one vendor. Audit trails are end-to-end, not stitched.</li>
+      <li><strong>Centralized policy with delegation chains.</strong> Visualize who-authorized-what. Compliance-grade audit.</li>
+      <li><strong>Trace replay.</strong> Re-run any trace with input recordings. Debug incidents or test prompt changes against real history.</li>
+      <li><strong>OTel GenAI ingestion.</strong> Point existing Phoenix / OpenLLMetry / Langfuse-instrumented apps at JamJet without an SDK migration.</li>
     </ul>
   </div>
 </section>
@@ -112,117 +324,355 @@ OpenAI().chat.completions.create(
 <!-- ── CTA ── -->
 <section class="cloud-cta">
   <div class="cloud-cta-inner">
-    <h2>Ready to ship agents you trust?</h2>
+    <h2>Send your first trace.</h2>
+    <p class="cloud-cta-sub">
+      Two lines of Python and the dashboard fills in. No credit card.
+    </p>
     <div class="cloud-actions">
       <a href="https://app.jamjet.dev" class="btn-primary">Sign up free</a>
-      <a href="https://docs.jamjet.dev/docs/en/cloud-quickstart" class="btn-secondary">Read the quickstart</a>
+      <a href="https://docs.jamjet.dev/en/docs/cloud-quickstart" class="btn-secondary">Read the quickstart</a>
     </div>
-    <p class="cloud-note">
-      Open-source JamJet runtime, Engram local, Python and Java SDKs &mdash; always free.
-      Cloud free tier is 1k traces / month, 7-day retention. No credit card.
-    </p>
   </div>
 </section>
 
 <style>
   .cloud-hero {
-    padding: 6rem 1.5rem 4rem;
+    padding: 5rem 1.5rem 2rem;
     text-align: center;
   }
-  .cloud-hero-inner {
-    max-width: 760px;
-    margin: 0 auto;
+  .cloud-hero-inner { max-width: 760px; margin: 0 auto; }
+  .cloud-pill {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
   }
   .cloud-hero h1 {
     font-size: clamp(2.5rem, 6vw, 4rem);
     line-height: 1.05;
-    margin: 0.5rem 0 1.5rem;
+    margin: 8px 0 24px;
   }
   .cloud-sub {
-    font-size: 1.125rem;
-    line-height: 1.6;
-    color: var(--text-secondary, #555);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
     max-width: 640px;
     margin: 0 auto 2rem;
   }
   .cloud-actions {
     display: flex;
-    gap: 0.75rem;
+    gap: 12px;
     justify-content: center;
     flex-wrap: wrap;
   }
-  .btn-primary, .btn-secondary {
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    text-decoration: none;
+  .cloud-note {
+    margin-top: 1.25rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .cloud-note code {
+    background: var(--surface-code, var(--bg-alt));
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+  }
+
+  /* Architecture diagram */
+  .cloud-arch {
+    max-width: 880px;
+    margin: 48px auto 0;
+    padding: 0 1rem;
+    text-align: center;
+  }
+  .cloud-arch svg {
+    width: 100%;
+    height: auto;
+    color: var(--text);
+  }
+  .cloud-arch .arch-label {
+    font-size: 11px;
+    fill: var(--text-muted);
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .cloud-arch .arch-node rect {
+    fill: var(--surface);
+    stroke: var(--border);
+    stroke-width: 1;
+  }
+  .cloud-arch .arch-node text {
+    font-size: 12px;
+    fill: var(--text);
+    font-family: var(--font-sans);
+  }
+  .cloud-arch .arch-engram rect { fill: var(--bg-alt); }
+  .cloud-arch .arch-engram text { fill: var(--text-muted); font-size: 11px; }
+  .cloud-arch .arch-person rect { fill: var(--surface); }
+  .cloud-arch .arch-cloud rect {
+    fill: var(--text);
+    stroke: var(--text);
+  }
+  .cloud-arch .arch-cloud-title {
+    font-size: 15px;
+    fill: var(--bg);
+    font-family: var(--font-sans);
     font-weight: 600;
   }
-  .btn-primary {
-    background: var(--brand, #f5c518);
-    color: #111;
+  .cloud-arch .arch-cloud-sub {
+    font-size: 11px;
+    fill: var(--bg);
+    opacity: 0.7;
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
   }
-  .btn-secondary {
-    background: transparent;
-    border: 1px solid var(--border, #ccc);
-    color: inherit;
+  .cloud-arch .arch-chip rect {
+    fill: var(--bg);
+    opacity: 0.18;
   }
-  .cloud-note {
-    margin-top: 1.5rem;
-    font-size: 0.9rem;
-    color: var(--text-tertiary, #888);
+  .cloud-arch .arch-chip text {
+    font-size: 11px;
+    fill: var(--bg);
+    font-family: var(--font-sans);
+    font-weight: 500;
   }
+  .cloud-arch .arch-wire path {
+    fill: none;
+    stroke: currentColor;
+    stroke-opacity: 0.35;
+    stroke-width: 1.5;
+    stroke-dasharray: 3 3;
+  }
+  .cloud-arch-caption {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 16px;
+  }
+
+  /* Sections */
   .cloud-section {
-    padding: 4rem 1.5rem;
-    border-top: 1px solid var(--border, #eee);
+    padding: 5rem 1.5rem;
   }
+  .cloud-section-alt { background: var(--bg-alt); }
   .cloud-section-inner {
-    max-width: 760px;
+    max-width: 920px;
     margin: 0 auto;
   }
+  .cloud-features-wide { max-width: 1080px; }
   .cloud-section h2 {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    margin-bottom: 1.5rem;
+    font-size: clamp(1.6rem, 3.6vw, 2.25rem);
+    margin: 8px 0 16px;
+  }
+  .cloud-section-intro {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 640px;
+    margin: 0 0 32px;
+  }
+  .cloud-section-note {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 16px;
+    line-height: 1.6;
   }
   .cloud-code {
-    background: #0e1116;
+    background: var(--bg-code, #0e1116);
     color: #e6e6e6;
-    padding: 1.25rem;
-    border-radius: 8px;
+    padding: 18px 22px;
+    border-radius: 10px;
     overflow-x: auto;
-    font-size: 0.875rem;
-    line-height: 1.55;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    font-family: var(--font-mono);
   }
-  .cloud-features {
+
+  /* Feature cards */
+  .cloud-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 32px;
+  }
+  .cloud-feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 22px 24px;
+  }
+  .cloud-feature-glyph {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--bg-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+  .cloud-feature-glyph svg { width: 20px; height: 20px; }
+  .cloud-feature-card strong {
+    display: block;
+    font-size: 0.98rem;
+    margin-bottom: 6px;
+  }
+  .cloud-feature-card p {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* OSS vs Cloud table */
+  .osvc-table {
+    margin-top: 24px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .osvc-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 16px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.92rem;
+    align-items: center;
+  }
+  .osvc-row:last-child { border-bottom: 0; }
+  .osvc-head {
+    background: var(--bg-alt);
+    font-size: 0.75rem;
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .osvc-row .yes { color: var(--text); font-weight: 500; }
+  .osvc-row .partial { color: var(--text-muted); }
+  .osvc-row .no { color: var(--text-muted); opacity: 0.5; }
+
+  /* Plans */
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .plan-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+  }
+  .plan-card-featured {
+    border-color: var(--text);
+    border-width: 2px;
+  }
+  .plan-name {
+    font-size: 0.78rem;
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .plan-price {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 6px 0 10px;
+  }
+  .plan-desc {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    line-height: 1.55;
+    margin: 0 0 16px;
+    min-height: 40px;
+  }
+  .plan-list {
     list-style: none;
     padding: 0;
-    display: grid;
-    gap: 1rem;
+    margin: 0 0 20px;
+    flex: 1;
   }
-  .cloud-features li {
-    padding: 1rem 1.25rem;
-    border-radius: 8px;
-    background: var(--surface, #f8f8f6);
-    border: 1px solid var(--border, #eee);
+  .plan-list li {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    padding: 4px 0;
+    border-top: 1px solid var(--border);
   }
-  .cloud-cta {
-    padding: 5rem 1.5rem 6rem;
+  .plan-list li:first-child { border-top: 0; }
+  .plan-card .btn-primary, .plan-card .btn-secondary {
     text-align: center;
-    border-top: 1px solid var(--border, #eee);
+    width: 100%;
   }
-  .cloud-cta-inner {
-    max-width: 720px;
-    margin: 0 auto;
+
+  /* What's coming */
+  .cloud-coming {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0;
+    display: grid;
+    gap: 14px;
   }
-  .section-label {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 12px;
-    background: var(--brand, #f5c518);
-    color: #111;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+  .cloud-coming li {
+    padding: 16px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .cloud-coming strong { color: var(--text); }
+  .cloud-coming code {
+    background: var(--bg-alt);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+  }
+
+  /* Final CTA */
+  .cloud-cta {
+    padding: 6rem 1.5rem;
+    text-align: center;
+    background: var(--bg-alt);
+  }
+  .cloud-cta-inner { max-width: 600px; margin: 0 auto; }
+  .cloud-cta h2 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    margin-bottom: 12px;
+  }
+  .cloud-cta-sub {
+    color: var(--text-secondary);
+    margin-bottom: 28px;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 900px) {
+    .cloud-feature-grid { grid-template-columns: repeat(2, 1fr); }
+    .plans-grid { grid-template-columns: repeat(2, 1fr); }
+    .osvc-row { grid-template-columns: 1.4fr 1fr 1fr; gap: 8px; font-size: 0.85rem; padding: 12px 14px; }
+  }
+  @media (max-width: 600px) {
+    .cloud-feature-grid { grid-template-columns: 1fr; }
+    .plans-grid { grid-template-columns: 1fr; }
+    .osvc-row { grid-template-columns: 1fr; }
+    .osvc-row > div + div::before { content: attr(data-h); display: none; }
   }
 </style>
 </BaseLayout>

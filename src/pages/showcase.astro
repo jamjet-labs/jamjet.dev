@@ -151,11 +151,239 @@ const showcaseLd = {
   </div>
 </section>
 
-<!-- ── Zone 3: Use Case Cards ── -->
-<section>
+<!-- ── Failure Modes Gallery ── -->
+<section class="failure-modes">
   <div class="container">
-    <span class="section-label">Examples</span>
-    <h2>How teams use JamJet in production</h2>
+    <span class="section-label">Failure modes</span>
+    <h2 class="fm-title">Six things that go wrong with agents.<br/>Six gates that catch them.</h2>
+    <p class="fm-intro">Click any failure mode to see the runtime intervene. Each demo shows what your code looked like, what JamJet logged, and what the runtime decided.</p>
+
+    <div class="fm-tabs" role="tablist">
+      <button class="fm-tab active" data-fm="crash" role="tab">
+        <span class="fm-tab-num">1</span>
+        <span class="fm-tab-name">Lost progress</span>
+      </button>
+      <button class="fm-tab" data-fm="tool" role="tab">
+        <span class="fm-tab-num">2</span>
+        <span class="fm-tab-name">Unsafe tool</span>
+      </button>
+      <button class="fm-tab" data-fm="approval" role="tab">
+        <span class="fm-tab-num">3</span>
+        <span class="fm-tab-name">Skipped approval</span>
+      </button>
+      <button class="fm-tab" data-fm="budget" role="tab">
+        <span class="fm-tab-num">4</span>
+        <span class="fm-tab-name">Runaway cost</span>
+      </button>
+      <button class="fm-tab" data-fm="audit" role="tab">
+        <span class="fm-tab-num">5</span>
+        <span class="fm-tab-name">Missing audit</span>
+      </button>
+      <button class="fm-tab" data-fm="memory" role="tab">
+        <span class="fm-tab-num">6</span>
+        <span class="fm-tab-name">Forgotten context</span>
+      </button>
+    </div>
+
+    <div class="fm-stage">
+      <!-- 1. Crash -->
+      <div class="fm-panel active" data-fm="crash" role="tabpanel">
+        <div class="fm-panel-head">
+          <strong>The worker dies mid-run.</strong>
+          <span>Crash recovery</span>
+        </div>
+        <div class="fm-grid">
+          <div class="fm-block">
+            <div class="fm-block-label">Your code</div>
+            <pre class="fm-code"><code><span class="t-p">@</span><span class="t-b">workflow</span>
+<span class="t-kw">async def</span> <span class="t-b">pipeline</span><span class="t-p">(</span><span class="t-w">data</span><span class="t-p">):</span>
+    <span class="t-w">a</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">analyze</span><span class="t-p">(</span><span class="t-w">data</span><span class="t-p">)</span>     <span class="t-d"># crash here</span>
+    <span class="t-w">b</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">synthesize</span><span class="t-p">(</span><span class="t-w">a</span><span class="t-p">)</span>
+    <span class="t-kw">return</span> <span class="t-w">b</span></code></pre>
+          </div>
+          <div class="fm-block">
+            <div class="fm-block-label">Runtime</div>
+            <pre class="fm-term"><code>▸ [analyze]    <span class="fm-bad">✗ worker crashed at 1.4s</span>
+▸ Lease expired · scheduler reclaiming...
+▸ [analyze]    <span class="fm-good">✓ resumed (event-sourced) 920ms</span>
+▸ [synthesize] <span class="fm-good">✓ completed 1.1s</span>
+▸ exec_7f3a · <span class="fm-good">0 events lost · 0 reruns</span></code></pre>
+          </div>
+        </div>
+        <div class="fm-outcome">
+          <span class="fm-outcome-label">What JamJet did</span>
+          <p>Reclaimed the lease, replayed the event log, and resumed at the exact failed node. Completed steps were not re-run.</p>
+        </div>
+      </div>
+
+      <!-- 2. Unsafe tool -->
+      <div class="fm-panel" data-fm="tool" role="tabpanel" hidden>
+        <div class="fm-panel-head">
+          <strong>The agent reaches for a tool it shouldn't.</strong>
+          <span>Policy enforcement</span>
+        </div>
+        <div class="fm-grid">
+          <div class="fm-block">
+            <div class="fm-block-label">Your code</div>
+            <pre class="fm-code"><code><span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span><span class="t-w">tools</span><span class="t-p">=[</span><span class="t-w">search</span><span class="t-p">,</span> <span class="t-w">read_files</span><span class="t-p">])</span>
+<span class="t-kw">async def</span> <span class="t-b">assistant</span><span class="t-p">(</span><span class="t-w">q</span><span class="t-p">):</span>
+    <span class="t-d"># `delete_database` is NOT in the allow-list</span>
+    <span class="t-kw">return await</span> <span class="t-w">agent</span><span class="t-p">.</span><span class="t-b">run</span><span class="t-p">(</span><span class="t-w">q</span><span class="t-p">)</span></code></pre>
+          </div>
+          <div class="fm-block">
+            <div class="fm-block-label">Runtime</div>
+            <pre class="fm-term"><code>▸ [assistant]  agent requests tool: <span class="fm-bad">delete_database</span>
+▸ Policy:      ALLOWED_TOOLS = &#123;search, read_files&#125;
+▸ Decision:    <span class="fm-bad">BLOCKED</span> · tool not in allow-list
+▸ Audit:       evt_a3b8 → policy.deny[delete_database]
+▸ Agent:       receives "tool unavailable; pick another"</code></pre>
+          </div>
+        </div>
+        <div class="fm-outcome">
+          <span class="fm-outcome-label">What JamJet did</span>
+          <p>Blocked the tool call before execution. The audit log records what was attempted, who attempted it, and why it was denied.</p>
+        </div>
+      </div>
+
+      <!-- 3. Approval -->
+      <div class="fm-panel" data-fm="approval" role="tabpanel" hidden>
+        <div class="fm-panel-head">
+          <strong>A high-risk action waits for a human.</strong>
+          <span>Durable approval</span>
+        </div>
+        <div class="fm-grid">
+          <div class="fm-block">
+            <div class="fm-block-label">Your code</div>
+            <pre class="fm-code"><code><span class="t-p">@</span><span class="t-b">workflow</span>
+<span class="t-kw">async def</span> <span class="t-b">transfer</span><span class="t-p">(</span><span class="t-w">amount</span><span class="t-p">,</span> <span class="t-w">to</span><span class="t-p">):</span>
+    <span class="t-kw">await</span> <span class="t-w">guard</span><span class="t-p">.</span><span class="t-b">requires_approval</span><span class="t-p">(</span>
+        <span class="t-w">action</span><span class="t-p">=</span><span class="t-s">"wire_transfer"</span><span class="t-p">,</span>
+        <span class="t-w">amount</span><span class="t-p">=</span><span class="t-w">amount</span><span class="t-p">,</span>
+    <span class="t-p">)</span>
+    <span class="t-kw">return await</span> <span class="t-w">bank</span><span class="t-p">.</span><span class="t-b">send</span><span class="t-p">(</span><span class="t-w">amount</span><span class="t-p">,</span> <span class="t-w">to</span><span class="t-p">)</span></code></pre>
+          </div>
+          <div class="fm-block">
+            <div class="fm-block-label">Runtime</div>
+            <pre class="fm-term"><code>▸ [transfer]   action: wire_transfer · $50,000
+▸ [approval]   <span class="fm-warn">suspended</span> · approver: cfo@acme.com
+  <span class="fm-dim">...worker restarts after deploy...</span>
+▸ [approval]   resumed · still waiting (durable)
+▸ [approval]   <span class="fm-good">approved by cfo@acme.com at 14:08</span>
+▸ [bank.send]  <span class="fm-good">✓ completed 1.8s</span></code></pre>
+          </div>
+        </div>
+        <div class="fm-outcome">
+          <span class="fm-outcome-label">What JamJet did</span>
+          <p>Suspended the run durably until a human decided. Survived a worker restart. Resumed only after the approval landed in the audit log.</p>
+        </div>
+      </div>
+
+      <!-- 4. Budget -->
+      <div class="fm-panel" data-fm="budget" role="tabpanel" hidden>
+        <div class="fm-panel-head">
+          <strong>The reflection loop won't stop spending.</strong>
+          <span>Cost guardrail</span>
+        </div>
+        <div class="fm-grid">
+          <div class="fm-block">
+            <div class="fm-block-label">Your code</div>
+            <pre class="fm-code"><code><span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span>
+    <span class="t-w">strategy</span><span class="t-p">=</span><span class="t-s">"reflection"</span><span class="t-p">,</span>
+    <span class="t-w">max_iters</span><span class="t-p">=</span><span class="t-y">8</span><span class="t-p">,</span>
+    <span class="t-w">max_cost</span><span class="t-p">=</span><span class="t-y">0.50</span><span class="t-p">,</span>
+<span class="t-p">)</span>
+<span class="t-kw">async def</span> <span class="t-b">reasoner</span><span class="t-p">(</span><span class="t-w">q</span><span class="t-p">):</span>
+    <span class="t-kw">return await</span> <span class="t-b">loop_until_confident</span><span class="t-p">(</span><span class="t-w">q</span><span class="t-p">)</span></code></pre>
+          </div>
+          <div class="fm-block">
+            <div class="fm-block-label">Runtime</div>
+            <pre class="fm-term"><code>▸ [reasoner]   iter 1 · $0.08 · confidence 0.62
+▸ [reasoner]   iter 2 · $0.16 · confidence 0.71
+▸ [reasoner]   iter 3 · $0.27 · confidence 0.78
+▸ [reasoner]   iter 4 · $0.41 · confidence 0.81
+▸ Budget:      $0.41 + projected $0.18 <span class="fm-bad">&gt; cap $0.50</span>
+▸ Decision:    <span class="fm-warn">HALT</span> · returning best-so-far (0.81)</code></pre>
+          </div>
+        </div>
+        <div class="fm-outcome">
+          <span class="fm-outcome-label">What JamJet did</span>
+          <p>The runtime stopped the loop before it exceeded the cost cap. The best-so-far answer was returned with full cost telemetry attached.</p>
+        </div>
+      </div>
+
+      <!-- 5. Audit -->
+      <div class="fm-panel" data-fm="audit" role="tabpanel" hidden>
+        <div class="fm-panel-head">
+          <strong>Compliance asks for evidence of what happened.</strong>
+          <span>Audit export</span>
+        </div>
+        <div class="fm-grid">
+          <div class="fm-block">
+            <div class="fm-block-label">Your code</div>
+            <pre class="fm-code"><code><span class="t-d"># after a run completes:</span>
+<span class="t-w">bundle</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-w">jamjet</span><span class="t-p">.</span><span class="t-w">audit</span><span class="t-p">.</span><span class="t-b">export</span><span class="t-p">(</span>
+    <span class="t-w">run_id</span><span class="t-p">=</span><span class="t-s">"exec_7f3a"</span><span class="t-p">,</span>
+    <span class="t-w">format</span><span class="t-p">=</span><span class="t-s">"pdf"</span><span class="t-p">,</span>
+    <span class="t-w">include</span><span class="t-p">=[</span><span class="t-s">"events"</span><span class="t-p">,</span> <span class="t-s">"tools"</span><span class="t-p">,</span>
+             <span class="t-s">"policy"</span><span class="t-p">,</span> <span class="t-s">"approvals"</span><span class="t-p">],</span>
+<span class="t-p">)</span></code></pre>
+          </div>
+          <div class="fm-block">
+            <div class="fm-block-label">Runtime</div>
+            <pre class="fm-term"><code>▸ Building evidence package for exec_7f3a...
+▸ Events:      247 (signed, immutable)
+▸ Tool calls:  18  (args, results, latency)
+▸ Policy:      12  (3 allowed, 9 evaluated)
+▸ Approvals:   1   (cfo@acme.com, 14:08)
+▸ Output:      <span class="fm-good">audit_exec_7f3a.pdf · 4.2 MB</span></code></pre>
+          </div>
+        </div>
+        <div class="fm-outcome">
+          <span class="fm-outcome-label">What JamJet did</span>
+          <p>Every decision the runtime made is in the bundle. Hand it to security, compliance, or your auditor — no log-stitching required.</p>
+        </div>
+      </div>
+
+      <!-- 6. Memory -->
+      <div class="fm-panel" data-fm="memory" role="tabpanel" hidden>
+        <div class="fm-panel-head">
+          <strong>The agent forgot what it knows about you.</strong>
+          <span>Engram recall</span>
+        </div>
+        <div class="fm-grid">
+          <div class="fm-block">
+            <div class="fm-block-label">Your code</div>
+            <pre class="fm-code"><code><span class="t-d"># session 8 — agent has talked to user before</span>
+<span class="t-w">context</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-w">engram</span><span class="t-p">.</span><span class="t-b">context_for</span><span class="t-p">(</span>
+    <span class="t-w">user</span><span class="t-p">=</span><span class="t-s">"sunil"</span><span class="t-p">,</span>
+    <span class="t-w">topic</span><span class="t-p">=</span><span class="t-s">"release notes"</span><span class="t-p">,</span>
+    <span class="t-w">budget_tokens</span><span class="t-p">=</span><span class="t-y">400</span><span class="t-p">,</span>
+<span class="t-p">)</span></code></pre>
+          </div>
+          <div class="fm-block">
+            <div class="fm-block-label">Runtime</div>
+            <pre class="fm-term"><code><span class="fm-dim">[ from earlier sessions ]</span>
+▸ sunil prefers concise answers          <span class="fm-dim">(s1)</span>
+▸ project: JamJet Cloud                  <span class="fm-dim">(s1)</span>
+▸ shipped policy violations panel        <span class="fm-dim">(s7)</span>
+▸ location: Amsterdam <span class="fm-dim">(superseded Pune, s6)</span>
+<span class="fm-dim">[ token budget: 287 of 400 ]</span></code></pre>
+          </div>
+        </div>
+        <div class="fm-outcome">
+          <span class="fm-outcome-label">What JamJet did</span>
+          <p>Engram surfaced durable facts (with timestamps and supersedes) instead of dumping raw chat history into context. Stays under the token budget.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Zone 3: Use Case Cards ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container">
+    <span class="section-label">Real workflows</span>
+    <h2>How teams use JamJet under load</h2>
     <p class="usecase-intro">Click any card to expand the code.</p>
     <div class="usecase-grid">
       <UseCaseCard
@@ -280,6 +508,149 @@ const showcaseLd = {
     letter-spacing: 0.01em;
   }
 
+  /* ── Failure Modes Gallery ── */
+  .failure-modes { padding: 64px 0; }
+  .fm-title { margin-top: 8px; }
+  .fm-intro {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 640px;
+    margin: 16px 0 32px;
+  }
+  .fm-tabs {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
+  }
+  .fm-tab {
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    padding: 14px 8px;
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    color: var(--text-muted);
+    transition: color 0.15s, border-color 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .fm-tab:hover {
+    color: var(--text-secondary);
+  }
+  .fm-tab.active {
+    color: var(--text);
+    border-bottom-color: var(--text);
+  }
+  .fm-tab-num {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+  }
+  .fm-tab.active .fm-tab-num { color: var(--text); }
+  .fm-tab-name {
+    font-size: 0.92rem;
+    font-weight: 500;
+  }
+  .fm-stage {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+  .fm-panel { display: none; }
+  .fm-panel.active { display: block; }
+  .fm-panel-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .fm-panel-head strong {
+    font-size: 1.1rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .fm-panel-head span {
+    font-size: 0.72rem;
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .fm-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .fm-block-label {
+    font-size: 0.7rem;
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .fm-code,
+  .fm-term {
+    background: var(--bg-code, #0e1116);
+    color: #eae8e1;
+    padding: 16px 18px;
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.65;
+    margin: 0;
+    overflow-x: auto;
+    min-height: 180px;
+  }
+  .fm-term { color: #d8d4cc; }
+  .fm-good { color: #8ed27a; }
+  .fm-bad { color: #f08080; }
+  .fm-warn { color: #f4c057; }
+  .fm-dim { color: #777; }
+  .fm-outcome {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: var(--bg-alt);
+    border-left: 3px solid var(--text);
+    border-radius: 0 8px 8px 0;
+  }
+  .fm-outcome-label {
+    display: block;
+    font-size: 0.7rem;
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .fm-outcome p {
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+  @media (max-width: 900px) {
+    .fm-tabs { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .fm-tabs { grid-template-columns: repeat(2, 1fr); }
+    .fm-grid { grid-template-columns: 1fr; }
+    .fm-stage { padding: 18px; }
+  }
+
   /* ── Zone 3: Use Case Cards ── */
   .usecase-intro {
     color: var(--text-muted);
@@ -361,3 +732,23 @@ const showcaseLd = {
     }
   }
 </style>
+
+<script>
+  const fmTabs = document.querySelectorAll<HTMLButtonElement>('.fm-tab');
+  const fmPanels = document.querySelectorAll<HTMLElement>('.fm-panel');
+  fmTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const target = tab.getAttribute('data-fm');
+      fmTabs.forEach((t) => t.classList.toggle('active', t === tab));
+      fmPanels.forEach((p) => {
+        const match = p.getAttribute('data-fm') === target;
+        p.classList.toggle('active', match);
+        if (match) {
+          p.removeAttribute('hidden');
+        } else {
+          p.setAttribute('hidden', '');
+        }
+      });
+    });
+  });
+</script>

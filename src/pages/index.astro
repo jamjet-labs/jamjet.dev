@@ -20,7 +20,7 @@ const homeLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "JamJet",
-  "description": "Open-source runtime for production-safe AI agents. Policy controls, audit trails, human approval, crash recovery, cost governance, and agent memory — without cloud lock-in. Works with any framework through MCP and A2A.",
+  "description": "The open-source safety layer for AI agents. Policy checks, audit trails, human approval, crash recovery, cost limits, and memory — without cloud or framework lock-in. Works with any framework through MCP and A2A.",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Linux, macOS, Windows",
   "url": "https://jamjet.dev",
@@ -32,8 +32,8 @@ const homeLd = {
 ---
 
 <BaseLayout
-  title="JamJet — Production-Safe AI Agents"
-  description="Open-source runtime that makes AI agents production-safe. Policy controls, audit trails, human approval, crash recovery, cost governance, and memory — without locking you into a cloud or framework."
+  title="JamJet — The safety layer behind your AI agents"
+  description="Open-source safety layer for AI agents. Policy checks, audit trails, human approval, crash recovery, cost limits, and memory — without cloud or framework lock-in."
   canonical="https://jamjet.dev/"
 >
 <Fragment slot="head">
@@ -43,15 +43,16 @@ const homeLd = {
 <!-- ── Hero ── -->
 <section class="hero">
   <div class="hero-inner">
-    <h1>Production-safe<br/>AI agents.</h1>
+    <h1>Agents that don't<br/>lose control.</h1>
     <p class="hero-sub">
-      JamJet is an open-source runtime that gives AI agents policy controls, audit trails,
-      human approval, crash recovery, cost governance, and memory &mdash;
-      without locking you into a cloud or framework.
+      JamJet is the open-source safety layer for AI agents:
+      policy checks, audit trails, human approval, crash recovery,
+      cost limits, memory, and MCP/A2A interoperability &mdash;
+      without cloud or framework lock-in.
     </p>
-    <p class="hero-note">Not another agent framework. The safety layer behind them.<br/>An open-source governance runtime for agentic systems.</p>
+    <p class="hero-note">Not another agent framework. The safety layer behind them.<br/>Keep your framework. Add JamJet when agent runs need to be replayable, auditable, and controlled.</p>
     <div class="hero-actions">
-      <a href="#safety" class="btn-primary">See what production safety means &darr;</a>
+      <a href="#safety" class="btn-primary">See how JamJet controls agent runs &darr;</a>
       <a href="https://docs.jamjet.dev/en/docs/quickstart" class="btn-secondary">Get started in 60 seconds</a>
       <a href="/security" class="btn-secondary">View enterprise controls</a>
     </div>
@@ -70,18 +71,18 @@ const homeLd = {
       <span class="announcement-badge">NEW</span>
       <span class="announcement-text">
         <strong>Java Runtime v0.1.1</strong> &mdash; embed durable execution directly in your JVM.
-        @DurableAgent crash recovery, 8.9x faster than sidecar, virtual threads, MCP native.
+        @DurableAgent crash recovery, 8.9x faster than the REST sidecar in our benchmark, virtual threads, MCP native.
       </span>
       <span class="announcement-arrow">&rarr;</span>
     </a>
   </div>
 </section>
 
-<!-- ── Six Pillars of Production Safety ── -->
+<!-- ── Six Failure Modes ── -->
 <section id="safety">
   <div class="container">
-    <span class="section-label">What production safety means</span>
-    <h2>Six layers between your agent and production failure.</h2>
+    <span class="section-label">What JamJet controls</span>
+    <h2>Six failure modes every agent eventually hits.</h2>
     <p class="section-intro">
       Other tools observe what agents do. JamJet actively prevents unsafe behavior,
       recovers from failures, and creates audit evidence &mdash; at the runtime layer.
@@ -90,42 +91,42 @@ const homeLd = {
       <div class="safety-pillar">
         <div class="safety-num">1</div>
         <div>
-          <strong>Policy enforcement</strong>
-          <p>Block unauthorized tool calls, restrict model usage, scope delegation permissions. 4-level policy hierarchy enforced before execution, not after.</p>
+          <strong>Unsafe tool calls</strong>
+          <p>Block unauthorized tools, restrict model usage, scope delegation permissions. A 4-level policy hierarchy is enforced before execution, not after.</p>
         </div>
       </div>
       <div class="safety-pillar">
         <div class="safety-num">2</div>
         <div>
-          <strong>Audit trails</strong>
+          <strong>Missing audit evidence</strong>
           <p>Immutable, append-only log of every decision, tool call, delegation, and approval. Separate from execution data. Retention-aware. Ready for compliance export.</p>
         </div>
       </div>
       <div class="safety-pillar">
         <div class="safety-num">3</div>
         <div>
-          <strong>Human approval</strong>
+          <strong>Skipped approvals</strong>
           <p>First-class pause/resume/approval nodes. Workflows survive restarts while waiting for human input. Not a callback &mdash; a durable primitive.</p>
         </div>
       </div>
       <div class="safety-pillar">
         <div class="safety-num">4</div>
         <div>
-          <strong>Crash recovery</strong>
-          <p>Event-sourced durable execution. Kill the process. Restart. It resumes from the exact checkpoint. Completed steps are never re-run.</p>
+          <strong>Lost progress</strong>
+          <p>Event-sourced durable execution. Kill the process, restart, and the run resumes from the exact checkpoint. Completed steps are never re-run.</p>
         </div>
       </div>
       <div class="safety-pillar">
         <div class="safety-num">5</div>
         <div>
-          <strong>Cost governance</strong>
+          <strong>Runaway cost</strong>
           <p>Per-workflow and per-agent token and dollar budgets. Enforced by the runtime, not by application discipline. Automatic escalation when limits are reached.</p>
         </div>
       </div>
       <div class="safety-pillar">
         <div class="safety-num">6</div>
         <div>
-          <strong>Agent memory</strong>
+          <strong>Forgotten context</strong>
           <p>Engram: temporal knowledge graph with fact extraction, conflict detection, and consolidation. Long-running agents maintain accurate context. Works via MCP with any framework.</p>
         </div>
       </div>
@@ -180,6 +181,10 @@ const homeLd = {
         </div>
       </div>
     </div>
+    <div class="proof-cta">
+      <a href="https://docs.jamjet.dev/en/docs/quickstart#try-crash-recovery-in-90-seconds" class="btn-primary">Run this demo &rarr;</a>
+      <span class="proof-cta-cmd"><code>jamjet run examples/crash-recovery.yaml</code></span>
+    </div>
   </div>
 </section>
 
@@ -187,7 +192,7 @@ const homeLd = {
 <section style="background: var(--bg-alt);">
   <div class="container">
     <span class="section-label">What you get</span>
-    <h2 class="section-title">Production outcomes,<br/>not feature lists</h2>
+    <h2 class="section-title">What developers<br/>actually get</h2>
     <div class="outcomes">
       <div class="outcome">
         <svg class="outcome-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -295,7 +300,7 @@ const homeLd = {
     <div class="code-section">
       <div class="code-text">
         <span class="section-label">Authoring</span>
-        <h2>Your language.<br/>Production-grade<br/>from day one.</h2>
+        <h2>Your language.<br/>Same runtime<br/>guarantees.</h2>
         <p style="color: var(--text-secondary); margin-top: 16px;">
           Agent strategies, workflow orchestration, cost guardrails, crash recovery. Define agents and workflows in Python or Java &mdash; the Rust runtime handles the rest.
         </p>
@@ -419,12 +424,16 @@ const homeLd = {
   <div class="container">
     <div class="migration-strip">
       <div class="migration-main">
-        <span class="section-label">Switching is easy</span>
-        <h2>Coming from LangGraph?</h2>
+        <span class="section-label">Keep your framework</span>
+        <h2>Already using LangGraph, CrewAI, or your own stack?</h2>
+        <p style="color:var(--text-secondary);margin:0 0 28px;line-height:1.7;">
+          Keep it. Add JamJet around the risky parts &mdash; durable steps, policy checks,
+          approvals, cost limits, MCP/A2A calls, and audit trails.
+        </p>
         <div class="migration-points">
           <div class="migration-point">
             <strong>Same mental model</strong>
-            <p>Typed state, workflow steps, routing, and graph-like structure — without relearning how to think.</p>
+            <p>Typed state, workflow steps, routing, and graph-like structure &mdash; without relearning how to think.</p>
           </div>
           <div class="migration-point">
             <strong>Durability by default</strong>
@@ -481,7 +490,7 @@ const homeLd = {
           <circle cx="18" cy="21" r="3" />
         </svg>
         <span class="persona-label">For Builders</span>
-        <h3>Ship agents that survive production</h3>
+        <h3>Build agents you can replay and debug</h3>
         <p>Use your Python mental model, but get durable execution, replayable traces, and runtime-enforced safety. Start with <code>@task</code>, scale to full workflows without rewrites.</p>
         <a href="https://docs.jamjet.dev/en/docs/quickstart">Read the quickstart &rarr;</a>
       </div>
@@ -496,7 +505,7 @@ const homeLd = {
           <line x1="18" y1="24" x2="18" y2="28" />
         </svg>
         <span class="persona-label">For Platform Teams</span>
-        <h3>Govern agents before they reach production</h3>
+        <h3>Control tools, costs, approvals, and audit</h3>
         <p>Policy enforcement, audit trails, cost controls, tenant isolation, PII redaction, and OAuth delegation &mdash; enforced at the runtime layer, not scattered across application code.</p>
         <a href="https://docs.jamjet.dev/en/docs/enterprise">Enterprise controls &rarr;</a>
       </div>
@@ -510,7 +519,7 @@ const homeLd = {
         </svg>
         <span class="persona-label">For Researchers</span>
         <h3>Run reproducible experiments</h3>
-        <p>The same runtime properties that make agents reliable in production make experiments reproducible in research. ExperimentGrid, checkpoint replay, publication-ready export.</p>
+        <p>The same runtime properties that make agents reliable in apps make experiments reproducible in research. ExperimentGrid, checkpoint replay, publication-ready export.</p>
         <a href="/research">Explore the research toolkit &rarr;</a>
       </div>
     </div>
@@ -521,7 +530,7 @@ const homeLd = {
 <section style="background: var(--bg-alt);">
   <div class="container">
     <span class="section-label">Research</span>
-    <h2 class="section-title">Reliable agents for production.<br/>Reproducible agents for research.<br/>Same runtime.</h2>
+    <h2 class="section-title">Reliable runs for apps.<br/>Reproducible runs for papers.<br/>Same replay engine.</h2>
     <div class="research-grid">
       <div class="research-card">
         <span class="research-card-label">Compare</span>
@@ -614,8 +623,8 @@ const homeLd = {
             <p>Kill your process. Restart. Resume from last checkpoint. No sidecar, no Docker. <a href="/blog/zero-sidecar-durable-agents-java/">Read the launch post &rarr;</a></p>
           </div>
           <div class="jvm-feature">
-            <strong>8.9x faster than sidecar</strong>
-            <p>In-process method calls instead of REST hops. Virtual threads for 1M concurrent agents. Zero connection pool contention. <a href="/blog/zero-sidecar-durable-agents-java/">Benchmark details &rarr;</a></p>
+            <strong>8.9x faster than the REST sidecar</strong>
+            <p>In-process method calls instead of REST hops. Virtual-thread friendly for high-concurrency agent workloads. Zero connection-pool contention. <a href="/benchmarks">View benchmark &rarr;</a></p>
           </div>
           <div class="jvm-feature">
             <strong>Works with your stack</strong>
@@ -712,9 +721,9 @@ const homeLd = {
   <div class="container">
     <div class="engram-wedge">
       <div class="engram-wedge-text">
-        <span class="section-label">Start here</span>
+        <span class="section-label">Start small</span>
         <h2>Need memory first?<br/>Start with Engram.</h2>
-        <p>Open-source memory for MCP-native AI agents. Use it standalone today with Claude, Cursor, or any MCP client &mdash; then add JamJet governance when your agents move toward production.</p>
+        <p>Engram is JamJet's open-source memory layer: fact extraction, conflict detection, semantic search, graph recall, and token-budgeted context assembly. Use it standalone via MCP, REST, Python, or Java &mdash; then add JamJet when the agent needs policies, approvals, replay, and audit.</p>
         <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px;">
           <a href="/engram" class="btn-primary">Explore Engram</a>
           <a href="https://github.com/jamjet-labs/jamjet/tree/main/runtime/engram-server" class="btn-secondary" target="_blank" rel="noopener">Source</a>
@@ -734,8 +743,54 @@ const homeLd = {
   </div>
 </section>
 
-<!-- ── Enterprise Trust Strip ── -->
+<!-- ── JamJet Cloud ── -->
 <section>
+  <div class="container">
+    <div class="cloud-strip">
+      <div class="cloud-strip-header">
+        <span class="section-label">JamJet Cloud</span>
+        <h2 class="section-title">A shared control plane<br/>for agent runs.</h2>
+        <p class="cloud-strip-intro">
+          See traces, policy decisions, approvals, cost, replay points, and audit
+          evidence across your team. The OSS runtime stays free; Cloud is the cockpit.
+        </p>
+      </div>
+      <div class="cloud-strip-grid">
+        <div class="cloud-card">
+          <strong>Trace timeline</strong>
+          <p>Inspect each model call, tool call, policy decision, approval, and checkpoint.</p>
+        </div>
+        <div class="cloud-card">
+          <strong>Policy violations</strong>
+          <p>See what was blocked, why, and how to fix it &mdash; before it ships again.</p>
+        </div>
+        <div class="cloud-card">
+          <strong>Approval queue</strong>
+          <p>Review high-risk actions before they execute. Reviewer assignment, SLA, history.</p>
+        </div>
+        <div class="cloud-card">
+          <strong>Cost guardrails</strong>
+          <p>Track and enforce spend per agent, run, and environment. Alerts before limits hit.</p>
+        </div>
+        <div class="cloud-card">
+          <strong>Audit export</strong>
+          <p>Produce evidence for reviews, incidents, and compliance &mdash; CSV, JSON, PDF.</p>
+        </div>
+        <div class="cloud-card">
+          <strong>Hosted Engram</strong>
+          <p>Shared memory for agents and teams. Same MCP API, no infrastructure to run.</p>
+        </div>
+      </div>
+      <div class="cloud-strip-cta">
+        <a href="/cloud" class="btn-primary">View JamJet Cloud</a>
+        <a href="https://app.jamjet.dev" class="btn-secondary" target="_blank" rel="noopener">Sign up free</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Enterprise Trust Strip ── -->
+<section style="background: var(--bg-alt);">
   <div class="container">
     <div class="trust-strip">
       <h3>Built for regulated industries</h3>
@@ -763,9 +818,9 @@ const homeLd = {
 </section>
 
 <!-- ── Final CTA ── -->
-<section style="background: var(--bg-alt);">
+<section>
   <div class="container" style="text-align: center; max-width: 600px;">
-    <h2>Make your agents production-safe.</h2>
+    <h2>Make agent runs replayable, auditable, and controlled.</h2>
     <p style="color: var(--text-secondary); margin: 12px 0 32px; line-height: 1.7;">
       Start with a 60-second quickstart. Add policy controls, audit trails, and governance as you need them.
     </p>
@@ -775,8 +830,9 @@ const homeLd = {
       <button class="copy-btn" id="copy-final">copy</button>
     </div>
     <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
-      <a href="https://docs.jamjet.dev/en/docs/quickstart" class="btn-primary">Read the quickstart</a>
-      <a href="https://github.com/jamjet-labs/jamjet" class="btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
+      <a href="https://docs.jamjet.dev/en/docs/quickstart" class="btn-primary">Run the crash recovery demo</a>
+      <a href="/cloud" class="btn-secondary">View JamJet Cloud</a>
+      <a href="https://github.com/jamjet-labs/jamjet" class="btn-secondary" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
 </section>
@@ -913,6 +969,22 @@ const homeLd = {
     font-size: 0.85rem;
     line-height: 1.5;
     margin: 0;
+  }
+  .proof-cta {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .proof-cta-cmd code {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    background: var(--bg-alt);
+    padding: 6px 12px;
+    border-radius: 6px;
   }
 
   /* ── Outcomes ── */
@@ -1221,6 +1293,50 @@ const homeLd = {
   }
   @media (max-width: 768px) {
     .engram-wedge { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  /* ── JamJet Cloud Strip ── */
+  .cloud-strip { max-width: 1024px; margin: 0 auto; }
+  .cloud-strip-header { text-align: center; margin-bottom: 48px; }
+  .cloud-strip-header h2 { margin: 8px 0 16px; }
+  .cloud-strip-intro {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .cloud-strip-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  .cloud-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 22px;
+  }
+  .cloud-card strong {
+    display: block;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .cloud-card p {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .cloud-strip-cta {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 768px) {
+    .cloud-strip-grid { grid-template-columns: 1fr; gap: 16px; }
   }
 
   /* ── Why This Matters ── */
