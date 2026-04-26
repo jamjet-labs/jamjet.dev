@@ -49,7 +49,7 @@ const fits: FitRow[] = [
     name: 'OpenAI Agents SDK',
     category: 'Authoring',
     keepFor: 'OpenAI-hosted agents, function calling, and the OpenAI runtime.',
-    addJamjetFor: 'Policy enforcement, replay, and audit that live outside OpenAI\u2019s cloud.',
+    addJamjetFor: 'Policy enforcement, replay, and audit that live outside OpenAI’s cloud.',
   },
   {
     name: 'Temporal',
@@ -62,7 +62,7 @@ const fits: FitRow[] = [
     name: 'LangSmith / Arize / Phoenix',
     category: 'Observability',
     keepFor: 'Tracing and offline evaluation. Dashboards your data team already uses.',
-    addJamjetFor: 'Active enforcement \u2014 blocking unsafe tools, halting runs at cost limits, gating high-risk actions \u2014 not just observing them.',
+    addJamjetFor: 'Active enforcement — blocking unsafe tools, halting runs at cost limits, gating high-risk actions — not just observing them.',
   },
   {
     name: 'AWS Bedrock / Azure AI Foundry / Vertex',
@@ -73,7 +73,7 @@ const fits: FitRow[] = [
   {
     name: 'Vanilla Python / direct LLM calls',
     category: 'Authoring',
-    keepFor: 'Simplicity and short-lived prototypes \u2014 nothing beats a function call.',
+    keepFor: 'Simplicity and short-lived prototypes — nothing beats a function call.',
     addJamjetFor: 'When the prototype goes live: durability, policy, audit, cost limits, and memory in one runtime.',
     link: 'https://docs.jamjet.dev/en/docs/quickstart',
   },
@@ -83,7 +83,7 @@ const categories = [...new Set(fits.map(f => f.category))];
 ---
 
 <BaseLayout
-  title="Compare \u2014 How JamJet fits with what you already use"
+  title="Compare — How JamJet fits with what you already use"
   description="JamJet isn't a replacement for your agent framework or orchestrator. It's the safety layer underneath. See how JamJet fits with LangGraph, CrewAI, Temporal, LangSmith, and the hosted clouds."
   canonical="https://jamjet.dev/compare"
   currentPage="compare"
@@ -123,7 +123,7 @@ const categories = [...new Set(fits.map(f => f.category))];
       <!-- middle layer: JamJet -->
       <g class="layer-jam">
         <rect x="40" y="100" width="640" height="80" rx="10"/>
-        <text x="360" y="128" text-anchor="middle" class="layer-jam-title">JamJet \u2014 safety layer</text>
+        <text x="360" y="128" text-anchor="middle" class="layer-jam-title">JamJet — safety layer</text>
         <g class="layer-chip"><rect x="62" y="142" width="84" height="22" rx="4"/><text x="104" y="157" text-anchor="middle">policy</text></g>
         <g class="layer-chip"><rect x="156" y="142" width="84" height="22" rx="4"/><text x="198" y="157" text-anchor="middle">audit</text></g>
         <g class="layer-chip"><rect x="250" y="142" width="84" height="22" rx="4"/><text x="292" y="157" text-anchor="middle">approval</text></g>
