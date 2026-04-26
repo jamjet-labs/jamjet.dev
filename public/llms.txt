@@ -1,91 +1,165 @@
-# JamJet — llms.txt
-# This file helps AI assistants and crawlers understand JamJet.
-# Spec: https://llmstxt.org
+# JamJet
 
-# JamJet is a durable, agent-native AI workflow runtime.
-# Rust core for scheduling and durability. Python SDK for authoring.
-# Native MCP (Model Context Protocol) and A2A (Agent-to-Agent) support.
-# Built-in eval harness. Apache 2.0.
+> The open-source safety layer for AI agents — policy checks, audit trails, human approval, crash recovery, cost limits, and memory — without cloud or framework lock-in. Works alongside LangGraph, CrewAI, OpenAI Agents SDK, Spring AI, and other frameworks via MCP and A2A.
 
-## Product
+JamJet is not a replacement for your agent framework. It is a runtime that sits between your agent and everything it touches (models, tools, memory, other agents) and decides what is allowed, what is recorded, and what survives. Apache 2.0. Python and Java SDKs. Rust core.
+
+## Identity
 
 - Name: JamJet
-- Tagline: The agent-native runtime for production AI
-- PyPI: jamjet (pip install jamjet)
-- Version: 0.5.0
+- Tagline: The safety layer behind your AI agents
 - License: Apache 2.0
-- Language: Python SDK, Rust runtime
+- GitHub org: [jamjet-labs](https://github.com/jamjet-labs)
+- Main repo: [jamjet-labs/jamjet](https://github.com/jamjet-labs/jamjet)
+- Java runtime repo: [jamjet-labs/jamjet-runtime-java](https://github.com/jamjet-labs/jamjet-runtime-java)
+- Spring repo: [jamjet-labs/jamjet-spring](https://github.com/jamjet-labs/jamjet-spring)
+- PyPI: [jamjet](https://pypi.org/project/jamjet/) (`pip install jamjet`)
+- Maven Central group: `dev.jamjet`
+- crates.io: [jamjet-engram](https://crates.io/crates/jamjet-engram), [jamjet-engram-server](https://crates.io/crates/jamjet-engram-server)
+- Container registry: [ghcr.io/jamjet-labs/engram-server](https://ghcr.io/jamjet-labs/engram-server)
+- MCP Registry: [io.github.jamjet-labs/engram-server](https://registry.modelcontextprotocol.io/servers/io.github.jamjet-labs/engram-server)
 
-## Key concepts
+## What JamJet controls (six failure modes)
 
-- Workflow: a graph of steps with typed Pydantic state flowing through
-- Step: an async Python function decorated with @wf.step
-- Durable execution: every state transition is an event; crash and resume from exactly where you stopped
-- result.events: per-step execution timeline (name, duration, status) available on every run, no logging code required
-- MCP: native client and server — connect any MCP tool in one line
-- A2A: native agent-to-agent protocol for cross-framework orchestration
-- Eval harness: AssertionScorer, LatencyScorer, CostScorer, LlmJudgeScorer — run against JSONL datasets, CI exit codes
+1. Lost progress — durable execution; the run resumes from the exact failed node after a crash.
+2. Unsafe tool calls — a 4-level policy hierarchy blocks the call before execution.
+3. Skipped approvals — durable pause/resume primitives; runs survive worker restarts.
+4. Runaway cost — per-workflow and per-agent token and dollar budgets, runtime-enforced.
+5. Missing audit — separate, append-only audit log, retention-aware, compliance-export ready.
+6. Forgotten context — Engram surfaces durable facts (with conflict detection and timestamps), not raw chat history.
+
+## Core pages
+
+- [Homepage](https://jamjet.dev): editorial overview with stack diagram, failure modes, code, Cloud + Engram pair, running log
+- [JamJet Cloud](https://jamjet.dev/cloud): hosted control plane — trace timeline, policy violations, approval queue, cost guardrails, audit export, hosted Engram. Free tier available at [app.jamjet.dev](https://app.jamjet.dev)
+- [Compare](https://jamjet.dev/compare): how JamJet fits with LangGraph, CrewAI, Pydantic AI, Google ADK, OpenAI Agents SDK, Temporal, LangSmith/Arize, AWS Bedrock / Azure AI Foundry / Vertex, vanilla Python
+- [Engram](https://jamjet.dev/engram): open-source memory for AI agents — fact extraction, conflict detection, hybrid retrieval, consolidation; works via MCP with any framework
+- [Showcase](https://jamjet.dev/showcase): six interactive failure-mode demos (crash recovery, policy block, durable approval, cost cap, audit export, memory recall)
+- [Research](https://jamjet.dev/research): replay engine for reproducible multi-agent experiments — strategy comparison, sweeps, paper-ready exports
+- [Benchmarks](https://jamjet.dev/benchmarks): runtime economics and reliability benchmarks (open methodology, reproducible)
+- [Security](https://jamjet.dev/security): responsible disclosure, telemetry policy, dependency posture
+- [Blog](https://jamjet.dev/blog): runtime safety, agent governance, engineering deep dives
+
+## Detailed comparisons
+
+- [JamJet vs Temporal](https://jamjet.dev/compare/temporal): durable workflows vs. agent-native governance — when to use which (long-form, honest)
+
+## Documentation
+
+- [Quickstart (60s)](https://docs.jamjet.dev/en/docs/quickstart): install, run a workflow, try crash recovery
+- [Concepts](https://docs.jamjet.dev/en/docs/concepts)
+- [Cloud quickstart](https://docs.jamjet.dev/en/docs/cloud-quickstart)
+- [MCP guide](https://docs.jamjet.dev/en/docs/mcp)
+- [A2A guide](https://docs.jamjet.dev/en/docs/a2a)
+- [Eval harness](https://docs.jamjet.dev/en/docs/eval)
+- [Research guide](https://docs.jamjet.dev/en/docs/research-guide)
+- [Enterprise controls](https://docs.jamjet.dev/en/docs/enterprise)
+- [Migrate from LangGraph](https://docs.jamjet.dev/en/docs/migrate/from-langgraph)
+- [Migrate from CrewAI](https://docs.jamjet.dev/en/docs/migrate/from-crewai)
+- [Migrate from OpenAI direct](https://docs.jamjet.dev/en/docs/migrate/from-openai-direct)
+
+## Java runtime
+
+- Pure-Java agent runtime with @DurableAgent crash recovery, ByteBuddy instrumentation, virtual threads, MCP client+server, and plugin hot-reload
+- 8.9× faster than the REST sidecar in our benchmark (in-process method calls vs. HTTP hops)
+- Maven Central group: `dev.jamjet:jamjet-runtime-*` (core, protocols, instrument, plugins, server, spring-boot-starter, parent POM)
+- Spring Boot integration: `dev.jamjet:jamjet-spring-boot-starter` and `dev.jamjet:engram-spring-boot-starter`
+- LangChain4j integration: `dev.jamjet:langchain4j-jamjet`
+- Companion site: [java-ai-memory.dev](https://java-ai-memory.dev) for Engram in Java
+- Launch post: [Zero-sidecar durable agents in Java](https://jamjet.dev/blog/zero-sidecar-durable-agents-java/)
+
+## Notable blog posts
+
+- [Why we built JamJet](https://jamjet.dev/blog/why-we-built-jamjet): the demo-to-production gap and the runtime-shaped hole
+- [Your AI agents won't survive an audit](https://jamjet.dev/blog/ai-agents-wont-survive-audit/): EU AI Act, runtime-enforced policy, audit posture
+- [Zero-sidecar durable agents in Java](https://jamjet.dev/blog/zero-sidecar-durable-agents-java/): Java runtime launch and benchmark
+- [The state of memory in Java AI agents](https://jamjet.dev/blog/state-of-memory-java-ai-agents/): landscape survey
+- [Engram — agent memory](https://jamjet.dev/blog/engram-agent-memory/): temporal knowledge graph design
+- [JamJet Spring Boot Starter](https://jamjet.dev/blog/jamjet-spring-boot-starter/): drop-in durability + audit for Spring AI
+- [Self-evaluating agent in 50 lines](https://jamjet.dev/blog/self-evaluating-agent-50-lines): eval harness as workflow nodes
+- [Why Rust for AI workflows](https://jamjet.dev/blog/why-rust-for-ai-workflows): runtime architecture
+- [Testing AI agents like software](https://jamjet.dev/blog/testing-ai-agents-like-software): replay-driven testing
+- [Migrating from LangGraph](https://jamjet.dev/blog/langgraph-migration-real-example): real-example migration
+- [Akka Agents vs JamJet](https://jamjet.dev/blog/akka-agents-vs-jamjet): JVM agent runtimes compared
+- [Google ADK vs JamJet](https://jamjet.dev/blog/google-adk-vs-jamjet): cloud-coupled vs. cloud-neutral
+- [Wealth management multi-agent](https://jamjet.dev/blog/wealth-management-multi-agent): regulated industry case
+- [Companies quietly replacing workflows](https://jamjet.dev/blog/companies-quietly-replacing-workflows): adoption signals
+- [Phase 3: eval harness + templates](https://jamjet.dev/blog/phase3-eval-harness-templates)
+- [Phase 4: enterprise security](https://jamjet.dev/blog/phase4-enterprise-security)
+- [Data governance: PII + retention](https://jamjet.dev/blog/data-governance-pii-retention)
+- [OAuth federation for agent auth](https://jamjet.dev/blog/oauth-federation-agent-auth)
+- [Incremental streaming + tiebreaker](https://jamjet.dev/blog/incremental-streaming-tiebreaker): coordinator routing internals
+- [How to choose an AI agent framework (2026)](https://jamjet.dev/blog/how-to-choose-ai-agent-framework-2026)
 
 ## Quick start
 
+```bash
 pip install jamjet
-
-```python
-from pydantic import BaseModel
-from jamjet import Workflow
-
-wf = Workflow("my-agent")
-
-@wf.state
-class State(BaseModel):
-    query: str
-    answer: str = ""
-
-@wf.step
-async def think(state: State) -> State:
-    return state.model_copy(update={"answer": "..."})
-
-result = wf.run_sync(State(query="Hello"))
-print(result.events)  # full per-step timeline
 ```
 
-## Documentation pages
+```python
+from jamjet import task, workflow, approval
 
-- Quickstart: https://jamjet.dev/quickstart
-- Python SDK guide: https://jamjet.dev/python-sdk
-- YAML workflows: https://jamjet.dev/yaml-workflows
-- Eval harness: https://jamjet.dev/eval
-- MCP integration: https://jamjet.dev/mcp
-- A2A protocol: https://jamjet.dev/a2a
-- Observability: https://jamjet.dev/observability
-- CLI reference: https://jamjet.dev/cli
-- Deployment: https://jamjet.dev/deployment
-- Compare vs LangGraph/CrewAI/AutoGen: https://jamjet.dev/compare
-- Benchmarks: https://jamjet.dev/benchmarks
+@task(model="claude-sonnet-4-6", max_cost=0.50)
+async def analyze(data: dict) -> Report:
+    """checkpointed, cost-capped"""
 
-## Migration guides
+@workflow
+async def pipeline(raw):
+    report = await analyze(raw)        # crash-safe
+    await approval(report)             # durable pause
+    return await publish(report)
+```
 
-- From LangGraph: https://jamjet.dev/migrate/from-langgraph
-- From CrewAI: https://jamjet.dev/migrate/from-crewai
-- From raw OpenAI SDK: https://jamjet.dev/migrate/from-openai-direct
+## Java quick start
 
-## Blog
+```xml
+<dependency>
+  <groupId>dev.jamjet</groupId>
+  <artifactId>jamjet-runtime-spring-boot-starter</artifactId>
+  <version>0.1.1</version>
+</dependency>
+```
 
-- Why I built JamJet in Rust: https://jamjet.dev/blog/why-rust-for-ai-workflows
-- Migrating from LangGraph: https://jamjet.dev/blog/langgraph-migration-real-example
-- Self-evaluating agent in 50 lines: https://jamjet.dev/blog/self-evaluating-agent-50-lines
-- Testing AI agents like software: https://jamjet.dev/blog/testing-ai-agents-like-software
+```java
+@DurableAgent
+public class Researcher {
+    // your existing Spring AI / LangChain4j agent
+    // crash recovery, audit, replay, approvals applied automatically
+}
+```
 
-## Repositories
+## Engram (memory layer) quick start
 
-- Main (Rust + Python SDK): https://github.com/jamjet-labs/jamjet
-- Examples: https://github.com/jamjet-labs/examples
-- Benchmarks + migration guides: https://github.com/jamjet-labs/jamjet-benchmarks
-- Website: https://github.com/jamjet-labs/jamjet.dev
+```bash
+docker run --rm -i -v engram-data:/data ghcr.io/jamjet-labs/engram-server:0.5.0
+```
+
+Or as an MCP server in Claude Desktop / Cursor:
+
+```json
+{
+  "mcpServers": {
+    "memory": {
+      "command": "engram",
+      "args": ["serve", "--db", "memory.db"]
+    }
+  }
+}
+```
+
+## What JamJet is not
+
+- Not an agent authoring framework. Use LangGraph, CrewAI, Pydantic AI, OpenAI Agents SDK, Spring AI — JamJet wraps the runtime, not the prompts.
+- Not a generic workflow engine. Temporal handles general distributed workflows at massive scale; JamJet is agent-specific (memory, MCP/A2A, policy, approvals, cost caps).
+- Not an observability tool. LangSmith / Arize / Phoenix observe; JamJet enforces — block, halt, approve.
+- Not a closed-cloud platform. Apache 2.0 source available; runs anywhere.
 
 ## Contact
 
 - Website: https://jamjet.dev
+- Docs: https://docs.jamjet.dev
 - GitHub: https://github.com/jamjet-labs/jamjet
+- Discord: https://discord.gg/SAYnEj86fr
 - X / Twitter: https://x.com/jamjetdev
-- GitHub Discussions: https://github.com/jamjet-labs/jamjet/discussions
+- Email: hello@jamjet.dev

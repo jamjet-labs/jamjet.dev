@@ -56,6 +56,32 @@ const {
     gtag('config', 'G-44L683PK96');
   </script>
   <ViewTransitions />
+  <script type="application/ld+json" is:inline set:html={`{
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://jamjet.dev/#org",
+        "name": "JamJet Labs",
+        "url": "https://jamjet.dev",
+        "logo": "https://jamjet.dev/favicon.svg",
+        "sameAs": [
+          "https://github.com/jamjet-labs",
+          "https://x.com/jamjetdev",
+          "https://discord.gg/SAYnEj86fr"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://jamjet.dev/#site",
+        "name": "JamJet",
+        "url": "https://jamjet.dev",
+        "description": "The open-source safety layer for AI agents.",
+        "publisher": { "@id": "https://jamjet.dev/#org" },
+        "inLanguage": "en"
+      }
+    ]
+  }`}></script>
   <slot name="head" />
 </head>
 <body>
