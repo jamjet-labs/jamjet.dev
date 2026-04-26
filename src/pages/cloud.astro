@@ -1,0 +1,228 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const cloudLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "JamJet Cloud",
+  "description": "Hosted control plane for AI agents. Drop-in governance, audit trails, hosted memory, and multi-agent visibility — for any Python (and soon Java) agent.",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Web",
+  "url": "https://jamjet.dev/cloud",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+};
+---
+
+<BaseLayout
+  title="JamJet Cloud — Production-safe AI agents"
+  description="The hosted control plane for AI agents. Two-line drop-in: traces, policies, audit trails, hosted memory. Multi-agent network graph + Java SDK shipping Q3 2026."
+  canonical="https://jamjet.dev/cloud"
+>
+<Fragment slot="head">
+  <script type="application/ld+json" set:html={JSON.stringify(cloudLd)}></script>
+</Fragment>
+
+<!-- ── Hero ── -->
+<section class="cloud-hero">
+  <div class="cloud-hero-inner">
+    <span class="section-label">JamJet Cloud</span>
+    <h1>Production-safe<br/>AI agents.</h1>
+    <p class="cloud-sub">
+      The hosted control plane for your agent fleet. Two lines of Python add traces,
+      policies, audit trails, and hosted memory to any OpenAI or Anthropic agent.
+      Open-source JamJet stays free; Cloud is the paid surface for teams that need
+      shared visibility, retained audit, and multi-agent governance.
+    </p>
+    <div class="cloud-actions">
+      <a href="https://app.jamjet.dev" class="btn-primary">Sign up free</a>
+      <a href="https://docs.jamjet.dev/docs/en/cloud-quickstart" class="btn-secondary">Quickstart</a>
+    </div>
+    <p class="cloud-note">
+      <strong>jamjet 0.6.0 is on PyPI</strong> &mdash; <code>pip install jamjet[openai]</code>
+    </p>
+  </div>
+</section>
+
+<!-- ── Two-line snippet ── -->
+<section class="cloud-section">
+  <div class="cloud-section-inner">
+    <h2>Two lines. Then your agent is governed.</h2>
+    <pre class="cloud-code"><code>{`import jamjet.cloud as jamjet
+from openai import OpenAI
+
+jamjet.configure(api_key="jj_xxxxxxxxxxxx", project="my-agent")
+
+# Every OpenAI / Anthropic call is now captured automatically.
+OpenAI().chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "hello"}],
+)`}</code></pre>
+    <p>
+      Open <a href="https://app.jamjet.dev/dashboard/traces">app.jamjet.dev/dashboard/traces</a>
+      &mdash; the call appears within ~5 seconds with model, token counts, cost, and duration.
+    </p>
+  </div>
+</section>
+
+<!-- ── What's included ── -->
+<section class="cloud-section">
+  <div class="cloud-section-inner">
+    <h2>What's in Cloud today</h2>
+    <ul class="cloud-features">
+      <li><strong>Trace dashboard.</strong> Every LLM call captured with token counts, cost, latency, model, status. Auto-instruments OpenAI and Anthropic.</li>
+      <li><strong>Policy filtering.</strong> Block tools by name pattern; require human approval for sensitive actions.</li>
+      <li><strong>Budget caps.</strong> Hard spend limit per process; SDK raises before the call goes out.</li>
+      <li><strong>Approval queue.</strong> Pause execution until a human approves in the dashboard.</li>
+      <li><strong>Append-only audit log.</strong> Every policy decision and approval recorded.</li>
+      <li><strong>Cost analytics.</strong> Per-project, per-model breakdowns.</li>
+      <li><strong>Three-tier rate limiting.</strong> Per-IP, per-API-key, per-IP — env-tunable for self-hosted.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── What's coming ── -->
+<section class="cloud-section">
+  <div class="cloud-section-inner">
+    <h2>What's coming</h2>
+    <ul class="cloud-features">
+      <li><strong>Multi-agent network graph (Q3 2026).</strong> Live force-directed view of how your agents communicate &mdash; nodes are agents and MCP servers, edges show calls, costs, error rates. Drill down to traces.</li>
+      <li><strong>Java cloud SDK (Q3 2026).</strong> Same drop-in for Spring AI / LangChain4j developers. Auto-instruments <code>ChatClient</code>, <code>ChatModel</code>.</li>
+      <li><strong>Cross-agent trace propagation.</strong> When agent A calls agent B (over A2A or MCP), traces link automatically. W3C <code>traceparent</code> + custom <code>tracestate</code>.</li>
+      <li><strong>Hosted Engram, bundled.</strong> Memory becomes a Cloud feature, scoped per agent, shared across an agent fleet. Open-source Engram local mode stays free.</li>
+      <li><strong>Centralized policy with AIP delegation chains.</strong> Visualize who-authorized-what. Compliance-grade audit.</li>
+      <li><strong>Replay.</strong> Re-run any trace with input recordings. Ideal for debugging incidents or testing prompt changes.</li>
+      <li><strong>OTel GenAI ingestion.</strong> Point your existing Phoenix / OpenLLMetry / Langfuse-instrumented apps at JamJet without an SDK migration.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── Why Cloud (not just LangSmith) ── -->
+<section class="cloud-section">
+  <div class="cloud-section-inner">
+    <h2>What makes Cloud different</h2>
+    <ul class="cloud-features">
+      <li><strong>Polyglot control plane (when Q3 ships).</strong> Python (Rust runtime) + Java (embedded runtime) &mdash; one dashboard. No competitor does this. LangSmith is Python-only and LangChain-coupled.</li>
+      <li><strong>Built around agent identity.</strong> Agents are first-class entities, not just spans. Agent Cards, A2A, native MCP server &mdash; folded into the dashboard, not bolted on.</li>
+      <li><strong>Drop-in governance, not observability.</strong> LangSmith owns observability. Cloud owns policy, audit, and approval as a service &mdash; for compliance and security teams, not just data science.</li>
+      <li><strong>Vertical from runtime to dashboard.</strong> JamJet runtime + JamJet Cloud are one vendor. Audit trails are end-to-end, not stitched.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cloud-cta">
+  <div class="cloud-cta-inner">
+    <h2>Ready to ship agents you trust?</h2>
+    <div class="cloud-actions">
+      <a href="https://app.jamjet.dev" class="btn-primary">Sign up free</a>
+      <a href="https://docs.jamjet.dev/docs/en/cloud-quickstart" class="btn-secondary">Read the quickstart</a>
+    </div>
+    <p class="cloud-note">
+      Open-source JamJet runtime, Engram local, Python and Java SDKs &mdash; always free.
+      Cloud free tier is 1k traces / month, 7-day retention. No credit card.
+    </p>
+  </div>
+</section>
+
+<style>
+  .cloud-hero {
+    padding: 6rem 1.5rem 4rem;
+    text-align: center;
+  }
+  .cloud-hero-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .cloud-hero h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.05;
+    margin: 0.5rem 0 1.5rem;
+  }
+  .cloud-sub {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--text-secondary, #555);
+    max-width: 640px;
+    margin: 0 auto 2rem;
+  }
+  .cloud-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary, .btn-secondary {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .btn-primary {
+    background: var(--brand, #f5c518);
+    color: #111;
+  }
+  .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border, #ccc);
+    color: inherit;
+  }
+  .cloud-note {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-tertiary, #888);
+  }
+  .cloud-section {
+    padding: 4rem 1.5rem;
+    border-top: 1px solid var(--border, #eee);
+  }
+  .cloud-section-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .cloud-section h2 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    margin-bottom: 1.5rem;
+  }
+  .cloud-code {
+    background: #0e1116;
+    color: #e6e6e6;
+    padding: 1.25rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+  .cloud-features {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+  .cloud-features li {
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    background: var(--surface, #f8f8f6);
+    border: 1px solid var(--border, #eee);
+  }
+  .cloud-cta {
+    padding: 5rem 1.5rem 6rem;
+    text-align: center;
+    border-top: 1px solid var(--border, #eee);
+  }
+  .cloud-cta-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .section-label {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    background: var(--brand, #f5c518);
+    color: #111;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+</style>
+</BaseLayout>
