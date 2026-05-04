@@ -23,13 +23,13 @@
   <text x="52" y="111" class="reason">gpt-4o-mini for both reader and utility.</text>
   <text x="52" y="125" class="reason">Sonnet/Haiku alternates available; not promoted.</text>
 
-  <!-- Item: --decompose -->
+  <!-- Item: decompose flag -->
   <rect x="40" y="146" width="340" height="58" rx="4" fill="#f4f8f4" stroke="#3b6e4b" stroke-opacity="0.3"/>
   <text x="52" y="164" class="item">--decompose (with tightened gate)</text>
   <text x="52" y="179" class="reason">Skip questions with temporal/ordering markers.</text>
   <text x="52" y="193" class="reason">+6pp on multi-session, no temporal regression.</text>
 
-  <!-- Item: --tools -->
+  <!-- Item: tools flag -->
   <rect x="40" y="214" width="340" height="80" rx="4" fill="#f4f8f4" stroke="#3b6e4b" stroke-opacity="0.3"/>
   <text x="52" y="232" class="item">--tools (text-protocol, 6 tools)</text>
   <text x="52" y="247" class="reason">search_facts, search_events, solve_temporal,</text>
