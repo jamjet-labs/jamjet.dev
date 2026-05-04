@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; fill: #1a1a18; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; fill: #8b7355; }
+    .title { font-size: 13px; font-weight: 600; }
+    .small { font-size: 10px; fill: #5a534a; }
+    .num { font-size: 11px; font-weight: 600; }
+    .delta-pos { fill: #2e7d4f; font-size: 11px; font-weight: 700; }
+    .delta-neg { fill: #b03030; font-size: 11px; font-weight: 700; }
+    .delta-zero { fill: #8b7355; font-size: 11px; font-weight: 600; }
+  </style>
+
+  <rect width="800" height="360" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="358" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <text x="400" y="28" text-anchor="middle" class="label">LongMemEval-S 100q — baseline vs shipped stack</text>
+
+  <!-- Card -->
+  <rect x="25" y="42" width="750" height="295" rx="6" fill="#ffffff" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- Legend -->
+  <rect x="50" y="58" width="14" height="10" fill="#cbb89a"/>
+  <text x="70" y="67" class="small">Baseline (no flags)</text>
+  <rect x="190" y="58" width="14" height="10" fill="#3b6e4b"/>
+  <text x="210" y="67" class="small">Shipped: --decompose --tools</text>
+
+  <!-- Chart axis -->
+  <line x1="200" y1="90" x2="200" y2="305" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <line x1="200" y1="305" x2="720" y2="305" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- Gridlines (every 25%) -->
+  <line x1="330" y1="90" x2="330" y2="305" stroke="#1a1a18" stroke-opacity="0.05"/>
+  <text x="330" y="320" text-anchor="middle" class="small">25%</text>
+  <line x1="460" y1="90" x2="460" y2="305" stroke="#1a1a18" stroke-opacity="0.05"/>
+  <text x="460" y="320" text-anchor="middle" class="small">50%</text>
+  <line x1="590" y1="90" x2="590" y2="305" stroke="#1a1a18" stroke-opacity="0.05"/>
+  <text x="590" y="320" text-anchor="middle" class="small">75%</text>
+  <line x1="720" y1="90" x2="720" y2="305" stroke="#1a1a18" stroke-opacity="0.05"/>
+  <text x="720" y="320" text-anchor="middle" class="small">100%</text>
+
+  <!-- Row: single-session-assistant 88 → 88 (0) -->
+  <text x="190" y="105" text-anchor="end" class="title">single-session-assistant</text>
+  <rect x="200" y="98" width="458" height="10" fill="#cbb89a"/>
+  <rect x="200" y="110" width="458" height="10" fill="#3b6e4b"/>
+  <text x="668" y="115" class="num">88% → 88%</text>
+  <text x="730" y="115" class="delta-zero">±0</text>
+
+  <!-- Row: knowledge-update 71 → 76 (+5) -->
+  <text x="190" y="135" text-anchor="end" class="title">knowledge-update</text>
+  <rect x="200" y="128" width="369" height="10" fill="#cbb89a"/>
+  <rect x="200" y="140" width="395" height="10" fill="#3b6e4b"/>
+  <text x="605" y="145" class="num">71% → 76%</text>
+  <text x="730" y="145" class="delta-pos">+5</text>
+
+  <!-- Row: temporal-reasoning 75 → 75 -->
+  <text x="190" y="165" text-anchor="end" class="title">temporal-reasoning</text>
+  <rect x="200" y="158" width="390" height="10" fill="#cbb89a"/>
+  <rect x="200" y="170" width="390" height="10" fill="#3b6e4b"/>
+  <text x="600" y="175" class="num">75% → 75%</text>
+  <text x="730" y="175" class="delta-zero">±0</text>
+
+  <!-- Row: single-session-user 75 → 69 -->
+  <text x="190" y="195" text-anchor="end" class="title">single-session-user</text>
+  <rect x="200" y="188" width="390" height="10" fill="#cbb89a"/>
+  <rect x="200" y="200" width="359" height="10" fill="#3b6e4b"/>
+  <text x="600" y="205" class="num">75% → 69%</text>
+  <text x="730" y="205" class="delta-neg">−6</text>
+
+  <!-- Row: multi-session 53 → 65 (+12, big win) -->
+  <text x="190" y="225" text-anchor="end" class="title">multi-session</text>
+  <rect x="200" y="218" width="276" height="10" fill="#cbb89a"/>
+  <rect x="200" y="230" width="338" height="10" fill="#3b6e4b"/>
+  <text x="548" y="235" class="num">53% → 65%</text>
+  <text x="730" y="235" class="delta-pos">+12</text>
+
+  <!-- Row: single-session-preference 24 → 35 (+11) -->
+  <text x="190" y="255" text-anchor="end" class="title">single-session-preference</text>
+  <rect x="200" y="248" width="125" height="10" fill="#cbb89a"/>
+  <rect x="200" y="260" width="182" height="10" fill="#3b6e4b"/>
+  <text x="392" y="265" class="num">24% → 35%</text>
+  <text x="730" y="265" class="delta-pos">+11</text>
+
+  <!-- Overall row (separator above) -->
+  <line x1="50" y1="282" x2="750" y2="282" stroke="#1a1a18" stroke-opacity="0.15"/>
+  <text x="190" y="297" text-anchor="end" class="title" font-weight="700">overall</text>
+  <rect x="200" y="290" width="333" height="10" fill="#cbb89a"/>
+  <rect x="200" y="302" width="354" height="10" fill="#3b6e4b"/>
+  <text x="565" y="307" class="num" font-weight="700">64% → 68%</text>
+  <text x="730" y="307" class="delta-pos">+4</text>
+
+  <text x="400" y="350" text-anchor="middle" class="small">Judge: gpt-4o-mini · Reader: gpt-4o-mini · n=100 stratified · gates: --decompose tightened, --tools 6 built-in</text>
+</svg>

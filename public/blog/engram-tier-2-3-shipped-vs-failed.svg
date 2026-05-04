@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; fill: #1a1a18; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; fill: #8b7355; }
+    .title { font-size: 12px; font-weight: 700; }
+    .item { font-size: 11px; font-weight: 600; }
+    .reason { font-size: 10px; fill: #5a534a; }
+    .small { font-size: 10px; fill: #5a534a; }
+  </style>
+
+  <rect width="800" height="320" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="318" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <text x="400" y="28" text-anchor="middle" class="label">8 items, 4 phases — what shipped</text>
+
+  <!-- LEFT COLUMN: SHIPPED -->
+  <rect x="25" y="42" width="370" height="265" rx="6" fill="#ffffff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <text x="40" y="62" class="title" fill="#2e7d4f">✓ Shipped ON by default (3)</text>
+
+  <!-- Item: ModelTier -->
+  <rect x="40" y="78" width="340" height="58" rx="4" fill="#f4f8f4" stroke="#3b6e4b" stroke-opacity="0.3"/>
+  <text x="52" y="96" class="item">ModelTier scaffolding</text>
+  <text x="52" y="111" class="reason">gpt-4o-mini for both reader and utility.</text>
+  <text x="52" y="125" class="reason">Sonnet/Haiku alternates available; not promoted.</text>
+
+  <!-- Item: --decompose -->
+  <rect x="40" y="146" width="340" height="58" rx="4" fill="#f4f8f4" stroke="#3b6e4b" stroke-opacity="0.3"/>
+  <text x="52" y="164" class="item">--decompose (with tightened gate)</text>
+  <text x="52" y="179" class="reason">Skip questions with temporal/ordering markers.</text>
+  <text x="52" y="193" class="reason">+6pp on multi-session, no temporal regression.</text>
+
+  <!-- Item: --tools -->
+  <rect x="40" y="214" width="340" height="80" rx="4" fill="#f4f8f4" stroke="#3b6e4b" stroke-opacity="0.3"/>
+  <text x="52" y="232" class="item">--tools (text-protocol, 6 tools)</text>
+  <text x="52" y="247" class="reason">search_facts, search_events, solve_temporal,</text>
+  <text x="52" y="261" class="reason">count_between, add_days, days_between.</text>
+  <text x="52" y="275" class="reason">+3pp overall, broad category lift.</text>
+  <text x="52" y="289" class="reason" font-style="italic">Sonnet/Haiku regress — needs native tool API.</text>
+
+  <!-- RIGHT COLUMN: FAILED -->
+  <rect x="405" y="42" width="370" height="265" rx="6" fill="#ffffff" stroke="#1a1a18" stroke-opacity="0.12"/>
+  <text x="420" y="62" class="title" fill="#b03030">✗ Behind flag default OFF (5)</text>
+
+  <!-- Failed items as compact rows -->
+  <rect x="420" y="78" width="340" height="42" rx="4" fill="#fdf6f6" stroke="#b03030" stroke-opacity="0.25"/>
+  <text x="432" y="94" class="item">--solver (programmatic temporal)</text>
+  <text x="432" y="111" class="reason">Parser too eager — misfires on knowledge-update.</text>
+
+  <rect x="420" y="128" width="340" height="42" rx="4" fill="#fdf6f6" stroke="#b03030" stroke-opacity="0.25"/>
+  <text x="432" y="144" class="item">--reextract (re-extract on PARTIAL)</text>
+  <text x="432" y="161" class="reason">No detectable lift; top_k=30 already saturates context.</text>
+
+  <rect x="420" y="178" width="340" height="42" rx="4" fill="#fdf6f6" stroke="#b03030" stroke-opacity="0.25"/>
+  <text x="432" y="194" class="item">--self-consistency (N=3 vote)</text>
+  <text x="432" y="211" class="reason">gpt-4o-mini at temp=0 too deterministic for SC.</text>
+
+  <rect x="420" y="228" width="340" height="42" rx="4" fill="#fdf6f6" stroke="#b03030" stroke-opacity="0.25"/>
+  <text x="432" y="244" class="item">--react (multi-hop agent fallback)</text>
+  <text x="432" y="261" class="reason">Verifier overcorrects — agent rewrites correct answers.</text>
+
+  <rect x="420" y="278" width="340" height="22" rx="4" fill="#fdf6f6" stroke="#b03030" stroke-opacity="0.25"/>
+  <text x="432" y="294" class="item">--ft-cross-encoder <tspan class="reason" font-weight="400">(+3 nDCG, −7pp downstream — labels misaligned)</tspan></text>
+</svg>

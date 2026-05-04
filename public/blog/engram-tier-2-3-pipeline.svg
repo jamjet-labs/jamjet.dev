@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; fill: #1a1a18; }
+    .label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; fill: #8b7355; }
+    .stage { font-size: 12px; font-weight: 700; }
+    .desc { font-size: 10px; fill: #5a534a; }
+    .flag-on { fill: #2e7d4f; font-size: 10px; font-weight: 600; }
+    .flag-off { fill: #8b7355; font-size: 10px; font-style: italic; }
+  </style>
+
+  <rect width="800" height="280" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="798" height="278" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <text x="400" y="28" text-anchor="middle" class="label">Final shipped pipeline (gpt-4o-mini · --decompose · --tools)</text>
+
+  <!-- Card -->
+  <rect x="25" y="42" width="750" height="220" rx="6" fill="#ffffff" stroke="#1a1a18" stroke-opacity="0.12"/>
+
+  <!-- Stage 1: Question -->
+  <rect x="50" y="100" width="100" height="60" rx="4" fill="#f5f1e8" stroke="#8b7355" stroke-opacity="0.3"/>
+  <text x="100" y="125" text-anchor="middle" class="stage">Question</text>
+  <text x="100" y="142" text-anchor="middle" class="desc">+ today's date</text>
+
+  <!-- arrow -->
+  <line x1="155" y1="130" x2="180" y2="130" stroke="#5a534a" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage 2: Decomposer -->
+  <rect x="185" y="80" width="120" height="100" rx="4" fill="#eef4ee" stroke="#3b6e4b" stroke-opacity="0.3"/>
+  <text x="245" y="100" text-anchor="middle" class="stage">Decomposer</text>
+  <text x="245" y="116" text-anchor="middle" class="flag-on">--decompose ON</text>
+  <text x="245" y="135" text-anchor="middle" class="desc">Heuristic gate;</text>
+  <text x="245" y="148" text-anchor="middle" class="desc">skip temporal markers</text>
+  <text x="245" y="161" text-anchor="middle" class="desc">→ k subqueries</text>
+  <text x="245" y="174" text-anchor="middle" class="desc">parallel recall + RRF</text>
+
+  <!-- arrow -->
+  <line x1="310" y1="130" x2="335" y2="130" stroke="#5a534a" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage 3: Reader + Tools -->
+  <rect x="340" y="80" width="160" height="100" rx="4" fill="#eef4ee" stroke="#3b6e4b" stroke-opacity="0.3"/>
+  <text x="420" y="100" text-anchor="middle" class="stage">Reader (gpt-4o-mini)</text>
+  <text x="420" y="116" text-anchor="middle" class="flag-on">--tools ON · 6 tools</text>
+  <text x="420" y="135" text-anchor="middle" class="desc">[TOOL_USE]{name, input}[/TOOL_USE]</text>
+  <text x="420" y="148" text-anchor="middle" class="desc">search_facts · search_events</text>
+  <text x="420" y="161" text-anchor="middle" class="desc">add_days · days_between</text>
+  <text x="420" y="174" text-anchor="middle" class="desc">cap 5 calls/turn</text>
+
+  <!-- arrow -->
+  <line x1="505" y1="130" x2="530" y2="130" stroke="#5a534a" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage 4: Verifier -->
+  <rect x="535" y="80" width="100" height="100" rx="4" fill="#f5f1e8" stroke="#8b7355" stroke-opacity="0.3"/>
+  <text x="585" y="100" text-anchor="middle" class="stage">Verifier</text>
+  <text x="585" y="116" text-anchor="middle" class="desc">(gpt-4o-mini)</text>
+  <text x="585" y="138" text-anchor="middle" class="desc">XML tags:</text>
+  <text x="585" y="152" text-anchor="middle" class="desc">YES / PARTIAL / NO</text>
+
+  <!-- arrow -->
+  <line x1="640" y1="130" x2="665" y2="130" stroke="#5a534a" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage 5: Answer -->
+  <rect x="670" y="100" width="80" height="60" rx="4" fill="#eef4ee" stroke="#3b6e4b" stroke-opacity="0.3"/>
+  <text x="710" y="125" text-anchor="middle" class="stage">Answer</text>
+  <text x="710" y="142" text-anchor="middle" class="desc">68%</text>
+
+  <!-- Disabled rungs (below) -->
+  <text x="50" y="210" class="label">Disabled escalation rungs (default off)</text>
+  <text x="50" y="228" class="flag-off">--reextract</text>
+  <text x="170" y="228" class="flag-off">--self-consistency</text>
+  <text x="320" y="228" class="flag-off">--react (agent fallback)</text>
+  <text x="490" y="228" class="flag-off">--solver (DSL)</text>
+  <text x="610" y="228" class="flag-off">--ft-cross-encoder</text>
+  <text x="50" y="248" class="desc">5 alternative paths instrumented; each documented in spec doc with diagnosis.</text>
+
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#5a534a"/>
+    </marker>
+  </defs>
+</svg>
