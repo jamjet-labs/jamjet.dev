@@ -145,3 +145,11 @@ dist/
 # Claude Code
 .claude/
 docs/
+
+# Local AI/editor agent config — never commit Claude/skill artifacts
+.superpowers/
+docs/superpowers/
+CLAUDE.md
+progress-tracker.md
+REQUIREMENTS.md
+.worktrees/
