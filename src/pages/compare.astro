@@ -56,14 +56,14 @@ const fits: FitRow[] = [
     category: 'Governance',
     keepFor: 'Sub-millisecond policy decisions, OPA/Cedar/YAML rule DSLs, OWASP Agentic Top 10 coverage, and Azure-native deployment.',
     addJamjetFor: 'Durable execution, agent memory (Engram), replay, signed audit evidence, human-in-the-loop nodes, and cost caps in the same runtime as policy.',
-    link: '/compare/microsoft-agt',
+    link: '/compare/microsoft-agt/',
   },
   {
     name: 'Temporal',
     category: 'Orchestration',
     keepFor: 'Battle-tested durability for general distributed workflows. Massive scale, broad SDKs.',
     addJamjetFor: 'Agent-specific concerns: memory, MCP/A2A, policy, approvals, cost caps.',
-    link: '/compare/temporal',
+    link: '/compare/temporal/',
   },
   {
     name: 'LangSmith / Arize / Phoenix',
@@ -234,7 +234,15 @@ const categories = [...new Set(fits.map(f => f.category))];
       For ecosystems where the design tradeoffs deserve more than a sentence, we write them up in full.
     </p>
     <div class="deep-grid">
-      <a class="deep-card deep-ready" href="/compare/temporal">
+      <a class="deep-card deep-ready" href="/compare/microsoft-agt/">
+        <div class="deep-head">
+          <span class="deep-name">Microsoft AGT</span>
+          <span class="deep-status">Available</span>
+        </div>
+        <p>Microsoft's policy library for AI agents vs JamJet's safety layer with durability, memory, replay, and audit evidence in the same fabric.</p>
+        <span class="deep-arrow">Read &rarr;</span>
+      </a>
+      <a class="deep-card deep-ready" href="/compare/temporal/">
         <div class="deep-head">
           <span class="deep-name">Temporal</span>
           <span class="deep-status">Available</span>
