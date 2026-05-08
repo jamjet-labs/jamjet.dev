@@ -218,6 +218,61 @@ const compareLd = {
       <li>Microsoft-backed maintenance and Azure-native deployment</li>
     </ul>
   </section>
+
+  <section class="compare-section">
+    <h2>Where JamJet goes further</h2>
+    <p>
+      JamJet's thesis is that policy alone isn't enough for AI agents in production. There are six
+      concerns a policy library can't address &mdash; not because AGT got them wrong, but because they
+      can't live in a library. They need to live in the runtime.
+    </p>
+
+    <h3>Durable execution</h3>
+    <p>
+      Policy that blocks an unsafe call is necessary but not sufficient. When the worker dies mid-tool-call,
+      you need the run to resume &mdash; not retry from scratch and not lose the policy decisions you already
+      logged. JamJet's event-sourced runtime survives crashes by replaying the event log; AGT doesn't address this.
+    </p>
+
+    <h3>Agent memory</h3>
+    <p>
+      A policy library has no opinion about what the agent remembers. Engram is JamJet's memory primitive
+      &mdash; temporal knowledge graph, fact extraction, conflict detection, consolidation &mdash; governed
+      by the same runtime as the rest of the agent.
+    </p>
+
+    <h3>Replay</h3>
+    <p>
+      Production agents will be questioned. AGT logs decisions; JamJet replays them. Replay-1.0 cassettes
+      plus the CLI verifier let you re-execute a run deterministically and prove what happened.
+    </p>
+
+    <h3>Audit exports for compliance</h3>
+    <p>
+      EU AI Act, financial, and healthcare auditors don't want a JSON dump. They want an evidence package.
+      JamJet ships Ed25519-signed exports in PDF, OTLP, Splunk, and Datadog formats with per-entry retention.
+      AGT logs policy decisions; turning those into a compliance artifact is on you.
+    </p>
+
+    <h3>Human-in-the-loop as a workflow primitive</h3>
+    <p>
+      AGT's policy can <em>require</em> approval. JamJet has approval <em>nodes</em> &mdash; durable across
+      restarts, with SLA tracking and bulk-decide UX in the hosted control plane.
+    </p>
+
+    <h3>Cost caps as a runtime primitive</h3>
+    <p>
+      A reflection loop that won't stop spending is a real failure mode for production agents.
+      JamJet enforces token and dollar caps at both workflow and agent granularity at runtime: exceeding a
+      budget halts the execution or routes it to a configurable fallback node. AGT doesn't address this.
+    </p>
+
+    <p class="closing-line">
+      These are not features you can add to a policy library &mdash; they need to live in the runtime.
+      JamJet builds them as agent-native abstractions from the ground up; you keep your existing framework
+      on top, or write directly on JamJet, or run it as JamJet Cloud.
+    </p>
+  </section>
 </div>
 
 </BaseLayout>
