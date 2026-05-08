@@ -183,6 +183,69 @@ const compareLd = {
   </section>
 
   <section class="compare-section">
+    <h2>What the same agent step looks like</h2>
+    <p>
+      Same task: an LLM call that needs durability, a policy check, and human approval if the model wants to
+      do something high-risk.
+    </p>
+
+    <div class="code-compare">
+      <div class="code-pane">
+        <span class="code-label">Temporal (Python SDK)</span>
+        <pre><code>{`@activity.defn
+async def call_llm(prompt: str) -> str:
+    # durability via @activity is here, but...
+    return await openai.chat(prompt)
+
+@workflow.defn
+class AgentWorkflow:
+    @workflow.run
+    async def run(self, prompt: str) -> str:
+        result = await workflow.execute_activity(
+            call_llm, prompt,
+            start_to_close_timeout=timedelta(minutes=5),
+        )
+        # policy check? you write it
+        # approval? signal handler + custom UI
+        # audit? workflow history (not designed for compliance)
+        # cost cap? you track tokens yourself
+        return result`}</code></pre>
+      </div>
+
+      <div class="code-pane">
+        <span class="code-label">JamJet (Python SDK, native mode)</span>
+        <pre><code>{`import jamjet
+import jamjet.cloud as cloud
+
+# One-time setup: connect to JamJet Cloud, push a policy, set a cost cap
+jamjet.configure(api_key="jj_...", project="research-agent")
+cloud.policy("block", "payments.*")
+cloud.budget(max_cost_usd=50.0)
+
+# Define an LLM-backed task: one decorator, docstring = instructions
+from jamjet import task, tool
+
+@tool
+async def web_search(query: str) -> str:
+    ...  # call your search API
+
+@task(model="gpt-4o", tools=[web_search], max_cost_usd=5.0)
+async def call_llm(prompt: str) -> str:
+    """Research assistant. Search first, then summarize findings."""
+
+# Call it like any async function — durability and policy apply automatically
+result = await call_llm(prompt)`}</code></pre>
+      </div>
+    </div>
+
+    <p class="code-caption">
+      Same durability, plus policy + approval + cost cap declared in the decorator. Wrap mode (drop-in for an
+      existing LangGraph or Spring AI agent) achieves the same primitives without rewriting the function
+      &mdash; see the docs.
+    </p>
+  </section>
+
+  <section class="compare-section">
     <h2>Where Temporal excels</h2>
     <p>Temporal's durability model is the best in the industry. If your primary concern is "my distributed workflows must never lose progress," Temporal is the safe, proven choice. It handles:</p>
     <ul class="pros-list">
@@ -382,6 +445,43 @@ const compareLd = {
   }
   .pros-list li strong { color: var(--text); }
 
+  .code-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .code-pane {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    background: var(--bg-alt);
+    overflow: hidden;
+  }
+  .code-label {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+  .code-pane pre {
+    margin: 0;
+    overflow-x: auto;
+    font-size: 0.78rem;
+  }
+  .code-pane code {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .code-caption {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin-top: 12px;
+  }
+
   .tradeoff-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -404,5 +504,6 @@ const compareLd = {
   @media (max-width: 768px) {
     .tldr-grid { grid-template-columns: 1fr; }
     .tradeoff-grid { grid-template-columns: 1fr; }
+    .code-compare { grid-template-columns: 1fr; }
   }
 </style>
