@@ -229,9 +229,9 @@ result = await call_llm(prompt)`}</code></pre>
     </div>
 
     <p class="code-caption">
-      Same durability, plus policy + approval + cost cap declared in the decorator. Wrap mode (drop-in for an
-      existing LangGraph or Spring AI agent) achieves the same primitives without rewriting the function
-      &mdash; see the docs.
+      Same durability. Policy and budget configured at SDK setup; cost cap on the decorator; approval via
+      <code>cloud.require_approval()</code> when you need it. Wrap mode (drop-in for an existing LangGraph or
+      Spring AI agent) gets the same primitives without rewriting the function &mdash; see the docs.
     </p>
   </section>
 
