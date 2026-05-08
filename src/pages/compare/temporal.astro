@@ -35,6 +35,12 @@ const compareLd = {
       audit trails, human approval, cost governance, and memory &mdash; none of which Temporal provides natively.
       That's where JamJet comes in.
     </p>
+    <p class="verdict">
+      <strong>The short answer:</strong> Use Temporal if you already run it for non-AI workflows. Use JamJet
+      if AI agents are the workload &mdash; you get policy, durability, memory, signed audit evidence, HITL,
+      and cost caps in one fabric, with wrap mode so your existing framework keeps working.
+    </p>
+    <p class="last-updated">Last updated 2026-05-08</p>
   </header>
 
   <section class="compare-section">
@@ -267,6 +273,23 @@ const compareLd = {
     font-size: 1rem;
     line-height: 1.8;
     margin-bottom: 16px;
+  }
+
+  .verdict {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text);
+    padding: 16px 20px;
+    border-left: 3px solid var(--accent);
+    background: var(--bg-alt);
+    margin: 24px 0;
+  }
+  .verdict strong { color: var(--text); }
+
+  .last-updated {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 8px 0 24px;
   }
 
   .compare-section {
