@@ -39,6 +39,32 @@ const compareLd = {
     </p>
     <p class="last-updated">Last updated 2026-05-08</p>
   </header>
+
+  <section class="compare-section">
+    <h2>The quick version</h2>
+    <div class="tldr-grid">
+      <div class="tldr-card">
+        <h3>Choose Microsoft AGT when</h3>
+        <ul>
+          <li>You're standardized on Microsoft / Azure and want native Azure App Service deployment</li>
+          <li>Policy is the only governance primitive you need today</li>
+          <li>Your agent stack spans .NET or Go (AGT covers both natively today)</li>
+          <li>You want to author rules in OPA Rego or Cedar specifically</li>
+          <li>You don't need durable execution, replay, or hosted memory in the same runtime</li>
+        </ul>
+      </div>
+      <div class="tldr-card">
+        <h3>Choose JamJet when</h3>
+        <ul>
+          <li>You need policy <em>plus</em> durability, memory, audit evidence, replay, and HITL in one fabric</li>
+          <li>You want to wrap your existing framework (LangGraph, CrewAI, Spring AI, OpenAI Agents SDK) without switching it</li>
+          <li>You need signed, retention-aware audit exports for EU AI Act / financial / healthcare compliance</li>
+          <li>You want agent memory (Engram) governed by the same runtime as the rest of the agent</li>
+          <li>You prefer a cloud-neutral safety layer over a Microsoft-anchored one</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 </div>
 
 </BaseLayout>
