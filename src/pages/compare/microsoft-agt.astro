@@ -5,7 +5,7 @@ const compareLd = {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "JamJet vs Microsoft Agent Governance Toolkit — Honest Comparison",
-  "description": "Microsoft AGT is a policy library. JamJet adds durability, memory, replay, and signed audit evidence — wrap, native, or hosted.",
+  "description": "Microsoft Agent Governance Toolkit is a policy library. JamJet adds durability, memory, replay, and signed audit evidence — wrap, native, or hosted.",
   "author": { "@type": "Person", "name": "Sunil Prakash" },
   "publisher": { "@type": "Organization", "name": "JamJet" },
 };
@@ -13,7 +13,7 @@ const compareLd = {
 
 <BaseLayout
   title="JamJet vs Microsoft Agent Governance Toolkit — Honest Comparison"
-  description="Microsoft AGT is a policy library. JamJet adds durability, memory, replay, and signed audit evidence — wrap, native, or hosted."
+  description="Microsoft Agent Governance Toolkit is a policy library. JamJet adds durability, memory, replay, and signed audit evidence — wrap, native, or hosted."
   canonical="https://jamjet.dev/compare/microsoft-agt/"
 >
 <Fragment slot="head">
@@ -160,12 +160,12 @@ const compareLd = {
           <tr>
             <td><strong>Identity / token delegation</strong></td>
             <td>DID-based identity, behavioral trust scoring.</td>
-            <td>RFC 8693 OAuth token exchange with scope narrowing shipped; Ed25519-signed audit bundles shipped. Agent Identity Protocol (AIP) as a named protocol is on the roadmap.</td>
+            <td>RFC 8693 OAuth token exchange with scope narrowing. AGT goes deeper on identity primitives (DIDs, trust scoring); JamJet's wedge is delegated-token narrowing.</td>
           </tr>
           <tr>
             <td><strong>Plugin / tool signing</strong></td>
             <td>Ed25519 plugin signing.</td>
-            <td>Policy hierarchy enforced at runtime (tenant &rarr; workflow &rarr; node). Signed tool manifests are on the roadmap.</td>
+            <td>Policy hierarchy enforced at runtime (4-level: global &rarr; tenant &rarr; workflow &rarr; node). Signed tool manifests on the roadmap.</td>
           </tr>
           <tr>
             <td><strong>MCP support</strong></td>
