@@ -163,19 +163,9 @@ const compareLd = {
             <td>Rust core + Java native runtime</td>
           </tr>
           <tr>
-            <td><strong>Community</strong></td>
-            <td class="strong">~12K GitHub stars. 1,000+ customers. Large Slack community. Enterprise proven.</td>
-            <td class="weak">Early-stage. Small community. Production examples but few known production deployments.</td>
-          </tr>
-          <tr>
             <td><strong>Pricing</strong></td>
-            <td>Self-hosted: free. Cloud: $100/mo minimum + $50/million actions + storage fees. Costs can scale unpredictably.</td>
-            <td>Fully open source. No commercial offering yet. Self-hosted only.</td>
-          </tr>
-          <tr>
-            <td><strong>Maturity</strong></td>
-            <td class="strong">Proven at scale. Netflix, Snap, DoorDash, Box. $5B valuation. 431 employees.</td>
-            <td class="weak">Pre-revenue. Solo founder. Strong engineering, unproven at scale.</td>
+            <td>Self-hosted: free. Cloud: Essentials from $100/mo (1M actions included) + $50/million additional actions + active and retained storage fees. Costs scale with usage.</td>
+            <td>Open source (Apache 2.0). Self-host or run on JamJet Cloud &mdash; same SDK and patchers.</td>
           </tr>
         </tbody>
       </table>
@@ -280,7 +270,7 @@ result = await call_llm(prompt)`}</code></pre>
     </p>
     <p>
       More practically: if you already use Temporal for non-AI workflows and want to add AI agent governance,
-      JamJet's MCP Gateway (coming soon) can sit between your agent and its tools to add policy enforcement
+      JamJet's MCP Gateway (on the roadmap) can sit between your agent and its tools to add policy enforcement
       and audit trails without replacing Temporal.
     </p>
     <p>
@@ -297,7 +287,7 @@ result = await call_llm(prompt)`}</code></pre>
       </div>
       <div class="tradeoff-card">
         <h3>JamJet gives you</h3>
-        <p>Agent-native governance, durability, memory, and protocol support in one open-source runtime. You sacrifice scale confidence, enterprise support, language breadth, and the comfort of a $5B-backed platform. JamJet is early-stage.</p>
+        <p>Policy, durability, memory (Engram), replay, signed audit evidence, HITL nodes, and cost caps in one open-source runtime. Today's SDK coverage is Python and Java; TypeScript and Go are on the roadmap. The framework-integration surface is narrower than Temporal's broad workflow ecosystem. Pick JamJet when AI-agent-specific primitives outweigh the breadth tradeoff.</p>
       </div>
     </div>
   </section>
