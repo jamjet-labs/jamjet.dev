@@ -273,6 +273,21 @@ const compareLd = {
       on top, or write directly on JamJet, or run it as JamJet Cloud.
     </p>
   </section>
+
+  <section class="compare-section">
+    <h2>Can you use both?</h2>
+    <p>
+      Yes, and it's a legitimate combination. AGT and JamJet operate at different layers &mdash; AGT
+      enforces policy decisions at tool-call time; JamJet runs the durable execution + memory + audit + HITL
+      layer underneath.
+    </p>
+    <p>
+      The clean composition: keep AGT for its policy-rule DSLs and OWASP coverage if your team is already
+      invested in them; add JamJet (in wrap mode) for the rest of the safety surface &mdash; durability,
+      memory, signed audit evidence, HITL, cost caps. JamJet's auto-patcher sits between your agent and its
+      tools without replacing AGT.
+    </p>
+  </section>
 </div>
 
 </BaseLayout>
