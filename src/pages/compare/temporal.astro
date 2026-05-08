@@ -98,6 +98,11 @@ const compareLd = {
             <td class="strong">Separate append-only audit log. Per-entry retention policies. Actor enrichment. Designed for compliance.</td>
           </tr>
           <tr>
+            <td><strong>Compliance evidence packages</strong></td>
+            <td class="weak">Workflow history is queryable but not signed, not retention-aware, not formatted for compliance handoff.</td>
+            <td class="strong">Ed25519-signed evidence packages. PDF / OTLP / Splunk / Datadog renderers. Per-entry retention. Designed for EU AI Act and financial/healthcare audit handoff.</td>
+          </tr>
+          <tr>
             <td><strong>Human-in-the-loop</strong></td>
             <td>Via signals &mdash; functional but manual. Not a first-class workflow primitive. Requires custom handling.</td>
             <td class="strong">First-class pause/resume/approval nodes. Durable across restarts. Built into workflow IR.</td>
