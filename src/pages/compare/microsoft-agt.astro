@@ -109,6 +109,98 @@ const compareLd = {
       <strong>AGT is wrap-only, and policy is the primitive. JamJet is wrap + native + cloud, with policy as one of seven primitives in any mode.</strong>
     </p>
   </section>
+
+  <section class="compare-section">
+    <h2>Feature comparison</h2>
+    <div class="table-wrap">
+      <table class="ftable">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>Microsoft AGT</th>
+            <th>JamJet</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Durable execution</strong></td>
+            <td class="weak">Not in scope (stateless policy engine).</td>
+            <td class="strong">Event-sourced + checkpoint snapshots. Rust core + Java native runtime.</td>
+          </tr>
+          <tr>
+            <td><strong>Agent memory</strong></td>
+            <td class="weak">Not in scope.</td>
+            <td class="strong">Engram &mdash; temporal knowledge graph, fact extraction, conflict detection, hybrid retrieval, consolidation, 11 MCP tools.</td>
+          </tr>
+          <tr>
+            <td><strong>Replay</strong></td>
+            <td class="weak">Not in scope.</td>
+            <td class="strong">Replay-1.0 cassettes + CLI verifier; deterministic re-execution from event log.</td>
+          </tr>
+          <tr>
+            <td><strong>Audit exports for compliance</strong></td>
+            <td class="weak">Policy decisions logged; no signed export format.</td>
+            <td class="strong">Ed25519-signed evidence packages. PDF / OTLP / Splunk / Datadog renderers. Per-entry retention.</td>
+          </tr>
+          <tr>
+            <td><strong>Human-in-the-loop</strong></td>
+            <td>Policy can require approval; not a workflow primitive.</td>
+            <td class="strong">First-class pause/resume/approval nodes, durable across restarts.</td>
+          </tr>
+          <tr>
+            <td><strong>Cost governance</strong></td>
+            <td class="weak">Not in scope.</td>
+            <td class="strong">Per-workflow and per-agent token/dollar budgets, runtime-enforced &mdash; execution halts or branches when the limit is exceeded.</td>
+          </tr>
+          <tr>
+            <td><strong>Policy engine</strong></td>
+            <td class="strong">Sub-millisecond. OPA Rego + Cedar + YAML rule DSLs. OWASP Agentic Top 10 mapped 10/10.</td>
+            <td class="strong">4-level hierarchy (global &rarr; tenant &rarr; workflow &rarr; node). Glob-pattern tool blocking, model allowlists, delegation scoping.</td>
+          </tr>
+          <tr>
+            <td><strong>Identity / token delegation</strong></td>
+            <td>DID-based identity, behavioral trust scoring.</td>
+            <td>RFC 8693 OAuth token exchange with scope narrowing shipped; Ed25519-signed audit bundles shipped. Agent Identity Protocol (AIP) as a named protocol is on the roadmap.</td>
+          </tr>
+          <tr>
+            <td><strong>Plugin / tool signing</strong></td>
+            <td>Ed25519 plugin signing.</td>
+            <td>Policy hierarchy enforced at runtime (tenant &rarr; workflow &rarr; node). Signed tool manifests are on the roadmap.</td>
+          </tr>
+          <tr>
+            <td><strong>MCP support</strong></td>
+            <td class="weak">Not native.</td>
+            <td class="strong">Client + server, full spec, 11 Engram tools, MCP Registry listed.</td>
+          </tr>
+          <tr>
+            <td><strong>A2A protocol</strong></td>
+            <td class="weak">Not native.</td>
+            <td class="strong">Client + server, streaming, failure handling, agent discovery.</td>
+          </tr>
+          <tr>
+            <td><strong>Framework integrations</strong></td>
+            <td class="strong">LangChain, CrewAI, Google ADK, MS Agent Framework, OpenAI Agents SDK, LangGraph, Haystack, PydanticAI, Dify, LlamaIndex.</td>
+            <td>LangChain4j, Spring AI, OpenAI Agents SDK (via patcher), CrewAI (wrap mode), LangGraph (wrap mode); roadmap includes Quarkus, .NET.</td>
+          </tr>
+          <tr>
+            <td><strong>Language SDKs</strong></td>
+            <td class="strong">Python, TypeScript, Rust, Go, .NET.</td>
+            <td>Python, Java; TypeScript on the roadmap.</td>
+          </tr>
+          <tr>
+            <td><strong>Deployment</strong></td>
+            <td>Library &mdash; self-host alongside your agent; Azure App Service integration.</td>
+            <td>OSS self-host (Docker, Kubernetes, JVM); JamJet Cloud (hosted control plane).</td>
+          </tr>
+          <tr>
+            <td><strong>License</strong></td>
+            <td>MIT.</td>
+            <td>Apache 2.0.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </div>
 
 </BaseLayout>
