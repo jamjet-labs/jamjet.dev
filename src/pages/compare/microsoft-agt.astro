@@ -65,6 +65,50 @@ const compareLd = {
       </div>
     </div>
   </section>
+
+  <section class="compare-section">
+    <h2>Three ways to use JamJet</h2>
+    <p>
+      JamJet meets you where your agent already runs. Wrap your existing framework with no rewrite, write
+      directly on the JamJet runtime when you want everything native, or run it as JamJet Cloud for the
+      hosted control plane. Same SDK and patchers across all three modes.
+    </p>
+    <div class="table-wrap">
+      <table class="ftable modes-table">
+        <thead>
+          <tr>
+            <th>Mode</th>
+            <th>What you do</th>
+            <th>What you get today</th>
+            <th>Roadmap</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Wrap</strong></td>
+            <td>Keep your existing framework (LangGraph / CrewAI / Spring AI / OpenAI Agents SDK / LangChain4j). Drop in JamJet via the auto-patcher, Spring Boot starter, or SDK adapter.</td>
+            <td>Policy hierarchy, durable steps, signed audit evidence, HITL nodes, cost caps, Engram memory &mdash; applied underneath your existing agent code.</td>
+            <td>Additional framework patchers (Quarkus, .NET, Go) on the roadmap.</td>
+          </tr>
+          <tr>
+            <td><strong>Native</strong></td>
+            <td>Write <code>@task</code> / <code>@DurableAgent</code> / <code>Workflow</code> directly on JamJet. Python or Java SDK.</td>
+            <td>Everything wrap mode does, plus replay-1.0 cassettes, MCP-native client + server, A2A-native, the eval harness, and a coordinator node for multi-agent routing. No framework overhead.</td>
+            <td>TypeScript SDK on the roadmap; Go SDK after that.</td>
+          </tr>
+          <tr>
+            <td><strong>Cloud</strong></td>
+            <td>Same SDK and patchers, point at JamJet Cloud.</td>
+            <td>Hosted control plane: dashboards, retention policies, Ed25519-signed audit exports, billing, Slack alerts, production-readiness scorecard. Same OSS runtime underneath &mdash; Cloud doesn't fork the codebase.</td>
+            <td>Hosted Engram (memory) on the roadmap; today, Engram self-hosts.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="wedge-line">
+      <strong>AGT is wrap-only, and policy is the primitive. JamJet is wrap + native + cloud, with policy as one of seven primitives in any mode.</strong>
+    </p>
+  </section>
 </div>
 
 </BaseLayout>
