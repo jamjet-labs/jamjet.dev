@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const compareLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "JamJet vs Microsoft Agent Governance Toolkit — Honest Comparison",
+  "description": "Microsoft AGT is a policy library. JamJet adds durability, memory, replay, and signed audit evidence — wrap, native, or hosted.",
+  "author": { "@type": "Person", "name": "Sunil Prakash" },
+  "publisher": { "@type": "Organization", "name": "JamJet" },
+};
+---
+
+<BaseLayout
+  title="JamJet vs Microsoft Agent Governance Toolkit — Honest Comparison"
+  description="Microsoft AGT is a policy library. JamJet adds durability, memory, replay, and signed audit evidence — wrap, native, or hosted."
+  canonical="https://jamjet.dev/compare/microsoft-agt/"
+>
+<Fragment slot="head">
+  <script type="application/ld+json" set:html={JSON.stringify(compareLd)}></script>
+</Fragment>
+
+<div class="compare-wrap">
+  <a class="back-link" href="/">Back to JamJet</a>
+
+  <header class="compare-header">
+    <span class="section-label">Comparison</span>
+    <h1>JamJet vs Microsoft AGT<br/>for AI Agents</h1>
+    <p class="last-updated">Last updated 2026-05-08</p>
+  </header>
+</div>
+
+</BaseLayout>
