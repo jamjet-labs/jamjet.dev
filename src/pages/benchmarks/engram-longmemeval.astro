@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const compareLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "LongMemEval-S Leaderboard — Engram vs Chronos, Mastra, OMEGA, Zep",
+  "description": "Engram v0.1.0 on LongMemEval-S 500q with the official judge — alongside Chronos, Mastra, OMEGA, and Zep on accuracy + license + MCP + local.",
+  "datePublished": "2026-05-09",
+  "author": { "@type": "Person", "name": "Sunil Prakash" },
+  "publisher": { "@type": "Organization", "name": "JamJet" },
+};
+---
+
+<BaseLayout
+  title="LongMemEval-S Leaderboard — Engram vs Chronos, Mastra, OMEGA, Zep · JamJet Benchmarks"
+  description="Engram v0.1.0 on LongMemEval-S 500q with the official judge — alongside Chronos, Mastra, OMEGA, and Zep on accuracy + license + MCP + local."
+  canonical="https://jamjet.dev/benchmarks/engram-longmemeval/"
+>
+<Fragment slot="head">
+  <script type="application/ld+json" set:html={JSON.stringify(compareLd)}></script>
+</Fragment>
+
+<div class="lb-wrap">
+  <a class="back-link" href="/benchmarks/">← Back to JamJet benchmarks</a>
+
+  <header class="lb-header">
+    <span class="section-label">Memory · LongMemEval-S</span>
+    <h1>LongMemEval-S Leaderboard</h1>
+    <p class="lb-subhead">Engram v0.1.0 vs the published frontier, judged on the same methodology.</p>
+    <p class="last-updated">Last updated 2026-05-09</p>
+  </header>
+</div>
+
+</BaseLayout>
