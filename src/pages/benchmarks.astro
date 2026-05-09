@@ -1,248 +1,34 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const runs = [
-  {
-    label: 'llama3.2 · Ollama · Apple M-series · 2026-03-08',
-    model: 'llama3.2',
-    endpoint: 'http://localhost:11434/v1 (Ollama)',
-    runs: 20,
-    warmup: 3,
-    results: [
-      { name: 'Raw (baseline)',  mean: 947.2, median: 943.7, p95: 970.3, p99: 972.2, min: 935.6, max: 972.7, stdev: 9.9,  overhead: null },
-      { name: 'JamJet 0.1.1',   mean: 948.6, median: 948.2, p95: 959.0, p99: 964.2, min: 941.3, max: 965.5, stdev: 6.0,  overhead: +1.4 },
-      { name: 'LangGraph',       mean: 944.0, median: 943.0, p95: 953.8, p99: 961.1, min: 930.2, max: 963.0, stdev: 8.1,  overhead: -3.2 },
-    ],
-    note: 'All three frameworks within measurement noise (~1ms). JamJet\'s in-process executor adds zero observable overhead over a raw LLM call.',
-  },
-  {
-    label: 'qwen3:8b (thinking mode) · Ollama · Apple M-series · 2026-03-08',
-    model: 'qwen3:8b',
-    endpoint: 'http://localhost:11434/v1 (Ollama)',
-    runs: 15,
-    warmup: 3,
-    results: [
-      { name: 'Raw (baseline)',  mean: 8429.5, median: 8303.4, p95: 8940.3, p99: 9427.6, min: 8128.1, max: 9549.4, stdev: 352.3, overhead: null },
-      { name: 'JamJet 0.1.1',   mean: 10140.1, median: 10139.1, p95: 10487.0, p99: 10519.5, min: 9539.4, max: 10527.6, stdev: 285.1, overhead: +1710.6 },
-      { name: 'LangGraph',       mean: 11902.9, median: 11923.3, p95: 12761.8, p99: 12823.5, min: 11035.0, max: 12838.9, stdev: 551.7, overhead: +3473.3 },
-    ],
-    note: 'qwen3:8b generates variable-length chain-of-thought. High stdev dominates — overhead numbers reflect token generation variance, not framework overhead.',
-  },
-];
+const hubLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "JamJet Benchmarks — Memory leaderboard, framework overhead, reproducible measurements",
+  "description": "Reproducible benchmarks with full methodology. Engram LongMemEval-S leaderboard, framework overhead vs raw and LangGraph, and more.",
+  "datePublished": "2026-03-08",
+  "author": { "@type": "Person", "name": "Sunil Prakash" },
+  "publisher": { "@type": "Organization", "name": "JamJet" },
+};
 ---
 
 <BaseLayout
-  title="Runtime Economics and Reliability — JamJet Benchmarks"
-  description="How JamJet changes the operational cost of agent systems: resume vs rerun, replay vs reconstruction, and framework overhead in context."
+  title="JamJet Benchmarks — Memory leaderboard, framework overhead, reproducible measurements"
+  description="Reproducible benchmarks with full methodology. Engram LongMemEval-S leaderboard, framework overhead vs raw and LangGraph, and more."
   canonical="https://jamjet.dev/benchmarks/"
 >
+<Fragment slot="head">
+  <script type="application/ld+json" set:html={JSON.stringify(hubLd)}></script>
+</Fragment>
 
-<div class="bench-page">
-  <h1>Runtime Economics and Reliability</h1>
+<div class="bench-hub">
+  <h1>JamJet benchmarks</h1>
   <p class="subtitle">
-    JamJet's most important benefit is not microsecond-level orchestration overhead.
-    It is the reduction in wasted work when workflows fail, pause, or need to be replayed.
-    These benchmarks show both the raw framework tax and the runtime economics that matter once agents leave the demo stage.
+    Reproducible measurements with full methodology and code. Each deep-dive includes the reproduction script, the raw numbers, and the competitive context where it matters.
   </p>
-
-  <div class="economics-intro">
-    <h2>Why runtime economics matter more than framework tax</h2>
-    <div class="economics-grid">
-      <div class="econ-card">
-        <h3>Resume vs rerun after failure</h3>
-        <p>A 7-step workflow fails on step 6. Plain rerun: repeat all 7 steps. JamJet: resume from step 6. The savings scale with workflow complexity and LLM cost.</p>
-      </div>
-      <div class="econ-card">
-        <h3>Replay savings</h3>
-        <p>Replaying a failed or interesting execution avoids recomputing completed steps. Debug from checkpoints, not from scratch.</p>
-      </div>
-      <div class="econ-card">
-        <h3>Side-effect safety</h3>
-        <p>Durable state and leases reduce duplicate downstream actions after process failure — fewer double-sends, fewer double-charges.</p>
-      </div>
-    </div>
-  </div>
-
-  <h2 style="margin-top:2rem">Framework orchestration overhead</h2>
-  <p class="subtitle" style="margin-bottom:1.5rem">
-    For completeness, here is the raw orchestration tax measured against identical LLM calls.
-  </p>
-
-  {runs.map((run) => {
-    const maxMean = Math.max(...run.results.map(r => r.mean));
-    return (
-      <div>
-        <h3 class="run-heading">{run.label}</h3>
-        <div class="run-meta">
-          <span>Model: <strong>{run.model}</strong></span>
-          <span>Endpoint: <strong>{run.endpoint}</strong></span>
-          <span>Runs: <strong>{run.runs}</strong> (+{run.warmup} warmup)</span>
-        </div>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th style="text-align:left">Framework</th>
-                <th>mean (ms)</th>
-                <th>median</th>
-                <th>p95</th>
-                <th>p99</th>
-                <th>stdev</th>
-                <th>overhead</th>
-                <th>visual</th>
-              </tr>
-            </thead>
-            <tbody>
-              {run.results.map((r) => {
-                const isJamjet = r.name.startsWith('JamJet');
-                const isRaw = r.name === 'Raw (baseline)';
-                const barClass = isRaw ? 'bar-raw' : isJamjet ? 'bar-jamjet' : 'bar-other';
-                const barWidth = Math.round((r.mean / maxMean) * 180);
-                const overheadStr = r.overhead === null
-                  ? '—'
-                  : r.overhead >= 0
-                    ? `+${r.overhead.toFixed(1)}ms`
-                    : `${r.overhead.toFixed(1)}ms`;
-                return (
-                  <tr class={isJamjet ? 'jamjet-row' : ''}>
-                    <td style="text-align:left;font-weight:600">{r.name}</td>
-                    <td>{r.mean.toFixed(1)}</td>
-                    <td>{r.median.toFixed(1)}</td>
-                    <td>{r.p95.toFixed(1)}</td>
-                    <td>{r.p99.toFixed(1)}</td>
-                    <td>{r.stdev.toFixed(1)}</td>
-                    <td class="overhead-cell">{overheadStr}</td>
-                    <td>
-                      <div class="bar-wrap">
-                        <div class={`bar ${barClass}`} style={`width:${barWidth}px`}></div>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-
-        <p class="note"><strong>Note:</strong> {run.note}</p>
-      </div>
-    );
-  })}
-
-  <h2 style="margin-top:4rem">Vertex AI (Gemini 2.0 Flash) — plan-and-execute agent</h2>
-  <p class="subtitle" style="margin-bottom:1.5rem">
-    End-to-end run: <strong>JamJet @task + @tool</strong> on Vertex AI's OpenAI-compatible endpoint.
-    Two-step research agent — plan then synthesize.
-  </p>
-
-  <div class="vertex-card">
-    <div class="vertex-meta">
-      <div>
-        <div class="vm-label">Model</div>
-        <div class="vm-value" style="color:var(--accent)">gemini-2.0-flash-001</div>
-      </div>
-      <div>
-        <div class="vm-label">Provider</div>
-        <div class="vm-value" style="color:#4a7ab5">Vertex AI (GCP)</div>
-      </div>
-      <div>
-        <div class="vm-label">Strategy</div>
-        <div class="vm-value">plan-and-execute</div>
-      </div>
-      <div>
-        <div class="vm-label">Wall-clock</div>
-        <div class="vm-value">41,811 ms</div>
-      </div>
-      <div>
-        <div class="vm-label">Total tokens</div>
-        <div class="vm-value">10,961</div>
-      </div>
-      <div>
-        <div class="vm-label">Est. cost</div>
-        <div class="vm-value" style="color:var(--success)">$0.00191</div>
-      </div>
-    </div>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th style="text-align:left">Step</th>
-            <th>Latency (ms)</th>
-            <th>Prompt tokens</th>
-            <th>Compl tokens</th>
-            <th>Total tokens</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="jamjet-row"><td style="text-align:left">plan — Gemini Flash</td><td>2,641</td><td>96</td><td>104</td><td>200</td></tr>
-          <tr><td style="text-align:left">step 1 execution</td><td>1,324</td><td>129</td><td>90</td><td>219</td></tr>
-          <tr><td style="text-align:left">step 2 execution</td><td>1,413</td><td>127</td><td>110</td><td>237</td></tr>
-          <tr><td style="text-align:left">step 3 execution</td><td>1,228</td><td>132</td><td>103</td><td>235</td></tr>
-          <tr><td style="text-align:left">step 4 execution</td><td>1,986</td><td>664</td><td>186</td><td>850</td></tr>
-          <tr><td style="text-align:left">step 5 execution</td><td>1,290</td><td>280</td><td>100</td><td>380</td></tr>
-          <tr><td style="text-align:left">synthesize — Gemini Flash</td><td>3,050</td><td>124</td><td>153</td><td>277</td></tr>
-          <tr style="border-top:2px solid var(--border-strong);font-weight:700"><td style="text-align:left">TOTAL (12 calls)</td><td>41,811</td><td>6,121</td><td>4,840</td><td>10,961</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="code-block" style="margin:1.5rem 0">
-    <div class="code-header">
-      <span>Integration — 2 env vars, no custom client</span>
-    </div>
-    <pre class="code-body">export OPENAI_BASE_URL="https://us-central1-aiplatform.googleapis.com/..."
-export OPENAI_API_KEY=$(gcloud auth print-access-token)
-
-<span class="t-d"># Then just use @task/@tool as normal</span>
-<span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span>model=<span class="t-s">"google/gemini-2.0-flash-001"</span><span class="t-p">,</span> tools=<span class="t-p">[</span>web_search<span class="t-p">])</span>
-<span class="t-kw">async def</span> <span class="t-b">research</span><span class="t-p">(</span>question<span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">)</span> -> <span class="t-y">str</span><span class="t-p">:</span>
-    <span class="t-s">"""Research assistant — search first, then summarize."""</span></pre>
-  </div>
-
-  <div class="methodology">
-    <h2>Methodology</h2>
-    <p>
-      All benchmarks measure wall-clock time per call. Each framework makes the
-      <strong>identical LLM call</strong> through the same OpenAI-compatible client — what we measure is framework orchestration overhead.
-    </p>
-    <ul>
-      <li><strong>Raw (baseline)</strong> — bare openai.OpenAI().chat.completions.create() call</li>
-      <li><strong>JamJet</strong> — Workflow.run_sync() in-process executor</li>
-      <li><strong>LangGraph</strong> — StateGraph.compile().invoke() with a single node</li>
-    </ul>
-
-    <div class="code-block" style="margin:1rem 0">
-      <pre class="code-body"><span class="t-d"># Reproduce locally (Ollama)</span>
-export OPENAI_API_KEY="ollama"
-export OPENAI_BASE_URL="http://localhost:11434/v1"
-export MODEL_NAME="llama3.2"
-
-git clone https://github.com/jamjet-labs/jamjet-benchmarks
-cd jamjet-benchmarks/benchmarks
-pip install -r requirements.txt
-python bench_single_call.py --json results/my-run.json</pre>
-    </div>
-
-    <ul>
-      <li>Warmup runs excluded from measurements</li>
-      <li>Each timed run is independent — no shared state</li>
-      <li>Benchmarks run sequentially to avoid contention</li>
-      <li>Hardware: Apple M-series, 16GB RAM, Ollama local</li>
-    </ul>
-  </div>
-
-  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:2rem">
-    <a href="https://github.com/jamjet-labs/jamjet-benchmarks" class="btn-primary" target="_blank" rel="noopener">Reproduce these benchmarks</a>
-    <a href="https://docs.jamjet.dev/en/docs/compare" class="btn-secondary">Feature comparison</a>
-    <a href="https://docs.jamjet.dev/en/docs/quickstart" class="btn-secondary">Quickstart</a>
-  </div>
 
   <section class="benchmarks-deep-dives">
-    <h2>Benchmark deep-dives</h2>
-    <p>Long-form benchmark write-ups with reproduction scripts, methodology disclosure, and competitive context.</p>
+    <h2>Deep-dives</h2>
     <div class="dd-grid">
       <a class="dd-card" href="/benchmarks/engram-longmemeval/">
         <span class="dd-eyebrow">Memory &middot; LongMemEval-S</span>
@@ -250,94 +36,51 @@ python bench_single_call.py --json results/my-run.json</pre>
         <p>Engram alongside Chronos, Mastra, OMEGA, and Zep &mdash; judged on the same methodology, compared on the axes that matter beyond raw accuracy.</p>
         <span class="dd-arrow">Read &rarr;</span>
       </a>
+      <a class="dd-card" href="/benchmarks/framework-overhead/">
+        <span class="dd-eyebrow">Runtime &middot; Framework tax</span>
+        <h3>JamJet adds zero observable overhead vs raw LLM calls</h3>
+        <p>Reproducible llama3.2 + qwen3:8b measurements with the same OpenAI-compatible client. JamJet vs raw vs LangGraph, three way, statistically tied.</p>
+        <span class="dd-arrow">Read &rarr;</span>
+      </a>
     </div>
-
-    <p class="bench-see-also">
-      <strong>See also:</strong> <a href="/compare/">JamJet comparisons</a> &mdash; how JamJet fits with LangGraph, CrewAI, Temporal, Microsoft AGT, and the rest of your stack.
-    </p>
   </section>
+
+  <p class="bench-see-also">
+    <strong>See also:</strong> <a href="/compare/">JamJet comparisons</a> &mdash; how JamJet fits with LangGraph, CrewAI, Temporal, Microsoft AGT, and the rest of your stack.
+  </p>
 </div>
 
 </BaseLayout>
 
 <style>
-  .bench-page { max-width: 1000px; margin: 0 auto; padding: 3rem 24px 5rem; }
-  .bench-page h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
-  .economics-intro { margin-bottom: 3rem; }
-  .economics-intro h2 { font-size: 1.3rem; margin-bottom: 1.5rem; }
-  .economics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .econ-card { padding: 20px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px; }
-  .econ-card h3 { font-size: 0.92rem; font-weight: 600; margin-bottom: 8px; }
-  .econ-card p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6; margin: 0; }
-  .subtitle { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 3rem; }
-
-  .run-heading {
-    font-size: 1rem; font-weight: 600; margin: 3rem 0 0.5rem;
-    padding-top: 1.5rem; border-top: 1px solid var(--border);
+  .bench-hub {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem 24px 5rem;
   }
-  .run-meta { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem; }
-  .run-meta span { margin-right: 1.5rem; }
-  .run-meta strong { color: var(--text); }
-
-  .table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border-strong); }
-  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; font-family: var(--font-mono); }
-  thead th { text-align: right; padding: 8px 12px; color: var(--text-muted); font-weight: 500; border-bottom: 1px solid var(--border); font-size: 0.75rem; }
-  tbody tr:hover { background: var(--accent-bg); }
-  tbody td { padding: 8px 12px; text-align: right; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
-  .jamjet-row td:first-child { color: var(--accent); }
-
-  .bar-wrap { display: flex; align-items: center; gap: 8px; }
-  .bar { height: 6px; border-radius: 2px; min-width: 2px; }
-  .bar-raw { background: var(--text-muted); }
-  .bar-jamjet { background: var(--accent); }
-  .bar-other { background: #4a7ab5; }
-
-  .note {
-    font-size: 0.82rem; color: var(--text-muted);
-    background: var(--bg-alt); border-left: 3px solid var(--border-strong);
-    padding: 0.75rem 1rem; border-radius: 0 4px 4px 0; margin-top: 1rem;
+  .bench-hub h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
   }
-  .note strong { color: var(--text-secondary); }
-
-  .vertex-card {
-    background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px;
-    padding: 1.5rem 2rem; margin-bottom: 1.5rem;
-  }
-  .vertex-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
-  .vm-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
-  .vm-value { font-family: var(--font-mono); font-size: 0.88rem; }
-
-  .methodology {
-    background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px;
-    padding: 2rem; margin-top: 3rem;
-  }
-  .methodology h2 { margin-top: 0; margin-bottom: 0.75rem; }
-  .methodology p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem; }
-  .methodology strong { color: var(--text); }
-  .methodology ul { padding-left: 1.25rem; color: var(--text-secondary); font-size: 0.88rem; }
-  .methodology ul li { margin-bottom: 0.4rem; }
-  @media (max-width: 768px) {
-    .economics-grid { grid-template-columns: 1fr; }
+  .subtitle {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 3rem;
+    line-height: 1.7;
   }
 
   .benchmarks-deep-dives {
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
+    margin-top: 0;
   }
   .benchmarks-deep-dives h2 {
     font-size: clamp(1.3rem, 2.5vw, 1.8rem);
-    margin-bottom: 12px;
-  }
-  .benchmarks-deep-dives > p {
-    color: var(--text-secondary);
-    line-height: 1.7;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
   .dd-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 16px;
+    margin-bottom: 0;
   }
   .dd-card {
     display: block;
@@ -371,6 +114,7 @@ python bench_single_call.py --json results/my-run.json</pre>
     color: var(--accent);
     font-size: 0.9rem;
   }
+
   .bench-see-also {
     margin-top: 32px;
     padding-top: 16px;
