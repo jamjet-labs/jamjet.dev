@@ -123,6 +123,76 @@ const compareLd = {
       <a href="https://github.com/JordanMcCann/agentmemory">github.com/JordanMcCann/agentmemory</a>.
     </p>
   </section>
+
+  <section class="lb-section">
+    <h2>Beyond accuracy: the engineering matrix</h2>
+    <p class="lb-section-intro">
+      Same systems, six axes that matter past raw accuracy. Each cell is sourced; cells silent in
+      the published docs read &ldquo;(not documented)&rdquo; rather than guessing.
+    </p>
+    <div class="table-wrap">
+      <table class="lb-matrix">
+        <thead>
+          <tr>
+            <th>System</th>
+            <th>Accuracy</th>
+            <th>License</th>
+            <th>Reader model</th>
+            <th>MCP-native</th>
+            <th>Runs locally</th>
+            <th>Multi-tenant by default</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Chronos</strong></td>
+            <td>95.6%</td>
+            <td>(not documented &mdash; research prototype; paper is CC-BY-4.0; no code repo)</td>
+            <td>Claude Opus 4.6</td>
+            <td>(not documented)</td>
+            <td>(not documented &mdash; no public code; runs on commercial APIs only per paper)</td>
+            <td>(not documented)</td>
+          </tr>
+          <tr>
+            <td><strong>Mastra</strong></td>
+            <td>94.9%</td>
+            <td>(not documented &mdash; Mastra states "completely open source" but specific license not stated on research page)</td>
+            <td>GPT-5-mini</td>
+            <td>(not documented)</td>
+            <td>Partial &mdash; observer/reflector agents use Gemini-2.5-flash via API; no documented fully local path</td>
+            <td>(not documented)</td>
+          </tr>
+          <tr>
+            <td><strong>OMEGA</strong></td>
+            <td>93.2%</td>
+            <td>Apache 2.0</td>
+            <td>GPT-4.1</td>
+            <td>Yes &mdash; first-party MCP server</td>
+            <td>Yes &mdash; CPU-only, no external services, data in ~/.omega/omega.db</td>
+            <td>(not documented &mdash; single-user local design; no per-tenant API surface found)</td>
+          </tr>
+          <tr>
+            <td><strong>Zep / Graphiti</strong></td>
+            <td>71.2%</td>
+            <td>Graphiti: Apache 2.0 &middot; Zep: commercial</td>
+            <td>GPT-4o</td>
+            <td>Yes &mdash; first-party MCP server (Graphiti repo mcp_server/)</td>
+            <td>Graphiti: Yes (self-hosted, Docker Compose) &middot; Zep: No (managed SaaS)</td>
+            <td>Partial &mdash; Zep cloud (SaaS account-level isolation) &middot; Graphiti: not documented (build-your-own per README)</td>
+          </tr>
+          <tr class="lb-engram-row">
+            <td><strong>Engram v0.1.0</strong></td>
+            <td><strong>64.6%</strong></td>
+            <td><strong>Apache 2.0</strong></td>
+            <td><strong>gpt-4o-mini (or any OpenAI-compatible &mdash; including local Ollama)</strong></td>
+            <td><strong>Yes</strong> &mdash; FastAPI HTTP + first-party MCP server</td>
+            <td><strong>Yes</strong> &mdash; SQLite, no cloud dependency</td>
+            <td><strong>Yes (default)</strong> &mdash; <code>Scope(user_id, org_id)</code> enforced at SQL + HNSW level; no cross-tenant leakage by construction</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </div>
 
 </BaseLayout>
