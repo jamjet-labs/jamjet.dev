@@ -42,6 +42,87 @@ const compareLd = {
     </p>
     <p class="last-updated">Last updated 2026-05-09</p>
   </header>
+
+  <section class="lb-section">
+    <h2>Leaderboard</h2>
+    <p class="lb-section-intro">
+      All scores reported on LongMemEval-S 500-question evaluation, judged by the official
+      gpt-4o-mini judge. Each row links to the system's source.
+    </p>
+    <div class="table-wrap">
+      <table class="lb-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>System</th>
+            <th>Score</th>
+            <th>n</th>
+            <th>Judge</th>
+            <th>Reader / generator</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><strong>Chronos</strong></td>
+            <td>95.6%</td>
+            <td>500</td>
+            <td>gpt-4o-mini official</td>
+            <td>Claude Opus 4.6</td>
+            <td><a href="https://arxiv.org/abs/2603.16862">arXiv 2603.16862</a></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><strong>Mastra</strong></td>
+            <td>94.9%</td>
+            <td>500</td>
+            <td>gpt-4o-mini official</td>
+            <td>GPT-5-mini (no retrieval &mdash; full observation log)</td>
+            <td><a href="https://mastra.ai/research/observational-memory">mastra.ai/research</a></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><strong>OMEGA</strong></td>
+            <td>93.2% raw<sup title="OMEGA headlines 95.4% task-averaged (mean of per-category scores); 93.2% is the raw count (466/500). Both numbers are defensible; we cite the raw count for comparability.">*</sup></td>
+            <td>500</td>
+            <td>gpt-4o-mini official</td>
+            <td>GPT-4.1</td>
+            <td><a href="https://omegamax.co/benchmarks">omegamax.co/benchmarks</a></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><strong>Zep / Graphiti</strong></td>
+            <td>71.2%</td>
+            <td>500</td>
+            <td>gpt-4o-mini official</td>
+            <td>GPT-4o</td>
+            <td><a href="https://arxiv.org/abs/2501.13956">arXiv 2501.13956</a></td>
+          </tr>
+          <tr class="lb-engram-row">
+            <td>5</td>
+            <td><strong>Engram v0.1.0</strong></td>
+            <td><strong>64.6%</strong></td>
+            <td>500</td>
+            <td>gpt-4o-mini official</td>
+            <td>gpt-4o-mini (synthesis-mode for preference questions; recall mode otherwise)</td>
+            <td><a href="https://github.com/jamjet-labs/engram">github.com/jamjet-labs/engram</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lb-note">
+      <sup>*</sup> OMEGA reports 95.4% task-averaged (mean of per-category scores) as its headline figure;
+      93.2% is the raw count (466/500). We cite the raw count for direct comparability with other rows.
+    </p>
+    <p class="lb-note">
+      <strong>AgentMemory excluded:</strong> AgentMemory publishes 96.2% on LongMemEval-S and is a strong
+      system worth evaluating. Its run uses <strong>GPT-4o as judge</strong> &mdash; not the LongMemEval
+      official gpt-4o-mini judge this leaderboard enforces. Same-judge methodology is the comparability
+      discipline here. See their result at
+      <a href="https://github.com/JordanMcCann/agentmemory">github.com/JordanMcCann/agentmemory</a>.
+    </p>
+  </section>
 </div>
 
 </BaseLayout>
