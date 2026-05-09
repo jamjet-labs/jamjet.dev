@@ -251,6 +251,72 @@ uv run python -m benchmarks.smoke_runner --n 500 --decompose --tools`}</code></p
       auto-routed by the smoke_runner's question classifier &mdash; no separate flag needed.
     </p>
   </section>
+
+  <section class="lb-section">
+    <h2>Per-category breakdown</h2>
+    <p class="lb-section-intro">
+      Where Engram v0.1.0 is competitive today, and where the roadmap work is. Honest disclosure
+      &mdash; single-session and preference categories are strong; multi-session and temporal-reasoning
+      are the open roadmap items.
+    </p>
+    <div class="table-wrap">
+      <table class="lb-mini">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Score</th>
+            <th>Raw</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>single-session-assistant</strong></td>
+            <td><strong>95%</strong></td>
+            <td>53 / 56</td>
+            <td>Strongest category &mdash; synthesis-mode and recall-mode both excel here</td>
+          </tr>
+          <tr>
+            <td><strong>single-session-user</strong></td>
+            <td><strong>83%</strong></td>
+            <td>58 / 70</td>
+            <td>Strong</td>
+          </tr>
+          <tr>
+            <td><strong>single-session-preference</strong></td>
+            <td><strong>70%</strong></td>
+            <td>21 / 30</td>
+            <td>Strong &mdash; synthesis-mode reading is purpose-built for this category</td>
+          </tr>
+          <tr>
+            <td>knowledge-update</td>
+            <td>65%</td>
+            <td>51 / 78</td>
+            <td>Roadmap &mdash; belief revision and update detection planned</td>
+          </tr>
+          <tr>
+            <td>temporal-reasoning</td>
+            <td>54%</td>
+            <td>72 / 133</td>
+            <td>Roadmap &mdash; today-anchored grounding helps; long-span temporal chains need work</td>
+          </tr>
+          <tr>
+            <td>multi-session</td>
+            <td>51%</td>
+            <td>68 / 133</td>
+            <td>Roadmap &mdash; largest single uplift opportunity; cross-session entity linking planned</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lb-section-intro">
+      Single-session and preference categories are where Engram's synthesis-mode reader and
+      per-category routing pull their weight. Multi-session and temporal-reasoning are the open
+      roadmap items &mdash; see{' '}
+      <a href="https://github.com/jamjet-labs/engram#roadmap">Engram's roadmap</a> for the planned
+      work.
+    </p>
+  </section>
 </div>
 
 </BaseLayout>
