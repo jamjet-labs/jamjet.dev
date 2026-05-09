@@ -28,6 +28,18 @@ const compareLd = {
     <span class="section-label">Memory · LongMemEval-S</span>
     <h1>LongMemEval-S Leaderboard</h1>
     <p class="lb-subhead">Engram v0.1.0 vs the published frontier, judged on the same methodology.</p>
+    <p class="lb-intro">
+      LongMemEval-S is the standard 500-question evaluation for long-form agent memory. The numbers
+      below come from each system's published methodology, judged by the LongMemEval official
+      gpt-4o-mini judge. Engram v0.1.0 &mdash; the open-source memory layer in
+      <a href="https://github.com/jamjet-labs/engram">jamjet-labs/engram</a> &mdash; sits mid-pack on
+      raw accuracy. The matrix below shows why that isn't the whole story.
+    </p>
+    <p class="lb-intro">
+      Raw accuracy is one axis. Engram is also Apache 2.0, runs against any OpenAI-compatible model
+      (including local ones), is MCP-native, and self-hosts on SQLite. Each axis is a real engineering
+      decision criterion &mdash; not all of them are visible in a single accuracy number.
+    </p>
     <p class="last-updated">Last updated 2026-05-09</p>
   </header>
 </div>
