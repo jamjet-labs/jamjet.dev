@@ -220,6 +220,37 @@ const compareLd = {
       frontier-model stacks cost real money; budget accordingly.
     </p>
   </section>
+
+  <section class="lb-section">
+    <h2>Methodology</h2>
+    <p>
+      <strong>Benchmark.</strong>{' '}
+      <a href="https://github.com/xiaowu0162/LongMemEval">LongMemEval-S</a> &mdash; the standard
+      500-question evaluation for long-form agent memory.
+    </p>
+    <p>
+      <strong>Judge.</strong> LongMemEval official gpt-4o-mini judge. Same judge as every entry above.
+    </p>
+    <p>
+      <strong>Engram configuration.</strong> v0.1.0 release stack: gpt-4o-mini reader,
+      <strong>synthesis-mode reading</strong> for preference questions, <strong>recall-mode
+      reading</strong> with verifier for everything else, query decomposition, 6-built-in-tool
+      registry, two-stage retrieval, classifier-driven category budgets, today-anchored temporal
+      grounding, hybrid retrieval (vector + BM25 + recency + graph + importance + temporal). Both
+      reading modes documented in{' '}
+      <a href="https://github.com/jamjet-labs/engram/tree/main/src/engram/read"><code>src/engram/read/</code></a>.
+    </p>
+    <p><strong>Reproduction:</strong></p>
+    <pre class="repro"><code>{`git clone https://github.com/jamjet-labs/engram && cd engram
+uv sync
+export OPENAI_API_KEY=sk-...   # for the official judge + reader
+export LONGMEMEVAL_ORACLE=path/to/longmemeval_oracle.json
+uv run python -m benchmarks.smoke_runner --n 500 --decompose --tools`}</code></pre>
+    <p class="lb-note">
+      Per-question result JSON lands in <code>benchmarks/reports/</code>. Synthesis-mode is
+      auto-routed by the smoke_runner's question classifier &mdash; no separate flag needed.
+    </p>
+  </section>
 </div>
 
 </BaseLayout>
