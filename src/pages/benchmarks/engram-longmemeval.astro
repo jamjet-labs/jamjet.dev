@@ -379,3 +379,153 @@ uv run python -m benchmarks.smoke_runner --n 500 --decompose --tools`}</code></p
 </div>
 
 </BaseLayout>
+
+<style>
+  .lb-wrap {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 2rem 24px 4rem;
+  }
+
+  .back-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-block;
+    margin-bottom: 24px;
+  }
+  .back-link:hover { text-decoration: underline; }
+
+  .lb-header { margin-bottom: 48px; }
+  .lb-header h1 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    margin: 8px 0 12px;
+  }
+  .lb-subhead {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    margin: 0 0 24px;
+  }
+  .lb-intro {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin: 0 0 16px;
+  }
+  .lb-intro a { color: var(--accent); }
+  .last-updated {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 16px 0 0;
+  }
+
+  .lb-section { margin-bottom: 56px; }
+  .lb-section h2 {
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    margin-bottom: 12px;
+  }
+  .lb-section-intro {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0 0 20px;
+  }
+  .lb-section p {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin: 0 0 12px;
+  }
+  .lb-section p a { color: var(--accent); }
+
+  .table-wrap { overflow-x: auto; }
+  .lb-table, .lb-matrix, .lb-mini {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    min-width: 720px;
+  }
+  .lb-matrix { min-width: 900px; }
+  .lb-table th, .lb-matrix th, .lb-mini th {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    font-weight: 600;
+    padding: 12px 14px;
+    border-bottom: 2px solid var(--border-strong);
+    text-align: left;
+    font-family: var(--font-sans);
+  }
+  .lb-table td, .lb-matrix td, .lb-mini td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    vertical-align: top;
+  }
+  .lb-table td strong, .lb-matrix td strong, .lb-mini td strong { color: var(--text); }
+  .lb-table a, .lb-matrix a, .lb-mini a { color: var(--accent); }
+
+  .lb-engram-row td {
+    background: color-mix(in oklch, var(--accent) 8%, var(--bg-alt));
+    color: var(--text);
+  }
+
+  .repro {
+    margin: 0;
+    padding: 16px;
+    border-radius: 10px;
+    background: var(--bg-alt);
+    overflow-x: auto;
+    font-size: 0.85rem;
+  }
+  .repro code {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .lb-note {
+    margin-top: 12px;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .lb-note a { color: var(--accent); }
+
+  .lb-cta {
+    text-align: center;
+    padding: 32px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg-alt);
+  }
+  .lb-cta h2 { margin-top: 0; }
+  .lb-cta-button {
+    display: inline-block;
+    margin: 12px 0 16px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: var(--bg);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .lb-cta-fineprint {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  .lb-crosslinks {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  .lb-crosslinks a { color: var(--accent); }
+
+  @media (max-width: 768px) {
+    .lb-table, .lb-matrix, .lb-mini { font-size: 0.82rem; }
+  }
+</style>
