@@ -317,6 +317,46 @@ uv run python -m benchmarks.smoke_runner --n 500 --decompose --tools`}</code></p
       work.
     </p>
   </section>
+
+  <section class="lb-section">
+    <h2>Engram's own progression</h2>
+    <p class="lb-section-intro">
+      How v0.1.0's number evolved from the initial 100-question stratified result to the comparable
+      500-question full set.
+    </p>
+    <div class="table-wrap">
+      <table class="lb-mini">
+        <thead>
+          <tr>
+            <th>Run</th>
+            <th>Date</th>
+            <th>Score</th>
+            <th>n</th>
+            <th>Judge</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>v0.1.0 GA (initial)</td>
+            <td>2026-05-06</td>
+            <td>71.0%</td>
+            <td>100 stratified</td>
+            <td>gpt-4o-mini official</td>
+            <td>First judged result; stratified sampling over-represented single-session categories</td>
+          </tr>
+          <tr class="lb-engram-row">
+            <td><strong>v0.1.0 GA (full set)</strong></td>
+            <td>2026-05-09</td>
+            <td><strong>64.6%</strong></td>
+            <td>500</td>
+            <td>gpt-4o-mini official</td>
+            <td>Leaderboard entry above. 6.4pp drop reflects long-tail categories (multi-session 51%, temporal-reasoning 54%) where stratification hid weakness &mdash; honest methodology disclosure.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </div>
 
 </BaseLayout>
