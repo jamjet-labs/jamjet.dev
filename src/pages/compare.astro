@@ -288,6 +288,10 @@ const categories = [...new Set(fits.map(f => f.category))];
         <p>What durable execution and governance look like when your agent runtime sits inside someone else's cloud.</p>
       </div>
     </div>
+
+    <p class="cmp-see-also">
+      <strong>See also:</strong> <a href="/benchmarks/">JamJet benchmarks</a> &mdash; framework overhead, end-to-end runs, and the <a href="/benchmarks/engram-longmemeval/">Engram LongMemEval-S leaderboard</a>.
+    </p>
   </div>
 </section>
 
@@ -397,6 +401,15 @@ const categories = [...new Set(fits.map(f => f.category))];
   .cmp-section { padding: 5rem 1.5rem; }
   .cmp-section-alt { background: var(--bg-alt); }
   .cmp-section-inner { max-width: 1080px; margin: 0 auto; }
+  .cmp-see-also {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .cmp-see-also a { color: var(--accent); }
   .cmp-section h2 {
     font-size: clamp(1.6rem, 3.6vw, 2.25rem);
     margin: 8px 0 16px;
