@@ -239,6 +239,19 @@ python bench_single_call.py --json results/my-run.json</pre>
     <a href="https://docs.jamjet.dev/en/docs/compare" class="btn-secondary">Feature comparison</a>
     <a href="https://docs.jamjet.dev/en/docs/quickstart" class="btn-secondary">Quickstart</a>
   </div>
+
+  <section class="benchmarks-deep-dives">
+    <h2>Benchmark deep-dives</h2>
+    <p>Long-form benchmark write-ups with reproduction scripts, methodology disclosure, and competitive context.</p>
+    <div class="dd-grid">
+      <a class="dd-card" href="/benchmarks/engram-longmemeval/">
+        <span class="dd-eyebrow">Memory &middot; LongMemEval-S</span>
+        <h3>Engram v0.1.0 on the LongMemEval-S leaderboard</h3>
+        <p>Engram alongside Chronos, Mastra, OMEGA, and Zep &mdash; judged on the same methodology, compared on the axes that matter beyond raw accuracy.</p>
+        <span class="dd-arrow">Read &rarr;</span>
+      </a>
+    </div>
+  </section>
 </div>
 
 </BaseLayout>
@@ -301,5 +314,57 @@ python bench_single_call.py --json results/my-run.json</pre>
   .methodology ul li { margin-bottom: 0.4rem; }
   @media (max-width: 768px) {
     .economics-grid { grid-template-columns: 1fr; }
+  }
+
+  .benchmarks-deep-dives {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .benchmarks-deep-dives h2 {
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    margin-bottom: 12px;
+  }
+  .benchmarks-deep-dives > p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+  .dd-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+  .dd-card {
+    display: block;
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s;
+  }
+  .dd-card:hover { border-color: var(--accent); }
+  .dd-eyebrow {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .dd-card h3 {
+    font-size: 1.05rem;
+    margin: 0 0 8px;
+  }
+  .dd-card p {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin: 0 0 12px;
+  }
+  .dd-arrow {
+    color: var(--accent);
+    font-size: 0.9rem;
   }
 </style>
