@@ -193,6 +193,22 @@ const compareLd = {
       </table>
     </div>
   </section>
+
+  <section class="lb-section">
+    <h2>How to read this</h2>
+    <p>
+      The frontier systems above use Claude Opus 4.6 (Chronos) or GPT-5-mini (Mastra) as their reader,
+      which sets a hard floor on cost and a hard ceiling on which models you can run. Engram's 64.6%
+      comes from the gpt-4o-mini stack &mdash; open-source, MCP-native, runs against any
+      OpenAI-compatible model (including local ones via Ollama), self-hosts on SQLite, and ships
+      per-tenant isolation by default. If your constraint is &ldquo;highest raw accuracy regardless
+      of cost or deployment shape,&rdquo; pick Chronos, Mastra, or OMEGA. If your constraint is
+      &ldquo;the open-source memory system that runs in our VPC, doesn't lock us into a frontier
+      model, ships per-tenant isolation by default, and speaks MCP today,&rdquo; Engram is the
+      system on that axis. We publish our number with the official judge, the methodology, and the
+      reproduction script &mdash; submit yours.
+    </p>
+  </section>
 </div>
 
 </BaseLayout>
