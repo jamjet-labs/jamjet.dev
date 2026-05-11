@@ -32,24 +32,34 @@ const log = [
   { date: 'Mar 29', body: 'JamJet Spring Boot Starter on Maven Central. Crash recovery, audit, replay testing, and HITL gates for any Spring AI app.', href: '/blog/jamjet-spring-boot-starter/' },
 ];
 
+const adapters = [
+  { name: '@jamjet/claude-code-hook', install: 'npm i -g @jamjet/claude-code-hook', host: 'Claude Code PreToolUse hook', href: 'https://npmjs.com/package/@jamjet/claude-code-hook' },
+  { name: '@jamjet/mcp-shim',         install: 'npx -y @jamjet/mcp-shim …',          host: 'Any MCP client (Claude Desktop, Cursor, …)', href: 'https://npmjs.com/package/@jamjet/mcp-shim' },
+  { name: '@jamjet/openai-guardrail', install: 'npm i @jamjet/openai-guardrail',     host: 'OpenAI Agents SDK tool guardrail (TS)', href: 'https://npmjs.com/package/@jamjet/openai-guardrail' },
+  { name: 'jamjet.integrations.openai_guardrail', install: 'pip install jamjet',     host: 'OpenAI Agents SDK tool guardrail (Python)', href: 'https://pypi.org/project/jamjet/' },
+  { name: 'jamjet',                   install: 'pip install jamjet',                 host: 'Python SDK + runtime', href: 'https://pypi.org/project/jamjet/' },
+  { name: '@jamjet/cloud',            install: 'npm i @jamjet/cloud',                host: 'TypeScript SDK + shared engine', href: 'https://npmjs.com/package/@jamjet/cloud' },
+  { name: '@jamjet/cli',              install: 'npm i -g @jamjet/cli',               host: 'jamjet audit show / jamjet approve', href: 'https://npmjs.com/package/@jamjet/cli' },
+];
+
 const homeLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "JamJet",
-  "description": "The open-source safety layer for AI agents. Policy checks, audit trails, human approval, crash recovery, cost limits, and memory — without cloud or framework lock-in. Works with any framework through MCP and A2A.",
+  "description": "The action-control plane for AI agents. One policy file, one audit trail, across Claude Code hooks, OpenAI Agents SDK guardrails, MCP gateways, Python and TypeScript SDKs, and custom runtimes.",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Linux, macOS, Windows",
   "url": "https://jamjet.dev",
   "downloadUrl": "https://pypi.org/project/jamjet/",
-  "softwareVersion": "0.3.1",
+  "softwareVersion": "0.8.3",
   "license": "https://www.apache.org/licenses/LICENSE-2.0",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
 };
 ---
 
 <BaseLayout
-  title="JamJet — The safety layer behind your AI agents"
-  description="Open-source safety layer for AI agents. Policy checks, audit trails, human approval, crash recovery, cost limits, and memory — without cloud or framework lock-in."
+  title="JamJet — Write the safety policy once. Run it everywhere your agents can act."
+  description="The action-control plane for AI agents. One policy file, one audit trail, across Claude Code hooks, OpenAI Agents SDK guardrails, MCP gateways, Python and TypeScript SDKs, and custom runtimes."
   canonical="https://jamjet.dev/"
 >
 <Fragment slot="head">
@@ -65,19 +75,23 @@ const homeLd = {
     </div>
 
     <h1 class="zn-display">
-      Agents that don’t<br/>
-      <span class="zn-display-italic">lose control.</span>
+      One policy.<br/>
+      <span class="zn-display-italic">Every adapter.</span>
     </h1>
 
     <p class="zn-lead">
-      JamJet is the open-source safety layer for AI agents — policy checks, audit trails,
-      human approval, crash recovery, cost limits, memory, and MCP/A2A interoperability,
-      without cloud or framework lock-in.
+      JamJet is the action-control plane for AI agents. One policy file. One audit trail.
+      Across Claude Code hooks, OpenAI Agents SDK guardrails, MCP gateways, Python and
+      TypeScript SDKs, and your custom runtime.
+    </p>
+
+    <p class="zn-lead zn-lead-italic">
+      Write the safety policy once. Run it everywhere your agents can act.
     </p>
 
     <div class="zn-cover-foot">
       <div class="zn-cta-row">
-        <a href="#failure-modes" class="zn-btn zn-btn-primary">See what JamJet controls &darr;</a>
+        <a href="#adapters" class="zn-btn zn-btn-primary">See every adapter &darr;</a>
         <a href="https://docs.jamjet.dev/en/docs/quickstart" class="zn-btn zn-btn-ghost">Get started in 60s</a>
       </div>
       <div class="zn-install">
@@ -90,8 +104,8 @@ const homeLd = {
     <div class="zn-rule"></div>
 
     <p class="zn-marginal">
-      Not another agent framework. The safety layer behind them. Keep your stack —
-      add JamJet when runs need to be replayable, auditable, and controlled.
+      Not another agent framework. The action-control plane that sits underneath them.
+      Keep your stack — add JamJet where tool calls need policy, approval, and audit.
     </p>
   </div>
 </section>
@@ -154,6 +168,42 @@ const homeLd = {
         <a href="/compare">How it fits with what you use &rarr;</a>
       </p>
     </article>
+  </div>
+</section>
+
+<!-- ────────────────────  ADAPTERS GRID ──────────────────── -->
+<section class="zn-adapters" id="adapters">
+  <div class="zn-shell">
+    <div class="zn-adapters-head">
+      <span class="zn-eyebrow">B½. The same policy, everywhere</span>
+      <h2 class="zn-h2">
+        Every agent toolchain is inventing its own safety layer.<br/>
+        <span class="zn-display-italic">JamJet gives you one.</span>
+      </h2>
+      <p class="zn-essay-body">
+        One <code>policy.yaml</code> in <code>~/.jamjet/</code>. Every adapter below loads it.
+        Every adapter emits conformant audit JSONL. Run <code>jamjet audit show</code> to tail
+        every decision across every adapter in one chronological view.
+      </p>
+    </div>
+
+    <ul class="zn-adapter-list">
+      {adapters.map(a => (
+        <li class="zn-adapter">
+          <a class="zn-adapter-link" href={a.href} target="_blank" rel="noopener">
+            <code class="zn-adapter-name">{a.name}</code>
+            <span class="zn-adapter-host">{a.host}</span>
+            <code class="zn-adapter-install">{a.install}</code>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <p class="zn-marginal zn-marginal-center">
+      We respect the platforms we plug into. Claude Code gave developers a hook point —
+      JamJet gives that hook point a policy engine, approval flow, and audit trail, and
+      carries the same rules to OpenAI Agents SDK, MCP, and your own code.
+    </p>
   </div>
 </section>
 
@@ -542,7 +592,12 @@ const homeLd = {
     line-height: 1.65;
     color: var(--text);
     max-width: 60ch;
-    margin: 0 0 40px;
+    margin: 0 0 24px;
+  }
+  .zn-lead-italic {
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 40px;
   }
   .zn-cover-foot {
     display: flex;
@@ -610,6 +665,66 @@ const homeLd = {
     font-weight: 600;
     font-style: italic;
     color: var(--text);
+  }
+
+  /* ─────────  ADAPTERS GRID  ───────── */
+  .zn-adapters {
+    padding: 88px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .zn-adapters-head { max-width: 720px; margin-bottom: 48px; }
+  .zn-adapters-head .zn-essay-body { margin-top: 16px; }
+  .zn-adapters-head code {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    background: var(--bg-alt);
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+  .zn-adapter-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--border);
+  }
+  .zn-adapter {
+    border-bottom: 1px solid var(--border);
+  }
+  .zn-adapter:nth-child(odd) { border-right: 1px solid var(--border); }
+  .zn-adapter-link {
+    display: block;
+    padding: 22px 24px;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.12s;
+  }
+  .zn-adapter-link:hover { background: var(--bg-alt); }
+  .zn-adapter-name {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: var(--text);
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .zn-adapter-host {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .zn-adapter-install {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-secondary, var(--text-muted));
+    background: var(--bg-alt);
+    padding: 6px 10px;
+    border-radius: 4px;
   }
 
   /* ─────────  DARK BAND (failure modes)  ───────── */
@@ -886,6 +1001,8 @@ const homeLd = {
     .zn-failures { grid-template-columns: 1fr; gap: 28px; }
     .zn-code-grid { grid-template-columns: 1fr; }
     .zn-pair-grid { grid-template-columns: 1fr; }
+    .zn-adapter-list { grid-template-columns: 1fr; }
+    .zn-adapter:nth-child(odd) { border-right: 0; }
   }
   @media (max-width: 640px) {
     .zn-cover { padding: 40px 0 56px; }
