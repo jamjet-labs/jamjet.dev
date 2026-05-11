@@ -1,9 +1,9 @@
 ---
-title: "I made an AI agent try to delete a database. Here's how I blocked the tool call before execution."
-date: 2026-05-10
-description: "JamJet 0.8.1 ships zero-setup demos that prove an agent's tool calls can be controlled by a runtime policy, before the tool function is ever called."
+title: "I tried to delete a database with an AI agent. The runtime said no."
+date: 2026-05-11
+description: "JamJet 0.8.1 (Python) and @jamjet/cloud 0.2.2 (TypeScript) ship a runtime safety layer that intercepts an agent's tool calls before the tool function is invoked — and the four zero-setup demos prove the path."
 author: "Sunil Prakash"
-draft: true
+draft: false
 category: "Engineering"
 ---
 
@@ -54,35 +54,35 @@ So the safety layer has to live in the runtime. That is what JamJet is.
 
 ## How JamJet does it
 
-JamJet ships a `PolicyEvaluator` that sits between the agent loop and tool execution. Before any tool function is invoked, the evaluator matches the requested tool name and arguments against a glob-based policy. Decisions are `ALLOW`, `BLOCK`, or `REQUIRES_APPROVAL`. Every decision -- including the inputs, the matching rule, and the outcome -- is appended to an append-only audit log.
+JamJet ships a `PolicyEvaluator` that sits between the agent loop and tool execution. Before any tool function is invoked, the evaluator matches the requested tool name against a glob-based policy. Decisions are `ALLOWED`, `BLOCKED`, or `REQUIRES_APPROVAL`. Every decision -- inputs, matching rule, outcome -- is written to an append-only audit record.
 
-Policies are plain YAML:
+The shape of a policy:
 
-```yaml
-# policy.yaml
-tools:
-  database.read_*:        { allow: true }
-  database.write_*:       { approval: required }
-  database.delete_*:      { block: true }
-  database.drop_*:        { block: true }
-  shell.exec:             { block: true }
-  filesystem.read:        { allow: true }
-  filesystem.write:       { approval: required }
+```text
+allow:            database.read_*,  filesystem.read
+require approval: database.write_*, filesystem.write,  payments.*
+block:            database.delete_*, database.drop_*,  shell.exec, *truncate*
 ```
 
-Wiring it into your agent is two lines:
+In Python today, rules are registered programmatically (a YAML / config loader is on the near-term roadmap):
 
 ```python
-from jamjet import Runtime, load_policy
+from jamjet.cloud.policy import PolicyEvaluator
 
-runtime = Runtime(policy=load_policy("policy.yaml"))
+policy = PolicyEvaluator()
+policy.add("block",            "*delete*")
+policy.add("block",            "shell.exec")
+policy.add("require_approval", "payments.*")
 
-# Your existing agent loop, unchanged --
-# just route tool calls through the runtime.
-result = await runtime.run(agent, "clean up old customer records")
+# Before invoking any tool, ask the policy:
+decision = policy.evaluate(planned_tool)
+if decision.blocked:
+    raise PermissionError(f"{planned_tool} blocked by rule {decision.pattern}")
 ```
 
-The runtime is the seam. The model decides; the runtime executes (or refuses). The policy file is the contract between the agent author and whoever has to live with the consequences.
+In TypeScript (`@jamjet/cloud@0.2.2`), the same primitive is exported from the package root — `import { PolicyEvaluator } from '@jamjet/cloud'` — and the API is shape-compatible.
+
+The runtime is the seam. The model decides; the runtime executes or refuses. The policy is the contract between the agent author and whoever has to live with the consequences.
 
 A handful of properties fall out of this design that I think are worth naming:
 
@@ -94,7 +94,7 @@ A handful of properties fall out of this design that I think are worth naming:
 
 A few notes that belong in the foreground:
 
-- This release is SDK-based. You import JamJet into your agent. That works cleanly for Python and Java agents you control.
+- This release is SDK-based. You import JamJet into your agent (`pip install jamjet` for Python, `pnpm add @jamjet/cloud` for TypeScript). That works cleanly for agents whose code you control.
 - The next release is **JamJet Gateway** -- an MCP proxy that applies the same policy model to MCP traffic from Claude Desktop, Cursor, and any MCP-aware agent that does not have an SDK seam. See [/gateway](/gateway) for the preview.
 - The demo agent is named `DeterministicDemoAgent` for a reason. It is a mock, not a real model. The enforcement path is real; the brain isn't. The point of the demo is to prove the runtime behaviour in three minutes without an API key, not to claim model performance.
 
@@ -124,5 +124,5 @@ If a Python agent and Claude Desktop in the same engineering team can be governe
 
 - Star [jamjet-labs/jamjet](https://github.com/jamjet-labs/jamjet) to follow.
 - Read [When AI Deletes the Database](/blog/when-ai-deletes-the-database/) for the longer argument about why this is a runtime problem.
-- See the deeper [durability demo](https://docs.jamjet.dev/en/docs/quickstart) for crash recovery and replay.
+- See the deeper [durability demo](/demo) for what happens when an agent crashes mid-tool-call.
 - Preview [JamJet Gateway](/gateway) for Phase 2.
