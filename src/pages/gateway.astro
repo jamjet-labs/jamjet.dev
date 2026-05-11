@@ -1,0 +1,152 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="JamJet Gateway — coming next"
+  description="An open-source MCP proxy that applies JamJet policy to MCP traffic from Claude Desktop, Cursor, and any MCP-aware agent. Same policy model, applied at the network."
+  canonical="https://jamjet.dev/gateway/"
+>
+
+<div class="gateway">
+  <span class="gateway-pill">Coming next</span>
+  <h1>JamJet Gateway</h1>
+  <p class="gateway-lead">
+    An open-source MCP proxy that applies JamJet policy to MCP traffic from
+    Claude Desktop, Cursor, and any MCP-aware agent.
+  </p>
+
+  <p>
+    Today, JamJet's safety layer runs as an SDK inside your agent's process
+    (see the <a href="https://docs.jamjet.dev/en/docs/quickstart">60-second demo</a>).
+    Gateway will run as a standalone process and apply the same policy across
+    networked MCP traffic &mdash; without changing your agent code.
+  </p>
+
+  <h2>What you'll be able to do</h2>
+  <pre><code>npx jamjet-gateway init
+jamjet-gateway add github
+jamjet-gateway add filesystem
+jamjet-gateway run</code></pre>
+
+  <h2>The same policy model, applied at the network</h2>
+  <pre><code>tools:
+  github.search:              &#123; allow: true &#125;
+  github.create_pull_request: &#123; approval: required &#125;
+  filesystem.read:            &#123; allow: true &#125;
+  filesystem.write:           &#123; approval: required &#125;
+  filesystem.delete:          &#123; block: true &#125;
+  shell.exec:                 &#123; block: true &#125;</code></pre>
+
+  <p>
+    Every Gateway decision lands in the same audit stream as in-process JamJet
+    decisions: the trace ID, the policy that matched, the decision, and a
+    replayable record of the tool call. One policy model, two enforcement
+    points.
+  </p>
+
+  <h2>Why a gateway, in addition to the SDK</h2>
+  <ul>
+    <li>
+      <strong>Desktop agents.</strong> Claude Desktop and Cursor talk to MCP
+      servers directly. There is no SDK seam to insert policy into. A gateway
+      lives on the wire between them.
+    </li>
+    <li>
+      <strong>Heterogeneous fleets.</strong> Python, Java, and TypeScript
+      agents can all share a single policy file by routing MCP traffic through
+      one Gateway.
+    </li>
+    <li>
+      <strong>Untrusted third-party MCP servers.</strong> The proxy can
+      sanitize, rate-limit, and audit calls before they leave your machine or
+      network.
+    </li>
+  </ul>
+
+  <h2>Stay in the loop</h2>
+  <ul>
+    <li>Star <a href="https://github.com/jamjet-labs/jamjet" target="_blank" rel="noopener">jamjet-labs/jamjet</a> to follow.</li>
+    <li>Try <code>jamjet demo mcp-tool-policy</code> today &mdash; same policy model, MCP-shaped envelope.</li>
+    <li>Join <a href="https://discord.gg/SAYnEj86fr" target="_blank" rel="noopener">Discord</a> for early access.</li>
+  </ul>
+</div>
+
+</BaseLayout>
+
+<style>
+  .gateway {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 24px 6rem;
+  }
+  .gateway-pill {
+    display: inline-block;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    margin-bottom: 1rem;
+  }
+  .gateway h1 {
+    font-size: 2.2rem;
+    margin: 0.25rem 0 0.75rem;
+    line-height: 1.15;
+  }
+  .gateway-lead {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  .gateway h2 {
+    font-size: 1.2rem;
+    margin: 2.25rem 0 0.75rem;
+  }
+  .gateway p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+  .gateway ul {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.75;
+    padding-left: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .gateway li {
+    margin-bottom: 0.4rem;
+  }
+  .gateway a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .gateway a:hover {
+    text-decoration: underline;
+  }
+  .gateway pre {
+    background: var(--surface, #0f1115);
+    color: var(--text-primary, #e6e6e6);
+    border: 1px solid var(--border, rgba(255,255,255,0.08));
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    margin: 0.5rem 0 1.25rem;
+  }
+  .gateway code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .gateway p code {
+    background: var(--surface-muted, rgba(127,127,127,0.12));
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+</style>
