@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 600" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+    .label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 14px; font-weight: 600; }
+    .desc { font-size: 12px; }
+    .small { font-size: 10.5px; }
+    .head { font-size: 18px; font-weight: 600; }
+  </style>
+
+  <rect width="1100" height="600" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="1098" height="598" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <text x="550" y="40" text-anchor="middle" fill="#1a1a18" class="head">Today: every toolchain invents its own safety layer.</text>
+  <text x="550" y="62" text-anchor="middle" fill="#8b7355" class="label">Four primitives. Four policy files. Four audit logs.</text>
+
+  <!-- Column dividers (subtle) -->
+  <line x1="275" y1="90" x2="275" y2="560" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <line x1="550" y1="90" x2="550" y2="560" stroke="#1a1a18" stroke-opacity="0.06"/>
+  <line x1="825" y1="90" x2="825" y2="560" stroke="#1a1a18" stroke-opacity="0.06"/>
+
+  <!-- ==== Column 1: Claude Code ==== -->
+  <text x="137" y="115" text-anchor="middle" fill="#1a1a18" class="title">Claude Code</text>
+  <text x="137" y="133" text-anchor="middle" fill="#6b6b63" class="desc">Anthropic</text>
+
+  <rect x="40" y="160" width="195" height="58" rx="4" fill="#fff" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="137" y="184" text-anchor="middle" fill="#8b7355" class="label">Primitive</text>
+  <text x="137" y="205" text-anchor="middle" fill="#1a1a18" class="mono desc">PreToolUse hook</text>
+
+  <rect x="40" y="245" width="195" height="78" rx="4" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="137" y="269" text-anchor="middle" fill="#8b7355" class="label">Policy shape</text>
+  <text x="137" y="290" text-anchor="middle" fill="#1a1a18" class="mono small">settings.json</text>
+  <text x="137" y="307" text-anchor="middle" fill="#6b6b63" class="mono small">+ shell scripts</text>
+
+  <rect x="40" y="350" width="195" height="58" rx="4" fill="#fff" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="137" y="374" text-anchor="middle" fill="#8b7355" class="label">Audit</text>
+  <text x="137" y="395" text-anchor="middle" fill="#6b6b63" class="mono small">stderr / your logs</text>
+
+  <!-- ==== Column 2: OpenAI Agents SDK ==== -->
+  <text x="412" y="115" text-anchor="middle" fill="#1a1a18" class="title">OpenAI Agents SDK</text>
+  <text x="412" y="133" text-anchor="middle" fill="#6b6b63" class="desc">OpenAI</text>
+
+  <rect x="315" y="160" width="195" height="58" rx="4" fill="#fff" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="412" y="184" text-anchor="middle" fill="#8b7355" class="label">Primitive</text>
+  <text x="412" y="205" text-anchor="middle" fill="#1a1a18" class="mono desc">Tool guardrail</text>
+
+  <rect x="315" y="245" width="195" height="78" rx="4" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="412" y="269" text-anchor="middle" fill="#8b7355" class="label">Policy shape</text>
+  <text x="412" y="290" text-anchor="middle" fill="#1a1a18" class="mono small">Python callable</text>
+  <text x="412" y="307" text-anchor="middle" fill="#6b6b63" class="mono small">tripwire booleans</text>
+
+  <rect x="315" y="350" width="195" height="58" rx="4" fill="#fff" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="412" y="374" text-anchor="middle" fill="#8b7355" class="label">Audit</text>
+  <text x="412" y="395" text-anchor="middle" fill="#6b6b63" class="mono small">OpenAI trace API</text>
+
+  <!-- ==== Column 3: MCP Gateway ==== -->
+  <text x="687" y="115" text-anchor="middle" fill="#1a1a18" class="title">MCP Gateway</text>
+  <text x="687" y="133" text-anchor="middle" fill="#6b6b63" class="desc">MCPX / Microsoft / Lasso</text>
+
+  <rect x="590" y="160" width="195" height="58" rx="4" fill="#fff" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="687" y="184" text-anchor="middle" fill="#8b7355" class="label">Primitive</text>
+  <text x="687" y="205" text-anchor="middle" fill="#1a1a18" class="mono desc">Interceptor / proxy</text>
+
+  <rect x="590" y="245" width="195" height="78" rx="4" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="687" y="269" text-anchor="middle" fill="#8b7355" class="label">Policy shape</text>
+  <text x="687" y="290" text-anchor="middle" fill="#1a1a18" class="mono small">vendor YAML</text>
+  <text x="687" y="307" text-anchor="middle" fill="#6b6b63" class="mono small">(each one different)</text>
+
+  <rect x="590" y="350" width="195" height="58" rx="4" fill="#fff" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="687" y="374" text-anchor="middle" fill="#8b7355" class="label">Audit</text>
+  <text x="687" y="395" text-anchor="middle" fill="#6b6b63" class="mono small">gateway-specific</text>
+
+  <!-- ==== Column 4: Custom code ==== -->
+  <text x="962" y="115" text-anchor="middle" fill="#1a1a18" class="title">Custom code</text>
+  <text x="962" y="133" text-anchor="middle" fill="#6b6b63" class="desc">Your runtime</text>
+
+  <rect x="865" y="160" width="195" height="58" rx="4" fill="#fff" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="962" y="184" text-anchor="middle" fill="#8b7355" class="label">Primitive</text>
+  <text x="962" y="205" text-anchor="middle" fill="#1a1a18" class="mono desc">if statements</text>
+
+  <rect x="865" y="245" width="195" height="78" rx="4" fill="#f5f4f0" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="962" y="269" text-anchor="middle" fill="#8b7355" class="label">Policy shape</text>
+  <text x="962" y="290" text-anchor="middle" fill="#1a1a18" class="mono small">scattered in code</text>
+  <text x="962" y="307" text-anchor="middle" fill="#6b6b63" class="mono small">across N services</text>
+
+  <rect x="865" y="350" width="195" height="58" rx="4" fill="#fff" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="962" y="374" text-anchor="middle" fill="#8b7355" class="label">Audit</text>
+  <text x="962" y="395" text-anchor="middle" fill="#6b6b63" class="mono small">application logs</text>
+
+  <!-- Bottom band: the consequence -->
+  <rect x="40" y="450" width="1020" height="105" rx="6" fill="#fff8e6" stroke="#d4a017" stroke-opacity="0.45" stroke-width="1.5"/>
+  <text x="550" y="478" text-anchor="middle" fill="#7a5a00" class="label">The consequence</text>
+  <text x="550" y="505" text-anchor="middle" fill="#1a1a18" class="desc">A team running Claude Code + OpenAI Agents SDK + a couple of MCP servers writes</text>
+  <text x="550" y="525" text-anchor="middle" fill="#1a1a18" class="desc">three policies, maintains three audit pipelines, and reconciles three approval flows.</text>
+  <text x="550" y="546" text-anchor="middle" fill="#6b6b63" class="small">The market is converging on "control AI agent actions". The primitives are not portable.</text>
+</svg>

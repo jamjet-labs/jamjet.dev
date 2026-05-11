@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 500" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+    .label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 12px; }
+    .small { font-size: 10.5px; }
+    .head { font-size: 18px; font-weight: 600; }
+  </style>
+
+  <rect width="1100" height="500" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="1098" height="498" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <text x="550" y="40" text-anchor="middle" fill="#1a1a18" class="head">JamJet plugs into. It does not replace.</text>
+  <text x="550" y="62" text-anchor="middle" fill="#8b7355" class="label">Each platform's extension point — wired to one policy</text>
+
+  <!-- ==== Left side: four platform boxes ==== -->
+  <text x="180" y="105" text-anchor="middle" fill="#8b7355" class="label">Platform extension points</text>
+
+  <rect x="60" y="125" width="240" height="62" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="180" y="148" text-anchor="middle" fill="#1a1a18" class="title">Claude Code</text>
+  <text x="180" y="170" text-anchor="middle" fill="#6b6b63" class="mono small">PreToolUse hook</text>
+
+  <rect x="60" y="200" width="240" height="62" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="180" y="223" text-anchor="middle" fill="#1a1a18" class="title">OpenAI Agents SDK</text>
+  <text x="180" y="245" text-anchor="middle" fill="#6b6b63" class="mono small">inputGuardrails</text>
+
+  <rect x="60" y="275" width="240" height="62" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="180" y="298" text-anchor="middle" fill="#1a1a18" class="title">MCP stdio</text>
+  <text x="180" y="320" text-anchor="middle" fill="#6b6b63" class="mono small">tools/call interception</text>
+
+  <rect x="60" y="350" width="240" height="62" rx="6" fill="#fff" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="180" y="373" text-anchor="middle" fill="#1a1a18" class="title">Python / TS runtimes</text>
+  <text x="180" y="395" text-anchor="middle" fill="#6b6b63" class="mono small">PolicyEvaluator</text>
+
+  <!-- Arrows from each platform into JJ -->
+  <line x1="305" y1="156" x2="475" y2="240" stroke="#8b8578" stroke-width="1.4"/>
+  <polyline points="468,237 475,240 471,247" stroke="#8b8578" stroke-width="1.4" fill="none"/>
+  <line x1="305" y1="231" x2="475" y2="250" stroke="#8b8578" stroke-width="1.4"/>
+  <polyline points="467,250 475,250 471,256" stroke="#8b8578" stroke-width="1.4" fill="none"/>
+  <line x1="305" y1="306" x2="475" y2="260" stroke="#8b8578" stroke-width="1.4"/>
+  <polyline points="468,260 475,260 470,265" stroke="#8b8578" stroke-width="1.4" fill="none"/>
+  <line x1="305" y1="381" x2="475" y2="270" stroke="#8b8578" stroke-width="1.4"/>
+  <polyline points="468,270 475,270 472,278" stroke="#8b8578" stroke-width="1.4" fill="none"/>
+
+  <!-- ==== Middle: JamJet layer ==== -->
+  <rect x="475" y="200" width="160" height="138" rx="8" fill="#1a1a18"/>
+  <text x="555" y="232" text-anchor="middle" fill="#f5c518" class="head">JJ</text>
+  <text x="555" y="262" text-anchor="middle" fill="#fafaf8" class="title">JamJet</text>
+  <text x="555" y="282" text-anchor="middle" fill="#c0c0b8" class="small">adapter layer</text>
+  <text x="555" y="305" text-anchor="middle" fill="#8b8578" class="small">claude-code-hook</text>
+  <text x="555" y="320" text-anchor="middle" fill="#8b8578" class="small">mcp-shim · openai-guardrail</text>
+
+  <!-- Arrow from JJ to policy.yaml -->
+  <line x1="635" y1="269" x2="785" y2="269" stroke="#1a1a18" stroke-width="2"/>
+  <polyline points="780,263 788,269 780,275" stroke="#1a1a18" stroke-width="2" fill="none"/>
+  <text x="710" y="258" text-anchor="middle" fill="#6b6b63" class="small">reads</text>
+
+  <!-- ==== Right side: policy.yaml ==== -->
+  <rect x="790" y="195" width="250" height="148" rx="6" fill="#fff" stroke="#1a1a18" stroke-width="2"/>
+  <rect x="790" y="195" width="250" height="22" rx="6" fill="#1a1a18"/>
+  <rect x="790" y="205" width="250" height="12" fill="#1a1a18"/>
+  <text x="803" y="211" fill="#fafaf8" class="mono small">policy.yaml</text>
+  <text x="1027" y="211" text-anchor="end" fill="#f5c518" class="mono small">v1</text>
+  <text x="803" y="240" fill="#1a1a18" class="mono small">rules:</text>
+  <text x="803" y="258" fill="#1a1a18" class="mono small">  - match: "*delete*"</text>
+  <text x="803" y="274" fill="#1a1a18" class="mono small">    action: block</text>
+  <text x="803" y="296" fill="#1a1a18" class="mono small">  - match: "payments.*"</text>
+  <text x="803" y="312" fill="#1a1a18" class="mono small">    action: require_approval</text>
+  <text x="803" y="334" fill="#8b7355" class="mono small">audit: { ... }</text>
+
+  <!-- Caption at bottom -->
+  <rect x="60" y="438" width="980" height="42" rx="6" fill="#fff8e6" stroke="#d4a017" stroke-opacity="0.45"/>
+  <text x="550" y="464" text-anchor="middle" fill="#1a1a18" class="desc">JamJet plugs into the extension points your tools already give you. No replacing Claude Code hooks or OpenAI guardrails.</text>
+</svg>

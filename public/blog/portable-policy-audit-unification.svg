@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 600" fill="none">
+  <style>
+    text { font-family: 'Inter', system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+    .label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .title { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 12px; }
+    .small { font-size: 10.5px; }
+    .head { font-size: 18px; font-weight: 600; }
+    .term { font-size: 11.5px; }
+  </style>
+
+  <rect width="1100" height="600" rx="8" fill="#fafaf8"/>
+  <rect x="1" y="1" width="1098" height="598" rx="7" stroke="#1a1a18" stroke-opacity="0.08" fill="none"/>
+
+  <text x="550" y="40" text-anchor="middle" fill="#1a1a18" class="head">One command. Every adapter. In chronological order.</text>
+  <text x="550" y="62" text-anchor="middle" fill="#8b7355" class="label">jamjet audit show</text>
+
+  <!-- ==== Four JSONL files on the left ==== -->
+  <text x="100" y="120" fill="#8b7355" class="label">Audit sources</text>
+
+  <rect x="40" y="140" width="195" height="48" rx="4" fill="#fff" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="137" y="160" text-anchor="middle" fill="#1a1a18" class="mono small">claude-code-hook.jsonl</text>
+  <text x="137" y="178" text-anchor="middle" fill="#6b6b63" class="small">~/.jamjet/audit/2026-05-11/</text>
+
+  <rect x="40" y="200" width="195" height="48" rx="4" fill="#fff" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="137" y="220" text-anchor="middle" fill="#1a1a18" class="mono small">mcp-shim.jsonl</text>
+  <text x="137" y="238" text-anchor="middle" fill="#6b6b63" class="small">~/.jamjet/audit/2026-05-11/</text>
+
+  <rect x="40" y="260" width="195" height="48" rx="4" fill="#fff" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="137" y="280" text-anchor="middle" fill="#1a1a18" class="mono small">openai-guardrail.jsonl</text>
+  <text x="137" y="298" text-anchor="middle" fill="#6b6b63" class="small">~/.jamjet/audit/2026-05-11/</text>
+
+  <rect x="40" y="320" width="195" height="48" rx="4" fill="#fff" stroke="#1a1a18" stroke-opacity="0.18"/>
+  <text x="137" y="340" text-anchor="middle" fill="#1a1a18" class="mono small">python-sdk.jsonl</text>
+  <text x="137" y="358" text-anchor="middle" fill="#6b6b63" class="small">~/.jamjet/audit/2026-05-11/</text>
+
+  <!-- Arrows from sources into the terminal -->
+  <line x1="240" y1="164" x2="305" y2="200" stroke="#8b8578" stroke-width="1.2"/>
+  <polyline points="301,194 305,200 299,201" stroke="#8b8578" stroke-width="1.2" fill="none"/>
+
+  <line x1="240" y1="224" x2="305" y2="240" stroke="#8b8578" stroke-width="1.2"/>
+  <polyline points="299,236 305,240 300,244" stroke="#8b8578" stroke-width="1.2" fill="none"/>
+
+  <line x1="240" y1="284" x2="305" y2="280" stroke="#8b8578" stroke-width="1.2"/>
+  <polyline points="299,277 305,280 299,283" stroke="#8b8578" stroke-width="1.2" fill="none"/>
+
+  <line x1="240" y1="344" x2="305" y2="320" stroke="#8b8578" stroke-width="1.2"/>
+  <polyline points="299,322 305,320 301,326" stroke="#8b8578" stroke-width="1.2" fill="none"/>
+
+  <!-- ==== Terminal frame on the right ==== -->
+  <rect x="310" y="130" width="750" height="370" rx="8" fill="#1a1a18"/>
+  <!-- Terminal top bar -->
+  <rect x="310" y="130" width="750" height="26" rx="8" fill="#2a2a28"/>
+  <circle cx="328" cy="143" r="5" fill="#ff5f56"/>
+  <circle cx="346" cy="143" r="5" fill="#ffbd2e"/>
+  <circle cx="364" cy="143" r="5" fill="#27c93f"/>
+  <text x="685" y="147" text-anchor="middle" fill="#8b8578" class="mono small">~/.jamjet</text>
+
+  <!-- Prompt line -->
+  <text x="328" y="180" fill="#f5c518" class="mono term">$</text>
+  <text x="345" y="180" fill="#fafaf8" class="mono term">jamjet audit show</text>
+
+  <!-- Rows: marker, ts, adapter (padded), tool (padded), decision, rule -->
+  <!-- Row 1: ALLOWED claude-code-hook -->
+  <text x="328" y="210" fill="#27c93f" class="mono term">v</text>
+  <text x="345" y="210" fill="#c0c0b8" class="mono term">10:14:02Z  claude-code-hook    fs.read_file           ALLOWED</text>
+
+  <!-- Row 2: BLOCKED claude-code-hook -->
+  <text x="328" y="232" fill="#ff5f56" class="mono term">x</text>
+  <text x="345" y="232" fill="#fafaf8" class="mono term">10:14:18Z  claude-code-hook    bash.shell_exec        BLOCKED   shell.exec</text>
+
+  <!-- Row 3: BLOCKED mcp-shim -->
+  <text x="328" y="254" fill="#ff5f56" class="mono term">x</text>
+  <text x="345" y="254" fill="#fafaf8" class="mono term">10:21:47Z  mcp-shim            postgres.delete_rows   BLOCKED   *delete*</text>
+
+  <!-- Row 4: WAITING_FOR_APPROVAL openai-guardrail -->
+  <text x="328" y="276" fill="#ffbd2e" class="mono term">~</text>
+  <text x="345" y="276" fill="#fafaf8" class="mono term">10:33:11Z  openai-guardrail    payments.refund        WAITING_FOR_APPROVAL  payments.*</text>
+
+  <!-- Row 5: ALLOWED python-sdk -->
+  <text x="328" y="298" fill="#27c93f" class="mono term">v</text>
+  <text x="345" y="298" fill="#c0c0b8" class="mono term">10:41:55Z  python-sdk          customers.search       ALLOWED</text>
+
+  <!-- Row 6: BLOCKED openai-guardrail -->
+  <text x="328" y="320" fill="#ff5f56" class="mono term">x</text>
+  <text x="345" y="320" fill="#fafaf8" class="mono term">10:52:09Z  openai-guardrail    db.drop_table          BLOCKED   *delete*</text>
+
+  <!-- Row 7: ALLOWED mcp-shim -->
+  <text x="328" y="342" fill="#27c93f" class="mono term">v</text>
+  <text x="345" y="342" fill="#c0c0b8" class="mono term">11:07:33Z  mcp-shim            github.list_issues     ALLOWED</text>
+
+  <!-- Trailing prompt -->
+  <text x="328" y="378" fill="#f5c518" class="mono term">$</text>
+  <text x="345" y="378" fill="#8b8578" class="mono term">_</text>
+
+  <!-- Legend inside terminal -->
+  <rect x="328" y="412" width="710" height="76" rx="4" fill="#2a2a28" stroke="#3a3a35"/>
+  <text x="345" y="432" fill="#8b8578" class="label">Legend</text>
+  <text x="345" y="454" fill="#27c93f" class="mono term">v  ALLOWED</text>
+  <text x="510" y="454" fill="#ff5f56" class="mono term">x  BLOCKED</text>
+  <text x="685" y="454" fill="#ffbd2e" class="mono term">~  WAITING_FOR_APPROVAL</text>
+  <text x="345" y="475" fill="#8b8578" class="small">columns: timestamp  adapter  tool  decision  matched rule</text>
+
+  <text x="685" y="535" text-anchor="middle" fill="#6b6b63" class="desc">Four adapters wrote four files. One CLI tails all of them.</text>
+  <text x="685" y="558" text-anchor="middle" fill="#8b7355" class="small">Filter by date or adapter with --date and --adapter.</text>
+</svg>
