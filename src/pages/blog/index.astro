@@ -124,12 +124,6 @@ const blogLd = {
             <h2 class="feed-title">{post.data.title}</h2>
             <p class="feed-desc">{post.data.description}</p>
             <div class="feed-foot">
-              {post.data.author && (
-                <span class="feed-author">
-                  <span class="feed-avatar" style={`background: hsl(${authorHue(post.data.author)}, 55%, 78%); color: hsl(${authorHue(post.data.author)}, 70%, 22%)`}>{initials(post.data.author)}</span>
-                  <span class="feed-author-name">{post.data.author}</span>
-                </span>
-              )}
               <span class="feed-arrow">Read &rarr;</span>
             </div>
           </div>
