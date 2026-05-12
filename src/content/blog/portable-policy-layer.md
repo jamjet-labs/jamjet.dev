@@ -150,7 +150,7 @@ This is the part of the launch we are most willing to defend. *That* answer to "
 ## What's honest
 
 - Each adapter is at **v0.1**. The policy YAML and audit JSONL shapes are committed to v1 and covered by conformance tests across all four adapters. Adapter-specific options will evolve in minor versions.
-- **Approval surfaces as exceptions or blocks in v0.1** for hook, guardrail, and Python adapters. The filesystem-based approval flow works today — `jamjet approve <run-id>` flips a pending file and the next run unblocks. A web UI for approval lands with JamJet Cloud sync in v0.2.
+- **Approval surfaces as exceptions or blocks in v0.1** for hook, guardrail, and Python adapters. The filesystem flow works end-to-end today — `jamjet approve <run-id>` flips a pending file and the next run unblocks. SDK-integrated approval (the OpenAI Agents SDK approval API, Claude Code's native settings surface) and a web UI both land with JamJet Cloud sync in v0.2.
 - **MCP shim is stdio only in v0.1.** HTTP/SSE MCP transports land in Phase 3 alongside the Java/Spring adapter.
 - **JamJet Cloud sync** — shared team policies, cloud audit retention, signed approvals — is the v0.2 milestone. Today's flow is local-only by design, so nothing leaves the developer's machine unless you opt into Cloud.
 - One Phase 1 line still applies: the demo agent prompts are real, the enforcement path is real, the audit is real. Pre-baked deterministic agents are clearly labelled as such.
@@ -176,6 +176,6 @@ jamjet audit show
 
 - Star [jamjet-labs/jamjet-policy](https://github.com/jamjet-labs/jamjet-policy) — the Phase 2 monorepo.
 - Read the [Phase 1 launch post](/blog/blocking-unsafe-ai-tool-calls/) for the deeper argument about why the runtime, not the model, is the safety boundary.
-- Join the [JamJet Discord](https://discord.gg/jamjet) to talk through your toolchain — we want to know which extension points to plug into next.
+- Join the [JamJet Discord](https://discord.gg/SAYnEj86fr) to talk through your toolchain — we want to know which extension points to plug into next.
 
 Phase 3 is the Java/Spring adapter, MCP HTTP/SSE transport, and JamJet Cloud sync. Same policy. More surfaces.
