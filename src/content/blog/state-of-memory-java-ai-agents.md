@@ -8,6 +8,8 @@ category: "Architecture & Deep Dives"
 
 # The State of Memory in Java AI Agents (April 2026)
 
+> **Update (2026-05-12):** A comment from the Koog team on the [dev.to thread](https://dev.to/sunilprakash/the-state-of-memory-in-java-ai-agents-april-2026-13c6) flagged that parts of the Koog section were out of date. The post has been updated to reflect Koog 0.7's native Java API and the deprecation of `AgentMemory` in favour of a `ChatMemory` / `LongTermMemory` / `Persistence` / `History Compression` split. The post's broader argument about JVM-native memory semantics (supersession, consolidation, benchmarked recall) is preserved with revised wording. The full exchange is on the dev.to thread.
+
 ## TL;DR
 
 If you're building AI agents in Java today, your options for persistent memory range from "store the last 20 chat messages in Postgres" to "run a Python service in a sidecar container and call it over HTTP." There is no Java-native equivalent to Mem0, Zep, or Letta — the libraries Python developers reach for when they need real memory.
@@ -102,7 +104,7 @@ The OSS Java path with ADK gives you `InMemoryMemoryService`, which is keyword m
 
 ### Koog (JetBrains)
 
-Koog is the most ambitious JVM agent framework with real memory ambitions. Its `AgentMemory` feature stores facts organized by `Concept`, `Subject` (user, product, organization), and `Scope`. There's a `nodeSaveToMemoryAutoDetectFacts` node that uses an LLM to extract facts automatically.
+Koog is the most ambitious JVM agent framework with real memory ambitions. As of Koog 0.7, the memory model splits into three components: `ChatMemory` (conversation history), `LongTermMemory` (vector-based fact retrieval), and `Persistence` (state checkpoints), with a separate `History Compression` feature for token budgeting. The `LongTermMemory` layer organises facts by `Concept`, `Subject` (user, product, organization), and `Scope`. The `nodeSaveToMemoryAutoDetectFacts` node uses an LLM to extract facts automatically from chat history. That is genuine LLM-driven fact extraction, not just append-only chat storage.
 
 ```kotlin
 agent {
@@ -115,14 +117,17 @@ agent {
 }
 ```
 
-This is the closest competitor on the "facts about subjects" axis. Two important caveats:
+This is the closest competitor on the "facts about subjects" axis. A few things to know in context:
 
-1. **It's Kotlin-first.** Java consumption works but the idioms are awkward.
-2. **GitHub issue [JetBrains/koog#1001](https://github.com/JetBrains/koog/issues/1001)** documents that `AgentMemory` floods prompts as facts accumulate — there's no token budgeting or smart retrieval. The maintainers acknowledge this.
+1. **Java consumption is now first-class.** Koog 0.7 shipped [Koog for Java](https://blog.jetbrains.com/ai/2026/03/koog-comes-to-java/) at JavaOne, with a native Java API, idiomatic builders, and annotation-based tool registration. The "Kotlin-first, Java idioms are awkward" framing this post originally used no longer applies for Java teams.
 
-Koog also has separate `PersistenceStorageProvider` implementations (in-memory, file, no-op, Postgres) for *state checkpoints*. That solves the second kind of memory — execution snapshots — not the third.
+2. **The early `AgentMemory` is being deprecated.** Its original release had the scaling caveat tracked in [JetBrains/koog#1001](https://github.com/JetBrains/koog/issues/1001), where facts flooded prompts as they accumulated. The new component split plus `History Compression` directly addresses the token-budgeting half of that issue.
 
-If you're a Kotlin team and you can live with the retrieval limitations, Koog is the closest thing to a JVM-native fact store today. If you're a Java team or you need scaled retrieval, it's not yet enough.
+3. **The deeper memory semantics remain open in the public docs.** What the docs don't yet describe is a supersession layer that says "this later fact replaces that earlier one" when a user changes a preference, cross-session consolidation (merging, deduplication, decay), or benchmarked recall quality on a standard suite like LongMemEval. Those are the parts where Mem0, Zep, and Engram spend most of their complexity budget. If JetBrains has work in this direction it isn't visible in the public memory docs as of May 2026.
+
+Koog also has separate `PersistenceStorageProvider` implementations (in-memory, file, no-op, Postgres) for *state checkpoints*. That solves the second kind of memory, execution snapshots, not the third.
+
+If you're a Java or Kotlin team and your workload tolerates additive fact storage without supersession or consolidation, Koog is the strongest JVM-native fact store today. If you need versioning across changing user preferences, cross-session consolidation, or benchmarked recall, the JVM ecosystem still has a gap to close. See the [dev.to thread](https://dev.to/sunilprakash/the-state-of-memory-in-java-ai-agents-april-2026-13c6) for a longer exchange with the Koog team on this.
 
 ### Embabel
 
