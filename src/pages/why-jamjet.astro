@@ -6,64 +6,70 @@ const canonical = 'https://jamjet.dev/why-jamjet/';
 
 const capabilities = [
   {
-    label: 'CRASH RECOVERY',
-    title: 'Resume from failures, never restart',
-    context: "Goldman Sachs doesn't re-run trade accounting from scratch when a system fails. Neither should you.",
-    mechanism: 'Every workflow step writes a checkpoint before execution. On crash, JamJet replays completed steps from the event log and continues from the exact point of failure.',
+    label: 'POLICY ENFORCEMENT',
+    title: 'Block unsafe tool calls before they execute',
+    failure: 'An agent reaches for a tool it shouldn\'t — a destructive shell command, a payment API, an unscoped database write. By the time you read the trace, the damage is done.',
+    mechanism: 'JamJet evaluates a 4-level policy hierarchy (global → tenant → workflow → node) at every tool call. Glob-pattern blocking, model allowlists, delegated-token scope narrowing. Unsafe calls are denied at the call site — your trace shows the deny, not the damage.',
   },
   {
-    label: 'AUTOMATIC AUDIT TRAILS',
-    title: 'Complete traceability by default',
-    context: 'Regulated industries — finance, legal, insurance — require full traceability. The firms that built audit trails into their agent workflows from day one avoided the compliance headaches that catch teams who bolt it on later.',
-    mechanism: 'Every state transition, tool call, and model response is persisted as an event automatically. No manual logging, no reconstruction after the fact.',
+    label: 'DURABLE EXECUTION',
+    title: 'Resume from crashes, never restart from scratch',
+    failure: 'A worker dies mid-run. Without durable execution, the run dies with it — partial side effects, no audit of what happened, no way to continue from where you stopped.',
+    mechanism: 'Every step writes a checkpoint before execution. On crash, JamJet replays completed steps from the event log and resumes at the exact failure point. Rust core or embedded Java runtime — 8.9x faster than a REST sidecar in our benchmarks.',
   },
   {
     label: 'HUMAN-IN-THE-LOOP',
-    title: 'Human oversight as a first-class capability',
-    context: "Klarna's public reversal made this lesson impossible to ignore: human-in-the-loop cannot be bolted on after quality degrades. It must be designed in from the start.",
-    mechanism: 'Human approval is a first-class node type. Your workflow pauses, presents the decision to a human, and resumes when they approve — with the approval logged in the audit trail.',
+    title: 'Approval as a durable workflow primitive',
+    failure: 'A high-risk action needs a human decision. Bolt-on approval queues lose state on restart, lose context in the routing UI, and lose evidence in the audit trail.',
+    mechanism: 'Approval is a first-class node. The workflow pauses, routes the decision to Slack or email with SLA tracking, survives restarts, and resumes when the human decides. Every decision lands in the signed audit log with the approver\'s identity.',
   },
   {
-    label: 'MODEL FLEXIBILITY',
-    title: 'Route to any model, no vendor lock-in',
-    context: 'Goldman routes across OpenAI, Gemini, and Llama by task type. Model flexibility is how you avoid vendor dependency and optimize cost.',
-    mechanism: 'Models are interchangeable resources. Route to Claude for reasoning, Gemini for code generation, and a local model for sensitive data — in the same workflow.',
+    label: 'COST GOVERNANCE',
+    title: 'Stop runaway loops before the bill arrives',
+    failure: 'A reflection loop won\'t stop calling the model. By the time someone notices, you\'ve burned through a month\'s budget on a single run.',
+    mechanism: 'Token and dollar caps enforced at runtime, at workflow and per-agent granularity. Exceeding the cap halts the execution or routes it to a configurable fallback node — before the bill happens, not after.',
   },
   {
-    label: 'AGENT INTEROPERABILITY',
-    title: 'Standard protocols, not proprietary walls',
-    context: 'The industry is converging on standard protocols. Agents that cannot interoperate are agents that cannot scale beyond your own walls.',
-    mechanism: 'Native support for Model Context Protocol (MCP) and Agent-to-Agent Protocol (A2A). Your agents collaborate with agents in other frameworks, other organizations, other runtimes.',
+    label: 'SIGNED AUDIT EVIDENCE',
+    title: 'Compliance-ready, not a JSON dump',
+    failure: 'Auditors ask what your agent did, when, on whose authority, and how you\'d prove it tomorrow. A trace export is a starting point — it\'s not an evidence package.',
+    mechanism: 'Every policy decision, tool call, approval, and outcome is persisted as a durable event. Exports render as Ed25519-signed packages in PDF, OTLP, Splunk, and Datadog formats with per-entry retention. Designed for EU AI Act, financial, and healthcare review.',
+  },
+  {
+    label: 'AGENT MEMORY',
+    title: 'Durable facts, not raw chat history',
+    failure: 'The agent forgets what it learned in the last session. You either stuff the full chat history into the prompt (slow, expensive, lossy) or your agent has amnesia between runs.',
+    mechanism: 'Engram is JamJet\'s memory primitive — a temporal knowledge graph with fact extraction, conflict detection, hybrid retrieval, and consolidation. Open source on PyPI, crates.io, Maven Central, and the MCP Registry. Governed by the same runtime as the rest of the agent.',
   },
 ];
 
 const differentiators = [
-  { title: 'Rust core', desc: 'No garbage collector, real parallelism, checkpoint writes at native speed.' },
-  { title: 'Event-sourced by default', desc: 'Durability is the execution model, not an add-on.' },
-  { title: 'Protocol-native', desc: 'MCP + A2A built into the runtime, not wrapped around it.' },
-  { title: 'Open source', desc: 'Apache 2.0. No vendor lock-in.' },
+  { title: 'Agent-native primitives', desc: 'Policy, durability, memory, HITL, audit, cost caps ship as runtime features — not user code you maintain.' },
+  { title: 'Wrap or native', desc: 'Keep LangChain, LangChain4j, Spring AI, OpenAI Agents SDK. JamJet wraps them — no rewrite required.' },
+  { title: 'Protocol-native', desc: 'MCP + A2A clients and servers built into the runtime. Listed on the MCP Registry.' },
+  { title: 'Cloud-neutral', desc: 'Apache 2.0. Self-host on Docker/JVM today; full Kubernetes bundle on the roadmap.' },
 ];
 ---
 
 <BaseLayout
-  title="Why JamJet — The Infrastructure Patterns Behind Successful AI Agent Deployments"
-  description="The moat is not model access. It is workflow redesign, human-boundary design, and reliable infrastructure. See how JamJet delivers the patterns the market leaders share."
+  title="Why JamJet — The safety layer behind your AI agents"
+  description="Six failure modes that turn agent demos into production incidents — and how JamJet's runtime addresses them: policy, durability, HITL, cost caps, signed audit, and memory in one fabric."
   canonical={canonical}
 >
 
 <!-- ── Hero ── -->
 <section class="why-hero">
   <div class="container">
-    <h1>The infrastructure patterns behind every successful AI agent deployment.</h1>
+    <h1>The six failure modes that turn agent demos into production incidents.</h1>
     <p class="why-hero-sub">
-      The moat is not access to models. It is the ability to redesign workflows,
-      keep humans at the right boundary, and run agents reliably enough that the
-      organization actually learns.
+      Most agent failures aren't model failures. They're missing primitives — no way to block an unsafe
+      tool, no way to resume after a crash, no way to gate a high-risk action, no way to cap a runaway
+      loop, no compliance-grade evidence, no durable memory. JamJet ships them as one runtime.
     </p>
   </div>
 </section>
 
-<!-- ── Five Capabilities ── -->
+<!-- ── Six Capabilities ── -->
 {capabilities.map((cap, i) => (
   <section style={i % 2 === 0 ? '' : 'background: var(--bg-alt);'}>
     <div class="container">
@@ -71,11 +77,11 @@ const differentiators = [
       <h2 class="cap-title">{cap.title}</h2>
       <div class="cap-content">
         <div class="cap-context">
-          <h3>Why it matters</h3>
-          <p>{cap.context}</p>
+          <h3>The failure mode</h3>
+          <p>{cap.failure}</p>
         </div>
         <div class="cap-mechanism">
-          <h3>How JamJet delivers it</h3>
+          <h3>How JamJet addresses it</h3>
           <p>{cap.mechanism}</p>
         </div>
       </div>
@@ -112,9 +118,9 @@ const differentiators = [
         <a href="https://docs.jamjet.dev/en/docs/quickstart" class="btn-primary">Read the quickstart →</a>
       </div>
       <div class="path-card">
-        <h3>See it in action</h3>
-        <p class="path-desc">Walk through a production architecture — multi-agent coordination, human oversight, and durable execution.</p>
-        <a href="/showcase" class="btn-secondary">See the showcase →</a>
+        <h3>See it next to what you already have</h3>
+        <p class="path-desc">Honest comparisons with LangSmith, Helicone, Temporal, and Microsoft AGT — no vendor takedowns, just where each tool fits.</p>
+        <a href="/compare" class="btn-secondary">Browse comparisons →</a>
       </div>
     </div>
   </div>
@@ -128,11 +134,11 @@ const differentiators = [
     text-align: center;
   }
   .why-hero h1 {
-    max-width: 780px;
+    max-width: 820px;
     margin: 0 auto 24px;
   }
   .why-hero-sub {
-    max-width: 640px;
+    max-width: 680px;
     margin: 0 auto;
     color: var(--text-secondary);
     font-size: 1.05rem;

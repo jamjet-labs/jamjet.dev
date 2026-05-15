@@ -70,6 +70,14 @@ const fits: FitRow[] = [
     category: 'Observability',
     keepFor: 'Tracing and offline evaluation. Dashboards your data team already uses.',
     addJamjetFor: 'Active enforcement — blocking unsafe tools, halting runs at cost limits, gating high-risk actions — not just observing them.',
+    link: '/compare/langsmith/',
+  },
+  {
+    name: 'Helicone',
+    category: 'Observability',
+    keepFor: 'One-line LLM proxy for cost tracking, caching, and request logging across 10+ providers.',
+    addJamjetFor: 'Tool-call policy, durable execution, HITL approval nodes, signed audit evidence, and agent memory — the layer above the LLM API.',
+    link: '/compare/helicone/',
   },
   {
     name: 'AWS Bedrock / Azure AI Foundry / Vertex',
@@ -266,13 +274,22 @@ const categories = [...new Set(fits.map(f => f.category))];
         <p>How role-based crews map onto JamJet's coordinator + agent-as-tool primitives.</p>
         <span class="deep-arrow">Read &rarr;</span>
       </a>
-      <div class="deep-card deep-soon">
+      <a class="deep-card deep-ready" href="/compare/langsmith/">
         <div class="deep-head">
           <span class="deep-name">LangSmith</span>
-          <span class="deep-status">Coming soon</span>
+          <span class="deep-status">Available</span>
         </div>
-        <p>Observability vs. enforcement. Why "tracing" alone doesn't stop unsafe agent behavior.</p>
-      </div>
+        <p>Observation vs. enforcement. LangSmith shows you what happened; JamJet shapes what happens.</p>
+        <span class="deep-arrow">Read &rarr;</span>
+      </a>
+      <a class="deep-card deep-ready" href="/compare/helicone/">
+        <div class="deep-head">
+          <span class="deep-name">Helicone</span>
+          <span class="deep-status">Available</span>
+        </div>
+        <p>LLM proxy vs agent safety layer. Helicone watches the API call; JamJet shapes the agent that makes it.</p>
+        <span class="deep-arrow">Read &rarr;</span>
+      </a>
       <div class="deep-card deep-soon">
         <div class="deep-head">
           <span class="deep-name">Bedrock / Vertex / Foundry</span>
