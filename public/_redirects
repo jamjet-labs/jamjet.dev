@@ -1,0 +1,8 @@
+https://www.jamjet.dev/*  https://jamjet.dev/:splat  301!
+
+/examples       /showcase/  301
+/examples/      /showcase/  301
+/examples/*     /showcase/  301
+/usecases       /showcase/  301
+/usecases/      /showcase/  301
+/usecases/*     /showcase/  301

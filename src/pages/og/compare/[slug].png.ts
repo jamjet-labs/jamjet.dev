@@ -1,5 +1,4 @@
 import type { APIRoute, GetStaticPaths } from 'astro';
-import { getCollection } from 'astro:content';
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
 
@@ -21,21 +20,39 @@ async function loadFonts(): Promise<{ fontRegular: ArrayBuffer; fontSemiBold: Ar
   return { fontRegular: fontRegular!, fontSemiBold: fontSemiBold! };
 }
 
+const compares: Array<{ slug: string; competitor: string; tagline: string }> = [
+  {
+    slug: 'langsmith',
+    competitor: 'LangSmith',
+    tagline: 'Observation vs enforcement',
+  },
+  {
+    slug: 'helicone',
+    competitor: 'Helicone',
+    tagline: 'LLM proxy vs agent safety layer',
+  },
+  {
+    slug: 'temporal',
+    competitor: 'Temporal',
+    tagline: 'Generic durability vs agent-native runtime',
+  },
+  {
+    slug: 'microsoft-agt',
+    competitor: 'Microsoft AGT',
+    tagline: 'Policy library vs safety runtime',
+  },
+];
+
 export const getStaticPaths: GetStaticPaths = async () => {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { title: post.data.title, category: post.data.category ?? '' },
+  return compares.map((c) => ({
+    params: { slug: c.slug },
+    props: { competitor: c.competitor, tagline: c.tagline },
   }));
 };
 
 export const GET: APIRoute = async ({ props }) => {
-  const { title, category } = props as { title: string; category: string };
+  const { competitor, tagline } = props as { competitor: string; tagline: string };
   const { fontRegular, fontSemiBold } = await loadFonts();
-
-  const bottomText = category
-    ? `jamjet.dev/blog  \u00b7  ${category}`
-    : 'jamjet.dev/blog';
 
   const svg = await satori(
     {
@@ -55,10 +72,42 @@ export const GET: APIRoute = async ({ props }) => {
             type: 'div',
             props: {
               style: {
-                width: '60px',
+                fontSize: '14px',
+                fontWeight: 600,
+                color: '#8b7355',
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                fontFamily: 'Inter',
+                marginBottom: '24px',
+                display: 'flex',
+              },
+              children: 'Comparison',
+            },
+          },
+          {
+            type: 'div',
+            props: {
+              style: {
+                fontSize: '78px',
+                fontWeight: 600,
+                color: '#ffffff',
+                lineHeight: 1.05,
+                fontFamily: 'Inter',
+                letterSpacing: '-0.02em',
+                display: 'flex',
+              },
+              children: `JamJet vs ${competitor}`,
+            },
+          },
+          {
+            type: 'div',
+            props: {
+              style: {
+                width: '80px',
                 height: '4px',
                 backgroundColor: '#8b7355',
-                marginBottom: '32px',
+                marginTop: '36px',
+                marginBottom: '24px',
                 borderRadius: '2px',
               },
             },
@@ -67,16 +116,15 @@ export const GET: APIRoute = async ({ props }) => {
             type: 'div',
             props: {
               style: {
-                fontSize: '42px',
-                fontWeight: 600,
-                color: '#ffffff',
-                lineHeight: 1.3,
+                fontSize: '32px',
+                fontWeight: 400,
+                color: '#cdc6b6',
+                lineHeight: 1.4,
                 fontFamily: 'Inter',
                 display: 'flex',
                 maxWidth: '1000px',
-                overflow: 'hidden',
               },
-              children: title,
+              children: tagline,
             },
           },
           {
@@ -90,7 +138,7 @@ export const GET: APIRoute = async ({ props }) => {
                 marginTop: 'auto',
                 display: 'flex',
               },
-              children: bottomText,
+              children: 'jamjet.dev/compare',
             },
           },
         ],
@@ -100,18 +148,8 @@ export const GET: APIRoute = async ({ props }) => {
       width: 1200,
       height: 630,
       fonts: [
-        {
-          name: 'Inter',
-          data: fontRegular,
-          weight: 400,
-          style: 'normal',
-        },
-        {
-          name: 'Inter',
-          data: fontSemiBold,
-          weight: 600,
-          style: 'normal',
-        },
+        { name: 'Inter', data: fontRegular, weight: 400, style: 'normal' },
+        { name: 'Inter', data: fontSemiBold, weight: 600, style: 'normal' },
       ],
     }
   );
