@@ -3,11 +3,25 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const compareLd = {
   "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "JamJet vs LangSmith — Observation vs Enforcement",
-  "description": "LangSmith observes what your agent did. JamJet decides what your agent is allowed to do. An honest comparison of where each tool fits and where they overlap.",
-  "author": { "@type": "Person", "name": "Sunil Prakash" },
-  "publisher": { "@type": "Organization", "name": "JamJet" },
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "JamJet vs LangSmith — Observation vs Enforcement",
+      "description": "LangSmith observes what your agent did. JamJet decides what your agent is allowed to do. An honest comparison of where each tool fits and where they overlap.",
+      "author": { "@type": "Person", "name": "Sunil Prakash" },
+      "publisher": { "@type": "Organization", "name": "JamJet" },
+      "datePublished": "2026-05-15",
+      "dateModified": "2026-05-15",
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://jamjet.dev/" },
+        { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://jamjet.dev/compare/" },
+        { "@type": "ListItem", "position": 3, "name": "JamJet vs LangSmith", "item": "https://jamjet.dev/compare/langsmith/" },
+      ],
+    },
+  ],
 };
 ---
 

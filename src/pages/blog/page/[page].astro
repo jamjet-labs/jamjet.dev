@@ -27,6 +27,9 @@ const canonical = `https://jamjet.dev/blog/page/${pageNumber}/`;
   canonical={canonical}
   currentPage="blog"
 >
+<Fragment slot="head">
+  <meta name="robots" content="noindex, follow" />
+</Fragment>
 
 <div class="page-wrap">
   <h1>Older Blog Posts</h1>

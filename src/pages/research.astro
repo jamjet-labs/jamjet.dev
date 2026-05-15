@@ -1,5 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const researchLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "JamJet for Research",
+  "description": "The multi-agent experiment runtime — durable execution, built-in evaluation, strategy comparison, and publication-ready output for AI agent research.",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Linux, macOS, Windows",
+  "url": "https://jamjet.dev/research/",
+  "license": "https://www.apache.org/licenses/LICENSE-2.0",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+};
 ---
 
 <BaseLayout
@@ -8,6 +20,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   canonical="https://jamjet.dev/research/"
   currentPage="research"
 >
+<Fragment slot="head">
+  <script type="application/ld+json" set:html={JSON.stringify(researchLd)}></script>
+</Fragment>
 
 <!-- ── Hero ── -->
 <section class="r-hero">

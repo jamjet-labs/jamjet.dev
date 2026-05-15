@@ -32,12 +32,24 @@ const runs = [
 
 const overheadLd = {
   "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Framework overhead — JamJet vs raw vs LangGraph",
-  "description": "JamJet adds zero observable framework overhead vs raw LLM calls. Reproducible llama3.2 + qwen3:8b measurements with the code.",
-  "datePublished": "2026-03-08",
-  "author": { "@type": "Person", "name": "Sunil Prakash" },
-  "publisher": { "@type": "Organization", "name": "JamJet" },
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Framework overhead — JamJet vs raw vs LangGraph",
+      "description": "JamJet adds zero observable framework overhead vs raw LLM calls. Reproducible llama3.2 + qwen3:8b measurements with the code.",
+      "datePublished": "2026-03-08",
+      "author": { "@type": "Person", "name": "Sunil Prakash" },
+      "publisher": { "@type": "Organization", "name": "JamJet" },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://jamjet.dev/" },
+        { "@type": "ListItem", "position": 2, "name": "Benchmarks", "item": "https://jamjet.dev/benchmarks/" },
+        { "@type": "ListItem", "position": 3, "name": "Framework overhead", "item": "https://jamjet.dev/benchmarks/framework-overhead/" },
+      ],
+    },
+  ],
 };
 ---
 

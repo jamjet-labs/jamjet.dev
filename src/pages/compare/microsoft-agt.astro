@@ -3,11 +3,25 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const compareLd = {
   "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "JamJet vs Microsoft Agent Governance Toolkit — Honest Comparison",
-  "description": "Microsoft Agent Governance Toolkit is a policy library. JamJet adds durability, memory, replay, and signed audit evidence — wrap, native, or hosted.",
-  "author": { "@type": "Person", "name": "Sunil Prakash" },
-  "publisher": { "@type": "Organization", "name": "JamJet" },
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "JamJet vs Microsoft Agent Governance Toolkit — Honest Comparison",
+      "description": "Microsoft Agent Governance Toolkit is a policy library. JamJet adds durability, memory, replay, and signed audit evidence — wrap, native, or hosted.",
+      "author": { "@type": "Person", "name": "Sunil Prakash" },
+      "publisher": { "@type": "Organization", "name": "JamJet" },
+      "datePublished": "2026-05-08",
+      "dateModified": "2026-05-15",
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://jamjet.dev/" },
+        { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://jamjet.dev/compare/" },
+        { "@type": "ListItem", "position": 3, "name": "JamJet vs Microsoft AGT", "item": "https://jamjet.dev/compare/microsoft-agt/" },
+      ],
+    },
+  ],
 };
 ---
 

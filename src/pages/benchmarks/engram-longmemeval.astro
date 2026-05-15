@@ -3,12 +3,24 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const compareLd = {
   "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "LongMemEval-S Leaderboard — Engram vs Chronos, Mastra, OMEGA, Zep",
-  "description": "Engram v0.1.0 on LongMemEval-S 500q with the official judge — alongside Chronos, Mastra, OMEGA, and Zep on accuracy + license + MCP + local.",
-  "datePublished": "2026-05-09",
-  "author": { "@type": "Person", "name": "Sunil Prakash" },
-  "publisher": { "@type": "Organization", "name": "JamJet" },
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "LongMemEval-S Leaderboard — Engram vs Chronos, Mastra, OMEGA, Zep",
+      "description": "Engram v0.1.0 on LongMemEval-S 500q with the official judge — alongside Chronos, Mastra, OMEGA, and Zep on accuracy + license + MCP + local.",
+      "datePublished": "2026-05-09",
+      "author": { "@type": "Person", "name": "Sunil Prakash" },
+      "publisher": { "@type": "Organization", "name": "JamJet" },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://jamjet.dev/" },
+        { "@type": "ListItem", "position": 2, "name": "Benchmarks", "item": "https://jamjet.dev/benchmarks/" },
+        { "@type": "ListItem", "position": 3, "name": "Engram LongMemEval-S", "item": "https://jamjet.dev/benchmarks/engram-longmemeval/" },
+      ],
+    },
+  ],
 };
 ---
 

@@ -3,11 +3,25 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const compareLd = {
   "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "JamJet vs Helicone — LLM Proxy vs Agent Safety Layer",
-  "description": "Helicone proxies your LLM API calls and gives you observability and caching. JamJet wraps the agent loop and enforces policy on tool calls, memory, and human approvals. Honest comparison.",
-  "author": { "@type": "Person", "name": "Sunil Prakash" },
-  "publisher": { "@type": "Organization", "name": "JamJet" },
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "JamJet vs Helicone — LLM Proxy vs Agent Safety Layer",
+      "description": "Helicone proxies your LLM API calls and gives you observability and caching. JamJet wraps the agent loop and enforces policy on tool calls, memory, and human approvals. Honest comparison.",
+      "author": { "@type": "Person", "name": "Sunil Prakash" },
+      "publisher": { "@type": "Organization", "name": "JamJet" },
+      "datePublished": "2026-05-15",
+      "dateModified": "2026-05-15",
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://jamjet.dev/" },
+        { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://jamjet.dev/compare/" },
+        { "@type": "ListItem", "position": 3, "name": "JamJet vs Helicone", "item": "https://jamjet.dev/compare/helicone/" },
+      ],
+    },
+  ],
 };
 ---
 
