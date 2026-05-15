@@ -10,8 +10,4 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
   ],
-  redirects: {
-    '/usecases': '/showcase',
-    '/examples': '/showcase',
-  },
 });
