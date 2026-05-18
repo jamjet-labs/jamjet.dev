@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="JamJet — Investors"
+  description="JamJet is the Agent Action Control layer for production AI agents. Brief deck available on request."
+  canonical="https://jamjet.dev/investors"
+>
+
+<section class="zn-cover" style="padding: 4rem 0;">
+  <div class="zn-shell">
+
+    <div class="zn-masthead">
+      <span class="zn-vol">JamJet · Investors</span>
+      <span class="zn-issue">Brief deck on request</span>
+    </div>
+
+    <h1 class="zn-display" style="margin-bottom: 2rem;">
+      Investor brief.
+    </h1>
+
+    <p class="zn-lede">
+      JamJet is the <strong>Agent Action Control</strong> layer for production AI agents. We author the open <a href="#agentboundary-coming-w4">AgentBoundary spec</a> + conformance suite that grades every major agent governance vendor (Microsoft AGT, LangSmith Fleet, Cloudflare Agents, Anthropic permission policies), and we monetize through hosted Cloud compliance bundles for regulated mid-market teams.
+    </p>
+
+    <h2 style="margin-top: 3rem;">What we&rsquo;ve shipped</h2>
+
+    <ul class="zn-list">
+      <li><strong>Open-source distribution</strong> on PyPI (<code>jamjet</code>, <code>jamjet-engram</code>), npm (<code>@jamjet/cloud</code> family), Maven Central (<code>dev.jamjet:*</code> across 8 modules), crates.io, GHCR, and the Official MCP Registry.</li>
+      <li><strong>JamJet Cloud</strong> live at <a href="https://app.jamjet.dev">app.jamjet.dev</a> — hosted control plane, Stripe-checkout billing, signed audit exports (Ed25519), policy versioning.</li>
+      <li><strong>Engram</strong> agent memory product — Python rewrite scoring <strong>88.8% on LongMemEval-S</strong> (proxy benchmark), arXiv paper in preparation. Engram bundled into Cloud.</li>
+      <li><strong>JVM-native runtime</strong> (<code>jamjet-runtime-java</code> on Maven Central) — published 8.9× latency speedup vs sidecar pattern, Spring AI + LangChain4j integrations.</li>
+    </ul>
+
+    <h2 style="margin-top: 3rem;">Brief deck</h2>
+
+    <p>
+      For a current investor brief, including the AgentBoundary spec, JamJet Cloud product, and 12-week operating plan, please email <a href="mailto:investors@jamjet.dev">investors@jamjet.dev</a>.
+    </p>
+
+    <p>
+      We don&rsquo;t run an active fundraise during the AgentBoundary v0.1 launch window. Inbound interest is welcome; we respond within 5 business days.
+    </p>
+
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+.zn-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+.zn-list li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--zn-rule, #e5e0d8);
+}
+.zn-list li:last-child {
+  border-bottom: none;
+}
+.zn-list code {
+  background: var(--zn-code-bg, #f5f1ea);
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+</style>
