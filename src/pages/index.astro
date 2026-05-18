@@ -102,8 +102,11 @@ const homeLd = {
       <div class="zn-cta-row">
         <a href="#adapters" class="zn-btn zn-btn-primary">See every adapter &darr;</a>
         <a href="https://docs.jamjet.dev/en/docs/quickstart" class="zn-btn zn-btn-ghost">Get started in 60s</a>
-        <a href="https://app.jamjet.dev" class="zn-btn zn-btn-ghost">Try Cloud free &rarr;</a>
+        <a href="#agentboundary-coming-w4" class="zn-btn zn-btn-ghost" title="AgentBoundary conformance suite ships W4">Run conformance &rarr;</a>
       </div>
+      <p class="zn-cta-aside">
+        Already shipping in production? <a href="https://app.jamjet.dev/signup">Try JamJet Cloud free</a>.
+      </p>
       <div class="zn-install">
         <span class="zn-prompt">$</span>
         <span class="zn-cmd">pip install jamjet</span>
@@ -658,6 +661,13 @@ const homeLd = {
   }
   .zn-cta-row { display: inline-flex; gap: 12px; flex-wrap: wrap; }
   .zn-cta-center { justify-content: center; }
+  .zn-cta-aside {
+    margin: 12px 0 0;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+  .zn-cta-aside a { color: var(--text); border-bottom: 1px solid var(--border); text-decoration: none; }
+  .zn-cta-aside a:hover { border-bottom-color: var(--text); }
 
   /* ─────────  MANIFESTO  ───────── */
   .zn-manifesto { padding: 88px 0; background: var(--bg-alt); border-bottom: 1px solid var(--border); }
