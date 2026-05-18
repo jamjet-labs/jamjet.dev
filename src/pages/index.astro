@@ -79,14 +79,23 @@ const homeLd = {
       <span class="zn-display-italic">agent action.</span>
     </h1>
 
-    <p class="zn-lead">
-      JamJet is the action-control plane for AI agents. One policy file. One audit trail.
-      Across Claude Code hooks, OpenAI Agents SDK guardrails, MCP gateways, Python and
-      TypeScript SDKs, and your custom runtime.
+    <p class="zn-lede">
+      Agents are starting to change real systems. Refunds, tickets, records, code merges, internal mutations.
+      JamJet sits at the production action boundary <em>before</em> each change executes — approves, denies, escalates, or blocks the action against your policy — and emits a portable <strong>Action Receipt</strong> your security, compliance, and audit teams can verify, independent of the agent framework.
+    </p>
+    <p class="zn-lede">
+      Microsoft AGT, LangSmith Fleet, Cloudflare Agents, and Anthropic permission policies tell you what their platforms did. JamJet proves <em>what every agent was allowed to do</em>, across vendors, clouds, and models. The receipt is the artifact; the open <a href="#agentboundary-coming-w4" title="AgentBoundary microsite ships W4 (June 15, 2026)">AgentBoundary spec</a> is how it&rsquo;s verified.
+    </p>
+    <p class="zn-lede zn-lede-meta">
+      From the JamJet lab behind the <a href="/engram">Engram memory benchmarks</a> and the AIP agent-identity work &mdash; see <a href="/research">research</a>.
     </p>
 
-    <p class="zn-lead zn-lead-italic">
-      Write the safety policy once. Run it everywhere your agents can act.
+    <p class="zn-credentials">
+      <span class="zn-cred-item"><strong>Engram</strong> &middot; 88.8% on <a href="/engram">LongMemEval-S</a> (proxy benchmark)</span>
+      <span class="zn-cred-sep">·</span>
+      <span class="zn-cred-item"><strong>AIP</strong> &middot; agent identity + delegation chains (arXiv draft)</span>
+      <span class="zn-cred-sep">·</span>
+      <span class="zn-cred-item"><strong>AgentBoundary v0.1</strong> &middot; open spec for AI action proof &middot; <a href="#agentboundary-coming-w4">public W4</a></span>
     </p>
 
     <div class="zn-cover-foot">
@@ -599,6 +608,46 @@ const homeLd = {
     font-style: italic;
     color: var(--text-muted);
     margin-bottom: 40px;
+  }
+  .zn-lede {
+    font-size: 1.2rem;
+    line-height: 1.65;
+    color: var(--text);
+    max-width: 60ch;
+    margin: 0 0 24px;
+  }
+  .zn-lede-meta {
+    font-size: 0.95em;
+    opacity: 0.7;
+    margin-top: 0.5rem;
+  }
+  .zn-credentials {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--zn-rule, #e5e0d8);
+    font-size: 0.85rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .zn-cred-item {
+    display: inline-block;
+  }
+  .zn-cred-sep {
+    opacity: 0.4;
+    user-select: none;
+  }
+  @media (max-width: 640px) {
+    .zn-cred-sep {
+      display: none;
+    }
+    .zn-credentials {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
   }
   .zn-cover-foot {
     display: flex;
