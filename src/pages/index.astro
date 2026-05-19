@@ -25,6 +25,18 @@ const failures = [
   { num: '06', title: 'Forgotten context', line: 'The agent forgets across sessions. Engram surfaces durable facts — not raw chat history.' },
 ];
 
+const receiptJson = `{
+  "version": "agentboundary/v0.1",
+  "receipt_id": "0192c8d0-1f2a-7c3e-bf2a-1a4d3f5e6c7b",
+  "actor":  { "type": "agent", "id": "agent:claude-code:session/789abc" },
+  "tool":   { "name": "github-mcp", "capability": "github.merge" },
+  "target": { "system": "github.com/jamjet-labs/agentboundary", "environment": "prod" },
+  "arguments_hash": "9698adaf2dca5f26a4f9644a8d0f4f34b5558bce09961f94e810fe3aaa9071aa",
+  "policy": { "name": "agentboundary.repo.merges", "version": "2", "decision": "allow" },
+  "execution": { "status": "success", "result_ref": "sha:b1c2d3e4f5a6" },
+  "receipt_hash": "4d905d5dbc9faa4dafcb2155da9c4d5e1052cb23c680f3754d4ebc5800a4bae7"
+}`;
+
 const log = [
   { date: 'Apr 25', body: 'Java runtime v0.1.1 — embed durable execution directly in your JVM. @DurableAgent crash recovery, MCP native, 8.9x faster than the REST sidecar in our benchmark.', href: '/blog/zero-sidecar-durable-agents-java/' },
   { date: 'Apr 8',  body: 'Engram Spring Boot Starter on Maven Central. One dependency, inject EngramClient, done.', href: 'https://central.sonatype.com/artifact/dev.jamjet/engram-spring-boot-starter' },
@@ -78,6 +90,19 @@ const homeLd = {
       Prove every<br/>
       <span class="zn-display-italic">agent action.</span>
     </h1>
+
+    <figure class="zn-receipt" aria-label="Example Action Receipt">
+      <figcaption class="zn-receipt-cap">
+        <span class="zn-receipt-name">action_receipt.json</span>
+        <span class="zn-receipt-sep">·</span>
+        <span class="zn-receipt-meta">signed &amp; verified</span>
+        <span class="zn-receipt-pill" aria-label="policy decision">policy: allow</span>
+      </figcaption>
+      <pre class="zn-receipt-body"><code id="zn-receipt-code">{receiptJson}</code></pre>
+      <figcaption class="zn-receipt-foot">
+        Open spec: <a href="https://agentboundary.jamjet.dev/spec/v0.1">agentboundary.jamjet.dev</a> &middot; verifiable independent of the agent framework
+      </figcaption>
+    </figure>
 
     <p class="zn-lede">
       Agents are starting to change real systems. Refunds, tickets, records, code merges, internal mutations.
@@ -600,6 +625,113 @@ const homeLd = {
     margin: 0 0 32px;
   }
   .zn-display-italic { font-style: italic; font-weight: 500; }
+
+  /* ────────  RECEIPT ARTIFACT (hero proof)  ──────── */
+  .zn-receipt {
+    margin: 0 0 40px;
+    max-width: min(720px, 100%);
+    width: 100%;
+    border: 1px solid var(--border-strong, rgba(20,20,19,0.20));
+    background: var(--bg-alt, #edecea);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+  }
+  .zn-receipt::before,
+  .zn-receipt::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border-strong, rgba(20,20,19,0.20));
+    opacity: 0.0;
+  }
+  .zn-receipt-cap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    flex-wrap: wrap;
+  }
+  .zn-receipt-name {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .zn-receipt-sep {
+    opacity: 0.5;
+  }
+  .zn-receipt-pill {
+    margin-left: auto;
+    padding: 2px 8px;
+    background: var(--text);
+    color: var(--bg);
+    font-size: 10px;
+    letter-spacing: 0.10em;
+    border-radius: 2px;
+    font-weight: 600;
+  }
+  .zn-receipt-body {
+    margin: 0;
+    padding: 18px 20px;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    line-height: 1.65;
+    color: var(--text);
+    overflow-x: auto;
+    white-space: pre;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .zn-receipt-body code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+  }
+  .zn-receipt-foot {
+    padding: 10px 16px;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+  }
+  .zn-receipt-foot a {
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+  }
+  .zn-receipt-foot a:hover {
+    border-bottom-color: var(--text);
+  }
+  .zn-receipt .zn-rec-key   { color: var(--text-secondary, #555550); }
+  .zn-receipt .zn-rec-str   { color: var(--text); }
+  .zn-receipt .zn-rec-hash  { color: var(--text); font-style: italic; }
+  .zn-receipt .zn-rec-hash-final {
+    color: var(--text);
+    font-weight: 600;
+    font-style: normal;
+    border-bottom: 1px solid var(--border-strong, rgba(20,20,19,0.30));
+    padding-bottom: 1px;
+  }
+  .zn-receipt .zn-rec-punct { color: var(--text-muted); }
+  @media (max-width: 640px) {
+    .zn-receipt-body { font-size: 11px; padding: 14px 14px; }
+  }
+
   .zn-lead {
     font-size: 1.2rem;
     line-height: 1.65;
@@ -1089,4 +1221,51 @@ const homeLd = {
   }
   bindCopy('copy-install', 'pip install jamjet');
   bindCopy('copy-final', 'pip install jamjet');
+
+  // Receipt artifact: syntax highlight + hash scramble micro-animation.
+  // Reads like a signed document being verified in real time, in the
+  // zine palette (no neon — sumi ink on washi).
+  (function () {
+    const code = document.getElementById('zn-receipt-code');
+    if (!code) return;
+    const FINAL = '4d905d5dbc9faa4dafcb2155da9c4d5e1052cb23c680f3754d4ebc5800a4bae7';
+    const raw = code.textContent || '';
+    // HTML-escape THEN wrap just two patterns: keys and hash values. The
+    // earlier broader regex set re-matched the HTML it had just inserted
+    // and corrupted the receipt JSON output. Single-quoted attrs to avoid
+    // double-quote collision with the surrounding JSON quotes.
+    // The JSON has no <, >, & — safe to inject. Use single-quoted HTML
+    // attributes so they don't collide with the surrounding double quotes
+    // of the JSON string values.
+    const html = raw
+      .replace(/("[a-z_]+")(?=\s*:)/g, "<span class='zn-rec-key'>$1</span>")
+      .replace(/: "([a-f0-9]{40,})"/g, (_m, h) => {
+        const cls = h === FINAL ? 'zn-rec-hash-final' : 'zn-rec-hash';
+        return ": \"<span class='" + cls + "' data-hash='" + h + "'>" + h + "</span>\"";
+      });
+    code.innerHTML = html;
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+    const hashEl = code.querySelector('.zn-rec-hash-final');
+    if (!hashEl) return;
+    const HEX = '0123456789abcdef';
+    const frames = 28;
+    let i = 0;
+    function tick() {
+      if (i++ >= frames) {
+        hashEl.textContent = FINAL;
+        return;
+      }
+      let s = '';
+      for (let k = 0; k < FINAL.length; k++) {
+        s += i > k * (frames / FINAL.length)
+          ? FINAL[k]
+          : HEX[Math.floor(Math.random() * 16)];
+      }
+      hashEl.textContent = s;
+      requestAnimationFrame(tick);
+    }
+    setTimeout(tick, 700);
+  })();
 </script>
