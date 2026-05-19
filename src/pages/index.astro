@@ -105,14 +105,29 @@ const homeLd = {
     </figure>
 
     <p class="zn-lede">
-      Agents are starting to change real systems. Refunds, tickets, records, code merges, internal mutations.
-      JamJet sits at the production action boundary <em>before</em> each change executes — approves, denies, escalates, or blocks the action against your policy — and emits a portable <strong>Action Receipt</strong> your security, compliance, and audit teams can verify, independent of the agent framework.
+      An AI agent is about to merge a pull request, refund a charge, or mutate production.
+      JamJet checks your policy, asks for approval if needed, blocks the call when it can't,
+      and writes the receipt above — verifiable by any party, independent of the agent framework.
     </p>
-    <p class="zn-lede">
-      Microsoft AGT, LangSmith Fleet, Cloudflare Agents, and Anthropic permission policies tell you what their platforms did. JamJet proves <em>what every agent was allowed to do</em>, across vendors, clouds, and models. The receipt is the artifact; the open <a href="https://agentboundary.jamjet.dev/spec/v0.1">AgentBoundary spec</a> is how it&rsquo;s verified.
-    </p>
+
+    <figure class="zn-codecard" aria-label="Decorate one production action">
+      <figcaption class="zn-codecard-cap">
+        <span class="zn-codecard-name">merge.py</span>
+        <span class="zn-codecard-sep">·</span>
+        <span class="zn-codecard-meta">one decorator · one receipt per call</span>
+      </figcaption>
+      <pre class="zn-codecard-body"><code><span class="zn-tok-kw">from</span> <span class="zn-tok-mod">jamjet</span> <span class="zn-tok-kw">import</span> gate
+
+<span class="zn-tok-dec">@gate</span>(<span class="zn-tok-str">&quot;github.merge&quot;</span>, require_approval<span class="zn-tok-op">=</span><span class="zn-tok-kw">True</span>)
+<span class="zn-tok-kw">def</span> <span class="zn-tok-fn">merge_pr</span>(repo: <span class="zn-tok-type">str</span>, pr: <span class="zn-tok-type">int</span>) <span class="zn-tok-op">-&gt;</span> <span class="zn-tok-type">str</span>:
+    <span class="zn-tok-kw">return</span> github.merge(repo, pr)</code></pre>
+      <figcaption class="zn-codecard-foot">
+        <code>pip install jamjet</code> &middot; works alongside Claude Code, MCP, OpenAI Agents SDK, Spring AI, LangChain4j
+      </figcaption>
+    </figure>
+
     <p class="zn-lede zn-lede-meta">
-      From the JamJet lab behind the <a href="/engram">Engram memory benchmarks</a> and the AIP agent-identity work &mdash; see <a href="/research">research</a>.
+      From the lab behind the <a href="/engram">Engram memory benchmarks</a> and the AIP agent-identity work &mdash; see <a href="/research">research</a>.
     </p>
 
     <p class="zn-credentials">
@@ -730,6 +745,76 @@ const homeLd = {
   .zn-receipt .zn-rec-punct { color: var(--text-muted); }
   @media (max-width: 640px) {
     .zn-receipt-body { font-size: 11px; padding: 14px 14px; }
+  }
+
+  /* ────────  CODE CARD (smallest adoption step)  ──────── */
+  .zn-codecard {
+    margin: 0 0 40px;
+    max-width: min(720px, 100%);
+    width: 100%;
+    border: 1px solid var(--border-strong, rgba(20,20,19,0.20));
+    background: var(--bg);
+    border-radius: 2px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  .zn-codecard-cap, .zn-codecard-foot {
+    padding: 10px 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .zn-codecard-cap {
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-alt, #edecea);
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+  }
+  .zn-codecard-name { color: var(--text); font-weight: 600; }
+  .zn-codecard-sep { opacity: 0.5; }
+  .zn-codecard-body {
+    margin: 0;
+    padding: 20px 22px;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--text);
+    overflow-x: auto;
+    white-space: pre;
+    box-sizing: border-box;
+  }
+  .zn-codecard-body code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+  }
+  .zn-codecard-foot {
+    border-top: 1px solid var(--border);
+    background: var(--bg-alt, #edecea);
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+  .zn-codecard-foot code {
+    background: rgba(20,20,19,0.06);
+    padding: 1px 6px;
+    border-radius: 2px;
+    font-size: 0.95em;
+  }
+  /* Sumi-ink syntax tints — minimal palette, no neon. */
+  .zn-codecard .zn-tok-kw    { color: var(--text); font-weight: 700; }
+  .zn-codecard .zn-tok-mod   { color: var(--text); }
+  .zn-codecard .zn-tok-dec   { color: var(--text); font-weight: 700; }
+  .zn-codecard .zn-tok-fn    { color: var(--text); font-weight: 600; }
+  .zn-codecard .zn-tok-type  { color: var(--text-secondary, #555550); font-style: italic; }
+  .zn-codecard .zn-tok-str   { color: var(--text-secondary, #555550); }
+  .zn-codecard .zn-tok-op    { color: var(--text-muted); }
+  @media (max-width: 640px) {
+    .zn-codecard-body { font-size: 12px; padding: 16px 14px; }
   }
 
   .zn-lead {
