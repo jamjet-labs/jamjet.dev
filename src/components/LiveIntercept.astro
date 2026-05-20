@@ -20,6 +20,20 @@ const armedReceipt = `{
     <span class="zn-intercept-sep">·</span>
     <span class="zn-intercept-meta">click an action to watch JamJet decide</span>
   </figcaption>
+  <div class="zn-intercept-actions" role="group" aria-label="Try an action">
+    <button type="button" class="zn-action-btn" data-preset="merge" aria-pressed="true">
+      <span class="zn-action-dot zn-action-dot-warning" aria-hidden="true"></span>
+      Merge PR
+    </button>
+    <button type="button" class="zn-action-btn" data-preset="refund" aria-pressed="false">
+      <span class="zn-action-dot zn-action-dot-success" aria-hidden="true"></span>
+      Refund $400
+    </button>
+    <button type="button" class="zn-action-btn" data-preset="delete" aria-pressed="false">
+      <span class="zn-action-dot zn-action-dot-error" aria-hidden="true"></span>
+      Delete user
+    </button>
+  </div>
 
   <div class="zn-intercept-stage">
     <div class="zn-stage-row zn-row-request" data-stage="request">
@@ -189,8 +203,168 @@ const armedReceipt = `{
   }
   .zn-receipt-verified { color: var(--success); font-weight: 600; }
 
+  .zn-intercept-actions {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    flex-wrap: wrap;
+  }
+  .zn-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: color 0.12s, border-color 0.12s, background 0.12s;
+  }
+  .zn-action-btn:hover { color: var(--text); border-color: var(--text); }
+  .zn-action-btn[aria-pressed='true'] {
+    color: var(--text);
+    border-color: var(--text);
+    background: var(--bg-alt);
+  }
+  .zn-action-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .zn-action-dot-warning { color: var(--warning); }
+  .zn-action-dot-success { color: var(--success); }
+  .zn-action-dot-error   { color: var(--error); }
+
   @media (max-width: 640px) {
     .zn-receipt-body { font-size: 11px; padding: 14px 14px; }
     .zn-card { min-width: 0; width: 100%; }
   }
 </style>
+
+<script>
+  type Verdict = 'approval' | 'allow' | 'block';
+
+  interface Preset {
+    key: string;
+    label: string;
+    tool: string;
+    actor: string;
+    verdict: Verdict;
+    verdictLabel: string;
+    receipt: string;
+  }
+
+  const PRESETS: Preset[] = [
+    {
+      key: 'merge',
+      label: 'Merge PR #4218',
+      tool: 'github.merge',
+      actor: 'agent:claude-code',
+      verdict: 'approval',
+      verdictLabel: 'REQUIRES APPROVAL',
+      receipt: `{
+  "version": "agentboundary/v0.1",
+  "receipt_id": "0192c8d0-1f2a-7c3e-bf2a-1a4d3f5e6c7b",
+  "actor":  { "type": "agent", "id": "agent:claude-code:session/789abc" },
+  "tool":   { "name": "github-mcp", "capability": "github.merge" },
+  "target": { "system": "github.com/jamjet-labs/agentboundary", "environment": "prod" },
+  "arguments_hash": "9698adaf2dca5f26a4f9644a8d0f4f34b5558bce09961f94e810fe3aaa9071aa",
+  "policy": { "name": "agentboundary.repo.merges", "version": "2", "decision": "requires_approval" },
+  "execution": { "status": "pending_approval", "result_ref": null },
+  "receipt_hash": "4d905d5dbc9faa4dafcb2155da9c4d5e1052cb23c680f3754d4ebc5800a4bae7"
+}`,
+    },
+    {
+      key: 'refund',
+      label: 'Refund $400',
+      tool: 'stripe.refund',
+      actor: 'agent:support-bot',
+      verdict: 'allow',
+      verdictLabel: 'ALLOW',
+      receipt: `{
+  "version": "agentboundary/v0.1",
+  "receipt_id": "0192c8d0-2a3b-7d4f-c8e1-2b5e4f6f7d8c",
+  "actor":  { "type": "agent", "id": "agent:support-bot:session/2c1e" },
+  "tool":   { "name": "stripe-mcp", "capability": "stripe.refund" },
+  "target": { "system": "stripe.com/charge/ch_3PZ", "environment": "prod" },
+  "arguments_hash": "1a2b3c4d5e6f7081726354627384950a1b2c3d4e5f60718293a4b5c6d7e8f900",
+  "policy": { "name": "agentboundary.payments.refund", "version": "3", "decision": "allow" },
+  "execution": { "status": "success", "result_ref": "ref:re_1PZx2" },
+  "receipt_hash": "82b1e9442f6a8d0c1b3e5f7a92c4d6e8b0a2c4f6e8a0b2c4d6e8f0a2c4d6e8b0"
+}`,
+    },
+    {
+      key: 'delete',
+      label: 'Delete user',
+      tool: 'db.drop_user',
+      actor: 'agent:dev-tools',
+      verdict: 'block',
+      verdictLabel: 'BLOCKED',
+      receipt: `{
+  "version": "agentboundary/v0.1",
+  "receipt_id": "0192c8d0-3b4c-7e5a-d9f2-3c6f5a7b8e9d",
+  "actor":  { "type": "agent", "id": "agent:dev-tools:session/9f0a" },
+  "tool":   { "name": "internal-db-mcp", "capability": "db.drop_user" },
+  "target": { "system": "db.internal/users/sunil@jamjet.dev", "environment": "prod" },
+  "arguments_hash": "fe9d8c7b6a5948372615047382910abcdef0123456789abcdef0123456789abcd",
+  "policy": { "name": "agentboundary.data.destructive", "version": "1", "decision": "block" },
+  "execution": { "status": "blocked", "result_ref": null },
+  "receipt_hash": "c3a5b7d9e1f30527496b8d0a2c4e6f81b3d5f70a2c4e6e8b0a2c4d6e8f0a2c4d"
+}`,
+    },
+  ];
+
+  function applyPreset(p: Preset) {
+    const root = document.querySelector<HTMLElement>('.zn-intercept');
+    if (!root) return;
+
+    const titleEl = root.querySelector<HTMLElement>('.zn-card-request .zn-card-title');
+    const metaEl  = root.querySelector<HTMLElement>('.zn-card-request .zn-card-meta');
+    if (titleEl) titleEl.textContent = p.label;
+    if (metaEl)  metaEl.textContent  = `${p.tool} · ${p.actor}`;
+
+    const pill = root.querySelector<HTMLElement>('[data-verdict]');
+    if (pill) {
+      pill.textContent = p.verdictLabel;
+      pill.classList.remove('zn-pill-warning', 'zn-pill-success', 'zn-pill-error');
+      const klass = p.verdict === 'approval' ? 'zn-pill-warning'
+                  : p.verdict === 'allow'    ? 'zn-pill-success'
+                  : 'zn-pill-error';
+      pill.classList.add(klass);
+    }
+
+    const code = root.querySelector<HTMLElement>('#zn-intercept-code');
+    if (code) code.textContent = p.receipt;
+
+    const verified = root.querySelector<HTMLElement>('.zn-receipt-verified');
+    if (verified) {
+      if (p.verdict === 'allow') {
+        verified.textContent = '✓ verified · anyone can check';
+        verified.style.color = 'var(--success)';
+      } else if (p.verdict === 'approval') {
+        verified.textContent = '⏸ awaiting human approval';
+        verified.style.color = 'var(--warning)';
+      } else {
+        verified.textContent = '✗ blocked — policy violation logged';
+        verified.style.color = 'var(--error)';
+      }
+    }
+
+    root.querySelectorAll<HTMLButtonElement>('[data-preset]').forEach((btn) => {
+      btn.setAttribute('aria-pressed', String(btn.dataset.preset === p.key));
+    });
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-preset]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const p = PRESETS.find((x) => x.key === btn.dataset.preset);
+      if (p) applyPreset(p);
+    });
+  });
+</script>
