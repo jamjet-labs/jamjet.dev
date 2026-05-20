@@ -241,6 +241,45 @@ const armedReceipt = `{
   .zn-action-dot-success { color: var(--success); }
   .zn-action-dot-error   { color: var(--error); }
 
+  /* ── Animation states ── */
+  .zn-intercept[data-anim='resetting'] .zn-arrow,
+  .zn-intercept[data-anim='resetting'] [data-verdict],
+  .zn-intercept[data-anim='resetting'] .zn-card-gate,
+  .zn-intercept[data-anim='resetting'] .zn-intercept-receipt {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  .zn-arrow, [data-verdict], .zn-card-gate, .zn-intercept-receipt {
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .zn-card-gate[data-pulsing='true'] {
+    animation: zn-pulse 0.7s ease-in-out;
+    box-shadow: 0 0 0 4px var(--warning-tint);
+  }
+  @keyframes zn-pulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.02); }
+  }
+  .zn-arrow[data-drawn='true'] path {
+    stroke-dasharray: 60;
+    stroke-dashoffset: 0;
+    animation: zn-draw 0.30s ease-out;
+  }
+  @keyframes zn-draw {
+    from { stroke-dashoffset: 60; }
+    to   { stroke-dashoffset: 0; }
+  }
+  [data-verdict][data-stamping='true'] {
+    animation: zn-stamp 0.4s ease-out;
+  }
+  @keyframes zn-stamp {
+    0%   { transform: scale(1.2); opacity: 0; }
+    60%  { transform: scale(0.95); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .zn-intercept-actions { opacity: 1; transition: opacity 0.3s ease; }
+  .zn-intercept[data-anim='running'] .zn-intercept-actions { opacity: 0.5; }
+
   @media (max-width: 640px) {
     .zn-receipt-body { font-size: 11px; padding: 14px 14px; }
     .zn-card { min-width: 0; width: 100%; }
@@ -320,57 +359,166 @@ const armedReceipt = `{
     },
   ];
 
-  function applyPreset(p: Preset) {
-    const root = document.querySelector<HTMLElement>('.zn-intercept');
-    if (!root) return;
+  const HEX = '0123456789abcdef';
+  let activeRun: { cancelled: boolean } | null = null;
+
+  function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  function setVerdictPill(root: HTMLElement, p: Preset) {
+    const pill = root.querySelector<HTMLElement>('[data-verdict]');
+    if (!pill) return;
+    pill.textContent = p.verdictLabel;
+    pill.classList.remove('zn-pill-warning', 'zn-pill-success', 'zn-pill-error');
+    const klass = p.verdict === 'approval' ? 'zn-pill-warning'
+                : p.verdict === 'allow'    ? 'zn-pill-success'
+                : 'zn-pill-error';
+    pill.classList.add(klass);
+  }
+
+  function setVerifiedFooter(root: HTMLElement, p: Preset) {
+    const verified = root.querySelector<HTMLElement>('.zn-receipt-verified');
+    if (!verified) return;
+    if (p.verdict === 'allow') {
+      verified.textContent = '✓ verified · anyone can check';
+      verified.style.color = 'var(--success)';
+    } else if (p.verdict === 'approval') {
+      verified.textContent = '⏸ awaiting human approval';
+      verified.style.color = 'var(--warning)';
+    } else {
+      verified.textContent = '✗ blocked — policy violation logged';
+      verified.style.color = 'var(--error)';
+    }
+  }
+
+  function setPressed(root: HTMLElement, key: string) {
+    root.querySelectorAll<HTMLButtonElement>('[data-preset]').forEach((btn) => {
+      btn.setAttribute('aria-pressed', String(btn.dataset.preset === key));
+    });
+  }
+
+  async function streamReceipt(codeEl: HTMLElement, receipt: string, run: { cancelled: boolean }) {
+    const lines = receipt.split('\n');
+    codeEl.textContent = '';
+    for (let i = 0; i < lines.length; i++) {
+      if (run.cancelled) return;
+      codeEl.textContent = lines.slice(0, i + 1).join('\n');
+      await sleep(120);
+    }
+  }
+
+  async function scrambleHash(codeEl: HTMLElement, receipt: string, run: { cancelled: boolean }) {
+    const hashMatch = receipt.match(/"receipt_hash":\s*"([a-f0-9]+)"/);
+    if (!hashMatch) return;
+    const finalHash = hashMatch[1];
+    const before = receipt.slice(0, receipt.indexOf(finalHash));
+    const after  = receipt.slice(receipt.indexOf(finalHash) + finalHash.length);
+
+    const frames = 28;
+    for (let f = 0; f < frames; f++) {
+      if (run.cancelled) return;
+      let s = '';
+      for (let k = 0; k < finalHash.length; k++) {
+        s += f > k * (frames / finalHash.length)
+          ? finalHash[k]
+          : HEX[Math.floor(Math.random() * 16)];
+      }
+      codeEl.textContent = before + s + after;
+      await sleep(40);
+    }
+    codeEl.textContent = before + finalHash + after;
+  }
+
+  async function runSequence(root: HTMLElement, p: Preset, opts: { animated: boolean }) {
+    if (activeRun) activeRun.cancelled = true;
+    const run = { cancelled: false };
+    activeRun = run;
+
+    setPressed(root, p.key);
 
     const titleEl = root.querySelector<HTMLElement>('.zn-card-request .zn-card-title');
     const metaEl  = root.querySelector<HTMLElement>('.zn-card-request .zn-card-meta');
     if (titleEl) titleEl.textContent = p.label;
     if (metaEl)  metaEl.textContent  = `${p.tool} · ${p.actor}`;
 
-    const pill = root.querySelector<HTMLElement>('[data-verdict]');
-    if (pill) {
-      pill.textContent = p.verdictLabel;
-      pill.classList.remove('zn-pill-warning', 'zn-pill-success', 'zn-pill-error');
-      const klass = p.verdict === 'approval' ? 'zn-pill-warning'
-                  : p.verdict === 'allow'    ? 'zn-pill-success'
-                  : 'zn-pill-error';
-      pill.classList.add(klass);
+    const codeEl = root.querySelector<HTMLElement>('#zn-intercept-code');
+    if (!codeEl) return;
+
+    if (!opts.animated) {
+      setVerdictPill(root, p);
+      setVerifiedFooter(root, p);
+      codeEl.textContent = p.receipt;
+      activeRun = null;
+      return;
     }
 
-    const code = root.querySelector<HTMLElement>('#zn-intercept-code');
-    if (code) code.textContent = p.receipt;
+    root.setAttribute('data-anim', 'resetting');
+    const arrows = root.querySelectorAll<SVGElement>('.zn-arrow');
+    const gate   = root.querySelector<HTMLElement>('.zn-card-gate');
+    const pill   = root.querySelector<HTMLElement>('[data-verdict]');
+    const receipt = root.querySelector<HTMLElement>('.zn-intercept-receipt');
 
-    const verified = root.querySelector<HTMLElement>('.zn-receipt-verified');
-    if (verified) {
-      if (p.verdict === 'allow') {
-        verified.textContent = '✓ verified · anyone can check';
-        verified.style.color = 'var(--success)';
-      } else if (p.verdict === 'approval') {
-        verified.textContent = '⏸ awaiting human approval';
-        verified.style.color = 'var(--warning)';
-      } else {
-        verified.textContent = '✗ blocked — policy violation logged';
-        verified.style.color = 'var(--error)';
-      }
-    }
+    arrows.forEach((a) => a.removeAttribute('data-drawn'));
+    gate?.removeAttribute('data-pulsing');
+    pill?.removeAttribute('data-stamping');
+    if (pill) pill.style.opacity = '0';
+    if (receipt) receipt.style.opacity = '0';
+    codeEl.textContent = '';
 
-    root.querySelectorAll<HTMLButtonElement>('[data-preset]').forEach((btn) => {
-      btn.setAttribute('aria-pressed', String(btn.dataset.preset === p.key));
-    });
+    await sleep(50);
+    if (run.cancelled) return;
+    root.setAttribute('data-anim', 'running');
+
+    await sleep(400);
+    if (run.cancelled) return;
+    arrows[0]?.setAttribute('data-drawn', 'true');
+
+    await sleep(300);
+    if (run.cancelled) return;
+    gate?.setAttribute('data-pulsing', 'true');
+
+    await sleep(700);
+    if (run.cancelled) return;
+    arrows[1]?.setAttribute('data-drawn', 'true');
+    gate?.removeAttribute('data-pulsing');
+
+    await sleep(300);
+    if (run.cancelled) return;
+    setVerdictPill(root, p);
+    if (pill) pill.style.opacity = '1';
+    pill?.setAttribute('data-stamping', 'true');
+
+    await sleep(500);
+    if (run.cancelled) return;
+    if (receipt) receipt.style.opacity = '1';
+    await streamReceipt(codeEl, p.receipt, run);
+    if (run.cancelled) return;
+
+    await scrambleHash(codeEl, p.receipt, run);
+    if (run.cancelled) return;
+
+    setVerifiedFooter(root, p);
+
+    await sleep(400);
+    if (run.cancelled) return;
+    root.setAttribute('data-anim', 'idle');
+    activeRun = null;
+  }
+
+  function applyPreset(p: Preset, opts: { animated: boolean } = { animated: true }) {
+    const root = document.querySelector<HTMLElement>('.zn-intercept');
+    if (!root) return;
+    runSequence(root, p, opts);
   }
 
   document.querySelectorAll<HTMLButtonElement>('[data-preset]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const p = PRESETS.find((x) => x.key === btn.dataset.preset);
-      if (p) applyPreset(p);
+      if (p) applyPreset(p, { animated: true });
     });
   });
 
-  // Auto-play the Merge PR scenario once per session, triggered by
-  // scroll-into-view. Skipped if prefers-reduced-motion or if already
-  // played in this session.
   const SESSION_KEY = 'jamjet:intercept:autoplayed';
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const alreadyPlayed = (() => {
@@ -378,20 +526,26 @@ const armedReceipt = `{
     catch { return false; }
   })();
 
-  if (!reducedMotion && !alreadyPlayed) {
-    const root = document.querySelector('.zn-intercept');
-    if (root) {
-      const observer = new IntersectionObserver((entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            observer.disconnect();
-            try { sessionStorage.setItem(SESSION_KEY, '1'); } catch {}
-            const mergePreset = PRESETS.find((p) => p.key === 'merge');
-            if (mergePreset) applyPreset(mergePreset);
+  const mergePreset = PRESETS.find((p) => p.key === 'merge');
+  if (mergePreset) {
+    if (reducedMotion) {
+      applyPreset(mergePreset, { animated: false });
+    } else if (!alreadyPlayed) {
+      const root = document.querySelector('.zn-intercept');
+      if (root) {
+        const observer = new IntersectionObserver((entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              observer.disconnect();
+              try { sessionStorage.setItem(SESSION_KEY, '1'); } catch {}
+              applyPreset(mergePreset, { animated: true });
+            }
           }
-        }
-      }, { threshold: 0.3 });
-      observer.observe(root);
+        }, { threshold: 0.3 });
+        observer.observe(root);
+      }
+    } else {
+      applyPreset(mergePreset, { animated: false });
     }
   }
 </script>
