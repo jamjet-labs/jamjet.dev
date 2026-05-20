@@ -2,6 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroAnimation from '../components/HeroAnimation.astro';
 import TerminalReplay from '../components/TerminalReplay.astro';
+import LiveIntercept from '../components/LiveIntercept.astro';
+import WhyNotLogs from '../components/WhyNotLogs.astro';
 
 const terminalLines = [
   '$ jamjet run research-pipeline.yaml',
@@ -17,25 +19,13 @@ const terminalLines = [
 ];
 
 const failures = [
-  { num: '01', title: 'Lost progress', line: 'A worker dies mid-run. JamJet replays the event log and resumes at the failed node.' },
-  { num: '02', title: 'Unsafe tool', line: 'An agent reaches for a tool it shouldn’t. The 4-level policy hierarchy blocks the call before execution.' },
-  { num: '03', title: 'Skipped approval', line: 'A high-risk action waits for a human. The run survives restarts. The decision lands in audit.' },
-  { num: '04', title: 'Runaway cost', line: 'A reflection loop won’t stop spending. The runtime halts the loop before it crosses the cap.' },
-  { num: '05', title: 'Missing audit', line: 'Compliance asks what happened. Every decision is in a signed, exportable evidence package.' },
-  { num: '06', title: 'Forgotten context', line: 'The agent forgets across sessions. Engram surfaces durable facts — not raw chat history.' },
+  { num: '01', tone: 'neutral', title: 'Lost progress', line: 'A worker dies mid-run. JamJet replays the event log and resumes at the failed node.' },
+  { num: '02', tone: 'error',   title: 'Unsafe tool', line: 'An agent reaches for a tool it shouldn’t. The 4-level policy hierarchy blocks the call before execution.' },
+  { num: '03', tone: 'warning', title: 'Skipped approval', line: 'A high-risk action waits for a human. The run survives restarts. The decision lands in audit.' },
+  { num: '04', tone: 'error',   title: 'Runaway cost', line: 'A reflection loop won’t stop spending. The runtime halts the loop before it crosses the cap.' },
+  { num: '05', tone: 'neutral', title: 'Missing audit', line: 'Compliance asks what happened. Every decision is in a signed, exportable evidence package.' },
+  { num: '06', tone: 'neutral', title: 'Forgotten context', line: 'The agent forgets across sessions. Engram surfaces durable facts — not raw chat history.' },
 ];
-
-const receiptJson = `{
-  "version": "agentboundary/v0.1",
-  "receipt_id": "0192c8d0-1f2a-7c3e-bf2a-1a4d3f5e6c7b",
-  "actor":  { "type": "agent", "id": "agent:claude-code:session/789abc" },
-  "tool":   { "name": "github-mcp", "capability": "github.merge" },
-  "target": { "system": "github.com/jamjet-labs/agentboundary", "environment": "prod" },
-  "arguments_hash": "9698adaf2dca5f26a4f9644a8d0f4f34b5558bce09961f94e810fe3aaa9071aa",
-  "policy": { "name": "agentboundary.repo.merges", "version": "2", "decision": "allow" },
-  "execution": { "status": "success", "result_ref": "sha:b1c2d3e4f5a6" },
-  "receipt_hash": "4d905d5dbc9faa4dafcb2155da9c4d5e1052cb23c680f3754d4ebc5800a4bae7"
-}`;
 
 const log = [
   { date: 'Apr 25', body: 'Java runtime v0.1.1 — embed durable execution directly in your JVM. @DurableAgent crash recovery, MCP native, 8.9x faster than the REST sidecar in our benchmark.', href: '/blog/zero-sidecar-durable-agents-java/' },
@@ -91,38 +81,31 @@ const homeLd = {
       <span class="zn-display-italic">agent action.</span>
     </h1>
 
-    <figure class="zn-receipt" aria-label="Example Action Receipt">
-      <figcaption class="zn-receipt-cap">
-        <span class="zn-receipt-name">action_receipt.json</span>
-        <span class="zn-receipt-sep">·</span>
-        <span class="zn-receipt-meta">signed &amp; verified</span>
-        <span class="zn-receipt-pill" aria-label="policy decision">policy: allow</span>
-      </figcaption>
-      <pre class="zn-receipt-body"><code id="zn-receipt-code">{receiptJson}</code></pre>
-      <figcaption class="zn-receipt-foot">
-        Open spec: <a href="https://agentboundary.jamjet.dev/spec/v0.1">agentboundary.jamjet.dev</a> &middot; verifiable independent of the agent framework
-      </figcaption>
-    </figure>
+    <LiveIntercept />
 
     <p class="zn-lede">
       An AI agent is about to merge a pull request, refund a charge, or mutate production.
       JamJet checks your policy, asks for approval if needed, blocks the call when it can't,
-      and writes the receipt above — verifiable by any party, independent of the agent framework.
+      and writes the receipt above — verifiable by anyone, independent of your agent framework.
+    </p>
+
+    <p class="zn-hero-pitch">
+      <strong>Not another agent framework.</strong> The action-control layer that sits underneath them.
+      Keep LangGraph, CrewAI, Claude Code, MCP, OpenAI Agents SDK, or Spring AI —
+      add JamJet where tool calls need policy, approval, and audit.
     </p>
 
     <figure class="zn-codecard" aria-label="Decorate one production action">
-      <figcaption class="zn-codecard-cap">
-        <span class="zn-codecard-name">merge.py</span>
-        <span class="zn-codecard-sep">·</span>
-        <span class="zn-codecard-meta">one decorator · one receipt per call</span>
+      <figcaption class="zn-codecard-cap zn-codecard-cap-slim">
+        <span class="zn-codecard-name">see the SDK · merge.py</span>
       </figcaption>
       <pre class="zn-codecard-body"><code><span class="zn-tok-kw">from</span> <span class="zn-tok-mod">jamjet</span> <span class="zn-tok-kw">import</span> gate
 
 <span class="zn-tok-dec">@gate</span>(<span class="zn-tok-str">&quot;github.merge&quot;</span>, require_approval<span class="zn-tok-op">=</span><span class="zn-tok-kw">True</span>)
 <span class="zn-tok-kw">def</span> <span class="zn-tok-fn">merge_pr</span>(repo: <span class="zn-tok-type">str</span>, pr: <span class="zn-tok-type">int</span>) <span class="zn-tok-op">-&gt;</span> <span class="zn-tok-type">str</span>:
     <span class="zn-tok-kw">return</span> github.merge(repo, pr)</code></pre>
-      <figcaption class="zn-codecard-foot">
-        <code>pip install jamjet</code> &middot; works alongside Claude Code, MCP, OpenAI Agents SDK, Spring AI, LangChain4j
+      <figcaption class="zn-codecard-foot zn-codecard-foot-slim">
+        <code>pip install jamjet</code> &middot; same policy across Claude Code, MCP, OpenAI Agents SDK, Spring AI
       </figcaption>
     </figure>
 
@@ -154,12 +137,6 @@ const homeLd = {
       </div>
     </div>
 
-    <div class="zn-rule"></div>
-
-    <p class="zn-marginal">
-      Not another agent framework. The action-control plane that sits underneath them.
-      Keep your stack — add JamJet where tool calls need policy, approval, and audit.
-    </p>
   </div>
 </section>
 
@@ -167,7 +144,7 @@ const homeLd = {
 <section class="zn-manifesto">
   <div class="zn-shell zn-grid-asym">
     <aside class="zn-side">
-      <span class="zn-eyebrow">A. Where it sits</span>
+      <span class="zn-eyebrow">Where it sits</span>
       <svg class="zn-stack" viewBox="0 0 360 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three-layer stack diagram: your agent framework, JamJet safety layer in the middle, models and tools at the bottom">
         <g class="lay">
           <rect x="14" y="14" width="332" height="48" rx="6"/>
@@ -204,7 +181,7 @@ const homeLd = {
     </aside>
 
     <article class="zn-essay">
-      <span class="zn-eyebrow">B. Why we built it</span>
+      <span class="zn-eyebrow">Why we built it</span>
       <p class="zn-essay-body">
         <span class="zn-dropcap">M</span>ost of what breaks an AI agent in the real world isn’t model quality.
         It’s the boring stuff: a worker dies, a tool gets called wrong, a budget runs out,
@@ -228,7 +205,7 @@ const homeLd = {
 <section class="zn-adapters" id="adapters">
   <div class="zn-shell">
     <div class="zn-adapters-head">
-      <span class="zn-eyebrow">B½. The same policy, everywhere</span>
+      <span class="zn-eyebrow">The same policy, everywhere</span>
       <h2 class="zn-h2">
         Every agent toolchain is inventing its own safety layer.<br/>
         <span class="zn-display-italic">JamJet gives you one.</span>
@@ -264,7 +241,7 @@ const homeLd = {
 <section class="zn-dark" id="failure-modes">
   <div class="zn-shell">
     <div class="zn-dark-head">
-      <span class="zn-eyebrow zn-eyebrow-light">C. What goes wrong, and what stops it</span>
+      <span class="zn-eyebrow zn-eyebrow-light">What goes wrong, and what stops it</span>
       <h2 class="zn-h2">Six failure modes.<br/>Six gates.</h2>
       <p class="zn-dark-sub">
         Other tools observe what agents do. JamJet actively prevents unsafe behavior,
@@ -274,7 +251,8 @@ const homeLd = {
 
     <ol class="zn-failures">
       {failures.map(f => (
-        <li class="zn-failure">
+        <li class={`zn-failure zn-failure-tone-${f.tone}`}>
+          <span class="zn-failure-bar" aria-hidden="true"></span>
           <span class="zn-failure-num">{f.num}</span>
           <div>
             <strong class="zn-failure-title">{f.title}</strong>
@@ -289,6 +267,9 @@ const homeLd = {
     </div>
   </div>
 </section>
+
+<!-- ────────────────────  WHY NOT LOGS  ──────────────────── -->
+<WhyNotLogs />
 
 <!-- ────────────────────  PULL QUOTE 1 ──────────────────── -->
 <section class="zn-pq">
@@ -305,7 +286,7 @@ const homeLd = {
 <section class="zn-demo">
   <div class="zn-shell zn-grid-asym-flip">
     <article class="zn-demo-text">
-      <span class="zn-eyebrow">D. Watch one survive</span>
+      <span class="zn-eyebrow">Watch one survive</span>
       <h2 class="zn-h2 zn-h2-tight">Your agents crash.<br/>Ours recover.</h2>
       <p class="zn-essay-body">
         Every step is checkpointed as it happens. When a worker dies mid-run,
@@ -334,7 +315,7 @@ const homeLd = {
 <section class="zn-code-section">
   <div class="zn-shell">
     <div class="zn-code-head">
-      <span class="zn-eyebrow">E. Same runtime guarantees, two languages</span>
+      <span class="zn-eyebrow">Same runtime guarantees, two languages</span>
       <h2 class="zn-h2">Write Python or Java.<br/>JamJet handles replay, policy, and recovery.</h2>
     </div>
 
@@ -389,7 +370,7 @@ const homeLd = {
 <section class="zn-pair">
   <div class="zn-shell zn-pair-grid">
     <article class="zn-pair-card zn-pair-cloud">
-      <span class="zn-eyebrow">F. When the team needs the cockpit</span>
+      <span class="zn-eyebrow">When the team needs the cockpit</span>
       <h3 class="zn-pair-title">JamJet Cloud</h3>
       <p>
         The hosted control plane for agent runs. Trace timeline, policy violations,
@@ -402,7 +383,7 @@ const homeLd = {
     </article>
 
     <article class="zn-pair-card zn-pair-engram">
-      <span class="zn-eyebrow">G. Need memory first?</span>
+      <span class="zn-eyebrow">Need memory first?</span>
       <h3 class="zn-pair-title">Start with Engram.</h3>
       <p>
         Open-source memory for MCP-native AI agents. Fact extraction, conflict detection,
@@ -431,7 +412,7 @@ const homeLd = {
 <section class="zn-log">
   <div class="zn-shell">
     <div class="zn-log-head">
-      <span class="zn-eyebrow">H. Running log</span>
+      <span class="zn-eyebrow">Running log</span>
       <h2 class="zn-h2 zn-h2-small">What we shipped lately.</h2>
     </div>
     <ol class="zn-log-list">
@@ -793,6 +774,25 @@ const homeLd = {
     color: inherit;
     font-size: inherit;
   }
+  .zn-codecard-cap-slim { padding: 6px 16px; }
+  .zn-codecard-foot-slim { padding: 6px 16px; }
+  .zn-codecard:has(.zn-codecard-cap-slim) .zn-codecard-body {
+    font-size: 12.5px;
+    padding: 12px 18px;
+    line-height: 1.55;
+  }
+  .zn-hero-pitch {
+    margin: 8px 0 28px;
+    padding: 14px 18px;
+    background: var(--bg-alt);
+    border-left: 3px solid var(--warning);
+    border-radius: 2px;
+    font-size: 1.02rem;
+    line-height: 1.65;
+    color: var(--text);
+    max-width: 60ch;
+  }
+  .zn-hero-pitch strong { font-weight: 600; }
   .zn-codecard-foot {
     border-top: 1px solid var(--border);
     background: var(--bg-alt, #edecea);
@@ -1029,11 +1029,23 @@ const homeLd = {
   }
   .zn-failure {
     display: grid;
-    grid-template-columns: 84px 1fr;
+    grid-template-columns: 4px 84px 1fr;
     gap: 8px;
     padding-top: 24px;
     border-top: 1px solid rgba(255,255,255,0.18);
   }
+  .zn-failure-bar {
+    grid-column: 1 / 2;
+    grid-row: 1 / span 2;
+    width: 3px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 1px;
+    margin-right: 6px;
+  }
+  .zn-failure-tone-warning .zn-failure-bar { background: var(--warning); }
+  .zn-failure-tone-error   .zn-failure-bar { background: var(--error); }
+  .zn-failure-tone-neutral .zn-failure-bar { background: rgba(255, 255, 255, 0.25); }
   .zn-failure-num {
     font-size: 3.4rem;
     line-height: 1;
@@ -1285,7 +1297,7 @@ const homeLd = {
     .zn-cover { padding: 40px 0 56px; }
     .zn-masthead { margin-bottom: 36px; }
     .zn-display { font-size: clamp(2.4rem, 11vw, 4rem); }
-    .zn-failure { grid-template-columns: 64px 1fr; }
+    .zn-failure { grid-template-columns: 4px 64px 1fr; }
     .zn-failure-num { font-size: 2.4rem; }
     .zn-log-entry { grid-template-columns: 1fr; gap: 6px; }
     .zn-pair-card { padding: 24px; }
@@ -1306,51 +1318,4 @@ const homeLd = {
   }
   bindCopy('copy-install', 'pip install jamjet');
   bindCopy('copy-final', 'pip install jamjet');
-
-  // Receipt artifact: syntax highlight + hash scramble micro-animation.
-  // Reads like a signed document being verified in real time, in the
-  // zine palette (no neon — sumi ink on washi).
-  (function () {
-    const code = document.getElementById('zn-receipt-code');
-    if (!code) return;
-    const FINAL = '4d905d5dbc9faa4dafcb2155da9c4d5e1052cb23c680f3754d4ebc5800a4bae7';
-    const raw = code.textContent || '';
-    // HTML-escape THEN wrap just two patterns: keys and hash values. The
-    // earlier broader regex set re-matched the HTML it had just inserted
-    // and corrupted the receipt JSON output. Single-quoted attrs to avoid
-    // double-quote collision with the surrounding JSON quotes.
-    // The JSON has no <, >, & — safe to inject. Use single-quoted HTML
-    // attributes so they don't collide with the surrounding double quotes
-    // of the JSON string values.
-    const html = raw
-      .replace(/("[a-z_]+")(?=\s*:)/g, "<span class='zn-rec-key'>$1</span>")
-      .replace(/: "([a-f0-9]{40,})"/g, (_m, h) => {
-        const cls = h === FINAL ? 'zn-rec-hash-final' : 'zn-rec-hash';
-        return ": \"<span class='" + cls + "' data-hash='" + h + "'>" + h + "</span>\"";
-      });
-    code.innerHTML = html;
-
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) return;
-    const hashEl = code.querySelector('.zn-rec-hash-final');
-    if (!hashEl) return;
-    const HEX = '0123456789abcdef';
-    const frames = 28;
-    let i = 0;
-    function tick() {
-      if (i++ >= frames) {
-        hashEl.textContent = FINAL;
-        return;
-      }
-      let s = '';
-      for (let k = 0; k < FINAL.length; k++) {
-        s += i > k * (frames / FINAL.length)
-          ? FINAL[k]
-          : HEX[Math.floor(Math.random() * 16)];
-      }
-      hashEl.textContent = s;
-      requestAnimationFrame(tick);
-    }
-    setTimeout(tick, 700);
-  })();
 </script>

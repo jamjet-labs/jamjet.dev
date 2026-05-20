@@ -31,8 +31,13 @@
   --space-section:    120px;
   --space-section-sm: 80px;
 
-  --success: #2d7d46;
-  --error:   #b44040;
+  /* ── Decision palette (JamJet semantic) ── */
+  --success:      #2d7d46;
+  --success-tint: #dcfce7;
+  --warning:      #b45309;
+  --warning-tint: #fef3c7;
+  --error:        #b44040;
+  --error-tint:   #fee2e2;
 }
 
 /* ── Reset ── */
