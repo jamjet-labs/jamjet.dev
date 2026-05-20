@@ -26,18 +26,6 @@ const failures = [
   { num: '06', title: 'Forgotten context', line: 'The agent forgets across sessions. Engram surfaces durable facts — not raw chat history.' },
 ];
 
-const receiptJson = `{
-  "version": "agentboundary/v0.1",
-  "receipt_id": "0192c8d0-1f2a-7c3e-bf2a-1a4d3f5e6c7b",
-  "actor":  { "type": "agent", "id": "agent:claude-code:session/789abc" },
-  "tool":   { "name": "github-mcp", "capability": "github.merge" },
-  "target": { "system": "github.com/jamjet-labs/agentboundary", "environment": "prod" },
-  "arguments_hash": "9698adaf2dca5f26a4f9644a8d0f4f34b5558bce09961f94e810fe3aaa9071aa",
-  "policy": { "name": "agentboundary.repo.merges", "version": "2", "decision": "allow" },
-  "execution": { "status": "success", "result_ref": "sha:b1c2d3e4f5a6" },
-  "receipt_hash": "4d905d5dbc9faa4dafcb2155da9c4d5e1052cb23c680f3754d4ebc5800a4bae7"
-}`;
-
 const log = [
   { date: 'Apr 25', body: 'Java runtime v0.1.1 — embed durable execution directly in your JVM. @DurableAgent crash recovery, MCP native, 8.9x faster than the REST sidecar in our benchmark.', href: '/blog/zero-sidecar-durable-agents-java/' },
   { date: 'Apr 8',  body: 'Engram Spring Boot Starter on Maven Central. One dependency, inject EngramClient, done.', href: 'https://central.sonatype.com/artifact/dev.jamjet/engram-spring-boot-starter' },
@@ -92,40 +80,31 @@ const homeLd = {
       <span class="zn-display-italic">agent action.</span>
     </h1>
 
-    <figure class="zn-receipt" aria-label="Example Action Receipt">
-      <figcaption class="zn-receipt-cap">
-        <span class="zn-receipt-name">action_receipt.json</span>
-        <span class="zn-receipt-sep">·</span>
-        <span class="zn-receipt-meta">signed &amp; verified</span>
-        <span class="zn-receipt-pill" aria-label="policy decision">policy: allow</span>
-      </figcaption>
-      <pre class="zn-receipt-body"><code id="zn-receipt-code">{receiptJson}</code></pre>
-      <figcaption class="zn-receipt-foot">
-        Open spec: <a href="https://agentboundary.jamjet.dev/spec/v0.1">agentboundary.jamjet.dev</a> &middot; verifiable independent of the agent framework
-      </figcaption>
-    </figure>
-
     <LiveIntercept />
 
     <p class="zn-lede">
       An AI agent is about to merge a pull request, refund a charge, or mutate production.
       JamJet checks your policy, asks for approval if needed, blocks the call when it can't,
-      and writes the receipt above — verifiable by any party, independent of the agent framework.
+      and writes the receipt above — verifiable by anyone, independent of your agent framework.
+    </p>
+
+    <p class="zn-hero-pitch">
+      <strong>Not another agent framework.</strong> The action-control layer that sits underneath them.
+      Keep LangGraph, CrewAI, Claude Code, MCP, OpenAI Agents SDK, or Spring AI —
+      add JamJet where tool calls need policy, approval, and audit.
     </p>
 
     <figure class="zn-codecard" aria-label="Decorate one production action">
-      <figcaption class="zn-codecard-cap">
-        <span class="zn-codecard-name">merge.py</span>
-        <span class="zn-codecard-sep">·</span>
-        <span class="zn-codecard-meta">one decorator · one receipt per call</span>
+      <figcaption class="zn-codecard-cap zn-codecard-cap-slim">
+        <span class="zn-codecard-name">see the SDK · merge.py</span>
       </figcaption>
       <pre class="zn-codecard-body"><code><span class="zn-tok-kw">from</span> <span class="zn-tok-mod">jamjet</span> <span class="zn-tok-kw">import</span> gate
 
 <span class="zn-tok-dec">@gate</span>(<span class="zn-tok-str">&quot;github.merge&quot;</span>, require_approval<span class="zn-tok-op">=</span><span class="zn-tok-kw">True</span>)
 <span class="zn-tok-kw">def</span> <span class="zn-tok-fn">merge_pr</span>(repo: <span class="zn-tok-type">str</span>, pr: <span class="zn-tok-type">int</span>) <span class="zn-tok-op">-&gt;</span> <span class="zn-tok-type">str</span>:
     <span class="zn-tok-kw">return</span> github.merge(repo, pr)</code></pre>
-      <figcaption class="zn-codecard-foot">
-        <code>pip install jamjet</code> &middot; works alongside Claude Code, MCP, OpenAI Agents SDK, Spring AI, LangChain4j
+      <figcaption class="zn-codecard-foot zn-codecard-foot-slim">
+        <code>pip install jamjet</code> &middot; same policy across Claude Code, MCP, OpenAI Agents SDK, Spring AI
       </figcaption>
     </figure>
 
@@ -157,12 +136,6 @@ const homeLd = {
       </div>
     </div>
 
-    <div class="zn-rule"></div>
-
-    <p class="zn-marginal">
-      Not another agent framework. The action-control plane that sits underneath them.
-      Keep your stack — add JamJet where tool calls need policy, approval, and audit.
-    </p>
   </div>
 </section>
 
@@ -796,6 +769,25 @@ const homeLd = {
     color: inherit;
     font-size: inherit;
   }
+  .zn-codecard-cap-slim { padding: 6px 16px; }
+  .zn-codecard-foot-slim { padding: 6px 16px; }
+  .zn-codecard:has(.zn-codecard-cap-slim) .zn-codecard-body {
+    font-size: 12.5px;
+    padding: 12px 18px;
+    line-height: 1.55;
+  }
+  .zn-hero-pitch {
+    margin: 8px 0 28px;
+    padding: 14px 18px;
+    background: var(--bg-alt);
+    border-left: 3px solid var(--warning);
+    border-radius: 2px;
+    font-size: 1.02rem;
+    line-height: 1.65;
+    color: var(--text);
+    max-width: 60ch;
+  }
+  .zn-hero-pitch strong { font-weight: 600; }
   .zn-codecard-foot {
     border-top: 1px solid var(--border);
     background: var(--bg-alt, #edecea);
@@ -1309,51 +1301,4 @@ const homeLd = {
   }
   bindCopy('copy-install', 'pip install jamjet');
   bindCopy('copy-final', 'pip install jamjet');
-
-  // Receipt artifact: syntax highlight + hash scramble micro-animation.
-  // Reads like a signed document being verified in real time, in the
-  // zine palette (no neon — sumi ink on washi).
-  (function () {
-    const code = document.getElementById('zn-receipt-code');
-    if (!code) return;
-    const FINAL = '4d905d5dbc9faa4dafcb2155da9c4d5e1052cb23c680f3754d4ebc5800a4bae7';
-    const raw = code.textContent || '';
-    // HTML-escape THEN wrap just two patterns: keys and hash values. The
-    // earlier broader regex set re-matched the HTML it had just inserted
-    // and corrupted the receipt JSON output. Single-quoted attrs to avoid
-    // double-quote collision with the surrounding JSON quotes.
-    // The JSON has no <, >, & — safe to inject. Use single-quoted HTML
-    // attributes so they don't collide with the surrounding double quotes
-    // of the JSON string values.
-    const html = raw
-      .replace(/("[a-z_]+")(?=\s*:)/g, "<span class='zn-rec-key'>$1</span>")
-      .replace(/: "([a-f0-9]{40,})"/g, (_m, h) => {
-        const cls = h === FINAL ? 'zn-rec-hash-final' : 'zn-rec-hash';
-        return ": \"<span class='" + cls + "' data-hash='" + h + "'>" + h + "</span>\"";
-      });
-    code.innerHTML = html;
-
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) return;
-    const hashEl = code.querySelector('.zn-rec-hash-final');
-    if (!hashEl) return;
-    const HEX = '0123456789abcdef';
-    const frames = 28;
-    let i = 0;
-    function tick() {
-      if (i++ >= frames) {
-        hashEl.textContent = FINAL;
-        return;
-      }
-      let s = '';
-      for (let k = 0; k < FINAL.length; k++) {
-        s += i > k * (frames / FINAL.length)
-          ? FINAL[k]
-          : HEX[Math.floor(Math.random() * 16)];
-      }
-      hashEl.textContent = s;
-      requestAnimationFrame(tick);
-    }
-    setTimeout(tick, 700);
-  })();
 </script>
