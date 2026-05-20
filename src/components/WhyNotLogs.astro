@@ -1,0 +1,109 @@
+---
+// WhyNotLogs — answers the reviewer's killer comparison: logs tell you
+// what happened; JamJet receipts tell you whether the action was
+// allowed before it happened.
+const rows = [
+  { logs: 'what happened after the fact', jamjet: 'whether the action was allowed before it happened' },
+  { logs: 'unsigned', jamjet: 'signed, verifiable by anyone' },
+  { logs: 'unstructured', jamjet: 'conformant schema (AgentBoundary v0.1)' },
+  { logs: 'agent-trusted', jamjet: 'agent-independent' },
+];
+---
+
+<section class="zn-vs-logs">
+  <div class="zn-shell">
+    <span class="zn-eyebrow">The difference</span>
+    <h2 class="zn-h2">Why not just use logs?</h2>
+
+    <div class="zn-vs-grid" role="table" aria-label="Logs vs JamJet receipts">
+      <div class="zn-vs-col zn-vs-logs-col" role="rowgroup">
+        <h3 class="zn-vs-title">Logs</h3>
+        <ul class="zn-vs-list" role="list">
+          {rows.map((r) => <li role="row"><span role="cell">{r.logs}</span></li>)}
+        </ul>
+      </div>
+      <div class="zn-vs-col zn-vs-receipts-col" role="rowgroup">
+        <h3 class="zn-vs-title zn-vs-title-receipts">JamJet receipts</h3>
+        <ul class="zn-vs-list" role="list">
+          {rows.map((r) => <li role="row"><span role="cell">{r.jamjet}</span></li>)}
+        </ul>
+      </div>
+    </div>
+
+    <p class="zn-vs-foot">
+      Tracing tools (<a href="/compare/langsmith/">LangSmith</a>, <a href="/compare/helicone/">Helicone</a>, Langfuse) show you what your agent did.
+      JamJet decides what it's <em>allowed</em> to do — and signs the receipt either way.
+    </p>
+  </div>
+</section>
+
+<style>
+  .zn-vs-logs {
+    padding: 96px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .zn-vs-logs .zn-eyebrow { display: block; }
+  .zn-vs-logs .zn-h2 { margin-bottom: 32px; max-width: 720px; }
+
+  .zn-vs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 28px;
+  }
+  .zn-vs-col { padding: 24px 28px; }
+  .zn-vs-logs-col {
+    border-right: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .zn-vs-receipts-col {
+    background: var(--bg-alt);
+  }
+  .zn-vs-title {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .zn-vs-title-receipts { color: var(--warning); }
+  .zn-vs-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .zn-vs-list li {
+    padding: 10px 0;
+    border-top: 1px solid var(--border);
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+  .zn-vs-list li:first-child { border-top: 0; }
+  .zn-vs-foot {
+    max-width: 60ch;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .zn-vs-foot a {
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+  }
+  .zn-vs-foot a:hover { border-bottom-color: var(--text); }
+
+  @media (max-width: 720px) {
+    .zn-vs-grid {
+      grid-template-columns: 1fr;
+    }
+    .zn-vs-logs-col {
+      border-right: 0;
+      border-bottom: 1px solid var(--border);
+    }
+  }
+</style>
