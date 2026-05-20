@@ -15,17 +15,17 @@ const rows = [
     <span class="zn-eyebrow">The difference</span>
     <h2 class="zn-h2">Why not just use logs?</h2>
 
-    <div class="zn-vs-grid" role="table" aria-label="Logs vs JamJet receipts">
-      <div class="zn-vs-col zn-vs-logs-col" role="rowgroup">
+    <div class="zn-vs-grid" aria-label="Logs vs JamJet receipts">
+      <div class="zn-vs-col zn-vs-logs-col">
         <h3 class="zn-vs-title">Logs</h3>
-        <ul class="zn-vs-list" role="list">
-          {rows.map((r) => <li role="row"><span role="cell">{r.logs}</span></li>)}
+        <ul class="zn-vs-list">
+          {rows.map((r) => <li>{r.logs}</li>)}
         </ul>
       </div>
-      <div class="zn-vs-col zn-vs-receipts-col" role="rowgroup">
+      <div class="zn-vs-col zn-vs-receipts-col">
         <h3 class="zn-vs-title zn-vs-title-receipts">JamJet receipts</h3>
-        <ul class="zn-vs-list" role="list">
-          {rows.map((r) => <li role="row"><span role="cell">{r.jamjet}</span></li>)}
+        <ul class="zn-vs-list">
+          {rows.map((r) => <li>{r.jamjet}</li>)}
         </ul>
       </div>
     </div>
