@@ -19,12 +19,12 @@ const terminalLines = [
 ];
 
 const failures = [
-  { num: '01', title: 'Lost progress', line: 'A worker dies mid-run. JamJet replays the event log and resumes at the failed node.' },
-  { num: '02', title: 'Unsafe tool', line: 'An agent reaches for a tool it shouldn’t. The 4-level policy hierarchy blocks the call before execution.' },
-  { num: '03', title: 'Skipped approval', line: 'A high-risk action waits for a human. The run survives restarts. The decision lands in audit.' },
-  { num: '04', title: 'Runaway cost', line: 'A reflection loop won’t stop spending. The runtime halts the loop before it crosses the cap.' },
-  { num: '05', title: 'Missing audit', line: 'Compliance asks what happened. Every decision is in a signed, exportable evidence package.' },
-  { num: '06', title: 'Forgotten context', line: 'The agent forgets across sessions. Engram surfaces durable facts — not raw chat history.' },
+  { num: '01', tone: 'neutral', title: 'Lost progress', line: 'A worker dies mid-run. JamJet replays the event log and resumes at the failed node.' },
+  { num: '02', tone: 'error',   title: 'Unsafe tool', line: 'An agent reaches for a tool it shouldn’t. The 4-level policy hierarchy blocks the call before execution.' },
+  { num: '03', tone: 'warning', title: 'Skipped approval', line: 'A high-risk action waits for a human. The run survives restarts. The decision lands in audit.' },
+  { num: '04', tone: 'error',   title: 'Runaway cost', line: 'A reflection loop won’t stop spending. The runtime halts the loop before it crosses the cap.' },
+  { num: '05', tone: 'neutral', title: 'Missing audit', line: 'Compliance asks what happened. Every decision is in a signed, exportable evidence package.' },
+  { num: '06', tone: 'neutral', title: 'Forgotten context', line: 'The agent forgets across sessions. Engram surfaces durable facts — not raw chat history.' },
 ];
 
 const log = [
@@ -251,7 +251,8 @@ const homeLd = {
 
     <ol class="zn-failures">
       {failures.map(f => (
-        <li class="zn-failure">
+        <li class={`zn-failure zn-failure-tone-${f.tone}`}>
+          <span class="zn-failure-bar" aria-hidden="true"></span>
           <span class="zn-failure-num">{f.num}</span>
           <div>
             <strong class="zn-failure-title">{f.title}</strong>
@@ -1028,11 +1029,23 @@ const homeLd = {
   }
   .zn-failure {
     display: grid;
-    grid-template-columns: 84px 1fr;
+    grid-template-columns: 4px 84px 1fr;
     gap: 8px;
     padding-top: 24px;
     border-top: 1px solid rgba(255,255,255,0.18);
   }
+  .zn-failure-bar {
+    grid-column: 1 / 2;
+    grid-row: 1 / span 2;
+    width: 3px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 1px;
+    margin-right: 6px;
+  }
+  .zn-failure-tone-warning .zn-failure-bar { background: var(--warning); }
+  .zn-failure-tone-error   .zn-failure-bar { background: var(--error); }
+  .zn-failure-tone-neutral .zn-failure-bar { background: rgba(255, 255, 255, 0.25); }
   .zn-failure-num {
     font-size: 3.4rem;
     line-height: 1;
@@ -1284,7 +1297,7 @@ const homeLd = {
     .zn-cover { padding: 40px 0 56px; }
     .zn-masthead { margin-bottom: 36px; }
     .zn-display { font-size: clamp(2.4rem, 11vw, 4rem); }
-    .zn-failure { grid-template-columns: 64px 1fr; }
+    .zn-failure { grid-template-columns: 4px 64px 1fr; }
     .zn-failure-num { font-size: 2.4rem; }
     .zn-log-entry { grid-template-columns: 1fr; gap: 6px; }
     .zn-pair-card { padding: 24px; }
