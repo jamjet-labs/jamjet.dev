@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroAnimation from '../components/HeroAnimation.astro';
 import TerminalReplay from '../components/TerminalReplay.astro';
+import LiveIntercept from '../components/LiveIntercept.astro';
 
 const terminalLines = [
   '$ jamjet run research-pipeline.yaml',
@@ -103,6 +104,8 @@ const homeLd = {
         Open spec: <a href="https://agentboundary.jamjet.dev/spec/v0.1">agentboundary.jamjet.dev</a> &middot; verifiable independent of the agent framework
       </figcaption>
     </figure>
+
+    <LiveIntercept />
 
     <p class="zn-lede">
       An AI agent is about to merge a pull request, refund a charge, or mutate production.
