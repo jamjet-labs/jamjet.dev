@@ -367,4 +367,31 @@ const armedReceipt = `{
       if (p) applyPreset(p);
     });
   });
+
+  // Auto-play the Merge PR scenario once per session, triggered by
+  // scroll-into-view. Skipped if prefers-reduced-motion or if already
+  // played in this session.
+  const SESSION_KEY = 'jamjet:intercept:autoplayed';
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const alreadyPlayed = (() => {
+    try { return sessionStorage.getItem(SESSION_KEY) === '1'; }
+    catch { return false; }
+  })();
+
+  if (!reducedMotion && !alreadyPlayed) {
+    const root = document.querySelector('.zn-intercept');
+    if (root) {
+      const observer = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            observer.disconnect();
+            try { sessionStorage.setItem(SESSION_KEY, '1'); } catch {}
+            const mergePreset = PRESETS.find((p) => p.key === 'merge');
+            if (mergePreset) applyPreset(mergePreset);
+          }
+        }
+      }, { threshold: 0.3 });
+      observer.observe(root);
+    }
+  }
 </script>
