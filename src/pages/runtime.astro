@@ -1,0 +1,1017 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TerminalReplay from '../components/TerminalReplay.astro';
+
+const terminalLines = [
+  '$ jamjet run analyst-pipeline',
+  '▸ Starting execution exec_a4b2...',
+  '▸ [Plan]      ✓ completed  420ms',
+  '▸ [Analyze]   running...',
+  '▸ Worker SIGTERM received',
+  '▸ Lease expired · scheduler reclaiming',
+  '▸ Restored exec_a4b2 from checkpoint',
+  '▸ [Analyze]   ✓ resumed and completed  890ms',
+  '▸ [Decision]  ✓ completed  650ms',
+  '▸ Receipt emitted · hash c8b1c4f5…',
+  '▸ Execution complete · 4/4 nodes · 0 events lost',
+];
+
+const useCases = [
+  {
+    title: 'Refund reviewer',
+    body: 'Approves Stripe refunds. Policy-gated, human-in-the-loop for amounts over a threshold, receipt for every decision.',
+    tag: 'fintech',
+  },
+  {
+    title: 'Code review bot',
+    body: 'Opens, comments on, and merges pull requests. Crash recovery between any two steps. Replay-or-execute means no duplicate side effects on resume.',
+    tag: 'devtools',
+  },
+  {
+    title: 'Support triage',
+    body: 'Routes tickets, drafts replies, escalates the hard ones. Survives redeploys without losing in-flight conversations.',
+    tag: 'cx',
+  },
+];
+
+const capabilities = [
+  {
+    title: 'Crash-safe by default',
+    body: '@DurableAgent + @Checkpoint mark the methods; DurabilityContext.replayOrExecute records and replays. Worker dies, next one resumes. Virtual threads, no sidecar.',
+  },
+  {
+    title: 'MCP-native, not bolted on',
+    body: 'MCP server, client, and tool executor live inside the runtime — under jamjet-runtime-protocols. Compose with Spring AI and LangChain4j tools without writing a shim layer.',
+  },
+  {
+    title: 'Pairs with the cloud SDK',
+    body: 'jamjet-cloud-sdk ships AgentBoundary v0.1 receipt types. Wire it alongside the runtime to emit chained, hashed, third-party-verifiable Action Receipts.',
+  },
+];
+
+const runtimeLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "JamJet Runtime",
+  "description": "The JVM-native durable agent runtime. Checkpoint-based crash recovery, native MCP server and client, Spring Boot starter that registers durable agents as beans. AgentBoundary v0.1 Level 4 reference implementation.",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Linux, macOS, Windows",
+  "url": "https://jamjet.dev/runtime/",
+  "downloadUrl": "https://central.sonatype.com/artifact/dev.jamjet/jamjet-core",
+  "softwareVersion": "0.3.1",
+  "license": "https://www.apache.org/licenses/LICENSE-2.0",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+};
+---
+
+<BaseLayout
+  title="JamJet Runtime — Durable agents for the JVM."
+  description="JVM-native durable agent runtime. Checkpoint-based crash recovery, native MCP, Spring Boot starter. Eight modules on Maven Central. AgentBoundary v0.1 reference impl. Open source."
+  canonical="https://jamjet.dev/runtime/"
+  currentPage="runtime"
+>
+<Fragment slot="head">
+  <script type="application/ld+json" set:html={JSON.stringify(runtimeLd)}></script>
+</Fragment>
+
+<!-- ────────────────────────  HERO  ──────────────────────── -->
+<section class="rt-hero">
+  <div class="zn-shell">
+    <div class="zn-masthead">
+      <span class="zn-vol">JamJet Runtime · JVM-native</span>
+      <span class="zn-issue">Durable agents that survive redeploys</span>
+    </div>
+
+    <h1 class="zn-display">
+      Crash-safe agents that<br/>
+      <span class="zn-display-italic">survive redeploys.</span>
+    </h1>
+
+    <p class="zn-lede">
+      JVM-native runtime. Native MCP. Checkpoint-based replay.
+      Spring Boot starter. Eight modules on Maven Central. Apache 2.0.
+    </p>
+
+    <figure class="zn-codecard" aria-label="A durable agent in Java">
+      <figcaption class="zn-codecard-cap zn-codecard-cap-slim">
+        <span class="zn-codecard-name">RefundReviewer.java</span>
+        <span class="zn-codecard-sep">·</span>
+        <span>jamjet-runtime-instrument</span>
+      </figcaption>
+      <pre class="zn-codecard-body" is:raw><span class="zn-tok-kw">import</span> <span class="zn-tok-mod">dev.jamjet.runtime.instrument.DurabilityContext</span>;
+<span class="zn-tok-kw">import</span> <span class="zn-tok-mod">dev.jamjet.runtime.instrument.annotations.Checkpoint</span>;
+<span class="zn-tok-kw">import</span> <span class="zn-tok-mod">dev.jamjet.runtime.instrument.annotations.DurableAgent</span>;
+
+<span class="zn-tok-dec">@DurableAgent</span>(<span class="zn-tok-str">&quot;refund-reviewer&quot;</span>)
+<span class="zn-tok-kw">public class</span> <span class="zn-tok-fn">RefundReviewer</span> {
+  <span class="zn-tok-dec">@Checkpoint</span>(<span class="zn-tok-str">&quot;review&quot;</span>)
+  <span class="zn-tok-kw">public</span> <span class="zn-tok-type">Decision</span> <span class="zn-tok-fn">review</span>(<span class="zn-tok-type">RefundRequest</span> r) {
+    <span class="zn-tok-kw">return</span> <span class="zn-tok-type">DurabilityContext</span>.current().replayOrExecute(<span class="zn-tok-str">&quot;review&quot;</span>, () -&gt; {
+      <span class="zn-tok-op">// crash here? next worker replays from this checkpoint.</span>
+      <span class="zn-tok-kw">return</span> policy.evaluate(r);
+    });
+  }
+}</pre>
+      <figcaption class="zn-codecard-foot zn-codecard-foot-slim">
+        Drops into Spring as a <code>@Service</code>. Equivalent <code>@task</code> pattern in Python <code>jamjet</code>.
+      </figcaption>
+    </figure>
+
+    <div class="zn-cover-foot">
+      <div class="zn-cta-row">
+        <a href="https://docs.jamjet.dev/en/docs/quickstart" class="zn-btn zn-btn-primary">Get started in 60 seconds &rarr;</a>
+      </div>
+      <div class="zn-install">
+        <span class="zn-prompt">$</span>
+        <span class="zn-cmd">pip install jamjet</span>
+        <button class="zn-copy" id="copy-rt-install" type="button">copy</button>
+      </div>
+    </div>
+
+    <p class="rt-cred">
+      Eight modules on Maven Central · Python SDK on PyPI ·
+      <a href="/benchmarks">8.9× faster than the REST sidecar</a> on our benchmark
+    </p>
+  </div>
+</section>
+
+<!-- ────────────────────  USE CASE STRIP  ──────────────────── -->
+<section class="rt-usecases">
+  <div class="zn-shell">
+    <div class="rt-usecases-head">
+      <span class="zn-eyebrow">What it&rsquo;s for</span>
+      <h2 class="zn-h2">
+        Built for agents that handle<br/>
+        <span class="zn-display-italic">real money, real code, real users.</span>
+      </h2>
+    </div>
+
+    <ul class="rt-usecase-list">
+      {useCases.map(uc => (
+        <li class="rt-usecase">
+          <span class="rt-usecase-tag">{uc.tag}</span>
+          <h3 class="rt-usecase-title">{uc.title}</h3>
+          <p class="rt-usecase-body">{uc.body}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<!-- ────────────────────  WHY JVM (manifesto)  ──────────────────── -->
+<section class="rt-jvm">
+  <div class="zn-shell zn-grid-asym">
+    <aside class="zn-side">
+      <span class="zn-eyebrow">What&rsquo;s inside</span>
+      <svg class="rt-stack" viewBox="0 0 360 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="JamJet Runtime internal architecture: scheduler, lease manager, checkpointer, MCP server, MCP client, plugin SPI">
+        <g class="lay">
+          <rect x="14" y="14" width="332" height="44" rx="6"/>
+          <text x="180" y="40" text-anchor="middle">your code &middot; @DurableAgent</text>
+        </g>
+
+        <g class="lay-jam">
+          <rect x="14" y="78" width="332" height="130" rx="8"/>
+          <text x="180" y="104" text-anchor="middle" class="lay-jam-title">JamJet Runtime</text>
+          <text x="180" y="118" text-anchor="middle" class="lay-jam-sub">JVM &middot; virtual threads</text>
+
+          <g class="lay-chip"><rect x="32"  y="138" width="98" height="22" rx="3"/><text x="81"  y="152" text-anchor="middle">scheduler</text></g>
+          <g class="lay-chip"><rect x="140" y="138" width="98" height="22" rx="3"/><text x="189" y="152" text-anchor="middle">lease manager</text></g>
+          <g class="lay-chip"><rect x="248" y="138" width="98" height="22" rx="3"/><text x="297" y="152" text-anchor="middle">checkpointer</text></g>
+
+          <g class="lay-chip"><rect x="32"  y="168" width="98" height="22" rx="3"/><text x="81"  y="182" text-anchor="middle">MCP server</text></g>
+          <g class="lay-chip"><rect x="140" y="168" width="98" height="22" rx="3"/><text x="189" y="182" text-anchor="middle">MCP client</text></g>
+          <g class="lay-chip"><rect x="248" y="168" width="98" height="22" rx="3"/><text x="297" y="182" text-anchor="middle">plugin SPI</text></g>
+        </g>
+
+        <g class="lay">
+          <rect x="14" y="228" width="332" height="44" rx="6"/>
+          <text x="180" y="254" text-anchor="middle">MCP &middot; cloud SDK &middot; tools &middot; models</text>
+        </g>
+      </svg>
+    </aside>
+
+    <article class="zn-essay">
+      <span class="zn-eyebrow">Why JVM</span>
+      <p class="zn-essay-body">
+        <span class="zn-dropcap">M</span>ost agent frameworks ship Python-first.
+        Spring AI and LangChain4j devs got bolt-ons &mdash; sidecars, RPC bridges,
+        &ldquo;we&rsquo;ll get to durability later&rdquo; handwaves. The shape was always
+        the same: the agent runs over there, durability lives over here, and
+        you wire them together with code you&rsquo;d rather not maintain.
+      </p>
+      <p class="zn-essay-body">
+        JamJet Runtime is JVM-native end to end: a real scheduler,
+        checkpoint-based crash recovery, a native MCP server and client,
+        and a Spring Boot starter that registers durable agents as beans.
+        Drops into existing Spring AI and LangChain4j codebases without a shim.
+        Eight modules on Maven Central.
+      </p>
+      <p class="zn-essay-cta">
+        <a href="https://central.sonatype.com/namespace/dev.jamjet" target="_blank" rel="noopener">All artifacts on Maven Central &rarr;</a>
+      </p>
+    </article>
+  </div>
+</section>
+
+<!-- ────────────────────  THREE CAPABILITIES  ──────────────────── -->
+<section class="rt-caps">
+  <div class="zn-shell">
+    <div class="rt-caps-head">
+      <span class="zn-eyebrow">Three things the runtime does</span>
+      <h2 class="zn-h2">Durability inside.<br/><span class="zn-display-italic">Protocols and receipts at the edges.</span></h2>
+    </div>
+
+    <ol class="rt-cap-list">
+      {capabilities.map((c, i) => (
+        <li class="rt-cap">
+          <span class="rt-cap-num">{String(i + 1).padStart(2, '0')}</span>
+          <div>
+            <strong class="rt-cap-title">{c.title}</strong>
+            <p class="rt-cap-body">{c.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<!-- ────────────────────  CRASH RECOVERY (DARK)  ──────────────────── -->
+<section class="zn-dark rt-demo">
+  <div class="zn-shell zn-grid-asym-flip">
+    <article class="rt-demo-text">
+      <span class="zn-eyebrow zn-eyebrow-light">Watch one survive</span>
+      <h2 class="zn-h2 zn-h2-tight">A worker dies.<br/><span class="zn-display-italic">The agent finishes.</span></h2>
+      <p class="rt-dark-sub">
+        Every step is checkpointed as it happens. When a worker dies mid-run,
+        the scheduler reclaims the lease and resumes from exactly where it stopped.
+        No reruns. No duplicate side effects. No lost events. And a receipt at the end.
+      </p>
+      <ul class="rt-demo-list">
+        <li><strong>SIGTERM received</strong> &mdash; the Analyze step terminates mid-execution.</li>
+        <li><strong>Lease reclaimed</strong> &mdash; another worker picks up the run within seconds.</li>
+        <li><strong>Resume from checkpoint</strong> &mdash; completed steps stay completed.</li>
+        <li><strong>Receipt emitted</strong> &mdash; the final action is hashed, chained, and verifiable.</li>
+      </ul>
+    </article>
+
+    <aside class="rt-demo-stage">
+      <TerminalReplay lines={terminalLines} title="jamjet · crash recovery" />
+    </aside>
+  </div>
+</section>
+
+<!-- ────────────────────  CODE TOUR  ──────────────────── -->
+<section class="rt-code">
+  <div class="zn-shell">
+    <div class="rt-code-head">
+      <span class="zn-eyebrow">See it in three languages</span>
+      <h2 class="zn-h2">Same runtime guarantees.<br/><span class="zn-display-italic">Idiomatic in each.</span></h2>
+    </div>
+
+    <div class="rt-code-stack">
+      <figure class="rt-code-fig">
+        <figcaption class="rt-code-cap">
+          <span>ResearchAgent.java</span>
+          <span class="rt-code-tag">Java</span>
+        </figcaption>
+        <pre class="rt-code-body" is:raw><span class="t-kw">import</span> <span class="t-w">dev.jamjet.runtime.instrument.DurabilityContext</span><span class="t-p">;</span>
+<span class="t-kw">import</span> <span class="t-w">dev.jamjet.runtime.instrument.annotations.Checkpoint</span><span class="t-p">;</span>
+<span class="t-kw">import</span> <span class="t-w">dev.jamjet.runtime.instrument.annotations.DurableAgent</span><span class="t-p">;</span>
+
+<span class="t-p">@</span><span class="t-y">DurableAgent</span><span class="t-p">(</span><span class="t-s">"research-pipeline"</span><span class="t-p">)</span>
+<span class="t-kw">public class</span> <span class="t-b">ResearchAgent</span> <span class="t-p">{</span>
+
+  <span class="t-p">@</span><span class="t-y">Checkpoint</span><span class="t-p">(</span><span class="t-s">"analyze"</span><span class="t-p">)</span>
+  <span class="t-kw">public</span> <span class="t-y">String</span> <span class="t-b">analyze</span><span class="t-p">(</span><span class="t-y">String</span> <span class="t-w">topic</span><span class="t-p">) {</span>
+    <span class="t-kw">return</span> <span class="t-y">DurabilityContext</span><span class="t-p">.</span><span class="t-b">current</span><span class="t-p">().</span><span class="t-b">replayOrExecute</span><span class="t-p">(</span><span class="t-s">"analyze"</span><span class="t-p">,</span> <span class="t-p">() -&gt; {</span>
+      <span class="t-kw">return</span> <span class="t-w">llmClient</span><span class="t-p">.</span><span class="t-b">chat</span><span class="t-p">(</span><span class="t-w">systemPrompt</span><span class="t-p">,</span> <span class="t-w">topic</span><span class="t-p">);</span>
+    <span class="t-p">});</span>
+  <span class="t-p">}</span>
+<span class="t-p">}</span></pre>
+      </figure>
+
+      <figure class="rt-code-fig">
+        <figcaption class="rt-code-cap">
+          <span>ResearchAgent.java &middot; Spring</span>
+          <span class="rt-code-tag">Spring Boot</span>
+        </figcaption>
+        <pre class="rt-code-body" is:raw><span class="t-kw">import</span> <span class="t-w">dev.jamjet.runtime.instrument.DurabilityContext</span><span class="t-p">;</span>
+<span class="t-kw">import</span> <span class="t-w">dev.jamjet.runtime.instrument.annotations.Checkpoint</span><span class="t-p">;</span>
+<span class="t-kw">import</span> <span class="t-w">dev.jamjet.runtime.instrument.annotations.DurableAgent</span><span class="t-p">;</span>
+<span class="t-kw">import</span> <span class="t-w">org.springframework.stereotype.Service</span><span class="t-p">;</span>
+
+<span class="t-p">@</span><span class="t-y">DurableAgent</span><span class="t-p">(</span><span class="t-s">"research-pipeline"</span><span class="t-p">)</span>
+<span class="t-p">@</span><span class="t-y">Service</span>
+<span class="t-kw">public class</span> <span class="t-b">ResearchAgent</span> <span class="t-p">{</span>
+
+  <span class="t-p">@</span><span class="t-y">Checkpoint</span><span class="t-p">(</span><span class="t-s">"search"</span><span class="t-p">)</span>
+  <span class="t-kw">public</span> <span class="t-y">String</span> <span class="t-b">search</span><span class="t-p">(</span><span class="t-y">String</span> <span class="t-w">topic</span><span class="t-p">) {</span>
+    <span class="t-kw">return</span> <span class="t-y">DurabilityContext</span><span class="t-p">.</span><span class="t-b">current</span><span class="t-p">().</span><span class="t-b">replayOrExecute</span><span class="t-p">(</span><span class="t-s">"search"</span><span class="t-p">,</span> <span class="t-p">() -&gt; {</span>
+      <span class="t-kw">return</span> <span class="t-w">searchClient</span><span class="t-p">.</span><span class="t-b">query</span><span class="t-p">(</span><span class="t-w">topic</span><span class="t-p">);</span>   <span class="t-d">// crash-safe</span>
+    <span class="t-p">});</span>
+  <span class="t-p">}</span>
+<span class="t-p">}</span>
+
+<span class="t-d">// DurableAgentBeanPostProcessor detects @DurableAgent at startup.</span>
+<span class="t-d">// application.yml needs only: jamjet.storage: in-memory</span></pre>
+      </figure>
+
+      <figure class="rt-code-fig">
+        <figcaption class="rt-code-cap">
+          <span>pipeline.py</span>
+          <span class="rt-code-tag">Python</span>
+        </figcaption>
+        <pre class="rt-code-body" is:raw><span class="t-kw">from</span> <span class="t-w">jamjet</span> <span class="t-kw">import</span> <span class="t-w">task</span><span class="t-p">,</span> <span class="t-w">workflow</span><span class="t-p">,</span> <span class="t-w">approval</span><span class="t-p">,</span> <span class="t-w">gate</span>
+
+<span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span><span class="t-w">model</span><span class="t-p">=</span><span class="t-s">"claude-sonnet-4-6"</span><span class="t-p">,</span> <span class="t-w">max_cost</span><span class="t-p">=</span><span class="t-y">0.50</span><span class="t-p">)</span>
+<span class="t-kw">async def</span> <span class="t-b">analyze</span><span class="t-p">(</span><span class="t-w">data</span><span class="t-p">:</span> <span class="t-y">dict</span><span class="t-p">) -&gt;</span> <span class="t-y">Report</span><span class="t-p">:</span>
+    <span class="t-s">"""checkpointed, cost-capped"""</span>
+
+<span class="t-p">@</span><span class="t-b">workflow</span>
+<span class="t-kw">async def</span> <span class="t-b">pipeline</span><span class="t-p">(</span><span class="t-w">raw</span><span class="t-p">):</span>
+    <span class="t-w">report</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">analyze</span><span class="t-p">(</span><span class="t-w">raw</span><span class="t-p">)</span>     <span class="t-d"># crash-safe</span>
+    <span class="t-kw">await</span> <span class="t-b">approval</span><span class="t-p">(</span><span class="t-w">report</span><span class="t-p">)</span>          <span class="t-d"># durable pause</span>
+    <span class="t-kw">return await</span> <span class="t-b">publish</span><span class="t-p">(</span><span class="t-w">report</span><span class="t-p">)</span>     <span class="t-d"># receipt emitted</span></pre>
+      </figure>
+    </div>
+
+    <p class="zn-marginal zn-marginal-center">
+      Java runs on its own JVM scheduler in jamjet-runtime-java.
+      Python runs on the Rust runtime via the jamjet SDK.
+      Spring Boot users get the Java runtime by adding the starter dependency.
+    </p>
+  </div>
+</section>
+
+<!-- ────────────────────  PROOF: SHIPPED  ──────────────────── -->
+<section class="rt-proof">
+  <div class="zn-shell rt-proof-shell">
+    <span class="zn-eyebrow">What ships today</span>
+    <p class="rt-proof-body">
+      Eight modules on Maven Central since April 2026.
+      Four runnable examples in the repo: crash recovery, real-agent (OpenAI),
+      Spring Boot comparison, latency benchmark.
+    </p>
+    <p class="rt-proof-cta">
+      <a href="https://github.com/jamjet-labs/jamjet-runtime-java/tree/main/examples" target="_blank" rel="noopener">Browse the examples &rarr;</a>
+    </p>
+  </div>
+</section>
+
+<!-- ────────────────────  GET STARTED  ──────────────────── -->
+<section class="rt-start">
+  <div class="zn-shell">
+    <div class="rt-start-head">
+      <span class="zn-eyebrow">Add one dependency</span>
+      <h2 class="zn-h2 zn-h2-small">Get started.</h2>
+    </div>
+
+    <div class="rt-start-grid">
+      <figure class="rt-start-fig">
+        <figcaption class="rt-start-cap">Maven</figcaption>
+        <pre class="rt-start-body"><code>&lt;dependency&gt;
+  &lt;groupId&gt;dev.jamjet&lt;/groupId&gt;
+  &lt;artifactId&gt;jamjet-spring-boot-starter&lt;/artifactId&gt;
+  &lt;version&gt;0.3.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+      </figure>
+
+      <figure class="rt-start-fig">
+        <figcaption class="rt-start-cap">Gradle (Kotlin)</figcaption>
+        <pre class="rt-start-body"><code>implementation(
+  "dev.jamjet:jamjet-spring-boot-starter:0.3.1"
+)</code></pre>
+      </figure>
+
+      <figure class="rt-start-fig">
+        <figcaption class="rt-start-cap">PyPI</figcaption>
+        <pre class="rt-start-body"><code>pip install jamjet</code></pre>
+      </figure>
+
+      <figure class="rt-start-fig">
+        <figcaption class="rt-start-cap">Source</figcaption>
+        <pre class="rt-start-body"><code>git clone https://github.com/jamjet-labs/jamjet-runtime-java</code></pre>
+      </figure>
+    </div>
+
+    <p class="rt-start-foot">
+      Full guide &mdash; <a href="https://docs.jamjet.dev/en/docs/open-source/jvm-native-runtime">JVM-native runtime docs</a> &middot;
+      GitHub &mdash; <a href="https://github.com/jamjet-labs/jamjet-runtime-java" target="_blank" rel="noopener">jamjet-runtime-java</a>,
+      <a href="https://github.com/jamjet-labs/jamjet" target="_blank" rel="noopener">jamjet</a>
+    </p>
+  </div>
+</section>
+
+<!-- ────────────────────  AGENTBOUNDARY CALLOUT (demoted)  ──────────────────── -->
+<section class="rt-ab">
+  <div class="zn-shell rt-ab-shell">
+    <p class="rt-ab-text">
+      JamJet Runtime is also the Level 4 reference implementation of <strong>AgentBoundary v0.1</strong>.
+      40/40 conformance scenarios &middot;
+      <a href="https://agentboundary.jamjet.dev/" target="_blank" rel="noopener">cross-vendor matrix &rarr;</a>
+    </p>
+  </div>
+</section>
+
+<!-- ────────────────────  CLOSING  ──────────────────── -->
+<section class="zn-close">
+  <div class="zn-shell zn-close-shell">
+    <h2 class="zn-close-tag">
+      Stop wiring durability<br/>
+      <span class="zn-close-italic">into every agent by hand.</span>
+    </h2>
+    <div class="zn-install zn-install-center">
+      <span class="zn-prompt">$</span>
+      <span class="zn-cmd">pip install jamjet</span>
+      <button class="zn-copy" id="copy-rt-final" type="button">copy</button>
+    </div>
+    <div class="zn-cta-row zn-cta-center">
+      <a href="https://docs.jamjet.dev/en/docs/quickstart" class="zn-btn zn-btn-primary">Run the quickstart</a>
+      <a href="https://github.com/jamjet-labs/jamjet-runtime-java" class="zn-btn zn-btn-ghost" target="_blank" rel="noopener">Java runtime &middot; GitHub</a>
+      <a href="https://github.com/jamjet-labs/jamjet" class="zn-btn zn-btn-ghost" target="_blank" rel="noopener">Python SDK &middot; GitHub</a>
+    </div>
+    <p class="zn-colophon">
+      Apache 2.0 &middot; Cloud-neutral &middot; JVM-native &middot;
+      Built in Rust, Java, and Python.
+    </p>
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+  /* Inherit zn-* tokens from index.astro; only declare runtime-specific styles here. */
+
+  .zn-shell { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .zn-masthead {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 64px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .zn-vol, .zn-issue {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .zn-issue { font-style: italic; letter-spacing: 0.06em; text-transform: none; font-weight: 400; }
+
+  .zn-display {
+    font-size: clamp(3rem, 9vw, 6.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    font-weight: 600;
+    margin: 0 0 32px;
+  }
+  .zn-display-italic { font-style: italic; font-weight: 500; }
+
+  .zn-h2 {
+    font-size: clamp(1.7rem, 3.6vw, 2.4rem);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin: 4px 0 16px;
+    font-weight: 600;
+  }
+  .zn-h2-tight { line-height: 1.05; }
+  .zn-h2-small { font-size: clamp(1.4rem, 2.8vw, 1.8rem); }
+
+  .zn-lede {
+    font-size: 1.2rem;
+    line-height: 1.65;
+    color: var(--text);
+    max-width: 60ch;
+    margin: 0 0 32px;
+  }
+
+  .zn-eyebrow {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .zn-eyebrow-light { color: rgba(255,255,255,0.65); }
+
+  .zn-essay-body {
+    color: var(--text);
+    font-size: 1.05rem;
+    line-height: 1.85;
+    margin: 0 0 18px;
+    max-width: 60ch;
+  }
+  .zn-essay-cta {
+    margin-top: 24px;
+    font-family: var(--font-sans);
+    font-size: 0.92rem;
+  }
+  .zn-essay-cta a {
+    color: var(--text);
+    border-bottom: 1px solid var(--text);
+    text-decoration: none;
+    padding-bottom: 1px;
+  }
+  .zn-dropcap {
+    float: left;
+    font-size: 4.6rem;
+    line-height: 0.9;
+    padding-right: 12px;
+    padding-top: 4px;
+    font-weight: 600;
+    font-style: italic;
+    color: var(--text);
+  }
+
+  .zn-grid-asym {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .zn-grid-asym-flip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .zn-btn {
+    font-family: var(--font-sans);
+    font-size: 0.92rem;
+    font-weight: 500;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: transform 0.12s, background 0.12s, border-color 0.12s;
+  }
+  .zn-btn-primary { background: var(--text); color: var(--bg); border: 1px solid var(--text); }
+  .zn-btn-primary:hover { transform: translateY(-1px); }
+  .zn-btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .zn-btn-ghost:hover { border-color: var(--text); }
+
+  .zn-install {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-code, #0e1116);
+    color: #eae8e1;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+  .zn-install-center { display: inline-flex; margin: 24px auto; }
+  .zn-prompt { color: #888; }
+  .zn-copy {
+    background: rgba(255,255,255,0.08);
+    border: 0;
+    color: #aaa;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .zn-copy:hover { color: #eae8e1; background: rgba(255,255,255,0.16); }
+
+  .zn-marginal {
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.7;
+    max-width: 640px;
+  }
+  .zn-marginal-center { text-align: center; margin: 32px auto 0; }
+
+  .zn-cover-foot {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin: 0;
+  }
+  .zn-cta-row { display: inline-flex; gap: 12px; flex-wrap: wrap; }
+  .zn-cta-center { justify-content: center; }
+
+  /* ─────────  HERO  ───────── */
+  .rt-hero {
+    padding: 64px 0 80px;
+    border-bottom: 1px solid var(--border);
+  }
+  .zn-codecard {
+    margin: 0 0 32px;
+    max-width: min(720px, 100%);
+    width: 100%;
+    border: 1px solid var(--border-strong, rgba(20,20,19,0.20));
+    background: var(--bg);
+    border-radius: 2px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  .zn-codecard-cap, .zn-codecard-foot {
+    padding: 10px 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .zn-codecard-cap {
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-alt, #edecea);
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+  }
+  .zn-codecard-name { color: var(--text); font-weight: 600; }
+  .zn-codecard-sep { opacity: 0.5; }
+  .zn-codecard-body {
+    margin: 0;
+    padding: 18px 22px;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text);
+    overflow-x: auto;
+    white-space: pre;
+    box-sizing: border-box;
+  }
+  .zn-codecard-cap-slim { padding: 6px 16px; }
+  .zn-codecard-foot-slim { padding: 6px 16px; }
+  .zn-codecard-foot {
+    border-top: 1px solid var(--border);
+    background: var(--bg-alt, #edecea);
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+  .zn-codecard-foot code {
+    background: rgba(20,20,19,0.06);
+    padding: 1px 6px;
+    border-radius: 2px;
+    font-size: 0.95em;
+  }
+  .zn-codecard .zn-tok-kw    { color: var(--text); font-weight: 700; }
+  .zn-codecard .zn-tok-mod   { color: var(--text); }
+  .zn-codecard .zn-tok-dec   { color: var(--text); font-weight: 700; }
+  .zn-codecard .zn-tok-fn    { color: var(--text); font-weight: 600; }
+  .zn-codecard .zn-tok-type  { color: var(--text-secondary, #555550); font-style: italic; }
+  .zn-codecard .zn-tok-str   { color: var(--text-secondary, #555550); }
+  .zn-codecard .zn-tok-op    { color: var(--text-muted); }
+
+  .rt-cred {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    max-width: 640px;
+  }
+  .rt-cred a {
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+  }
+
+  /* ─────────  USE CASES  ───────── */
+  .rt-usecases {
+    padding: 96px 0;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+  }
+  .rt-usecases-head { max-width: 720px; margin-bottom: 48px; }
+  .rt-usecase-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--border-strong, rgba(20,20,19,0.20));
+  }
+  .rt-usecase {
+    padding: 28px 24px 32px;
+    border-bottom: 1px solid var(--border-strong, rgba(20,20,19,0.20));
+    border-right: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .rt-usecase:last-child { border-right: 0; }
+  .rt-usecase-tag {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    padding: 2px 8px;
+    background: var(--bg-alt);
+    border-radius: 3px;
+    margin-bottom: 16px;
+  }
+  .rt-usecase-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0 10px;
+    color: var(--text);
+  }
+  .rt-usecase-body {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* ─────────  WHY JVM  ───────── */
+  .rt-jvm { padding: 88px 0; border-bottom: 1px solid var(--border); }
+  .rt-stack { width: 100%; height: auto; color: var(--text); }
+  .rt-stack .lay rect { fill: var(--bg-alt); stroke: var(--border); stroke-width: 1; }
+  .rt-stack .lay text {
+    font-size: 12px;
+    fill: var(--text);
+    font-family: var(--font-sans);
+    font-weight: 500;
+  }
+  .rt-stack .lay-jam rect { fill: var(--text); stroke: var(--text); }
+  .rt-stack .lay-jam-title { font-size: 14px; fill: var(--bg); font-family: var(--font-sans); font-weight: 600; }
+  .rt-stack .lay-jam-sub {
+    font-size: 9px; fill: var(--bg); opacity: 0.7;
+    font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .rt-stack .lay-chip rect { fill: var(--bg); opacity: 0.18; }
+  .rt-stack .lay-chip text {
+    font-size: 10px; fill: var(--bg);
+    font-family: var(--font-sans); font-weight: 500;
+  }
+
+  /* ─────────  CAPABILITIES  ───────── */
+  .rt-caps { padding: 88px 0; background: var(--bg-alt); }
+  .rt-caps-head { max-width: 720px; margin-bottom: 48px; }
+  .rt-cap-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px 40px;
+  }
+  .rt-cap {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 14px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-strong, rgba(20,20,19,0.20));
+  }
+  .rt-cap-num {
+    font-size: 2.4rem;
+    line-height: 1;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+  }
+  .rt-cap-title {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: var(--text);
+    font-weight: 600;
+  }
+  .rt-cap-body {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* ─────────  CRASH RECOVERY DEMO (dark)  ───────── */
+  .zn-dark.rt-demo {
+    padding: 96px 0;
+    background: #141413;
+    color: #eae8e1;
+  }
+  .rt-demo-text .zn-h2 { color: #eae8e1; }
+  .rt-dark-sub {
+    color: rgba(255,255,255,0.72);
+    font-size: 1.02rem;
+    line-height: 1.7;
+    max-width: 56ch;
+    margin: 0 0 24px;
+  }
+  .rt-demo-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .rt-demo-list li {
+    padding: 12px 0;
+    border-top: 1px solid rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.78);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+  .rt-demo-list strong { color: #fff; font-weight: 500; }
+  .rt-demo-stage { display: flex; flex-direction: column; gap: 24px; }
+
+  /* ─────────  CODE TOUR  ───────── */
+  .rt-code { padding: 96px 0; }
+  .rt-code-head { max-width: 720px; margin-bottom: 40px; }
+  .rt-code-stack {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 880px;
+  }
+  .rt-code-fig { margin: 0; }
+  .rt-code-cap {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0 4px 10px;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+  .rt-code-tag {
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .rt-code-body {
+    background: var(--bg-code, #0e1116);
+    color: #e6e6e6;
+    padding: 20px 24px;
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    overflow-x: auto;
+    margin: 0;
+    white-space: pre;
+  }
+
+  /* ─────────  PROOF STRIP  ───────── */
+  .rt-proof {
+    padding: 64px 0;
+    border-top: 1px solid var(--border);
+    background: var(--bg-alt);
+  }
+  .rt-proof-shell { max-width: 760px; }
+  .rt-proof-body {
+    font-size: 1.15rem;
+    line-height: 1.65;
+    color: var(--text);
+    margin: 0 0 12px;
+    max-width: 64ch;
+  }
+  .rt-proof-body strong { font-weight: 600; }
+  .rt-proof-cta {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 0.92rem;
+  }
+  .rt-proof-cta a {
+    color: var(--text);
+    border-bottom: 1px solid var(--text);
+    text-decoration: none;
+    padding-bottom: 1px;
+  }
+
+  /* ─────────  GET STARTED  ───────── */
+  .rt-start { padding: 96px 0; border-top: 1px solid var(--border); }
+  .rt-start-head { max-width: 720px; margin-bottom: 36px; }
+  .rt-start-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+  .rt-start-fig { margin: 0; }
+  .rt-start-cap {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .rt-start-body {
+    background: var(--bg-code, #0e1116);
+    color: #e6e6e6;
+    padding: 16px 18px;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.55;
+    overflow-x: auto;
+    margin: 0;
+    white-space: pre;
+  }
+  .rt-start-body code { background: transparent; color: inherit; font-size: inherit; padding: 0; }
+  .rt-start-foot {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  .rt-start-foot a {
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+  }
+
+  /* ─────────  AGENTBOUNDARY CALLOUT (demoted)  ───────── */
+  .rt-ab {
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .rt-ab-shell { max-width: 760px; }
+  .rt-ab-text {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-style: italic;
+  }
+  .rt-ab-text strong { color: var(--text); font-style: normal; font-weight: 600; }
+  .rt-ab-text a {
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    font-style: normal;
+  }
+
+  /* ─────────  CLOSE  ───────── */
+  .zn-close {
+    padding: 120px 0 80px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+  .zn-close-shell { max-width: 720px; margin: 0 auto; }
+  .zn-close-tag {
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
+    line-height: 1.1;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0 0 32px;
+  }
+  .zn-close-italic { font-style: italic; font-weight: 500; }
+  .zn-colophon {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-family: var(--font-sans);
+    letter-spacing: 0.04em;
+  }
+
+  /* ─────────  RESPONSIVE  ───────── */
+  @media (max-width: 960px) {
+    .zn-grid-asym { grid-template-columns: 1fr; gap: 40px; }
+    .zn-grid-asym-flip { grid-template-columns: 1fr; gap: 40px; }
+    .zn-side { max-width: 360px; margin: 0 auto; }
+    .rt-usecase-list { grid-template-columns: 1fr; }
+    .rt-usecase { border-right: 0; }
+    .rt-cap-list { grid-template-columns: 1fr; gap: 28px; }
+    .rt-start-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .rt-hero { padding: 40px 0 56px; }
+    .zn-masthead { margin-bottom: 36px; }
+    .zn-display { font-size: clamp(2.4rem, 11vw, 4rem); }
+    .zn-codecard-body { font-size: 11.5px; padding: 14px 16px; }
+  }
+</style>
+
+<script>
+  function bindCopy(btnId: string, text: string) {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      navigator.clipboard.writeText(text).then(() => {
+        const original = btn.textContent;
+        btn.textContent = 'copied';
+        setTimeout(() => { btn.textContent = original; }, 1200);
+      });
+    });
+  }
+  bindCopy('copy-rt-install', 'pip install jamjet');
+  bindCopy('copy-rt-final', 'pip install jamjet');
+</script>
