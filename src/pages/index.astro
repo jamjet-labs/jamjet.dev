@@ -4,6 +4,18 @@ import HeroAnimation from '../components/HeroAnimation.astro';
 import TerminalReplay from '../components/TerminalReplay.astro';
 import LiveIntercept from '../components/LiveIntercept.astro';
 import WhyNotLogs from '../components/WhyNotLogs.astro';
+import { getCollection } from 'astro:content';
+
+const monthShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const allPosts = await getCollection('blog', ({ data }) => data.draft !== true);
+const log = allPosts
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 6)
+  .map(post => ({
+    date: `${monthShort[post.data.date.getUTCMonth()]} ${post.data.date.getUTCDate()}`,
+    body: post.data.description,
+    href: `/blog/${post.id.replace(/\.md$/, '')}/`,
+  }));
 
 const terminalLines = [
   '$ jamjet run research-pipeline.yaml',
@@ -25,13 +37,6 @@ const failures = [
   { num: '04', tone: 'error',   title: 'Runaway cost', line: 'A reflection loop won’t stop spending. The runtime halts the loop before it crosses the cap.' },
   { num: '05', tone: 'neutral', title: 'Missing audit', line: 'Compliance asks what happened. Every decision is in a signed, exportable evidence package.' },
   { num: '06', tone: 'neutral', title: 'Forgotten context', line: 'The agent forgets across sessions. Engram surfaces durable facts — not raw chat history.' },
-];
-
-const log = [
-  { date: 'Apr 25', body: 'Java runtime v0.1.1 — embed durable execution directly in your JVM. @DurableAgent crash recovery, MCP native, 8.9x faster than the REST sidecar in our benchmark.', href: '/blog/zero-sidecar-durable-agents-java/' },
-  { date: 'Apr 8',  body: 'Engram Spring Boot Starter on Maven Central. One dependency, inject EngramClient, done.', href: 'https://central.sonatype.com/artifact/dev.jamjet/engram-spring-boot-starter' },
-  { date: 'Apr 7',  body: 'Engram v0.3.1 — fact extraction, conflict detection, hybrid retrieval, consolidation. Published as jamjet-engram on crates.io and bundled with dev.jamjet:jamjet-sdk.', href: '/blog/engram-agent-memory/' },
-  { date: 'Mar 29', body: 'JamJet Spring Boot Starter on Maven Central. Crash recovery, audit, replay testing, and HITL gates for any Spring AI app.', href: '/blog/jamjet-spring-boot-starter/' },
 ];
 
 const adapters = [
