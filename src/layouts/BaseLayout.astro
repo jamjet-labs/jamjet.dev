@@ -5,7 +5,13 @@ import { ViewTransitions } from 'astro:transitions';
 interface Props {
   title: string;
   description: string;
-  canonical: string;
+  /**
+   * Omit on pages that must NOT be indexed (e.g. 404). When undefined,
+   * BaseLayout skips emitting <link rel="canonical">, the two hreflang
+   * alternates, and og:url so Google does not report the page as
+   * "Alternative page with proper canonical tag" in Search Console.
+   */
+  canonical?: string;
   ogImage?: string;
   ogType?: string;
   currentPage?: string;
@@ -25,7 +31,9 @@ const {
 // Cloudflare 308-redirects no-slash variants. If the canonical doesn't match
 // the served URL Google flags it as a self-referential redirect and may
 // suppress indexing. Normalise to always end with a slash.
-const canonical = rawCanonical.endsWith('/') ? rawCanonical : `${rawCanonical}/`;
+const canonical = rawCanonical
+  ? (rawCanonical.endsWith('/') ? rawCanonical : `${rawCanonical}/`)
+  : undefined;
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -36,21 +44,21 @@ const canonical = rawCanonical.endsWith('/') ? rawCanonical : `${rawCanonical}/`
   <title>{title}</title>
   <meta name="description" content={description} />
   <meta name="keywords" content="AI agents, agent framework, durable execution, MCP, Model Context Protocol, A2A, agent-to-agent, Rust runtime, Python SDK, Java SDK, workflow orchestration, multi-agent systems, agent memory" />
-  <link rel="canonical" href={canonical} />
+  {canonical && <link rel="canonical" href={canonical} />}
   <link rel="alternate" type="text/plain" title="LLMs.txt" href="https://jamjet.dev/llms.txt" />
   <link rel="alternate" type="application/rss+xml" title="JamJet Blog" href="/rss.xml" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:image" content={ogImage} />
-  <meta property="og:url" content={canonical} />
+  {canonical && <meta property="og:url" content={canonical} />}
   <meta property="og:type" content={ogType} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@jamjetdev" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={ogImage} />
-  <link rel="alternate" hreflang="en" href={canonical} />
-  <link rel="alternate" hreflang="x-default" href={canonical} />
+  {canonical && <link rel="alternate" hreflang="en" href={canonical} />}
+  {canonical && <link rel="alternate" hreflang="x-default" href={canonical} />}
   <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
