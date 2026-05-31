@@ -38,6 +38,24 @@
   --warning-tint: #fef3c7;
   --error:        #b44040;
   --error-tint:   #fee2e2;
+
+  /* ══ Flight Recorder — the one dark instrument on warm paper ══
+     Used ONLY inside .rec modules. Page background stays warm paper. */
+  --rec-bg:        #16150f;   /* near-black, warm — recorder body */
+  --rec-bg-2:      #1f1e16;   /* raised surface (header, tape rows) */
+  --rec-line:      rgba(245,244,240,0.10);  /* hairline on dark */
+  --rec-line-2:    rgba(245,244,240,0.18);
+  --rec-text:      #efede4;   /* primary on dark */
+  --rec-dim:       #9a978a;   /* secondary on dark */
+  --rec-faint:     #6a675c;   /* tertiary / idle */
+
+  /* Verdict / signal — the only saturated colour, tuned to read on --rec-bg */
+  --v-allow:       #6fcf97;
+  --v-approval:    #e8a13a;
+  --v-block:       #e06a5e;
+  --rec-rec:       #e06a5e;   /* the REC dot */
+
+  --rec-glow:      0 0 0 1px var(--rec-line-2), 0 24px 60px -24px rgba(20,20,19,0.55);
 }
 
 /* ── Reset ── */

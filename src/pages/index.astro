@@ -1,8 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import HeroAnimation from '../components/HeroAnimation.astro';
-import TerminalReplay from '../components/TerminalReplay.astro';
-import LiveIntercept from '../components/LiveIntercept.astro';
+import Recorder from '../components/Recorder.astro';
 import WhyNotLogs from '../components/WhyNotLogs.astro';
 import { getCollection } from 'astro:content';
 
@@ -16,19 +14,6 @@ const log = allPosts
     body: post.data.description,
     href: `/blog/${post.id.replace(/\.md$/, '')}/`,
   }));
-
-const terminalLines = [
-  '$ jamjet run research-pipeline.yaml',
-  '▸ Starting execution exec_7f3a...',
-  '▸ [Plan]       ✓ completed  420ms',
-  '▸ [Research]   ✓ completed  1.2s',
-  '▸ [Analyze]    ✗ worker crashed',
-  '▸ Lease expired · reclaiming...',
-  '▸ [Analyze]    ✓ resumed    890ms',
-  '▸ [Review]     ✓ completed  650ms',
-  '▸ [Synthesize] ✓ completed  1.1s',
-  '▸ Execution complete · 5/5 nodes · 0 events lost',
-];
 
 const failures = [
   { num: '01', tone: 'neutral', title: 'Lost progress', line: 'A worker dies mid-run. JamJet replays the event log and resumes at the failed node.' },
@@ -86,12 +71,13 @@ const homeLd = {
       <span class="zn-display-italic">agent action.</span>
     </h1>
 
-    <LiveIntercept />
+    <Recorder />
 
     <p class="zn-lede">
-      An AI agent is about to merge a pull request, refund a charge, or mutate production.
-      JamJet checks your policy, asks for approval if needed, blocks the call when it can't,
-      and writes the receipt above — verifiable by anyone, independent of your agent framework.
+      That's one agent run, played back. It read files. It tried to drop a users table — blocked.
+      It crashed mid-analysis — recovered. It asked to merge to production — held for a human, then signed.
+      Drag the scrubber: every call is policy-checked, recoverable, and written to a receipt anyone can
+      verify, independent of your agent framework.
     </p>
 
     <p class="zn-hero-pitch">
@@ -99,20 +85,6 @@ const homeLd = {
       Keep LangGraph, CrewAI, Claude Code, MCP, OpenAI Agents SDK, or Spring AI —
       add JamJet where tool calls need policy, approval, and audit.
     </p>
-
-    <figure class="zn-codecard" aria-label="Decorate one production action">
-      <figcaption class="zn-codecard-cap zn-codecard-cap-slim">
-        <span class="zn-codecard-name">see the SDK · merge.py</span>
-      </figcaption>
-      <pre class="zn-codecard-body"><code><span class="zn-tok-kw">from</span> <span class="zn-tok-mod">jamjet</span> <span class="zn-tok-kw">import</span> gate
-
-<span class="zn-tok-dec">@gate</span>(<span class="zn-tok-str">&quot;github.merge&quot;</span>, require_approval<span class="zn-tok-op">=</span><span class="zn-tok-kw">True</span>)
-<span class="zn-tok-kw">def</span> <span class="zn-tok-fn">merge_pr</span>(repo: <span class="zn-tok-type">str</span>, pr: <span class="zn-tok-type">int</span>) <span class="zn-tok-op">-&gt;</span> <span class="zn-tok-type">str</span>:
-    <span class="zn-tok-kw">return</span> github.merge(repo, pr)</code></pre>
-      <figcaption class="zn-codecard-foot zn-codecard-foot-slim">
-        <code>pip install jamjet</code> &middot; same policy across Claude Code, MCP, OpenAI Agents SDK, Spring AI
-      </figcaption>
-    </figure>
 
     <p class="zn-lede zn-lede-meta">
       From the lab behind the <a href="/engram">Engram memory benchmarks</a> and the AIP agent-identity work &mdash; see <a href="/research">research</a>.
@@ -142,6 +114,63 @@ const homeLd = {
       </div>
     </div>
 
+  </div>
+</section>
+
+<!-- ────────────────────  WHAT JUST HAPPENED ──────────────────── -->
+<section class="zn-readback">
+  <div class="zn-shell">
+    <div class="zn-readback-head">
+      <span class="zn-eyebrow">What just happened</span>
+      <h2 class="zn-h2">
+        Three moments on that tape.<br/>
+        <span class="zn-display-italic">Three things JamJet did.</span>
+      </h2>
+    </div>
+
+    <ol class="zn-beats">
+      <li class="zn-beat zn-beat-block">
+        <span class="zn-beat-tag">blocked</span>
+        <strong class="zn-beat-title">It tried to drop a users table.</strong>
+        <p class="zn-beat-line">
+          <code>db.drop_user</code> hit a destructive-data policy and never executed.
+          The attempt is recorded, not lost.
+        </p>
+      </li>
+      <li class="zn-beat zn-beat-recover">
+        <span class="zn-beat-tag">recovered</span>
+        <strong class="zn-beat-title">The Analyze worker crashed.</strong>
+        <p class="zn-beat-line">
+          The scheduler reclaimed the lease and resumed from the last checkpoint.
+          Completed steps stayed completed. Zero events lost.
+        </p>
+      </li>
+      <li class="zn-beat zn-beat-approval">
+        <span class="zn-beat-tag">signed</span>
+        <strong class="zn-beat-title">A merge to production waited for a human.</strong>
+        <p class="zn-beat-line">
+          <code>github.merge</code> required approval. Once a person said yes, the action ran
+          and was sealed into a receipt anyone can verify.
+        </p>
+      </li>
+    </ol>
+
+    <div class="zn-readback-code">
+      <span class="zn-eyebrow">How a call gets on the tape</span>
+      <figure class="zn-codecard" aria-label="Gate one production action with JamJet">
+        <figcaption class="zn-codecard-cap zn-codecard-cap-slim">
+          <span class="zn-codecard-name">merge.py</span>
+        </figcaption>
+        <pre class="zn-codecard-body"><code><span class="zn-tok-kw">from</span> <span class="zn-tok-mod">jamjet</span> <span class="zn-tok-kw">import</span> gate
+
+<span class="zn-tok-dec">@gate</span>(<span class="zn-tok-str">&quot;github.merge&quot;</span>, require_approval<span class="zn-tok-op">=</span><span class="zn-tok-kw">True</span>)
+<span class="zn-tok-kw">def</span> <span class="zn-tok-fn">merge_pr</span>(repo: <span class="zn-tok-type">str</span>, pr: <span class="zn-tok-type">int</span>) <span class="zn-tok-op">-&gt;</span> <span class="zn-tok-type">str</span>:
+    <span class="zn-tok-kw">return</span> github.merge(repo, pr)</code></pre>
+        <figcaption class="zn-codecard-foot zn-codecard-foot-slim">
+          <code>pip install jamjet</code> &middot; one decorator puts the call on the tape, with the same policy across Claude Code, MCP, OpenAI Agents SDK, Spring AI
+        </figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
@@ -210,15 +239,15 @@ const homeLd = {
 <section class="zn-adapters" id="adapters">
   <div class="zn-shell">
     <div class="zn-adapters-head">
-      <span class="zn-eyebrow">The same policy, everywhere</span>
+      <span class="zn-eyebrow">Every source the recorder captures</span>
       <h2 class="zn-h2">
         Every agent toolchain is inventing its own safety layer.<br/>
         <span class="zn-display-italic">JamJet gives you one.</span>
       </h2>
       <p class="zn-essay-body">
-        One <code>policy.yaml</code> in <code>~/.jamjet/</code>. Every adapter below loads it.
-        Every adapter emits conformant audit JSONL. Run <code>jamjet audit show</code> to tail
-        every decision across every adapter in one chronological view.
+        One <code>policy.yaml</code> in <code>~/.jamjet/</code>. Every adapter below loads it and
+        emits conformant audit JSONL. Run <code>jamjet audit show</code> to tail every decision,
+        from every source, on one tape.
       </p>
     </div>
 
@@ -246,7 +275,7 @@ const homeLd = {
 <section class="zn-dark" id="failure-modes">
   <div class="zn-shell">
     <div class="zn-dark-head">
-      <span class="zn-eyebrow zn-eyebrow-light">What goes wrong, and what stops it</span>
+      <span class="zn-eyebrow zn-eyebrow-light">What the recorder catches</span>
       <h2 class="zn-h2">Six failure modes.<br/>Six gates.</h2>
       <p class="zn-dark-sub">
         Other tools observe what agents do. JamJet actively prevents unsafe behavior,
@@ -284,35 +313,6 @@ const homeLd = {
       Production isn’t a milestone. It’s the moment your code has to defend itself.
     </p>
     <span class="zn-pq-attr">— a thing every serious engineer has learned the hard way</span>
-  </div>
-</section>
-
-<!-- ────────────────────  CRASH RECOVERY DEMO ──────────────────── -->
-<section class="zn-demo">
-  <div class="zn-shell zn-grid-asym-flip">
-    <article class="zn-demo-text">
-      <span class="zn-eyebrow">Watch one survive</span>
-      <h2 class="zn-h2 zn-h2-tight">Your agents crash.<br/>Ours recover.</h2>
-      <p class="zn-essay-body">
-        Every step is checkpointed as it happens. When a worker dies mid-run,
-        the scheduler reclaims the lease and resumes from exactly where it stopped.
-        No reruns. No duplicate side effects. No lost events.
-      </p>
-      <ul class="zn-demo-list">
-        <li><strong>Worker crashes</strong> — the Analyze step fails unexpectedly.</li>
-        <li><strong>Lease reclaimed</strong> — scheduler detects the failure.</li>
-        <li><strong>Resume from checkpoint</strong> — completed steps stay completed.</li>
-        <li><strong>Zero events lost</strong> — full execution integrity preserved.</li>
-      </ul>
-      <p class="zn-essay-cta">
-        <a href="https://docs.jamjet.dev/en/docs/quickstart#try-crash-recovery-in-90-seconds">Run this demo &rarr;</a>
-      </p>
-    </article>
-
-    <aside class="zn-demo-stage">
-      <HeroAnimation />
-      <TerminalReplay lines={terminalLines} title="jamjet · crash recovery" />
-    </aside>
   </div>
 </section>
 
@@ -1106,26 +1106,45 @@ const homeLd = {
     color: var(--text-muted);
   }
 
-  /* ─────────  CRASH RECOVERY DEMO  ───────── */
-  .zn-demo { padding: 96px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  .zn-demo-list {
-    list-style: none;
-    padding: 0;
-    margin: 24px 0 0;
+  /* ─────────  WHAT JUST HAPPENED (readback)  ───────── */
+  .zn-readback { padding: 88px 0; border-bottom: 1px solid var(--border); }
+  .zn-readback-head { max-width: 720px; margin-bottom: 40px; }
+  .zn-beats {
+    list-style: none; padding: 0; margin: 0 0 56px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
   }
-  .zn-demo-list li {
-    padding: 12px 0;
-    border-top: 1px solid var(--border);
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    line-height: 1.55;
+  .zn-beat {
+    padding: 22px 22px 24px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--text);
+    border-radius: 6px;
   }
-  .zn-demo-list strong { color: var(--text); font-weight: 500; }
-  .zn-demo-stage {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+  .zn-beat-block    { border-top-color: var(--error); }
+  .zn-beat-recover  { border-top-color: var(--success); }
+  .zn-beat-approval { border-top-color: var(--warning); }
+  .zn-beat-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600;
+    margin-bottom: 14px; padding: 3px 9px; border-radius: 3px;
   }
+  .zn-beat-block .zn-beat-tag    { color: var(--error);   background: var(--error-tint); }
+  .zn-beat-recover .zn-beat-tag  { color: var(--success); background: var(--success-tint); }
+  .zn-beat-approval .zn-beat-tag { color: var(--warning); background: var(--warning-tint); }
+  .zn-beat-title {
+    display: block; font-family: var(--font-body);
+    font-size: 1.08rem; font-weight: 600; line-height: 1.3; margin-bottom: 9px;
+  }
+  .zn-beat-line {
+    color: var(--text-secondary); font-size: 0.92rem; line-height: 1.65; margin: 0;
+  }
+  .zn-beat-line code {
+    font-family: var(--font-mono); font-size: 0.86em;
+    background: var(--bg-alt); padding: 1px 5px; border-radius: 3px;
+  }
+  .zn-readback-code { max-width: 720px; }
+  .zn-readback-code .zn-eyebrow { margin-bottom: 14px; }
 
   /* ─────────  CODE MOMENT  ───────── */
   .zn-code-section { padding: 96px 0; background: var(--bg-alt); }
@@ -1291,6 +1310,7 @@ const homeLd = {
   @media (max-width: 960px) {
     .zn-grid-asym { grid-template-columns: 1fr; gap: 40px; }
     .zn-grid-asym-flip { grid-template-columns: 1fr; gap: 40px; }
+    .zn-beats { grid-template-columns: 1fr; }
     .zn-side { max-width: 360px; margin: 0 auto; }
     .zn-failures { grid-template-columns: 1fr; gap: 28px; }
     .zn-code-grid { grid-template-columns: 1fr; }
