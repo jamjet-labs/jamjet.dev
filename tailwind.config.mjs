@@ -22,6 +22,20 @@ export default {
           light:   '#333330',
           muted:   'rgba(20,20,19,0.05)',
         },
+        // Flight Recorder dark instrument (see base.css :root)
+        rec: {
+          bg:    'var(--rec-bg)',
+          alt:   'var(--rec-bg-2)',
+          line:  'var(--rec-line)',
+          text:  'var(--rec-text)',
+          dim:   'var(--rec-dim)',
+          faint: 'var(--rec-faint)',
+        },
+        verdict: {
+          allow:    'var(--v-allow)',
+          approval: 'var(--v-approval)',
+          block:    'var(--v-block)',
+        },
       },
       fontFamily: {
         body: ['Newsreader', 'Georgia', 'Times New Roman', 'serif'],

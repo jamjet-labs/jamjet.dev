@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroAnimation from '../components/HeroAnimation.astro';
 import TerminalReplay from '../components/TerminalReplay.astro';
-import LiveIntercept from '../components/LiveIntercept.astro';
+import Recorder from '../components/Recorder.astro';
 import WhyNotLogs from '../components/WhyNotLogs.astro';
 import { getCollection } from 'astro:content';
 
@@ -86,12 +86,13 @@ const homeLd = {
       <span class="zn-display-italic">agent action.</span>
     </h1>
 
-    <LiveIntercept />
+    <Recorder />
 
     <p class="zn-lede">
-      An AI agent is about to merge a pull request, refund a charge, or mutate production.
-      JamJet checks your policy, asks for approval if needed, blocks the call when it can't,
-      and writes the receipt above — verifiable by anyone, independent of your agent framework.
+      That's one agent run, played back. It read files. It tried to drop a users table — blocked.
+      It crashed mid-analysis — recovered. It asked to merge to production — held for a human, then signed.
+      Drag the scrubber: every call is policy-checked, recoverable, and written to a receipt anyone can
+      verify, independent of your agent framework.
     </p>
 
     <p class="zn-hero-pitch">
