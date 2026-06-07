@@ -10,15 +10,19 @@ category: "Perspective"
 
 ## TL;DR
 
-If you build AI apps on the JVM today, observability is largely handled. Spring AI emits OpenTelemetry GenAI metrics out of the box, the Quarkus LangChain4j extension wires up tracing and metrics with no config, and anything OTLP-compatible (Langfuse included) receives the data. Governance is the opposite. The frameworks give you interception points, not a safety layer: LangChain4j guardrails are still beta with two built-in implementations, Spring AI's advisors are a substrate you build on, and as far as I can find, no flagship JVM framework ships cost or budget enforcement, audit trails, PII redaction, content moderation, or human-in-the-loop out of the box. You can watch what your agent does. Stopping it from doing the wrong thing is still your code.
+You can watch what your agent does. Stopping it from doing the wrong thing is still your code.
+
+That is the state of AI on the JVM in mid-2026. Observability matured fast: Spring AI emits OpenTelemetry GenAI metrics out of the box, the Quarkus LangChain4j extension wires up tracing with no config, and anything OTLP-compatible (Langfuse included) receives the data. Governance did not. The frameworks give you interception points, not a safety layer. LangChain4j guardrails are still beta with two built-in implementations, Spring AI advisors are a substrate you build on, and as far as I can find, no flagship JVM framework ships cost or budget enforcement, audit trails, PII redaction, content moderation, or human-in-the-loop out of the box.
 
 ## Two halves, two very different maturities
 
-"Observability" and "governance" get bundled together in pitches, but on the JVM in mid-2026 they are in completely different places. One has converged on a standard and shipped GA. The other is a set of extension hooks waiting for someone to build on them. Worth separating.
+"Observability" and "governance" get bundled together in pitches, but on the JVM in mid-2026 they are at very different maturity levels. One has converged on a standard and shipped GA. The other is a set of extension hooks waiting for someone to build on them. Worth separating.
 
-## Observability: largely a solved problem
+![Two panels comparing the JVM AI stack: mature, standardized observability on the left, and governance that is mostly extension hooks on the right.](/blog/jvm-ai-observability-vs-governance.svg)
 
-Spring AI reached 1.1 GA in November 2025, and its observability is production-ready and built on Micrometer plus Spring Boot Actuator. It captures token usage and latency and aligns with the [OpenTelemetry GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/), emitting attributes like `gen_ai.operation.name`, `gen_ai.system`, request and response model names, and the `gen_ai.client.token.usage` metric. The details are in the [Spring AI observability docs](https://docs.spring.io/spring-ai/reference/observability/index.html).
+## Observability: the mature half
+
+Spring AI reached 1.1 GA in November 2025, and its observability is built on Micrometer and Spring Boot Actuator, the same plumbing Spring apps already use for everything else. It captures token usage and latency and aligns with the [OpenTelemetry GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/), emitting attributes like `gen_ai.operation.name`, `gen_ai.system`, request and response model names, and the `gen_ai.client.token.usage` metric. The details are in the [Spring AI observability docs](https://docs.spring.io/spring-ai/reference/observability/index.html).
 
 Quarkus comes at it from the other direction. The [Quarkus LangChain4j observability docs](https://docs.quarkiverse.io/quarkus-langchain4j/dev/observability.html) describe traces that appear automatically when `quarkus-opentelemetry` is on the classpath (spans named `langchain4j.aiservices.$interface.$method` and `langchain4j.tools.$tool`), Micrometer metrics when `quarkus-micrometer` is present, and a Langfuse DevServices that spins up a local Langfuse instance in dev and test with no manual setup.
 
@@ -30,7 +34,7 @@ One honest caveat: the standard underneath all this is not finished. The OpenTel
 
 Now the other half. The frameworks give you good places to intervene. They do not give you much that intervenes.
 
-**Spring AI advisors** are the interception substrate. The [advisors API](https://docs.spring.io/spring-ai/reference/api/advisors.html) lets you examine and modify a prompt, block a request by not calling the next entity in the chain, inspect the response, and throw. Advisors also show up in the observability stack, so you can trace their execution. This is a clean extensibility point, and you can host PII redaction or a policy check inside one. But it is a mechanism, not a feature set. The one built-in with a safety-sounding name, `SafeGuardAdvisor`, has no documented content-safety implementation behind it.
+**Spring AI advisors** are the interception substrate. The [advisors API](https://docs.spring.io/spring-ai/reference/api/advisors.html) lets you examine and modify a prompt, block a request by stopping the advisor chain, inspect the response, and throw. Advisors also show up in the observability stack, so you can trace their execution. This is a clean extensibility point, and you can host PII redaction or a policy check inside one. But it is a mechanism, not a feature set. The one built-in with a safety-sounding name, `SafeGuardAdvisor`, has no documented content-safety implementation behind it.
 
 **LangChain4j guardrails** are the closest thing to a dedicated safety feature, and they are genuinely useful: input guardrails run before the model (scope checks, prompt-injection prevention), output guardrails run after (JSON and schema validation, business rules, hallucination checks). The Quarkus LangChain4j workshop even [demonstrates a prompt-injection guardrail](https://quarkus.io/quarkus-workshop-langchain4j/section-1/step-09/) that fails the call when an injection-likelihood score crosses a threshold. The API is real and merged, not blog-only.
 
@@ -50,15 +54,17 @@ I want to be careful here. Part of this is absence of evidence rather than docum
 
 ## Why budget enforcement is the sharpest gap
 
-Of that list, budget enforcement is the one I keep coming back to, because the asymmetry is so stark. The JVM can now *observe* token usage almost everywhere. The `gen_ai.client.token.usage` metric is standardized, emitted by Spring AI, and scraped into Prometheus and Grafana across the ecosystem. And yet nothing *enforces* a budget. You can build a beautiful dashboard of exactly how much an agent spent overrunning its limit last night. Observability without enforcement is a smoke detector with no sprinkler.
+Of that list, budget enforcement is the one I keep coming back to, because the asymmetry is so stark. The JVM can now *observe* token usage almost everywhere. The `gen_ai.client.token.usage` metric is standardized, emitted by Spring AI, and can be scraped into Prometheus and visualized in Grafana. And yet nothing *enforces* a budget. You can build a beautiful dashboard of exactly how much an agent spent overrunning its limit last night. Observability without enforcement is a smoke detector with no sprinkler.
 
-That asymmetry is the tell. When a metric is standardized and adopted but the control that should sit next to it does not exist, that is not a niche left empty by lack of demand. It is a layer the ecosystem has not gotten to yet.
+![Two lanes: token usage flows cleanly through observability tooling, while budget enforcement is a broken, missing step left to application code.](/blog/jvm-ai-observe-vs-enforce.svg)
+
+That asymmetry is the tell. When a metric is standardized and adopted but the control that should sit next to it is missing, I read that less as lack of demand and more as a layer the ecosystem has not built yet.
 
 ## What this means
 
-The takeaway is not that Spring AI or LangChain4j are behind. They have done the hard, correct work of standardizing observation and giving you clean interception points, and on a fast timeline. The takeaway is that the JVM AI stack has a well-built floor and is missing a wall. Observation is a solved, standardized, GA problem you should simply adopt. Governance is a real gap, and budget enforcement is its sharpest edge.
+This is not a knock on Spring AI or LangChain4j. They did the hard, correct work of standardizing observation and giving you clean interception points, fast. The JVM AI stack has a well-built floor and is missing a wall.
 
-If you are shipping agents on the JVM, the practical implication is to lean on the standard for observability (emit OTel GenAI, point it at whatever backend you like) and budget real engineering time for the governance layer you will have to assemble yourself, because the framework will hand you the hook and not much else.
+If you are shipping agents on the JVM, two practical moves follow. Adopt the standard for observability: emit OTel GenAI and point it at whatever backend you like. Then budget real engineering time for governance, because the framework hands you the hook and not much else. Spend caps, audit, PII redaction, moderation, and approval flows are application code today.
 
 ---
 
