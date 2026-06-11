@@ -12,7 +12,7 @@ export async function GET(context) {
       title: e.data.title ?? `${e.data.area}: ${e.data.date.toISOString().slice(0, 10)}`,
       pubDate: e.data.date,
       description: e.body.trim(),
-      link: '/ship-log/',
+      link: `/ship-log/#${e.slug ?? e.id}`,
     })),
   });
 }
