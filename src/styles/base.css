@@ -142,6 +142,8 @@ nav {
 }
 .nav-github:hover { color: var(--text); }
 
+.nav-new-dot { display: inline-block; width: 6px; height: 6px; border-radius: 2px; background: var(--hand-strong); margin-left: 4px; transform: rotate(-8deg) translateY(-6px); }
+
 /* ── Mobile Navigation ── */
 .nav-toggle {
   display: none;
