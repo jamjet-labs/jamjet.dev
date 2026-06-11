@@ -191,6 +191,38 @@ const homeLd = {
   </div>
 </section>
 
+<!-- ────────────────────  THE GATE ──────────────────── -->
+<section class="zn-gate" id="gate">
+  <div class="zn-shell">
+    <div class="zn-gate-grid">
+      <div class="zn-gate-art">
+        <svg width="240" height="190" viewBox="0 0 240 190" fill="none" aria-hidden="true">
+          <path d="M14 38 Q120 18 226 38" stroke="currentColor" stroke-width="11" fill="none" stroke-linecap="round"/>
+          <path d="M10 36 Q120 14 230 36" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.55"/>
+          <line x1="38" y1="64" x2="202" y2="64" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+          <line x1="58" y1="42" x2="66" y2="178" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+          <line x1="182" y1="42" x2="174" y2="178" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+          <line x1="120" y1="40" x2="120" y2="63" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+          <ellipse cx="120" cy="182" rx="86" ry="4" fill="currentColor" opacity="0.12"/>
+        </svg>
+      </div>
+      <div>
+        <h2 class="zn-h2">Every action passes the gate. <MarginNote rotate={-2}>try to get past it &rarr;</MarginNote></h2>
+        <p class="zn-gate-sub">
+          <code>@gate</code> is the decorator in your code. These are the demos: watch the policy engine
+          block, hold, and recover six kinds of trouble, with a receipt for each.
+        </p>
+        <ul class="zn-gate-cards">
+          <li class="zn-gate-card"><code>db.drop_table("users")</code> <Seal verdict="blocked" size="sm" /></li>
+          <li class="zn-gate-card"><code>github.merge(pr=412)</code> <Seal verdict="held" size="sm" /></li>
+          <li class="zn-gate-card zn-gate-card-ghost"><code>email.send_bulk(n=10_000)</code> <span class="zn-gate-soon">your turn, soon</span></li>
+        </ul>
+        <a class="zn-gate-cta" href="/showcase/">See all six demos &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ────────────────────  MANIFESTO + STACK ──────────────────── -->
 <section class="zn-manifesto">
   <div class="zn-shell zn-grid-asym">
@@ -1181,6 +1213,19 @@ const homeLd = {
     font-family: var(--font-mono); font-size: 0.86em;
     background: var(--bg-alt); padding: 1px 5px; border-radius: 3px;
   }
+  /* ────────  THE GATE  ──────── */
+  .zn-gate { padding: var(--space-section-sm) 0; border-top: 1px solid var(--border); }
+  .zn-gate-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 44px; align-items: center; }
+  .zn-gate-art { color: var(--text); display: flex; justify-content: center; }
+  .zn-gate-sub { font-family: var(--font-sans); font-size: 15px; color: var(--text-secondary); line-height: 1.6; max-width: 52ch; }
+  .zn-gate-sub code, .zn-gate-card code { font-family: var(--font-mono); font-size: 13px; background: var(--accent-bg); padding: 1px 6px; border-radius: 3px; }
+  .zn-gate-cards { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .zn-gate-card { display: flex; align-items: center; justify-content: space-between; gap: 14px; border: 1px solid var(--border-strong); background: var(--surface, var(--bg)); border-radius: 8px; padding: 12px 16px; }
+  .zn-gate-card-ghost { border-style: dashed; color: var(--text-muted); }
+  .zn-gate-soon { font-family: var(--font-hand); font-size: 17px; color: var(--hand); }
+  .zn-gate-cta { display: inline-block; margin-top: 20px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; color: var(--text); text-decoration: none; border-bottom: 2px solid var(--text); padding-bottom: 2px; }
+  @media (max-width: 760px) { .zn-gate-grid { grid-template-columns: 1fr; gap: 20px; } }
+
   .zn-readback-code { max-width: 720px; }
   .zn-readback-code .zn-eyebrow { margin-bottom: 14px; }
 
