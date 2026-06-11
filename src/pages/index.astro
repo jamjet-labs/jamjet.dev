@@ -3,6 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Recorder from '../components/Recorder.astro';
 import WhyNotLogs from '../components/WhyNotLogs.astro';
 import { getCollection } from 'astro:content';
+import Seal from '../components/Seal.astro';
+import MarginNote from '../components/MarginNote.astro';
+import ShipLogStrip from '../components/ShipLogStrip.astro';
+import BrushIcon from '../components/BrushIcon.astro';
 
 const monthShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const allPosts = await getCollection('blog', ({ data }) => data.draft !== true);
@@ -71,7 +75,17 @@ const homeLd = {
       <span class="zn-display-italic">agent action.</span>
     </h1>
 
-    <Recorder />
+    <div class="zn-recwrap">
+      <MarginNote rotate={-2}>a real run, not a render</MarginNote>
+      <Recorder />
+      <aside class="zn-receipt-fly" aria-label="signed action receipt">
+        <span>receipt 0192c8d0-1f2a</span>
+        <span>github.merge &middot; repo.merges v2</span>
+        <span>approved &middot; sunil &middot; 14:02</span>
+        <span>sig 4d905d&hellip;verified</span>
+        <Seal verdict="approved" size="sm" />
+      </aside>
+    </div>
 
     <p class="zn-lede">
       That's one agent run, played back. It read files. It tried to drop a users table — blocked.
@@ -626,6 +640,25 @@ const homeLd = {
     margin: 0 0 32px;
   }
   .zn-display-italic { font-style: italic; font-weight: 500; }
+
+  /* ────────  RECORDER WRAP + FLYING RECEIPT  ──────── */
+  .zn-recwrap { position: relative; }
+  .zn-recwrap > :global(.margin-note) { position: absolute; right: 0; top: -28px; }
+  .zn-receipt-fly {
+    position: absolute; right: -10px; bottom: -30px; z-index: 2;
+    display: flex; flex-direction: column;
+    background: var(--surface, var(--bg)); color: var(--text);
+    border: 1px solid var(--border-strong, rgba(20,20,19,0.20));
+    width: 230px; padding: 12px 14px 14px;
+    font-family: var(--font-mono); font-size: 10.5px; line-height: 1.75;
+    transform: rotate(2.5deg);
+    box-shadow: 0 10px 24px rgba(20, 20, 19, 0.2);
+  }
+  .zn-receipt-fly :global(.seal) { position: absolute; right: 10px; bottom: 10px; }
+  @media (max-width: 760px) {
+    .zn-receipt-fly { position: static; transform: rotate(1deg); margin: 14px auto 0; }
+    .zn-recwrap > :global(.margin-note) { display: none; }
+  }
 
   /* ────────  RECEIPT ARTIFACT (hero proof)  ──────── */
   .zn-receipt {
