@@ -1,0 +1,39 @@
+---
+// Single-ink-weight brush pictograms. Used for the six failure modes and
+// section marks only. Stroke-cap round everywhere; semantic color via prop.
+interface Props {
+  name: 'crash' | 'tool' | 'approval' | 'cost' | 'audit' | 'memory';
+  stroke?: string; // CSS color; defaults to currentColor
+}
+const { name, stroke = 'currentColor' } = Astro.props;
+---
+<svg class="brush-icon" width="44" height="34" viewBox="0 0 44 34" fill="none" aria-hidden="true">
+  {name === 'crash' && (
+    <path d="M4 28 L18 8 L26 20 L40 4" stroke={stroke} stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  )}
+  {name === 'tool' && (
+    <path d="M8 8 L26 26 M26 8 L8 26 M34 17 H40" stroke={stroke} stroke-width="4" stroke-linecap="round" />
+  )}
+  {name === 'approval' && (
+    <path d="M10 6 V28 M22 6 V28 M30 17 L36 23 L42 11" stroke={stroke} stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  )}
+  {name === 'cost' && (
+    <>
+      <circle cx="15" cy="17" r="11" stroke={stroke} stroke-width="4" />
+      <path d="M32 8 V26" stroke={stroke} stroke-width="4" stroke-linecap="round" />
+    </>
+  )}
+  {name === 'audit' && (
+    <>
+      <rect x="8" y="6" width="22" height="22" rx="5" stroke={stroke} stroke-width="4" />
+      <path d="M34 28 L41 31" stroke={stroke} stroke-width="4" stroke-linecap="round" />
+    </>
+  )}
+  {name === 'memory' && (
+    <path d="M6 17 H14 M20 17 H28 M34 17 H42 M10 17 V9 M24 17 V25 M38 17 V9" stroke={stroke} stroke-width="4" stroke-linecap="round" />
+  )}
+</svg>
+
+<style>
+  .brush-icon { display: block; }
+</style>
