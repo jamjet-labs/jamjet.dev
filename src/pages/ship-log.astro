@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const entries = (await getCollection('shiplog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const rendered = await Promise.all(entries.map(async (e) => ({ ...e, Content: (await e.render()).Content })));
+const fmt = (d: Date) => `${monthShort[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+---
+<BaseLayout
+  title="Ship log — JamJet"
+  description="What shipped across the JamJet runtime, SDKs, and Cloud. A dated logbook, updated every other Friday, no skips."
+  canonical="https://jamjet.dev/ship-log/"
+  currentPage="ship-log"
+>
+  <main class="log-main">
+    <header class="log-head">
+      <h1>Ship log</h1>
+      <p class="log-promise">Every other Friday, no skips. Written by whoever built the thing. <a href="/ship-log.xml">RSS</a></p>
+    </header>
+    <ol class="log-list">
+      {rendered.map(({ data, Content }) => (
+        <li class="log-row">
+          <span class="log-date">{fmt(data.date)}</span>
+          <div class="log-body">
+            {data.title && <strong class="log-title">{data.title}</strong>}
+            <Content />
+          </div>
+          <span class="log-tag">{data.area}</span>
+        </li>
+      ))}
+    </ol>
+  </main>
+</BaseLayout>
+
+<style>
+  .log-main { max-width: 760px; margin: 0 auto; padding: 80px 24px 120px; }
+  .log-head h1 { font-family: var(--font-body); font-weight: 500; font-size: 52px; letter-spacing: -1px; margin: 0 0 10px; }
+  .log-promise { font-family: var(--font-sans); font-size: 15px; color: var(--text-secondary); margin: 0 0 48px; }
+  .log-promise a { color: var(--hand); }
+  .log-list { list-style: none; margin: 0; padding: 0; }
+  .log-row { display: flex; gap: 20px; padding: 18px 0; border-top: 1px dashed var(--border-strong); align-items: baseline; }
+  .log-date { font-family: var(--font-mono); font-size: 12px; color: var(--hand); flex: none; width: 110px; }
+  .log-title { display: block; font-family: var(--font-sans); font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+  .log-body { font-family: var(--font-sans); font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+  .log-body :global(p) { margin: 0; }
+  .log-body :global(code) { font-family: var(--font-mono); font-size: 13px; background: var(--accent-bg); padding: 1px 5px; border-radius: 3px; }
+  .log-tag { margin-left: auto; font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); border: 1px solid var(--border); border-radius: 3px; padding: 1px 6px; flex: none; }
+  @media (max-width: 640px) { .log-row { flex-wrap: wrap; } .log-tag { margin-left: 130px; } }
+</style>

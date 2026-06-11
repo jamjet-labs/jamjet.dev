@@ -3,26 +3,17 @@ import { getCollection } from 'astro:content';
 import type { APIContext } from 'astro';
 
 export async function GET(context: APIContext) {
-    const posts = await getCollection('blog', ({ data }) => !data.draft);
-
-    const sorted = posts.sort(
-        (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-    );
-
-    return rss({
-        title: 'JamJet Blog',
-        description:
-            'Performance-first, agent-native runtime for AI agents. Engineering deep dives, architecture posts, and release notes.',
-        site: context.site!,
-        items: sorted.map((post) => ({
-            title: post.data.title,
-            description: post.data.description,
-            pubDate: new Date(post.data.date),
-            link: `/blog/${post.slug}/`,
-            author: post.data.author ?? 'JamJet',
-            categories: post.data.category ? [post.data.category] : [],
-        })),
-        customData: `<language>en-us</language>`,
-        stylesheet: false,
-    });
+  const posts = (await getCollection('blog', ({ data }) => !data.draft))
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  return rss({
+    title: 'JamJet Field Notes',
+    description: 'War stories and measurements from running AI agents against real systems.',
+    site: context.site!,
+    items: posts.map((p) => ({
+      title: p.data.title,
+      pubDate: p.data.date,
+      description: p.data.description,
+      link: `/blog/${p.slug}/`,
+    })),
+  });
 }
