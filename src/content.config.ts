@@ -12,6 +12,17 @@ const blog = defineCollection({
   }),
 });
 
+const shiplog = defineCollection({
+  type: 'content',
+  schema: z.object({
+    date: z.coerce.date(),
+    area: z.enum(['runtime', 'sdk', 'cloud', 'research', 'site']),
+    title: z.string().optional(),
+    image: z.string().optional(),
+  }),
+});
+
 export const collections = {
   blog,
+  shiplog,
 };
