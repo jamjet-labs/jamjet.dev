@@ -145,6 +145,7 @@ const homeLd = {
     <ol class="zn-beats">
       <li class="zn-beat zn-beat-block">
         <span class="zn-beat-tag">blocked</span>
+        <Seal verdict="blocked" size="sm" />
         <strong class="zn-beat-title">It tried to drop a users table.</strong>
         <p class="zn-beat-line">
           <code>db.drop_user</code> hit a destructive-data policy and never executed.
@@ -153,6 +154,7 @@ const homeLd = {
       </li>
       <li class="zn-beat zn-beat-recover">
         <span class="zn-beat-tag">recovered</span>
+        <Seal verdict="resumed" size="sm" />
         <strong class="zn-beat-title">The Analyze worker crashed.</strong>
         <p class="zn-beat-line">
           The scheduler reclaimed the lease and resumed from the last checkpoint.
@@ -161,6 +163,7 @@ const homeLd = {
       </li>
       <li class="zn-beat zn-beat-approval">
         <span class="zn-beat-tag">signed</span>
+        <Seal verdict="held" size="sm" />
         <strong class="zn-beat-title">A merge to production waited for a human.</strong>
         <p class="zn-beat-line">
           <code>github.merge</code> required approval. Once a person said yes, the action ran
@@ -1147,12 +1150,14 @@ const homeLd = {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
   }
   .zn-beat {
+    position: relative;
     padding: 22px 22px 24px;
     background: var(--bg);
     border: 1px solid var(--border);
     border-top: 3px solid var(--text);
     border-radius: 6px;
   }
+  .zn-beat :global(.seal) { position: absolute; top: -12px; right: 14px; }
   .zn-beat-block    { border-top-color: var(--error); }
   .zn-beat-recover  { border-top-color: var(--success); }
   .zn-beat-approval { border-top-color: var(--warning); }
