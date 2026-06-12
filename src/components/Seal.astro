@@ -1,0 +1,48 @@
+---
+// Hanko-style verdict seal. Design law: exactly four verdicts, applied only to
+// artifacts (receipts, run cards, verdict moments). Never decorative.
+interface Props {
+  verdict: 'blocked' | 'approved' | 'held' | 'resumed';
+  size?: 'sm' | 'md';
+}
+const { verdict, size = 'md' } = Astro.props;
+const label: Record<Props['verdict'], string> = {
+  blocked: 'BLOCKED',
+  approved: 'APPROVED',
+  held: 'HELD',
+  resumed: 'RESUMED',
+};
+---
+<span class={`seal seal-${verdict} seal-${size}`} role="img" aria-label={`verdict: ${label[verdict].toLowerCase()}`}>{label[verdict]}</span>
+
+<style>
+  .seal {
+    display: inline-grid;
+    place-items: center;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    color: var(--bg);
+    border-radius: 8px;
+    transform: rotate(-6deg);
+    line-height: 1.25;
+    padding: 7px 9px;
+    font-size: 10px;
+    box-shadow: 0 1px 2px rgba(20, 20, 19, 0.25);
+    position: relative;
+  }
+  .seal::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px solid rgba(246, 245, 241, 0.55);
+    border-radius: 5px;
+  }
+  .seal-sm { font-size: 8.5px; padding: 5px 7px; border-radius: 6px; }
+  .seal-sm::after { inset: 2px; border-radius: 4px; }
+  .seal-blocked  { background: radial-gradient(circle at 32% 28%, var(--hand-strong) 0%, #b8331f 85%); }
+  .seal-approved { background: radial-gradient(circle at 32% 28%, #2f7d4c 0%, #226339 85%); transform: rotate(5deg); }
+  .seal-held     { background: radial-gradient(circle at 32% 28%, #c98a2d 0%, #a96f1c 85%); transform: rotate(-4deg); }
+  .seal-resumed  { background: radial-gradient(circle at 32% 28%, #3a8a5f 0%, #2a6b47 85%); transform: rotate(4deg); }
+</style>

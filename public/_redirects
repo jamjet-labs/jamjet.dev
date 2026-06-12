@@ -6,3 +6,13 @@ https://www.jamjet.dev/*  https://jamjet.dev/:splat  301!
 /usecases       /showcase/  301
 /usecases/      /showcase/  301
 /usecases/*     /showcase/  301
+/quickstart     https://docs.jamjet.dev/en/docs/quickstart  301
+/quickstart/    https://docs.jamjet.dev/en/docs/quickstart  301
+/concepts       https://docs.jamjet.dev/en/docs/concepts    301
+/concepts/      https://docs.jamjet.dev/en/docs/concepts    301
+/a2a            https://docs.jamjet.dev/en/docs/a2a         301
+/a2a/           https://docs.jamjet.dev/en/docs/a2a         301
+/mcp            https://docs.jamjet.dev/en/docs/mcp         301
+/mcp/           https://docs.jamjet.dev/en/docs/mcp         301
+/why-jamjet     /  301
+/why-jamjet/    /  301

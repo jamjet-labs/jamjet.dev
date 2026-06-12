@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+
+const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const entries = (await getCollection('shiplog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+const fmt = (d: Date) => `${monthShort[d.getUTCMonth()]} ${d.getUTCDate()}`;
+const rendered = await Promise.all(entries.map(async (e) => ({ ...e, Content: (await e.render()).Content })));
+---
+<div class="shiplog">
+  <div class="shiplog-head">
+    <h3>Ship log</h3>
+    <span class="shiplog-promise">every other Friday, no skips &middot; written by whoever built it</span>
+    <a class="shiplog-all" href="/ship-log/">Full log &rarr;</a>
+  </div>
+  {rendered.map(({ data, Content }) => (
+    <div class="shiplog-row">
+      <span class="shiplog-date">{fmt(data.date)}</span>
+      <div class="shiplog-body"><Content /></div>
+      <span class="shiplog-tag">{data.area}</span>
+    </div>
+  ))}
+</div>
+
+<style>
+  .shiplog {
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    padding: 24px 28px;
+  }
+  .shiplog-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 12px; flex-wrap: wrap; }
+  .shiplog-head h3 { font-family: var(--font-body); font-size: 22px; font-weight: 600; margin: 0; }
+  .shiplog-promise { font-family: var(--font-sans); font-size: 12.5px; color: var(--text-muted); }
+  .shiplog-all { margin-left: auto; font-family: var(--font-sans); font-size: 13px; font-weight: 500; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border-strong); }
+  .shiplog-row { display: flex; gap: 16px; padding: 10px 0; border-top: 1px dashed var(--border-strong); align-items: baseline; }
+  .shiplog-date { font-family: var(--font-mono); font-size: 11.5px; color: var(--hand); flex: none; width: 64px; }
+  .shiplog-body { font-family: var(--font-sans); font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
+  .shiplog-body :global(p) { margin: 0; }
+  .shiplog-body :global(code) { font-family: var(--font-mono); font-size: 12.5px; background: var(--accent-bg); padding: 1px 5px; border-radius: 3px; }
+  .shiplog-tag { margin-left: auto; font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); border: 1px solid var(--border); border-radius: 3px; padding: 1px 6px; flex: none; }
+  @media (max-width: 640px) {
+    .shiplog-row { flex-wrap: wrap; }
+    .shiplog-tag { margin-left: 80px; }
+  }
+</style>

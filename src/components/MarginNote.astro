@@ -1,0 +1,21 @@
+---
+// Handwritten vermillion margin note. Design law: max one visible per screen,
+// only pointing at something real and load-bearing.
+interface Props {
+  rotate?: number; // degrees
+}
+const { rotate = -2 } = Astro.props;
+---
+<span class="margin-note" style={`--mn-rotate: ${rotate}deg`} aria-hidden="true"><slot /></span>
+
+<style>
+  .margin-note {
+    font-family: var(--font-hand);
+    font-size: 19px;
+    color: var(--hand);
+    display: inline-block;
+    transform: rotate(var(--mn-rotate));
+    line-height: 1.15;
+    pointer-events: none;
+  }
+</style>

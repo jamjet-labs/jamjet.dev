@@ -39,6 +39,11 @@
   --error:        #b44040;
   --error-tint:   #fee2e2;
 
+  /* ── Human hand (seals, margin notes, ship-log dates) ── */
+  --hand:        #b8502f;
+  --hand-strong: #cf3e2d;
+  --font-hand:   'Caveat', cursive;
+
   /* ══ Flight Recorder — the one dark instrument on warm paper ══
      Used ONLY inside .rec modules. Page background stays warm paper. */
   --rec-bg:        #16150f;   /* near-black, warm — recorder body */
@@ -136,6 +141,8 @@ nav {
   transition: color 0.2s;
 }
 .nav-github:hover { color: var(--text); }
+
+.nav-new-dot { display: inline-block; width: 6px; height: 6px; border-radius: 2px; background: var(--hand-strong); margin-left: 4px; transform: rotate(-8deg) translateY(-6px); }
 
 /* ── Mobile Navigation ── */
 .nav-toggle {

@@ -3,6 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Recorder from '../components/Recorder.astro';
 import WhyNotLogs from '../components/WhyNotLogs.astro';
 import { getCollection } from 'astro:content';
+import Seal from '../components/Seal.astro';
+import MarginNote from '../components/MarginNote.astro';
+import ShipLogStrip from '../components/ShipLogStrip.astro';
+import BrushIcon from '../components/BrushIcon.astro';
 
 const monthShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const allPosts = await getCollection('blog', ({ data }) => data.draft !== true);
@@ -16,12 +20,12 @@ const log = allPosts
   }));
 
 const failures = [
-  { num: '01', tone: 'neutral', title: 'Lost progress', line: 'A worker dies mid-run. JamJet replays the event log and resumes at the failed node.' },
-  { num: '02', tone: 'error',   title: 'Unsafe tool', line: 'An agent reaches for a tool it shouldn’t. The 4-level policy hierarchy blocks the call before execution.' },
-  { num: '03', tone: 'warning', title: 'Skipped approval', line: 'A high-risk action waits for a human. The run survives restarts. The decision lands in audit.' },
-  { num: '04', tone: 'error',   title: 'Runaway cost', line: 'A reflection loop won’t stop spending. The runtime halts the loop before it crosses the cap.' },
-  { num: '05', tone: 'neutral', title: 'Missing audit', line: 'Compliance asks what happened. Every decision is in a signed, exportable evidence package.' },
-  { num: '06', tone: 'neutral', title: 'Forgotten context', line: 'The agent forgets across sessions. Engram surfaces durable facts — not raw chat history.' },
+  { num: '01', tone: 'neutral', icon: 'crash',    title: 'Lost progress', line: 'A worker dies mid-run. JamJet replays the event log and resumes at the failed node.' },
+  { num: '02', tone: 'error',   icon: 'tool',     title: 'Unsafe tool', line: "An agent reaches for a tool it shouldn't. The 4-level policy hierarchy blocks the call before execution." },
+  { num: '03', tone: 'warning', icon: 'approval', title: 'Skipped approval', line: 'A high-risk action waits for a human. The run survives restarts. The decision lands in audit.' },
+  { num: '04', tone: 'error',   icon: 'cost',     title: 'Runaway cost', line: "A reflection loop won't stop spending. The runtime halts the loop before it crosses the cap." },
+  { num: '05', tone: 'neutral', icon: 'audit',    title: 'Missing audit', line: 'Compliance asks what happened. Every decision is in a signed, exportable evidence package.' },
+  { num: '06', tone: 'neutral', icon: 'memory',   title: 'Forgotten context', line: 'The agent forgets across sessions. Engram surfaces durable facts, not raw chat history.' },
 ];
 
 const adapters = [
@@ -71,7 +75,17 @@ const homeLd = {
       <span class="zn-display-italic">agent action.</span>
     </h1>
 
-    <Recorder />
+    <div class="zn-recwrap">
+      <MarginNote rotate={-2}>a real run, not a render</MarginNote>
+      <Recorder />
+      <aside class="zn-receipt-fly" aria-label="signed action receipt">
+        <span>receipt 0192c8d0-1f2a</span>
+        <span>github.merge &middot; repo.merges v2</span>
+        <span>approved &middot; sunil &middot; 14:02</span>
+        <span>sig 4d905d&hellip;verified</span>
+        <Seal verdict="approved" size="sm" />
+      </aside>
+    </div>
 
     <p class="zn-lede">
       That's one agent run, played back. It read files. It tried to drop a users table — blocked.
@@ -101,7 +115,7 @@ const homeLd = {
     <div class="zn-cover-foot">
       <div class="zn-cta-row">
         <a href="#adapters" class="zn-btn zn-btn-primary">See every adapter &darr;</a>
-        <a href="https://docs.jamjet.dev/en/docs/quickstart" class="zn-btn zn-btn-ghost">Get started in 60s</a>
+        <a href="https://docs.jamjet.dev/en/docs/quickstart" class="zn-btn zn-btn-ghost">Install in 60 seconds</a>
         <a href="https://agentboundary.jamjet.dev/" class="zn-btn zn-btn-ghost">Run conformance &rarr;</a>
       </div>
       <p class="zn-cta-aside">
@@ -131,6 +145,7 @@ const homeLd = {
     <ol class="zn-beats">
       <li class="zn-beat zn-beat-block">
         <span class="zn-beat-tag">blocked</span>
+        <Seal verdict="blocked" size="sm" />
         <strong class="zn-beat-title">It tried to drop a users table.</strong>
         <p class="zn-beat-line">
           <code>db.drop_user</code> hit a destructive-data policy and never executed.
@@ -139,6 +154,7 @@ const homeLd = {
       </li>
       <li class="zn-beat zn-beat-recover">
         <span class="zn-beat-tag">recovered</span>
+        <Seal verdict="resumed" size="sm" />
         <strong class="zn-beat-title">The Analyze worker crashed.</strong>
         <p class="zn-beat-line">
           The scheduler reclaimed the lease and resumed from the last checkpoint.
@@ -147,6 +163,7 @@ const homeLd = {
       </li>
       <li class="zn-beat zn-beat-approval">
         <span class="zn-beat-tag">signed</span>
+        <Seal verdict="held" size="sm" />
         <strong class="zn-beat-title">A merge to production waited for a human.</strong>
         <p class="zn-beat-line">
           <code>github.merge</code> required approval. Once a person said yes, the action ran
@@ -170,6 +187,38 @@ const homeLd = {
           <code>pip install jamjet</code> &middot; one decorator puts the call on the tape, with the same policy across Claude Code, MCP, OpenAI Agents SDK, Spring AI
         </figcaption>
       </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────────────  THE GATE ──────────────────── -->
+<section class="zn-gate" id="gate">
+  <div class="zn-shell">
+    <div class="zn-gate-grid">
+      <div class="zn-gate-art">
+        <svg width="240" height="190" viewBox="0 0 240 190" fill="none" aria-hidden="true">
+          <path d="M14 38 Q120 18 226 38" stroke="currentColor" stroke-width="11" fill="none" stroke-linecap="round"/>
+          <path d="M10 36 Q120 14 230 36" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.55"/>
+          <line x1="38" y1="64" x2="202" y2="64" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+          <line x1="58" y1="42" x2="66" y2="178" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+          <line x1="182" y1="42" x2="174" y2="178" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+          <line x1="120" y1="40" x2="120" y2="63" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+          <ellipse cx="120" cy="182" rx="86" ry="4" fill="currentColor" opacity="0.12"/>
+        </svg>
+      </div>
+      <div>
+        <h2 class="zn-h2">Every action passes the gate. <MarginNote rotate={-2}>try to get past it &rarr;</MarginNote></h2>
+        <p class="zn-gate-sub">
+          <code>@gate</code> is the decorator in your code. These are the demos: watch the policy engine
+          block, hold, and recover six kinds of trouble, with a receipt for each.
+        </p>
+        <ul class="zn-gate-cards">
+          <li class="zn-gate-card"><code>db.drop_table("users")</code> <Seal verdict="blocked" size="sm" /></li>
+          <li class="zn-gate-card"><code>github.merge(pr=412)</code> <Seal verdict="held" size="sm" /></li>
+          <li class="zn-gate-card zn-gate-card-ghost"><code>email.send_bulk(n=10_000)</code> <span class="zn-gate-soon">your turn, soon</span></li>
+        </ul>
+        <a class="zn-gate-cta" href="/showcase/">See all six demos &rarr;</a>
+      </div>
     </div>
   </div>
 </section>
@@ -219,9 +268,8 @@ const homeLd = {
       <p class="zn-essay-body">
         <span class="zn-dropcap">M</span>ost of what breaks an AI agent in the real world isn’t model quality.
         It’s the boring stuff: a worker dies, a tool gets called wrong, a budget runs out,
-        an audit team asks what happened. We built JamJet to make those things controllable,
-        recordable, and recoverable — without forcing you to abandon LangGraph or CrewAI or
-        whatever’s already working.
+        an audit team asks what happened. We built JamJet so the dangerous call gets blocked, the crashed run resumes,
+        and every action ends as a signed receipt. You keep LangGraph or CrewAI or whatever already works.
       </p>
       <p class="zn-essay-body">
         The runtime sits between your agent and everything it touches. Models, tools, memory,
@@ -241,8 +289,8 @@ const homeLd = {
     <div class="zn-adapters-head">
       <span class="zn-eyebrow">Every source the recorder captures</span>
       <h2 class="zn-h2">
-        Every agent toolchain is inventing its own safety layer.<br/>
-        <span class="zn-display-italic">JamJet gives you one.</span>
+        Wherever your agents already run.<br/>
+        <span class="zn-display-italic">One gate, seven doors.</span>
       </h2>
       <p class="zn-essay-body">
         One <code>policy.yaml</code> in <code>~/.jamjet/</code>. Every adapter below loads it and
@@ -271,6 +319,13 @@ const homeLd = {
   </div>
 </section>
 
+<!-- ────────────────────  SHIP LOG ──────────────────── -->
+<section class="zn-shiplog">
+  <div class="zn-shell">
+    <ShipLogStrip />
+  </div>
+</section>
+
 <!-- ────────────────────  SIX FAILURE MODES (DARK) ──────────────────── -->
 <section class="zn-dark" id="failure-modes">
   <div class="zn-shell">
@@ -286,7 +341,7 @@ const homeLd = {
     <ol class="zn-failures">
       {failures.map(f => (
         <li class={`zn-failure zn-failure-tone-${f.tone}`}>
-          <span class="zn-failure-bar" aria-hidden="true"></span>
+          <BrushIcon name={f.icon} stroke="var(--rec-text)" />
           <span class="zn-failure-num">{f.num}</span>
           <div>
             <strong class="zn-failure-title">{f.title}</strong>
@@ -409,6 +464,7 @@ const homeLd = {
     <p class="zn-pq-text">
       We don’t replace your framework. We sit underneath it, like a seatbelt.
     </p>
+    <p class="zn-pq-sub">Every tool call passes through one checkpoint that can block, hold, record, or resume it.</p>
     <span class="zn-pq-attr">— the design intent, in one sentence</span>
   </div>
 </section>
@@ -417,8 +473,9 @@ const homeLd = {
 <section class="zn-log">
   <div class="zn-shell">
     <div class="zn-log-head">
-      <span class="zn-eyebrow">Running log</span>
-      <h2 class="zn-h2 zn-h2-small">What we shipped lately.</h2>
+      <span class="zn-eyebrow">From the field</span>
+      <h2 class="zn-h2 zn-h2-small">Field notes</h2>
+      <p class="zn-fieldnotes-bar">War stories and measurements from running agents against real systems. Worth reading even if you never use JamJet.</p>
     </div>
     <ol class="zn-log-list">
       {log.map(entry => (
@@ -432,7 +489,7 @@ const homeLd = {
       ))}
     </ol>
     <p class="zn-log-foot">
-      <a href="/blog">Full blog &rarr;</a>
+      <a href="/blog">All field notes &rarr;</a>
     </p>
   </div>
 </section>
@@ -626,6 +683,27 @@ const homeLd = {
     margin: 0 0 32px;
   }
   .zn-display-italic { font-style: italic; font-weight: 500; }
+
+  /* ────────  RECORDER WRAP + FLYING RECEIPT  ──────── */
+  .zn-recwrap { position: relative; }
+  .zn-recwrap > :global(.margin-note) { position: absolute; right: 0; top: -28px; }
+  .zn-receipt-fly {
+    position: absolute; right: -10px; bottom: -30px; z-index: 2;
+    display: flex; flex-direction: column;
+    background: var(--surface, var(--bg)); color: var(--text);
+    border: 1px solid var(--border-strong, rgba(20,20,19,0.20));
+    width: 230px; padding: 12px 14px 14px;
+    font-family: var(--font-mono); font-size: 10.5px; line-height: 1.75;
+    transform: rotate(2.5deg);
+    box-shadow: 0 10px 24px rgba(20, 20, 19, 0.2);
+  }
+  .zn-receipt-fly :global(.seal) { position: absolute; right: 10px; bottom: 10px; }
+  @media (max-width: 1080px) {
+    .zn-receipt-fly { position: static; transform: rotate(1deg); margin: 14px auto 0; }
+  }
+  @media (max-width: 760px) {
+    .zn-recwrap > :global(.margin-note) { display: none; }
+  }
 
   /* ────────  RECEIPT ARTIFACT (hero proof)  ──────── */
   .zn-receipt {
@@ -963,51 +1041,23 @@ const homeLd = {
     padding: 1px 6px;
     border-radius: 3px;
   }
-  .zn-adapter-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 32px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0;
-    border-top: 1px solid var(--border);
-  }
-  .zn-adapter {
-    border-bottom: 1px solid var(--border);
-  }
-  .zn-adapter:nth-child(odd) { border-right: 1px solid var(--border); }
+  .zn-adapter-list { list-style: none; margin: 30px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  @media (max-width: 760px) { .zn-adapter-list { grid-template-columns: minmax(0, 1fr); } }
+  .zn-adapter { margin: 0; }
   .zn-adapter-link {
-    display: block;
-    padding: 22px 24px;
-    text-decoration: none;
-    color: inherit;
-    transition: background 0.12s;
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px;
+    background: var(--surface); border: 1px solid var(--border-strong); border-radius: 6px;
+    padding: 12px 16px; text-decoration: none; color: var(--text);
+    box-shadow: 1px 2px 0 rgba(20, 20, 19, 0.06);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
   }
-  .zn-adapter-link:hover { background: var(--bg-alt); }
-  .zn-adapter-name {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 0.95rem;
-    color: var(--text);
-    font-weight: 500;
-    margin-bottom: 6px;
-  }
-  .zn-adapter-host {
-    display: block;
-    font-family: var(--font-sans);
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 10px;
-  }
-  .zn-adapter-install {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    color: var(--text-secondary, var(--text-muted));
-    background: var(--bg-alt);
-    padding: 6px 10px;
-    border-radius: 4px;
-  }
+  .zn-adapter-link:hover { transform: translateY(-1px); box-shadow: 2px 4px 0 rgba(20, 20, 19, 0.1); }
+  .zn-adapter-name { font-family: var(--font-mono); font-size: 13px; font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .zn-adapter-host { font-family: var(--font-sans); font-size: 12px; color: var(--text-muted); text-align: right; align-self: baseline; }
+  .zn-adapter-install { grid-column: 1 / -1; font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* ─────────  SHIP LOG STRIP  ───────── */
+  .zn-shiplog { padding: var(--space-section-sm) 0 0; }
 
   /* ─────────  DARK BAND (failure modes)  ───────── */
   .zn-dark {
@@ -1034,23 +1084,17 @@ const homeLd = {
   }
   .zn-failure {
     display: grid;
-    grid-template-columns: 4px 84px 1fr;
+    grid-template-columns: 48px 84px 1fr;
     gap: 8px;
     padding-top: 24px;
     border-top: 1px solid rgba(255,255,255,0.18);
   }
-  .zn-failure-bar {
+  .zn-failure :global(.brush-icon) {
     grid-column: 1 / 2;
     grid-row: 1 / span 2;
-    width: 3px;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.25);
-    border-radius: 1px;
-    margin-right: 6px;
+    align-self: start;
+    margin-top: 4px;
   }
-  .zn-failure-tone-warning .zn-failure-bar { background: var(--warning); }
-  .zn-failure-tone-error   .zn-failure-bar { background: var(--error); }
-  .zn-failure-tone-neutral .zn-failure-bar { background: rgba(255, 255, 255, 0.25); }
   .zn-failure-num {
     font-size: 3.4rem;
     line-height: 1;
@@ -1105,6 +1149,13 @@ const homeLd = {
     letter-spacing: 0.14em;
     color: var(--text-muted);
   }
+  .zn-pq-sub {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0 0 16px;
+    font-style: normal;
+  }
 
   /* ─────────  WHAT JUST HAPPENED (readback)  ───────── */
   .zn-readback { padding: 88px 0; border-bottom: 1px solid var(--border); }
@@ -1114,12 +1165,14 @@ const homeLd = {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
   }
   .zn-beat {
+    position: relative;
     padding: 22px 22px 24px;
     background: var(--bg);
     border: 1px solid var(--border);
     border-top: 3px solid var(--text);
     border-radius: 6px;
   }
+  .zn-beat :global(.seal) { position: absolute; top: -12px; right: 14px; }
   .zn-beat-block    { border-top-color: var(--error); }
   .zn-beat-recover  { border-top-color: var(--success); }
   .zn-beat-approval { border-top-color: var(--warning); }
@@ -1143,6 +1196,19 @@ const homeLd = {
     font-family: var(--font-mono); font-size: 0.86em;
     background: var(--bg-alt); padding: 1px 5px; border-radius: 3px;
   }
+  /* ────────  THE GATE  ──────── */
+  .zn-gate { padding: var(--space-section-sm) 0; border-top: 1px solid var(--border); }
+  .zn-gate-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 44px; align-items: center; }
+  .zn-gate-art { color: var(--text); display: flex; justify-content: center; }
+  .zn-gate-sub { font-family: var(--font-sans); font-size: 15px; color: var(--text-secondary); line-height: 1.6; max-width: 52ch; }
+  .zn-gate-sub code, .zn-gate-card code { font-family: var(--font-mono); font-size: 13px; background: var(--accent-bg); padding: 1px 6px; border-radius: 3px; }
+  .zn-gate-cards { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .zn-gate-card { display: flex; align-items: center; justify-content: space-between; gap: 14px; border: 1px solid var(--border-strong); background: var(--surface, var(--bg)); border-radius: 8px; padding: 12px 16px; }
+  .zn-gate-card-ghost { border-style: dashed; color: var(--text-muted); }
+  .zn-gate-soon { font-family: var(--font-hand); font-size: 17px; color: var(--hand); }
+  .zn-gate-cta { display: inline-block; margin-top: 20px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; color: var(--text); text-decoration: none; border-bottom: 2px solid var(--text); padding-bottom: 2px; }
+  @media (max-width: 760px) { .zn-gate-grid { grid-template-columns: 1fr; gap: 20px; } }
+
   .zn-readback-code { max-width: 720px; }
   .zn-readback-code .zn-eyebrow { margin-bottom: 14px; }
 
@@ -1215,6 +1281,9 @@ const homeLd = {
     font-size: 0.95rem;
   }
   .zn-pair-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  /* ─────────  FIELD NOTES TEASER  ───────── */
+  .zn-fieldnotes-bar { font-family: var(--font-sans); font-size: 15px; color: var(--text-secondary); max-width: 60ch; line-height: 1.6; }
 
   /* ─────────  RUNNING LOG  ───────── */
   .zn-log { padding: 96px 0; background: var(--bg-alt); border-top: 1px solid var(--border); }
@@ -1315,14 +1384,13 @@ const homeLd = {
     .zn-failures { grid-template-columns: 1fr; gap: 28px; }
     .zn-code-grid { grid-template-columns: 1fr; }
     .zn-pair-grid { grid-template-columns: 1fr; }
-    .zn-adapter-list { grid-template-columns: 1fr; }
-    .zn-adapter:nth-child(odd) { border-right: 0; }
+    .zn-adapter-list { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 640px) {
     .zn-cover { padding: 40px 0 56px; }
     .zn-masthead { margin-bottom: 36px; }
     .zn-display { font-size: clamp(2.4rem, 11vw, 4rem); }
-    .zn-failure { grid-template-columns: 4px 64px 1fr; }
+    .zn-failure { grid-template-columns: 44px 64px 1fr; }
     .zn-failure-num { font-size: 2.4rem; }
     .zn-log-entry { grid-template-columns: 1fr; gap: 6px; }
     .zn-pair-card { padding: 24px; }
