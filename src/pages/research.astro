@@ -569,29 +569,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     margin-bottom: 48px;
     line-height: 1.8;
   }
-  .r-pain-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px 48px;
-  }
-  .r-pain {
-    padding: 32px 0;
-    border-top: 1px solid var(--border);
-  }
-  .r-pain-pct {
-    display: block;
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 700;
-    color: var(--accent);
-    line-height: 1.1;
-    margin-bottom: 12px;
-    letter-spacing: -0.03em;
-  }
-  .r-pain p {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    line-height: 1.6;
-  }
   /* ── Capabilities ── */
   .r-caps {
     display: grid;
@@ -1024,7 +1001,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   /* ── Responsive ── */
   @media (max-width: 768px) {
-    .r-pain-grid { grid-template-columns: 1fr; gap: 0; }
     .r-caps { grid-template-columns: 1fr; gap: 0; }
     .r-recipes { grid-template-columns: 1fr 1fr; gap: 16px; }
     .r-papers { grid-template-columns: 1fr; gap: 0; }
@@ -1048,7 +1024,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     }
   }
   @media (min-width: 769px) and (max-width: 1024px) {
-    .r-pain-grid { grid-template-columns: repeat(3, 1fr); }
     .r-caps { grid-template-columns: repeat(2, 1fr); }
     .r-communities { grid-template-columns: repeat(2, 1fr); }
   }
