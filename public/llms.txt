@@ -34,7 +34,7 @@ JamJet is not a replacement for your agent framework. It is a runtime that sits 
 - [JamJet Cloud](https://jamjet.dev/cloud): hosted control plane — trace timeline, policy violations, approval queue, cost guardrails, audit export, hosted Engram. Free tier available at [app.jamjet.dev](https://app.jamjet.dev)
 - [Compare](https://jamjet.dev/compare): how JamJet fits with LangGraph, CrewAI, Pydantic AI, Google ADK, OpenAI Agents SDK, Temporal, LangSmith/Arize, AWS Bedrock / Azure AI Foundry / Vertex, vanilla Python
 - [Engram](https://jamjet.dev/engram): open-source memory for AI agents — fact extraction, conflict detection, hybrid retrieval, consolidation; works via MCP with any framework
-- [Showcase](https://jamjet.dev/showcase): six interactive failure-mode demos (crash recovery, policy block, durable approval, cost cap, audit export, memory recall)
+- [The Gate](https://jamjet.dev/gate/): interactive policy playground: the real policy engine blocks, holds, and audits tool calls; visitors approve held actions and verify tamper-evident receipts
 - [Research](https://jamjet.dev/research): replay engine for reproducible multi-agent experiments — strategy comparison, sweeps, paper-ready exports
 - [Benchmarks](https://jamjet.dev/benchmarks): runtime economics and reliability benchmarks (open methodology, reproducible)
 - [Security](https://jamjet.dev/security): responsible disclosure, telemetry policy, dependency posture

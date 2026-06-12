@@ -6,13 +6,16 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "check:functions": "tsc -p functions --noEmit",
+    "verify:receipts": "tsx scripts/verify-receipt-hash.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.0",
     "@astrojs/tailwind": "^5.1.0",
+    "@jamjet/cloud": "^0.3.1",
     "@resvg/resvg-js": "^2.6.2",
     "astro": "^5.3.0",
     "satori": "^0.26.0",
@@ -20,7 +23,10 @@
     "tailwindcss": "^3.4.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260612.1",
     "@tailwindcss/typography": "^0.5.10",
-    "typescript": "^5.9.3"
+    "tsx": "^4.22.4",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.100.0"
   }
 }

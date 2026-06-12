@@ -20,8 +20,8 @@ const fmt = (d: Date) => `${monthShort[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.
       <p class="log-promise">Every other Friday, no skips. Written by whoever built the thing. <a href="/ship-log.xml">RSS</a></p>
     </header>
     <ol class="log-list">
-      {rendered.map(({ data, Content }) => (
-        <li class="log-row">
+      {rendered.map(({ slug, data, Content }) => (
+        <li class="log-row" id={slug}>
           <span class="log-date">{fmt(data.date)}</span>
           <div class="log-body">
             {data.title && <strong class="log-title">{data.title}</strong>}

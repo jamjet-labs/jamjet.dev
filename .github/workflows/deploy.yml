@@ -29,6 +29,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Typecheck functions
+        run: npm run check:functions
+
+      - name: Verify receipt hashes
+        run: npm run verify:receipts
+
       - name: Build site
         run: npm run build
         env:

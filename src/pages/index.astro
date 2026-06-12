@@ -215,9 +215,9 @@ const homeLd = {
         <ul class="zn-gate-cards">
           <li class="zn-gate-card"><code>db.drop_table("users")</code> <Seal verdict="blocked" size="sm" /></li>
           <li class="zn-gate-card"><code>github.merge(pr=412)</code> <Seal verdict="held" size="sm" /></li>
-          <li class="zn-gate-card zn-gate-card-ghost"><code>email.send_bulk(n=10_000)</code> <span class="zn-gate-soon">your turn, soon</span></li>
+          <li class="zn-gate-card zn-gate-card-ghost"><a href="/gate/?card=bulk-email" class="zn-gate-ghost-link"><code>email.send_bulk(n=10_000)</code> <span class="zn-gate-soon">try it yourself &rarr;</span></a></li>
         </ul>
-        <a class="zn-gate-cta" href="/showcase/">See all six demos &rarr;</a>
+        <a class="zn-gate-cta" href="/gate/">Open the playground &rarr;</a>
       </div>
     </div>
   </div>
@@ -352,7 +352,7 @@ const homeLd = {
     </ol>
 
     <div class="zn-dark-foot">
-      <a href="/showcase" class="zn-btn zn-btn-light">See each failure mode in action &rarr;</a>
+      <a href="/gate/" class="zn-btn zn-btn-light">See each failure mode in action &rarr;</a>
     </div>
   </div>
 </section>
@@ -1206,6 +1206,7 @@ const homeLd = {
   .zn-gate-card { display: flex; align-items: center; justify-content: space-between; gap: 14px; border: 1px solid var(--border-strong); background: var(--surface, var(--bg)); border-radius: 8px; padding: 12px 16px; }
   .zn-gate-card-ghost { border-style: dashed; color: var(--text-muted); }
   .zn-gate-soon { font-family: var(--font-hand); font-size: 17px; color: var(--hand); }
+  .zn-gate-ghost-link { display: flex; align-items: center; justify-content: space-between; gap: 14px; width: 100%; color: inherit; text-decoration: none; }
   .zn-gate-cta { display: inline-block; margin-top: 20px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; color: var(--text); text-decoration: none; border-bottom: 2px solid var(--text); padding-bottom: 2px; }
   @media (max-width: 760px) { .zn-gate-grid { grid-template-columns: 1fr; gap: 20px; } }
 

@@ -1,11 +1,14 @@
 https://www.jamjet.dev/*  https://jamjet.dev/:splat  301!
 
-/examples       /showcase/  301
-/examples/      /showcase/  301
-/examples/*     /showcase/  301
-/usecases       /showcase/  301
-/usecases/      /showcase/  301
-/usecases/*     /showcase/  301
+/examples       /gate/  301
+/examples/      /gate/  301
+/examples/*     /gate/  301
+/usecases       /gate/  301
+/usecases/      /gate/  301
+/usecases/*     /gate/  301
+/showcase       /gate/  301
+/showcase/      /gate/  301
+/showcase/*     /gate/  301
 /quickstart     https://docs.jamjet.dev/en/docs/quickstart  301
 /quickstart/    https://docs.jamjet.dev/en/docs/quickstart  301
 /concepts       https://docs.jamjet.dev/en/docs/concepts    301
