@@ -127,7 +127,7 @@ const piiLines = [
         <article class="gate-card" data-scenario={s.id} data-tool={s.tool}>
           <div class="gate-card-top">
             <code class="gate-card-label">{s.label}</code>
-            <span class="gate-card-badge" data-badge>
+            <span class="gate-card-badge" data-badge aria-live="polite">
               <!-- seal or verdict line rendered here by JS -->
             </span>
           </div>
@@ -165,12 +165,12 @@ const piiLines = [
     <p class="gate-replay-note">These behaviors live in the Rust runtime, not the TS policy engine. They are replays, not live calls.</p>
     <div class="gate-replay-grid">
       <div>
-        <p class="gate-replay-label">Crash + resume</p>
-        <TerminalReplay lines={crashLines} title="kill -9 mid-run" />
+        <p class="gate-replay-label">{REPLAY_SCENARIOS[0].blurb.split(':')[0]}</p>
+        <TerminalReplay lines={crashLines} title={REPLAY_SCENARIOS[0].label} />
       </div>
       <div>
-        <p class="gate-replay-label">PII redaction</p>
-        <TerminalReplay lines={piiLines} title="fs.read intercepted" />
+        <p class="gate-replay-label">{REPLAY_SCENARIOS[1].blurb.split(':')[0]}</p>
+        <TerminalReplay lines={piiLines} title={REPLAY_SCENARIOS[1].label} />
       </div>
     </div>
   </div>
@@ -204,7 +204,13 @@ const piiLines = [
     var hashShort = r.receipt_hash ? r.receipt_hash.slice(0, 16) + '...' : '';
     var argsShort = r.arguments_hash ? r.arguments_hash.slice(0, 16) + '...' : '';
     var fallbackNote = isFallback ? '<div class="gate-receipt-fallback">offline replay (the live endpoint is unreachable)</div>' : '';
-    return fallbackNote
+    // Embed raw receipt JSON for in-place console verification.
+    // JSON inside a script tag must not contain the closing tag sequence; escape < as <.
+    var jsonId = 'gate-receipt-json-' + (r.receipt_id || '').replace(/[^a-z0-9]/g, '');
+    var safeJson = JSON.stringify(r).replace(/</g, '\\u003c');
+    var embeddedJson = '<' + 'script type="application/json" class="gate-receipt-json" id="' + jsonId + '">' + safeJson + '<' + '/script>';
+    return embeddedJson
+      + fallbackNote
       + '<div class="gate-receipt-fields">'
       + '<span class="gate-receipt-key">receipt_id</span><span class="gate-receipt-val"> ' + escHtml(r.receipt_id || '') + '</span>\n'
       + '<span class="gate-receipt-key">tool</span><span class="gate-receipt-val"> ' + escHtml((r.tool && r.tool.name) ? r.tool.name : '') + '</span>\n'
@@ -213,27 +219,36 @@ const piiLines = [
       + '<span class="gate-receipt-key">receipt_hash</span><span class="gate-receipt-val"> ' + escHtml(hashShort) + '</span>'
       + '</div>'
       + approvalBlock
-      + renderVerifyStrip(r);
+      + renderVerifyStrip(r, jsonId);
   }
 
-  function renderVerifyStrip(r) {
+  function renderVerifyStrip(r, jsonId) {
     var hash = r.receipt_hash || '';
     var snippetId = 'verify-snippet-' + (r.receipt_id || '').replace(/[^a-z0-9]/g, '');
-    var snippet = 'fetch("/api/gate", {\n'
-      + '  method: "POST",\n'
-      + '  headers: {"content-type":"application/json"},\n'
-      + '  body: JSON.stringify({scenarioId:"' + (r.tool && r.tool.name ? r.tool.name.replace('.','-') : '') + '"})\n'
-      + '}).then(r=>r.json()).then(async d=>{\n'
-      + '  const rx = d.receipt;\n'
-      + '  const {receipt_hash:_,...payload} = rx;\n'
-      + '  function canon(v){if(v===null||typeof v==="boolean")return JSON.stringify(v);if(typeof v==="number")return Number.isInteger(v)?String(v):JSON.stringify(v);if(typeof v==="string")return JSON.stringify(v);if(Array.isArray(v))return"["+v.map(canon).join(",")+"]";const e=Object.entries(v).filter(([,x])=>x!==undefined).sort(([a],[b])=>a<b?-1:a>b?1:0);return"{"+e.map(([k,x])=>JSON.stringify(k)+":"+canon(x)).join(",")+"}"}\n'
-      + '  const enc=new TextEncoder().encode(canon(payload));\n'
-      + '  const buf=await crypto.subtle.digest("SHA-256",enc);\n'
-      + '  const hex=[...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,"0")).join("");\n'
-      + '  console.log("computed:",hex);\n'
-      + '  console.log("stored: ",rx.receipt_hash);\n'
-      + '  console.log("match:",hex===rx.receipt_hash);\n'
-      + '});';
+    // Snippet reads the embedded JSON element, not a re-fetch.
+    // Works when pasted verbatim into the page console while a receipt is visible.
+    var snippet = '(async () => {\n'
+      + '  const rx = JSON.parse(document.getElementById("' + jsonId + '").textContent);\n'
+      + '  const {receipt_hash: expected, ...payload} = rx;\n'
+      + '  function canon(v) {\n'
+      + '    if (v === null || typeof v === "boolean") return JSON.stringify(v);\n'
+      + '    if (typeof v === "number") return Number.isInteger(v) ? String(v) : JSON.stringify(v);\n'
+      + '    if (typeof v === "string") return JSON.stringify(v);\n'
+      + '    if (Array.isArray(v)) return "[" + v.map(canon).join(",") + "]";\n'
+      + '    const e = Object.entries(v).filter(([,x]) => x !== undefined).sort(([a],[b]) => a < b ? -1 : a > b ? 1 : 0);\n'
+      + '    return "{" + e.map(([k,x]) => JSON.stringify(k) + ":" + canon(x)).join(",") + "}";\n'
+      + '  }\n'
+      + '  async function sha256(s) {\n'
+      + '    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));\n'
+      + '    return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,"0")).join("");\n'
+      + '  }\n'
+      + '  const computed = await sha256(canon(payload));\n'
+      + '  console.log({computed, expected, match: computed === expected});\n'
+      + '  // proof of tamper-evidence: mutate one field and see the hash break\n'
+      + '  const tampered = {...payload, tool: {...payload.tool, name: payload.tool.name + "x"}};\n'
+      + '  const tamperedHash = await sha256(canon(tampered));\n'
+      + '  console.log({tampered_hash: tamperedHash, differs: tamperedHash !== expected});\n'
+      + '})();';
     return '<details class="gate-verify">'
       + '<summary>verify this receipt yourself</summary>'
       + '<p class="gate-verify-note">Tamper-evident per <a href="https://github.com/jamjet-labs/agentboundary" target="_blank" rel="noopener">AgentBoundary v0.1</a>: receipt_hash = SHA-256 of the canonicalized receipt. Change any byte and the hash breaks.</p>'
@@ -297,7 +312,7 @@ const piiLines = [
   }
 
   // Render the result into a card
-  function applyResult(card, scenarioId, data, fromFallback) {
+  function applyResult(card, data, fromFallback) {
     if (!data) return;
     var badgeEl = card.querySelector('[data-badge]');
     var receiptEl = card.querySelector('[data-receipt]');
@@ -327,7 +342,6 @@ const piiLines = [
 
     // Stamp-in animation on seal for approved
     if (verdict === 'approved') {
-      var seal = receiptEl ? null : (badgeEl && badgeEl.querySelector('.seal'));
       var target = badgeEl && badgeEl.querySelector('.seal');
       if (target && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         target.classList.add('gate-seal-stamp');
@@ -347,7 +361,7 @@ const piiLines = [
 
       var result = await submit(scenarioId);
       card.classList.remove('gate-card-loading');
-      applyResult(card, scenarioId, result.data, result.fromFallback);
+      applyResult(card, result.data, result.fromFallback);
     });
   });
 
@@ -363,7 +377,7 @@ const piiLines = [
       btn.textContent = 'approving...';
 
       var result = await submit(scenarioId, { approverName: approverName || undefined });
-      applyResult(card, scenarioId, result.data, result.fromFallback);
+      applyResult(card, result.data, result.fromFallback);
     });
   });
 })();
@@ -689,8 +703,9 @@ const piiLines = [
   }
   .gate-replay-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 24px;
+    min-width: 0;
   }
   .gate-replay-label {
     font-family: var(--font-sans);
@@ -706,13 +721,13 @@ const piiLines = [
   /* ── Responsive ─────────────────────────────────────────────────── */
   @media (max-width: 960px) {
     .gate-cards { grid-template-columns: repeat(2, 1fr); }
-    .gate-replay-grid { grid-template-columns: 1fr; }
+    .gate-replay-grid { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 640px) {
     .gate-hero-grid { grid-template-columns: 1fr; gap: 24px; }
     .gate-hero-art { display: none; }
     .gate-cards { grid-template-columns: 1fr; }
-    .gate-replay-grid { grid-template-columns: 1fr; }
+    .gate-replay-grid { grid-template-columns: minmax(0, 1fr); }
     .gate-card-top { flex-wrap: wrap; }
   }
 </style>
