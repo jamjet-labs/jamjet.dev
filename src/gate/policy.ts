@@ -37,6 +37,7 @@ export const LIVE_SCENARIOS: GateScenario[] = [
   { id: 'bulk-email', tool: 'email.send_bulk', args: { recipients: 10000, template: 'promo' }, label: 'email.send_bulk(n=10_000)', kind: 'live', blurb: 'Blast radius. Blocked by policy before any mail goes out.' },
   { id: 'budget-cap', tool: 'llm.call', args: { model: 'gpt-5', est_usd: 6.4, run_spend_usd: 4.2 }, label: 'llm.call(est=$6.40)', kind: 'live', blurb: 'This call would cross the $5 run cap. Halted at the gate, not on the invoice.' },
   { id: 'audit-msg', tool: 'slack.send_message', args: { channel: '#alerts', text: 'deploy done' }, label: 'slack.send_message(#alerts)', kind: 'live', blurb: 'Allowed, and written down. Every decision leaves evidence.' },
+  { id: 'read-file', tool: 'fs.read', args: { path: 'reports/q2.csv' }, label: 'fs.read("reports/q2.csv")', kind: 'live', blurb: 'A plain read inside policy. Allowed, instantly, no ceremony.' },
 ];
 
 export const REPLAY_SCENARIOS: GateScenario[] = [
