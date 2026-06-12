@@ -1,0 +1,718 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Seal from '../components/Seal.astro';
+import MarginNote from '../components/MarginNote.astro';
+import TerminalReplay from '../components/TerminalReplay.astro';
+import { GATE_POLICY, LIVE_SCENARIOS, REPLAY_SCENARIOS } from '../gate/policy';
+import { buildReceipt } from '../gate/receipt';
+
+// ── Build-time fallback generation ──────────────────────────────────────────
+// Fixed values so builds are reproducible.
+const FIXED_AT = '2026-06-12T00:00:00Z';
+const BUDGET_MAX = GATE_POLICY.budgets.default.max_usd;
+
+async function makeFallback(scenario: typeof LIVE_SCENARIOS[0], idx: number, approveVariant = false) {
+  const spend = (scenario.args.run_spend_usd as number | undefined) ?? 0;
+  const est = (scenario.args.est_usd as number | undefined) ?? 0;
+  const overBudget = spend + est > BUDGET_MAX;
+
+  const receiptId = `00000000-0000-4000-8000-00000000000${idx}`;
+
+  if (scenario.tool === 'db.drop_table' || scenario.tool === 'email.send_bulk' || overBudget) {
+    const rule = overBudget ? 'budgets.default.max_usd' : (scenario.tool.includes('drop') ? '*drop*' : 'email.send_bulk');
+    const receipt = await buildReceipt({ tool: scenario.tool, capability: scenario.tool, args: scenario.args, decision: 'deny', policyName: 'gate.demo', policyVersion: '1', receiptId, issuedAt: FIXED_AT, status: 'blocked' });
+    return { verdict: 'blocked', rule, receipt, fallback: true };
+  }
+  if (scenario.tool === 'github.merge') {
+    if (approveVariant) {
+      const receipt = await buildReceipt({ tool: scenario.tool, capability: scenario.tool, args: scenario.args, decision: 'require-approval', policyName: 'gate.demo', policyVersion: '1', receiptId, issuedAt: FIXED_AT, status: 'success', approval: { approver: { id: 'human:visitor' }, approved_at: FIXED_AT, context: 'approved in the Gate demo' } });
+      return { verdict: 'approved', rule: 'github.merge', receipt, fallback: true };
+    }
+    return { verdict: 'held', rule: 'github.merge', receiptId, fallback: true };
+  }
+  if (scenario.tool === 'slack.send_message') {
+    const receipt = await buildReceipt({ tool: scenario.tool, capability: scenario.tool, args: scenario.args, decision: 'allow', policyName: 'gate.demo', policyVersion: '1', receiptId, issuedAt: FIXED_AT, status: 'success' });
+    return { verdict: 'audited', rule: 'slack.send_message', receipt, fallback: true };
+  }
+  // fs.read and anything else: allowed
+  const receipt = await buildReceipt({ tool: scenario.tool, capability: scenario.tool, args: scenario.args, decision: 'allow', policyName: 'gate.demo', policyVersion: '1', receiptId, issuedAt: FIXED_AT, status: 'success' });
+  return { verdict: 'allowed', rule: scenario.tool.includes('.') ? scenario.tool : 'fs.read', receipt, fallback: true };
+}
+
+// Top-level await is fine in Astro frontmatter
+const fallbackEntries = await Promise.all(LIVE_SCENARIOS.map((s, i) => makeFallback(s, i)));
+const fallbackApproved = await makeFallback(LIVE_SCENARIOS[1], 6, true);
+
+const fallbackMap: Record<string, unknown> = {};
+for (let i = 0; i < LIVE_SCENARIOS.length; i++) {
+  fallbackMap[LIVE_SCENARIOS[i].id] = fallbackEntries[i];
+}
+fallbackMap['merge-pr-approved'] = fallbackApproved;
+
+// ── Policy as YAML-look text ─────────────────────────────────────────────────
+const policyYaml = `version: 1
+rules:
+${GATE_POLICY.rules.map(r => `  - match: "${r.match}"\n    action: ${r.action}`).join('\n')}
+budgets:
+  default:
+    max_usd: ${GATE_POLICY.budgets.default.max_usd}`;
+
+// ── Replay terminal lines ─────────────────────────────────────────────────────
+const crashLines = [
+  '$ jamjet run research-pipeline.yaml',
+  '▸ Starting exec_7f3a...',
+  '▸ [Analyze]   ✓ completed  420ms',
+  '▸ [Research]  ✗ worker crashed (SIGKILL)',
+  '▸ Lease expired · reclaiming...',
+  '▸ [Research]  ✓ resumed from checkpoint  890ms',
+  '▸ [Synthesize] ✓ completed  1.1s',
+  '▸ Done · 0 events lost',
+];
+const piiLines = [
+  '$ jamjet run ingest-customers.yaml',
+  '▸ fs.read("customers.csv") → intercepted',
+  '▸ PII scan: 4 SSN patterns, 12 email addresses',
+  '▸ Redacting before tool result is returned...',
+  '▸ Tool result: [REDACTED x4 SSN] [REDACTED x12 email]',
+  '▸ Span written · evidence: pii.redact x16',
+  '▸ Agent continues with sanitized data',
+];
+---
+
+<BaseLayout
+  title="The Gate — JamJet"
+  description="Try to get a dangerous tool call past the policy engine. Block, hold, approve, and keep the receipt."
+  canonical="https://jamjet.dev/gate/"
+  currentPage="gate"
+>
+
+<!-- Pre-rendered seal templates (cloned by client JS, never duplicated in strings) -->
+<template data-seal="blocked"><Seal verdict="blocked" size="sm" /></template>
+<template data-seal="held"><Seal verdict="held" size="sm" /></template>
+<template data-seal="approved"><Seal verdict="approved" size="sm" /></template>
+
+<!-- Fallback data baked at build time -->
+<script type="application/json" id="gate-fallback" set:html={JSON.stringify(fallbackMap)}></script>
+
+<!-- ── HERO ─────────────────────────────────────────────────────────────── -->
+<section class="gate-hero">
+  <div class="gate-shell">
+    <div class="gate-hero-grid">
+      <div class="gate-hero-art" aria-hidden="true">
+        <svg width="320" height="252" viewBox="0 0 240 190" fill="none">
+          <path d="M14 38 Q120 18 226 38" stroke="currentColor" stroke-width="11" fill="none" stroke-linecap="round"/>
+          <path d="M10 36 Q120 14 230 36" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.55"/>
+          <line x1="38" y1="64" x2="202" y2="64" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+          <line x1="58" y1="42" x2="66" y2="178" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+          <line x1="182" y1="42" x2="174" y2="178" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+          <line x1="120" y1="40" x2="120" y2="63" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+          <ellipse cx="120" cy="182" rx="86" ry="4" fill="currentColor" opacity="0.12"/>
+        </svg>
+      </div>
+      <div class="gate-hero-copy">
+        <h1 class="gate-h1">Every action passes the gate.</h1>
+        <p class="gate-lede">These cards hit the same policy engine that ships in the JamJet adapters. Pick a call, watch the verdict, keep the receipt. One of them will wait for a human. That human is you.</p>
+        <MarginNote rotate={-3}>you are the approver</MarginNote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── THE DESK ───────────────────────────────────────────────────────────── -->
+<section class="gate-desk">
+  <div class="gate-shell">
+    <span class="gate-eyebrow">Live policy evaluation</span>
+    <div class="gate-cards" id="gate-cards">
+      {LIVE_SCENARIOS.map((s) => (
+        <article class="gate-card" data-scenario={s.id} data-tool={s.tool}>
+          <div class="gate-card-top">
+            <code class="gate-card-label">{s.label}</code>
+            <span class="gate-card-badge" data-badge>
+              <!-- seal or verdict line rendered here by JS -->
+            </span>
+          </div>
+          <p class="gate-card-blurb">{s.blurb}</p>
+          <div class="gate-card-action" data-action>
+            <button class="gate-btn gate-btn-run" data-run={s.id} aria-label={`Run ${s.label} through the gate`}>Run it</button>
+          </div>
+          <div class="gate-card-receipt" data-receipt hidden></div>
+          <div class="gate-card-hold" data-hold hidden>
+            <div class="gate-hold-inner">
+              <p class="gate-hold-note">Held. Approve it to continue.</p>
+              <div class="gate-hold-form">
+                <input class="gate-hold-input" type="text" placeholder="your name (optional)" maxlength="40" data-approver-name />
+                <button class="gate-btn gate-btn-approve" data-approve={s.id}>Approve it</button>
+              </div>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Policy bundle -->
+    <div class="gate-policy-wrap">
+      <span class="gate-eyebrow">The policy that decided</span>
+      <pre class="gate-policy-block"><code>{policyYaml}</code></pre>
+      <p class="gate-policy-note">This is the exact policy the Function loads. Change a rule and the verdicts change. The same YAML works in the CLI adapter and the Python SDK.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── REPLAY ROW ─────────────────────────────────────────────────────────── -->
+<section class="gate-replays">
+  <div class="gate-shell">
+    <span class="gate-eyebrow">Recorded from real runs</span>
+    <p class="gate-replay-note">These behaviors live in the Rust runtime, not the TS policy engine. They are replays, not live calls.</p>
+    <div class="gate-replay-grid">
+      <div>
+        <p class="gate-replay-label">Crash + resume</p>
+        <TerminalReplay lines={crashLines} title="kill -9 mid-run" />
+      </div>
+      <div>
+        <p class="gate-replay-label">PII redaction</p>
+        <TerminalReplay lines={piiLines} title="fs.read intercepted" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PAGE SCRIPT ────────────────────────────────────────────────────────── -->
+<script is:inline>
+(function () {
+  // Clone a seal from a pre-rendered template. Never build seal markup as strings.
+  function cloneSeal(verdict) {
+    var tpl = document.querySelector('[data-seal="' + verdict + '"]');
+    if (!tpl) return null;
+    var frag = tpl.content.cloneNode(true);
+    var el = document.createElement('span');
+    el.appendChild(frag);
+    return el;
+  }
+
+  // Format a receipt for display (mono, key fields only)
+  function renderReceiptHtml(data, isFallback) {
+    var r = data.receipt;
+    if (!r) return '';
+    var approvalBlock = '';
+    if (r.approval) {
+      approvalBlock = '<div class="gate-receipt-approval">'
+        + '<span class="gate-receipt-key">approval.approver</span><span class="gate-receipt-val"> ' + escHtml(r.approval.approver.id) + '</span>\n'
+        + '<span class="gate-receipt-key">approval.approved_at</span><span class="gate-receipt-val"> ' + escHtml(r.approval.approved_at) + '</span>\n'
+        + '<span class="gate-receipt-key">approval.context</span><span class="gate-receipt-val"> ' + escHtml(r.approval.context || '') + '</span>'
+        + '</div>';
+    }
+    var hashShort = r.receipt_hash ? r.receipt_hash.slice(0, 16) + '...' : '';
+    var argsShort = r.arguments_hash ? r.arguments_hash.slice(0, 16) + '...' : '';
+    var fallbackNote = isFallback ? '<div class="gate-receipt-fallback">offline replay (the live endpoint is unreachable)</div>' : '';
+    return fallbackNote
+      + '<div class="gate-receipt-fields">'
+      + '<span class="gate-receipt-key">receipt_id</span><span class="gate-receipt-val"> ' + escHtml(r.receipt_id || '') + '</span>\n'
+      + '<span class="gate-receipt-key">tool</span><span class="gate-receipt-val"> ' + escHtml((r.tool && r.tool.name) ? r.tool.name : '') + '</span>\n'
+      + '<span class="gate-receipt-key">policy.decision</span><span class="gate-receipt-val"> ' + escHtml((r.policy && r.policy.decision) ? r.policy.decision : '') + '</span>\n'
+      + '<span class="gate-receipt-key">arguments_hash</span><span class="gate-receipt-val"> ' + escHtml(argsShort) + '</span>\n'
+      + '<span class="gate-receipt-key">receipt_hash</span><span class="gate-receipt-val"> ' + escHtml(hashShort) + '</span>'
+      + '</div>'
+      + approvalBlock
+      + renderVerifyStrip(r);
+  }
+
+  function renderVerifyStrip(r) {
+    var hash = r.receipt_hash || '';
+    var snippetId = 'verify-snippet-' + (r.receipt_id || '').replace(/[^a-z0-9]/g, '');
+    var snippet = 'fetch("/api/gate", {\n'
+      + '  method: "POST",\n'
+      + '  headers: {"content-type":"application/json"},\n'
+      + '  body: JSON.stringify({scenarioId:"' + (r.tool && r.tool.name ? r.tool.name.replace('.','-') : '') + '"})\n'
+      + '}).then(r=>r.json()).then(async d=>{\n'
+      + '  const rx = d.receipt;\n'
+      + '  const {receipt_hash:_,...payload} = rx;\n'
+      + '  function canon(v){if(v===null||typeof v==="boolean")return JSON.stringify(v);if(typeof v==="number")return Number.isInteger(v)?String(v):JSON.stringify(v);if(typeof v==="string")return JSON.stringify(v);if(Array.isArray(v))return"["+v.map(canon).join(",")+"]";const e=Object.entries(v).filter(([,x])=>x!==undefined).sort(([a],[b])=>a<b?-1:a>b?1:0);return"{"+e.map(([k,x])=>JSON.stringify(k)+":"+canon(x)).join(",")+"}"}\n'
+      + '  const enc=new TextEncoder().encode(canon(payload));\n'
+      + '  const buf=await crypto.subtle.digest("SHA-256",enc);\n'
+      + '  const hex=[...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,"0")).join("");\n'
+      + '  console.log("computed:",hex);\n'
+      + '  console.log("stored: ",rx.receipt_hash);\n'
+      + '  console.log("match:",hex===rx.receipt_hash);\n'
+      + '});';
+    return '<details class="gate-verify">'
+      + '<summary>verify this receipt yourself</summary>'
+      + '<p class="gate-verify-note">Tamper-evident per <a href="https://github.com/jamjet-labs/agentboundary" target="_blank" rel="noopener">AgentBoundary v0.1</a>: receipt_hash = SHA-256 of the canonicalized receipt. Change any byte and the hash breaks.</p>'
+      + '<div class="gate-verify-hash">receipt_hash = ' + escHtml(hash) + '</div>'
+      + '<div class="gate-verify-snippet-wrap"><pre class="gate-verify-snippet" id="' + snippetId + '">' + escHtml(snippet) + '</pre>'
+      + '<button class="gate-copy-btn" onclick="navigator.clipboard.writeText(document.getElementById(\'' + snippetId + '\').textContent)" aria-label="Copy snippet">copy</button></div>'
+      + '</details>';
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // Render badge: seal for blocked/held/approved; mono line for audited/allowed
+  function renderBadge(badgeEl, verdict, rule) {
+    badgeEl.innerHTML = '';
+    if (verdict === 'blocked' || verdict === 'held' || verdict === 'approved') {
+      var seal = cloneSeal(verdict);
+      if (seal) badgeEl.appendChild(seal);
+    } else if (verdict === 'audited') {
+      badgeEl.innerHTML = '<span class="gate-verdict-line">AUDITED &middot; rule ' + escHtml(rule || '') + '</span>';
+    } else if (verdict === 'allowed') {
+      badgeEl.innerHTML = '<span class="gate-verdict-line">ALLOWED &middot; rule ' + escHtml(rule || '') + '</span>';
+    }
+  }
+
+  // Load fallback data
+  var fallback = {};
+  try {
+    var fbEl = document.getElementById('gate-fallback');
+    if (fbEl) fallback = JSON.parse(fbEl.textContent || '{}');
+  } catch(e) {}
+
+  // Submit a scenario to the API (with optional approval)
+  async function submit(scenarioId, approveOpts) {
+    var body = { scenarioId: scenarioId };
+    if (approveOpts) {
+      body.approve = true;
+      if (approveOpts.approverName) body.approverName = approveOpts.approverName;
+    }
+    var controller = new AbortController();
+    var timeout = setTimeout(function() { controller.abort(); }, 4000);
+    try {
+      var resp = await fetch('/api/gate', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(body),
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+      if (!resp.ok) throw new Error('status ' + resp.status);
+      return { data: await resp.json(), fromFallback: false };
+    } catch(e) {
+      clearTimeout(timeout);
+      // Use fallback
+      var fbKey = approveOpts ? scenarioId + '-approved' : scenarioId;
+      var fbData = fallback[fbKey] || fallback[scenarioId];
+      if (fbData) return { data: fbData, fromFallback: true };
+      return { data: null, fromFallback: true };
+    }
+  }
+
+  // Render the result into a card
+  function applyResult(card, scenarioId, data, fromFallback) {
+    if (!data) return;
+    var badgeEl = card.querySelector('[data-badge]');
+    var receiptEl = card.querySelector('[data-receipt]');
+    var actionEl = card.querySelector('[data-action]');
+    var holdEl = card.querySelector('[data-hold]');
+
+    var verdict = data.verdict;
+    var rule = data.rule;
+
+    if (verdict === 'held') {
+      // Show hold state
+      if (badgeEl) renderBadge(badgeEl, 'held', rule);
+      if (holdEl) holdEl.hidden = false;
+      if (actionEl) actionEl.hidden = true;
+      if (receiptEl) receiptEl.hidden = true;
+      return;
+    }
+
+    // All other verdicts: show badge + receipt
+    if (badgeEl) renderBadge(badgeEl, verdict, rule);
+    if (holdEl) holdEl.hidden = true;
+    if (actionEl) actionEl.hidden = true;
+    if (receiptEl) {
+      receiptEl.innerHTML = renderReceiptHtml(data, fromFallback);
+      receiptEl.hidden = false;
+    }
+
+    // Stamp-in animation on seal for approved
+    if (verdict === 'approved') {
+      var seal = receiptEl ? null : (badgeEl && badgeEl.querySelector('.seal'));
+      var target = badgeEl && badgeEl.querySelector('.seal');
+      if (target && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        target.classList.add('gate-seal-stamp');
+      }
+    }
+  }
+
+  // Wire up run buttons
+  document.querySelectorAll('[data-run]').forEach(function(btn) {
+    btn.addEventListener('click', async function() {
+      var scenarioId = btn.getAttribute('data-run');
+      var card = btn.closest('.gate-card');
+      if (!card) return;
+      btn.disabled = true;
+      btn.textContent = 'passing the gate...';
+      card.classList.add('gate-card-loading');
+
+      var result = await submit(scenarioId);
+      card.classList.remove('gate-card-loading');
+      applyResult(card, scenarioId, result.data, result.fromFallback);
+    });
+  });
+
+  // Wire up approve buttons
+  document.querySelectorAll('[data-approve]').forEach(function(btn) {
+    btn.addEventListener('click', async function() {
+      var scenarioId = btn.getAttribute('data-approve');
+      var card = btn.closest('.gate-card');
+      if (!card) return;
+      var nameInput = card.querySelector('[data-approver-name]');
+      var approverName = nameInput ? nameInput.value.trim() : '';
+      btn.disabled = true;
+      btn.textContent = 'approving...';
+
+      var result = await submit(scenarioId, { approverName: approverName || undefined });
+      applyResult(card, scenarioId, result.data, result.fromFallback);
+    });
+  });
+})();
+</script>
+
+</BaseLayout>
+
+<style>
+  /* ── Layout tokens reused from site ────────────────────────────── */
+  .gate-shell { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .gate-eyebrow {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  /* ── Hero ───────────────────────────────────────────────────────── */
+  .gate-hero {
+    padding: var(--space-section-sm) 0 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .gate-hero-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 52px;
+    align-items: center;
+  }
+  .gate-hero-art { color: var(--text); display: flex; justify-content: center; align-items: center; }
+  .gate-h1 {
+    font-size: clamp(1.7rem, 3.6vw, 2.4rem);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+    margin: 0 0 16px;
+  }
+  .gate-lede {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    max-width: 56ch;
+    margin: 0 0 18px;
+  }
+
+  /* ── Desk ───────────────────────────────────────────────────────── */
+  .gate-desk { padding: var(--space-section-sm) 0; }
+  .gate-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .gate-card {
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.2s;
+  }
+  .gate-card-loading {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+  .gate-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 30px;
+  }
+  .gate-card-label {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    background: var(--accent-bg);
+    padding: 3px 7px;
+    border-radius: 4px;
+    word-break: break-all;
+    flex: 1;
+  }
+  .gate-card-badge {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+  .gate-card-blurb {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin: 0;
+  }
+  .gate-card-action { margin-top: auto; }
+
+  /* Buttons */
+  .gate-btn {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .gate-btn:disabled { opacity: 0.55; cursor: default; }
+  .gate-btn-run {
+    background: var(--text);
+    color: var(--bg);
+  }
+  .gate-btn-run:hover:not(:disabled) { opacity: 0.82; }
+  .gate-btn-approve {
+    background: #c98a2d;
+    color: #fff;
+  }
+  .gate-btn-approve:hover:not(:disabled) { opacity: 0.85; }
+
+  /* Hold state */
+  .gate-hold-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .gate-hold-note {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+    font-style: italic;
+  }
+  .gate-hold-form {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .gate-hold-input {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    border: 1px solid var(--border-strong);
+    background: var(--bg);
+    border-radius: 6px;
+    padding: 7px 10px;
+    flex: 1;
+    min-width: 120px;
+    color: var(--text);
+  }
+  .gate-hold-input::placeholder { color: var(--text-muted); }
+
+  /* Verdict line (audited / allowed) */
+  :global(.gate-verdict-line) {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  /* Receipt */
+  .gate-card-receipt {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    line-height: 1.7;
+    background: var(--accent-bg);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin-top: 4px;
+    overflow: hidden;
+  }
+  :global(.gate-receipt-fields) {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 8px;
+    row-gap: 0;
+  }
+  :global(.gate-receipt-key) {
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  :global(.gate-receipt-val) {
+    color: var(--text);
+    word-break: break-all;
+  }
+  :global(.gate-receipt-approval) {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 8px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+    background: rgba(201,138,45,0.07);
+    border-radius: 4px;
+    padding: 8px 10px;
+  }
+  :global(.gate-receipt-fallback) {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: 8px;
+    padding: 4px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  /* Seal stamp-in animation */
+  :global(.gate-seal-stamp) {
+    animation: gate-stamp 0.35s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+  @keyframes gate-stamp {
+    0%   { transform: scale(2.2) rotate(-6deg); opacity: 0; }
+    60%  { transform: scale(0.92) rotate(-6deg); opacity: 1; }
+    100% { transform: scale(1) rotate(-6deg); opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.gate-seal-stamp) { animation: none; }
+  }
+
+  /* Verify strip */
+  :global(.gate-verify) {
+    margin-top: 10px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+  }
+  :global(.gate-verify summary) {
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 11px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.04em;
+    user-select: none;
+  }
+  :global(.gate-verify-note) {
+    color: var(--text-secondary);
+    font-size: 11.5px;
+    line-height: 1.55;
+    margin: 8px 0;
+  }
+  :global(.gate-verify-note a) {
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+  }
+  :global(.gate-verify-hash) {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--text-muted);
+    word-break: break-all;
+    margin-bottom: 8px;
+  }
+  :global(.gate-verify-snippet-wrap) {
+    position: relative;
+  }
+  :global(.gate-verify-snippet) {
+    background: var(--bg-code);
+    color: #e5e4df;
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-size: 10.5px;
+    line-height: 1.65;
+    overflow-x: auto;
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  :global(.gate-copy-btn) {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    background: var(--accent-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 8px;
+    cursor: pointer;
+    color: var(--text-secondary);
+  }
+  :global(.gate-copy-btn:hover) { background: var(--border); }
+
+  /* ── Policy block ───────────────────────────────────────────────── */
+  .gate-policy-wrap {
+    border-top: 1px solid var(--border);
+    padding-top: 36px;
+  }
+  .gate-policy-block {
+    background: var(--accent-bg);
+    border-radius: 8px;
+    padding: 18px 22px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.8;
+    margin: 0 0 14px;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .gate-policy-note {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 66ch;
+    margin: 0;
+  }
+
+  /* ── Replays ────────────────────────────────────────────────────── */
+  .gate-replays {
+    padding: var(--space-section-sm) 0;
+    border-top: 1px solid var(--border);
+  }
+  .gate-replay-note {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+    margin: 0 0 28px;
+    max-width: 60ch;
+  }
+  .gate-replay-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .gate-replay-label {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin: 0 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 11px;
+  }
+
+  /* ── Responsive ─────────────────────────────────────────────────── */
+  @media (max-width: 960px) {
+    .gate-cards { grid-template-columns: repeat(2, 1fr); }
+    .gate-replay-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .gate-hero-grid { grid-template-columns: 1fr; gap: 24px; }
+    .gate-hero-art { display: none; }
+    .gate-cards { grid-template-columns: 1fr; }
+    .gate-replay-grid { grid-template-columns: 1fr; }
+    .gate-card-top { flex-wrap: wrap; }
+  }
+</style>
