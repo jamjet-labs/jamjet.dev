@@ -7,6 +7,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "check:functions": "tsc -p functions --noEmit",
     "verify:receipts": "tsx scripts/verify-receipt-hash.mjs"
   },
   "dependencies": {
