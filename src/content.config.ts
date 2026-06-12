@@ -8,7 +8,7 @@ const blog = defineCollection({
     date: z.coerce.date(),
     author: z.string().optional(),
     draft: z.boolean().optional(),
-    category: z.string().optional(),
+    category: z.enum(['Benchmark', 'Incident analysis', 'Build log', 'Landscape', 'Guide']).optional(),
   }),
 });
 

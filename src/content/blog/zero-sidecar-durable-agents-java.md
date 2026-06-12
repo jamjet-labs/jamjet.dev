@@ -3,7 +3,7 @@ title: "Zero-Sidecar Durable AI Agents in Java"
 date: 2026-04-25
 description: "Kill your agent. Restart it. It remembers everything. The JamJet Java Runtime embeds durable execution directly in your JVM — no Docker, no sidecar, no REST overhead."
 author: "Sunil Prakash"
-category: "Technical Deep Dive"
+category: "Build log"
 ---
 
 Enterprise Java teams building multi-step AI agents face a durability problem that most frameworks do not address.

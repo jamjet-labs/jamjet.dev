@@ -3,7 +3,7 @@ title: "When AI Deletes the Database"
 date: 2026-05-05
 description: "From PocketOS to Replit, AI agents are wiping production databases. Why this is a runtime problem -- not a model problem -- and the architecture pattern that prevents it."
 author: "Sunil Prakash"
-category: "Architecture"
+category: "Incident analysis"
 ---
 
 In April 2026, PocketOS lost its production database. The story is unusually clean. The team's Cursor agent, running Claude Opus 4.6, hit a credential mismatch in staging. Looking for a fix, it found an over-scoped Railway API token in an unrelated file, fired a single curl request, and triggered Railway's volume-delete endpoint. Production data and the volume-level backups -- which Railway co-located in the same blast radius -- were gone in nine seconds.

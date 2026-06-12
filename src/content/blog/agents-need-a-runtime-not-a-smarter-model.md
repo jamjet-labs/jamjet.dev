@@ -3,7 +3,7 @@ title: "Your Agents Don't Need a Smarter Model. They Need a Runtime."
 date: 2026-06-02
 description: "Models keep getting better and agents keep breaking in production. The bottleneck was never intelligence. It is execution reliability, and that is a runtime problem."
 author: "Sunil Prakash"
-category: "Perspective"
+category: "Landscape"
 ---
 
 Your agent passed every test. It demoed clean. Then it went to production, and three days later it was stuck at 2am, halfway through a task, with no memory of how it got there.

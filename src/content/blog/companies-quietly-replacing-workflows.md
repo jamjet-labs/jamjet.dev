@@ -4,7 +4,7 @@ date: 2026-03-31
 description: "While most teams argue about prompt engineering, early movers are shipping autonomous agent workflows that handle claims, onboarding, and due diligence end-to-end. Here's what they know that you don't."
 author: "Sunil Prakash"
 draft: false
-category: "Strategy & Vision"
+category: "Landscape"
 ---
 
 # The Companies Quietly Replacing Entire Workflows with AI Agents — While You're Still Debating Prompts

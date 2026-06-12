@@ -4,7 +4,7 @@ date: 2026-03-25
 description: "Named companies, real metrics, sourced data. How finance, legal, support, and insurance deploy AI agents in production — and what it means if you haven't started."
 author: "Sunil Prakash"
 draft: false
-category: "Strategy & Vision"
+category: "Landscape"
 ---
 
 # What Your Competitors Are Already Doing With AI Agents — And Why the Gap Is Widening

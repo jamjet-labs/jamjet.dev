@@ -4,7 +4,7 @@ date: 2026-05-11
 description: "JamJet shipped a portable policy layer that runs the same safety rules across Claude Code hooks, OpenAI Agents SDK guardrails, MCP stdio traffic, and the JamJet Python/TS SDKs. One policy file. One audit trail."
 author: "Sunil Prakash"
 draft: false
-category: "Engineering"
+category: "Build log"
 ---
 
 ## Same policy. Three runtimes.

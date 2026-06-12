@@ -3,7 +3,7 @@ title: "What's Missing in JVM AI: Governance and Budget Enforcement"
 date: 2026-06-07
 description: "Java got serious about AI observability this year. Governance is a different story: the frameworks ship interception hooks, not a safety layer, and nobody enforces a budget."
 author: "Sunil Prakash"
-category: "Perspective"
+category: "Landscape"
 ---
 
 # What's Missing in JVM AI: Governance and Budget Enforcement

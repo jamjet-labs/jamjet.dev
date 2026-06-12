@@ -4,7 +4,7 @@ date: 2026-03-28
 description: "Spring transformed how Java built enterprise apps. AI agents need the same transformation — not another framework, but a production runtime. A sourced comparison of every major JVM AI framework and where the gap remains."
 author: "Sunil Prakash"
 draft: false
-category: "Technical Deep Dive"
+category: "Landscape"
 ---
 
 # AI Agents Need Their Spring Moment — It Starts with the Runtime

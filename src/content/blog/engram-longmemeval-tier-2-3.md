@@ -4,7 +4,7 @@ date: 2026-05-04
 description: "We added 8 retrieval-and-reading techniques to Engram and benchmarked each independently against LongMemEval-S. Three shipped, five didn't. The negative results turned out to be the most useful part."
 author: "Sunil Prakash"
 draft: false
-category: "Engineering"
+category: "Benchmark"
 ---
 
 # Engram on LongMemEval: What Worked, What Didn't, What We Learned

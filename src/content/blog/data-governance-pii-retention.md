@@ -3,7 +3,7 @@ title: "Data governance for AI agents: PII, redaction, and retention"
 date: 2026-03-12
 description: "How JamJet's data policy engine handles PII detection, automatic redaction, and time-based retention — enforced by the Rust runtime, not by convention."
 author: "Sunil Prakash"
-category: "Enterprise & Security"
+category: "Guide"
 ---
 
 # Data governance for AI agents: PII, redaction, and retention

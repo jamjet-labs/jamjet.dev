@@ -4,7 +4,7 @@ date: 2026-05-16
 description: "Curate a handful of traces, draft a policy, replay it against the curated set, and read a per-event verdict diff before any agent runs the rule in production."
 author: "Sunil Prakash"
 draft: false
-category: "Engineering"
+category: "Guide"
 ---
 
 # Datasets as Policy Test Fixtures for Production AI Agents

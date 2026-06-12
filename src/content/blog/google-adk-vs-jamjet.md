@@ -3,7 +3,7 @@ title: "Google ADK vs JamJet: Building a Claims Processing Agent"
 date: 2026-04-15
 description: "We built the same insurance claims agent in both frameworks. One crashes and loses everything. The other picks up exactly where it left off."
 author: "Sunil Prakash"
-category: "Architecture & Deep Dives"
+category: "Landscape"
 ---
 
 # Google ADK vs JamJet: Building a Claims Processing Agent
