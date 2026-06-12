@@ -115,7 +115,7 @@ const homeLd = {
     <div class="zn-cover-foot">
       <div class="zn-cta-row">
         <a href="#adapters" class="zn-btn zn-btn-primary">See every adapter &darr;</a>
-        <a href="https://docs.jamjet.dev/en/docs/quickstart" class="zn-btn zn-btn-ghost">Get started in 60s</a>
+        <a href="https://docs.jamjet.dev/en/docs/quickstart" class="zn-btn zn-btn-ghost">Install in 60 seconds</a>
         <a href="https://agentboundary.jamjet.dev/" class="zn-btn zn-btn-ghost">Run conformance &rarr;</a>
       </div>
       <p class="zn-cta-aside">
@@ -268,9 +268,8 @@ const homeLd = {
       <p class="zn-essay-body">
         <span class="zn-dropcap">M</span>ost of what breaks an AI agent in the real world isn’t model quality.
         It’s the boring stuff: a worker dies, a tool gets called wrong, a budget runs out,
-        an audit team asks what happened. We built JamJet to make those things controllable,
-        recordable, and recoverable — without forcing you to abandon LangGraph or CrewAI or
-        whatever’s already working.
+        an audit team asks what happened. We built JamJet so the dangerous call gets blocked, the crashed run resumes,
+        and every action ends as a signed receipt. You keep LangGraph or CrewAI or whatever already works.
       </p>
       <p class="zn-essay-body">
         The runtime sits between your agent and everything it touches. Models, tools, memory,
@@ -461,11 +460,12 @@ const homeLd = {
 <!-- ────────────────────  PULL QUOTE 2 ──────────────────── -->
 <section class="zn-pq">
   <div class="zn-shell zn-pq-shell">
-    <span class="zn-pq-mark">“</span>
-    <p class="zn-pq-text">
+    <span class=”zn-pq-mark”>”</span>
+    <p class=”zn-pq-text”>
       We don’t replace your framework. We sit underneath it, like a seatbelt.
     </p>
-    <span class="zn-pq-attr">— the design intent, in one sentence</span>
+    <p class=”zn-pq-sub”>Every tool call passes through one checkpoint that can block, hold, record, or resume it.</p>
+    <span class=”zn-pq-attr”>— the design intent, in one sentence</span>
   </div>
 </section>
 
@@ -1148,6 +1148,13 @@ const homeLd = {
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: var(--text-muted);
+  }
+  .zn-pq-sub {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0 0 16px;
+    font-style: normal;
   }
 
   /* ─────────  WHAT JUST HAPPENED (readback)  ───────── */
