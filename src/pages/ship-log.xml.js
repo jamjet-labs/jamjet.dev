@@ -5,6 +5,7 @@ export async function GET(context) {
   const entries = (await getCollection('shiplog'))
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
   return rss({
+    trailingSlash: false,
     title: 'JamJet Ship Log',
     description: 'What shipped across the JamJet runtime, SDKs, and Cloud. Every other Friday, no skips.',
     site: context.site,

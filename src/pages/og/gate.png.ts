@@ -10,12 +10,20 @@ const FONT_SEMIBOLD_URL =
 let fontRegular: ArrayBuffer | null = null;
 let fontSemiBold: ArrayBuffer | null = null;
 
+async function fetchFont(url: string): Promise<ArrayBuffer> {
+  // Runs at build time (static output); a failed fetch should fail the build
+  // with a clear message rather than an opaque satori error.
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`og/gate.png: font fetch failed ${r.status} for ${url}`);
+  return r.arrayBuffer();
+}
+
 async function loadFonts(): Promise<{ fontRegular: ArrayBuffer; fontSemiBold: ArrayBuffer }> {
   if (!fontRegular) {
-    fontRegular = await fetch(FONT_REGULAR_URL).then((r) => r.arrayBuffer());
+    fontRegular = await fetchFont(FONT_REGULAR_URL);
   }
   if (!fontSemiBold) {
-    fontSemiBold = await fetch(FONT_SEMIBOLD_URL).then((r) => r.arrayBuffer());
+    fontSemiBold = await fetchFont(FONT_SEMIBOLD_URL);
   }
   return { fontRegular: fontRegular!, fontSemiBold: fontSemiBold! };
 }

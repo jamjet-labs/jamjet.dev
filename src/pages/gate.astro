@@ -355,6 +355,11 @@ const card4Code = `<span class="t-w">card</span> <span class="t-p">=</span> <spa
     var hashShort = r.receipt_hash ? r.receipt_hash.slice(0, 16) + '...' : '';
     var argsShort = r.arguments_hash ? r.arguments_hash.slice(0, 16) + '...' : '';
     var fallbackNote = isFallback ? '<div class="gate-receipt-fallback">offline replay (the live endpoint is unreachable)</div>' : '';
+    // AgentBoundary v0.1 has no audited decision value: audit means the call is
+    // allowed and this receipt is the evidence. Say so where the two words meet.
+    var auditNote = data.verdict === 'audited'
+      ? '<div class="gate-receipt-fallback">audit in the policy maps to decision allow in the receipt. The receipt itself is the audit evidence.</div>'
+      : '';
     // Embed raw receipt JSON for in-place console verification.
     // JSON inside a script tag must not contain the closing tag sequence; escape < as <.
     var jsonId = 'gate-receipt-json-' + (r.receipt_id || '').replace(/[^a-z0-9]/g, '');
@@ -362,6 +367,7 @@ const card4Code = `<span class="t-w">card</span> <span class="t-p">=</span> <spa
     var embeddedJson = '<' + 'script type="application/json" class="gate-receipt-json" id="' + jsonId + '">' + safeJson + '<' + '/script>';
     return embeddedJson
       + fallbackNote
+      + auditNote
       + '<div class="gate-receipt-fields">'
       + '<span class="gate-receipt-key">receipt_id</span><span class="gate-receipt-val"> ' + escHtml(r.receipt_id || '') + '</span>\n'
       + '<span class="gate-receipt-key">tool</span><span class="gate-receipt-val"> ' + escHtml((r.tool && r.tool.name) ? r.tool.name : '') + '</span>\n'
