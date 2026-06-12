@@ -222,7 +222,7 @@ const card4Code = `<span class="t-w">card</span> <span class="t-p">=</span> <spa
               class="gate-freeform-tool-input"
               type="text"
               placeholder="payments.refund"
-              maxlength="50"
+              maxlength="49"
               autocomplete="off"
               spellcheck="false"
               aria-label="Tool name"
@@ -689,7 +689,7 @@ const card4Code = `<span class="t-w">card</span> <span class="t-p">=</span> <spa
 
       // Client-side tool validation
       if (!TOOL_RE.test(tool)) {
-        showError('Tool name must match namespace.action (letters, digits, dots, underscores; 2-50 chars; start with a letter).');
+        showError('Tool name must match namespace.action (letters, digits, dots, underscores; 2-49 chars; start with a letter).');
         return;
       }
 

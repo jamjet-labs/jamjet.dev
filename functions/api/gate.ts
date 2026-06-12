@@ -24,6 +24,11 @@ const TOOL_RE = /^[a-z][a-z0-9_.]{1,48}$/i;
 // POST /api/gate  { freeform: { tool, args } } -> verdict + receipt (or held draft)
 // POST /api/gate  { freeform: { tool, args }, approve: true, approverName? } -> completed receipt
 export const onRequestPost: PagesFunction = async (ctx) => {
+  const contentLength = ctx.request.headers.get('content-length');
+  if (contentLength !== null && parseInt(contentLength, 10) > 4096) {
+    return json({ error: 'body too large' }, 413);
+  }
+
   let body: {
     scenarioId?: string;
     freeform?: { tool?: unknown; args?: unknown };
@@ -81,7 +86,7 @@ export const onRequestPost: PagesFunction = async (ctx) => {
 
       if (verdict === 'block') {
         const receipt = await buildReceipt({ ...base, decision: 'deny', status: 'blocked' });
-        return json({ verdict: 'blocked', rule: overBudget && decision.pattern === null ? 'budgets.default.max_usd' : decision.pattern, receipt });
+        return json({ verdict: 'blocked', rule: overBudget ? 'budgets.default.max_usd' : decision.pattern, receipt });
       }
       if (verdict === 'require_approval') {
         if (body.approve) {
@@ -135,7 +140,7 @@ export const onRequestPost: PagesFunction = async (ctx) => {
 
     if (verdict === 'block') {
       const receipt = await buildReceipt({ ...base, decision: 'deny', status: 'blocked' });
-      return json({ verdict: 'blocked', rule: overBudget && decision.pattern === null ? 'budgets.default.max_usd' : decision.pattern, receipt });
+      return json({ verdict: 'blocked', rule: overBudget ? 'budgets.default.max_usd' : decision.pattern, receipt });
     }
     if (verdict === 'require_approval') {
       if (body.approve) {

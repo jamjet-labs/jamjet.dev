@@ -153,3 +153,7 @@ CLAUDE.md
 progress-tracker.md
 REQUIREMENTS.md
 .worktrees/
+
+# Tool caches
+.wrangler/
+.playwright-mcp/
