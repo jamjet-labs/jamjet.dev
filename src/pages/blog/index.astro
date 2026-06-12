@@ -35,7 +35,7 @@ function authorHue(name: string | undefined) {
 
 function readTime(body: string | undefined) {
   if (!body) return null;
-  const words = body.split(/\s+/).length;
+  const words = body.replace(/```[\s\S]*?```/g, '').split(/\s+/).length;
   return Math.max(1, Math.round(words / 220));
 }
 
@@ -113,25 +113,29 @@ const blogLd = {
     )}
   </header>
 
+  {shelfPosts.length === 5 && (
   <section class="shelf" aria-label="Worth your time">
     <div class="shelf-head">
       <h2 class="shelf-title">Worth your time</h2>
       <p class="shelf-sub">Five pieces that hold up no matter which framework you run.</p>
     </div>
     <div class="shelf-row">
-      {shelfPosts.map((post) => post && (
+      {shelfPosts.map((post) => (
         <a class="shelf-card" href={`/blog/${post.slug}/`}>
           <span class="shelf-kicker">{post.data.category}</span>
-          <CategoryMark category={post.data.category ?? ''} stroke="var(--hand)" />
+          {post.data.category && <CategoryMark category={post.data.category} stroke="var(--hand)" />}
           <h3 class="shelf-card-title">{post.data.title}</h3>
           <time class="shelf-card-date">{formatDate(post.data.date)}</time>
         </a>
       ))}
     </div>
   </section>
+  )}
 
   <ol class="feed" id="feed">
-    {posts.map((post, idx) => (
+    {posts.map((post, idx) => {
+      const rt = readTime(post.body);
+      return (
       <li class="feed-item" data-category={post.data.category ?? ''}>
         <a class="feed-link" href={`/blog/${post.slug}/`}>
           <div class="feed-rail">
@@ -150,7 +154,7 @@ const blogLd = {
               )}
               <time class="feed-date">{formatDate(post.data.date)}</time>
               {isNew(post.data.date) && <span class="feed-new">just shipped</span>}
-              {readTime(post.body) && <span class="feed-read">· {readTime(post.body)} min read</span>}
+              {rt && <span class="feed-read">· {rt} min read</span>}
             </div>
             <h2 class="feed-title">{post.data.title}</h2>
             <p class="feed-desc">{post.data.description}</p>
@@ -160,7 +164,8 @@ const blogLd = {
           </div>
         </a>
       </li>
-    ))}
+      );
+    })}
   </ol>
 
   <footer class="blog-footer-note">
