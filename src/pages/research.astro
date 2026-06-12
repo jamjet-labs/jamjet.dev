@@ -573,23 +573,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .r-caps {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px 48px;
+    gap: 16px;
   }
   .r-cap {
-    padding: 24px 0;
-    border-top: 1px solid var(--border);
+    padding: 20px 22px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    box-shadow: 1px 2px 0 rgba(20,20,19,0.06);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  .r-cap:hover {
+    transform: translateY(-1px);
+    box-shadow: 2px 4px 0 rgba(20,20,19,0.1);
   }
   .r-cap h3 {
-    font-size: 0.95rem;
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
     font-weight: 600;
     margin-bottom: 8px;
     color: var(--text);
   }
   .r-cap p {
     color: var(--text-secondary);
-    font-size: 0.85rem;
+    font-size: 0.83rem;
     line-height: 1.7;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
   .r-cap-code {
     background: var(--bg-code);
@@ -779,10 +788,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
   .r-proof-table-wrap {
     overflow-x: auto;
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    background: var(--surface);
+    max-width: 720px;
   }
   .r-proof-table {
     width: 100%;
-    max-width: 720px;
     border-collapse: collapse;
     font-size: 0.85rem;
     font-family: var(--font-mono);
@@ -794,26 +806,31 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     border-bottom: 1px solid var(--border);
   }
   .r-proof-table th {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--text-muted);
+    background: var(--bg-alt);
   }
+  .r-proof-table tr:first-child th:first-child { border-radius: 10px 0 0 0; }
+  .r-proof-table tr:first-child th:last-child { border-radius: 0 10px 0 0; }
   .r-proof-table td {
     color: var(--text-secondary);
   }
   .r-proof-table td:first-child {
     color: var(--text);
     font-weight: 500;
+    font-family: var(--font-mono);
   }
+  .r-proof-table tbody tr:last-child td { border-bottom: 0; }
   .r-proof-best {
     background: rgba(139,115,85,0.06);
   }
   .r-proof-best td {
     color: var(--text) !important;
-    font-weight: 500;
+    font-weight: 600;
   }
   .r-proof-note {
     color: var(--text-muted);
@@ -980,21 +997,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .r-recipes {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
+    gap: 14px;
   }
   .r-recipe {
-    padding: 20px 0;
-    border-top: 1px solid var(--border);
+    padding: 18px 18px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    box-shadow: 1px 2px 0 rgba(20,20,19,0.06);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  .r-recipe:hover {
+    transform: translateY(-1px);
+    box-shadow: 2px 4px 0 rgba(20,20,19,0.1);
   }
   .r-recipe strong {
     display: block;
-    font-size: 0.92rem;
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
     margin-bottom: 8px;
     color: var(--text);
   }
   .r-recipe p {
     color: var(--text-secondary);
-    font-size: 0.85rem;
+    font-size: 0.83rem;
     line-height: 1.6;
     margin: 0;
   }
