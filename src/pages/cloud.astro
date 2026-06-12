@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Seal from '../components/Seal.astro';
 import MarginNote from '../components/MarginNote.astro';
 
-const SIGNUP = 'https://app.jamjet.dev/signup';
+const SIGNUP = 'https://app.jamjet.dev/login';
 
 const cloudLd = {
   "@context": "https://schema.org",
@@ -175,6 +175,8 @@ const cloudLd = {
         line your reviewers see, with a timer and a name attached.
       </p>
     </div>
+
+    <p class="cl-act-seed">A shared queue is where the team turn starts. That is the Team plan.</p>
   </div>
 </section>
 
@@ -207,7 +209,7 @@ const cloudLd = {
 <span class="cl-rk">arguments_hash</span><span class="cl-rp">:</span> <span class="cl-rh">7c1f9a3e2b8d4056…</span>
 <span class="cl-rk">receipt_hash</span><span class="cl-rp">:</span> <span class="cl-rh cl-rh-final">4d905d6e0a17bc92…verified</span></code></pre>
         <div class="cl-receipt-foot">
-          Tamper-evident per <a href="https://agentboundary.jamjet.dev/">AgentBoundary v0.1</a>.
+          Tamper-evident per <a href="https://agentboundary.jamjet.dev/">the AgentBoundary receipt schema</a>.
           Change any byte and the hash breaks.
         </div>
         <Seal verdict="approved" size="md" />
@@ -219,6 +221,8 @@ const cloudLd = {
         Compliance asks for March. You export a sealed PDF, not a Slack archaeology dig.
       </p>
     </div>
+
+    <p class="cl-act-seed">Retention and export are what an audit actually asks for. That is Business.</p>
   </div>
 </section>
 
@@ -237,15 +241,15 @@ const cloudLd = {
         <div>OSS runtime</div>
         <div>JamJet Cloud</div>
       </div>
-      <div class="osvc-row"><div>Local execution &amp; durability</div><div class="yes">Yes</div><div class="yes">Yes</div></div>
-      <div class="osvc-row"><div>Policy engine</div><div class="yes">Yes</div><div class="yes">Yes</div></div>
-      <div class="osvc-row"><div>Audit log (local)</div><div class="yes">Yes</div><div class="yes">Yes</div></div>
-      <div class="osvc-row"><div>Engram memory</div><div class="yes">Self-hosted</div><div class="yes">Hosted</div></div>
-      <div class="osvc-row"><div>Trace dashboard</div><div class="partial">Local web companion</div><div class="yes">Team-wide</div></div>
-      <div class="osvc-row"><div>Approval queue across reviewers</div><div class="partial">API only</div><div class="yes">Hosted UI + SLA</div></div>
-      <div class="osvc-row"><div>Retention &amp; audit export</div><div class="no">Manual</div><div class="yes">Built-in</div></div>
-      <div class="osvc-row"><div>SSO / RBAC / projects</div><div class="no">&mdash;</div><div class="yes">Team / Enterprise</div></div>
-      <div class="osvc-row"><div>Cross-agent trace propagation</div><div class="partial">Manual</div><div class="yes">W3C traceparent</div></div>
+      <div class="osvc-row"><div>Local execution &amp; durability</div><div class="yes" data-h="OSS runtime">Yes</div><div class="yes" data-h="JamJet Cloud">Yes</div></div>
+      <div class="osvc-row"><div>Policy engine</div><div class="yes" data-h="OSS runtime">Yes</div><div class="yes" data-h="JamJet Cloud">Yes</div></div>
+      <div class="osvc-row"><div>Audit log (local)</div><div class="yes" data-h="OSS runtime">Yes</div><div class="yes" data-h="JamJet Cloud">Yes</div></div>
+      <div class="osvc-row"><div>Engram memory</div><div class="yes" data-h="OSS runtime">Self-hosted</div><div class="yes" data-h="JamJet Cloud">Hosted</div></div>
+      <div class="osvc-row"><div>Trace dashboard</div><div class="partial" data-h="OSS runtime">Local web companion</div><div class="yes" data-h="JamJet Cloud">Team-wide</div></div>
+      <div class="osvc-row"><div>Approval queue across reviewers</div><div class="partial" data-h="OSS runtime">API only</div><div class="yes" data-h="JamJet Cloud">Hosted UI + SLA</div></div>
+      <div class="osvc-row"><div>Retention &amp; audit export</div><div class="no" data-h="OSS runtime">Manual</div><div class="yes" data-h="JamJet Cloud">Built-in</div></div>
+      <div class="osvc-row"><div>SSO / RBAC / projects</div><div class="no" data-h="OSS runtime">&mdash;</div><div class="yes" data-h="JamJet Cloud">Team / Enterprise</div></div>
+      <div class="osvc-row"><div>Cross-agent trace propagation</div><div class="partial" data-h="OSS runtime">Manual</div><div class="yes" data-h="JamJet Cloud">W3C traceparent</div></div>
     </div>
   </div>
 </section>
@@ -266,6 +270,7 @@ const cloudLd = {
         <div class="cl-plan-price">$0<span class="cl-plan-per"> forever</span></div>
         <p class="cl-plan-desc">For you. Connect an agent, watch your runs, solo everything.</p>
         <ul class="cl-plan-list">
+          <li>5K traces / month</li>
           <li>Traces, signals, and costs</li>
           <li>Policies and audit log</li>
           <li>7-day retention</li>
@@ -307,7 +312,7 @@ const cloudLd = {
         <p class="cl-plan-desc">When someone outside the team asks for proof.</p>
         <ul class="cl-plan-list">
           <li>1M traces / month</li>
-          <li>Longer retention</li>
+          <li>180-day retention</li>
           <li>Audit export, more seats</li>
           <li>SSO when available</li>
         </ul>
@@ -834,6 +839,17 @@ const cloudLd = {
     .cl-plans { grid-template-columns: 1fr; }
     .osvc-row { grid-template-columns: 1fr; gap: 2px; }
     .osvc-head { display: none; }
+    .osvc-row [data-h]::before {
+      content: attr(data-h);
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
     .cl-receipt { transform: none; }
     .cl-receipt :global(.seal) { bottom: 60px; right: 14px; }
     .cl-panel-wrap > :global(.margin-note),

@@ -19,11 +19,11 @@ async function fetchFont(url: string): Promise<ArrayBuffer> {
 }
 
 async function loadFonts(): Promise<{ fontRegular: ArrayBuffer; fontSemiBold: ArrayBuffer }> {
-  if (!fontRegular) {
-    fontRegular = await fetchFont(FONT_REGULAR_URL);
-  }
-  if (!fontSemiBold) {
-    fontSemiBold = await fetchFont(FONT_SEMIBOLD_URL);
+  if (!fontRegular || !fontSemiBold) {
+    [fontRegular, fontSemiBold] = await Promise.all([
+      fontRegular ?? fetchFont(FONT_REGULAR_URL),
+      fontSemiBold ?? fetchFont(FONT_SEMIBOLD_URL),
+    ]);
   }
   return { fontRegular: fontRegular!, fontSemiBold: fontSemiBold! };
 }
