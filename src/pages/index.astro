@@ -473,7 +473,7 @@ const homeLd = {
 <section class="zn-log">
   <div class="zn-shell">
     <div class="zn-log-head">
-      <span class="zn-eyebrow">Running log</span>
+      <span class="zn-eyebrow">From the field</span>
       <h2 class="zn-h2 zn-h2-small">Field notes</h2>
       <p class="zn-fieldnotes-bar">War stories and measurements from running agents against real systems. Worth reading even if you never use JamJet.</p>
     </div>
@@ -1041,20 +1041,20 @@ const homeLd = {
     padding: 1px 6px;
     border-radius: 3px;
   }
-  .zn-adapter-list { list-style: none; margin: 30px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .zn-adapter-list { list-style: none; margin: 30px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  @media (max-width: 760px) { .zn-adapter-list { grid-template-columns: minmax(0, 1fr); } }
   .zn-adapter { margin: 0; }
   .zn-adapter-link {
-    display: flex; align-items: baseline; gap: 12px;
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px;
     background: var(--surface); border: 1px solid var(--border-strong); border-radius: 6px;
-    padding: 13px 16px; text-decoration: none; color: var(--text);
+    padding: 12px 16px; text-decoration: none; color: var(--text);
     box-shadow: 1px 2px 0 rgba(20, 20, 19, 0.06);
     transition: transform 0.12s ease, box-shadow 0.12s ease;
   }
   .zn-adapter-link:hover { transform: translateY(-1px); box-shadow: 2px 4px 0 rgba(20, 20, 19, 0.1); }
-  .zn-adapter-name { font-family: var(--font-mono); font-size: 13px; font-weight: 500; flex: none; }
-  .zn-adapter-host { font-family: var(--font-sans); font-size: 12px; color: var(--text-muted); }
-  .zn-adapter-install { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted); margin-left: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  @media (max-width: 760px) { .zn-adapter-list { grid-template-columns: 1fr; } .zn-adapter-install { display: none; } }
+  .zn-adapter-name { font-family: var(--font-mono); font-size: 13px; font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .zn-adapter-host { font-family: var(--font-sans); font-size: 12px; color: var(--text-muted); text-align: right; align-self: baseline; }
+  .zn-adapter-install { grid-column: 1 / -1; font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
   /* ─────────  SHIP LOG STRIP  ───────── */
   .zn-shiplog { padding: var(--space-section-sm) 0 0; }
@@ -1377,7 +1377,7 @@ const homeLd = {
     .zn-failures { grid-template-columns: 1fr; gap: 28px; }
     .zn-code-grid { grid-template-columns: 1fr; }
     .zn-pair-grid { grid-template-columns: 1fr; }
-    .zn-adapter-list { grid-template-columns: 1fr; }
+    .zn-adapter-list { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 640px) {
     .zn-cover { padding: 40px 0 56px; }
