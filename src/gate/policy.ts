@@ -43,4 +43,5 @@ export const LIVE_SCENARIOS: GateScenario[] = [
 export const REPLAY_SCENARIOS: GateScenario[] = [
   { id: 'crash-resume', tool: 'worker.crash', args: {}, label: 'kill -9 mid-run', kind: 'replay', blurb: 'Recorded from a real run: the scheduler reclaims the lease and resumes from the checkpoint.' },
   { id: 'pii-redact', tool: 'fs.read', args: { path: 'customers.csv' }, label: 'fs.read(customers.csv)', kind: 'replay', blurb: 'Recorded from a real run: PII detected and redacted by the runtime middleware.' },
+  { id: 'memory-recall', tool: 'engram.recall', args: { query: 'user preferences' }, label: 'engram.recall("user preferences")', kind: 'replay', blurb: 'Recorded from a real run: durable facts survive the session, raw chat history does not.' },
 ];

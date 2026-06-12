@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Seal from '../components/Seal.astro';
 import MarginNote from '../components/MarginNote.astro';
 import TerminalReplay from '../components/TerminalReplay.astro';
+import UseCaseCard from '../components/UseCaseCard.astro';
+import SocialProofBar from '../components/SocialProofBar.astro';
 import { GATE_POLICY, LIVE_SCENARIOS, REPLAY_SCENARIOS } from '../gate/policy';
 import { buildReceipt } from '../gate/receipt';
 
@@ -77,6 +79,37 @@ const piiLines = [
   '▸ Span written · evidence: pii.redact x16',
   '▸ Agent continues with sanitized data',
 ];
+const memoryLines = [
+  '$ engram.recall("user preferences")',
+  '▸ Searching semantic index...',
+  '[ from earlier sessions ]',
+  '▸ sunil prefers concise answers          (s1)',
+  '▸ project: JamJet Cloud                  (s1)',
+  '▸ shipped policy violations panel        (s7)',
+  '▸ location: Amsterdam (superseded Pune, s6)',
+  '[ token budget: 287 of 400 ]',
+  '▸ Durable facts returned. Raw chat history not included.',
+];
+
+// UseCaseCard code samples (ported verbatim from showcase.astro)
+const card0Code = `<span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span><span class="t-w">model</span><span class="t-p">=</span><span class="t-s">"claude-sonnet-4-6"</span><span class="t-p">,</span> <span class="t-w">tools</span><span class="t-p">=[</span><span class="t-w">market_data</span><span class="t-p">,</span> <span class="t-w">sec_filings</span><span class="t-p">])</span>
+<span class="t-kw">async def</span> <span class="t-b">analyze_company</span><span class="t-p">(</span><span class="t-w">ticker</span><span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">) -&gt;</span> <span class="t-y">Report</span><span class="t-p">:</span>
+    <span class="t-s">"""Deep financial analysis with risk assessment."""</span>`;
+
+const card1Code = `<span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span><span class="t-w">tools</span><span class="t-p">=[</span><span class="t-w">search</span><span class="t-p">,</span> <span class="t-w">retrieve</span><span class="t-p">,</span> <span class="t-w">summarize</span><span class="t-p">])</span>
+<span class="t-kw">async def</span> <span class="t-b">answer</span><span class="t-p">(</span><span class="t-w">question</span><span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">) -&gt;</span> <span class="t-y">str</span><span class="t-p">:</span>
+    <span class="t-s">"""Search knowledge base, retrieve docs, synthesize answer."""</span>`;
+
+const card2Code = `<span class="t-p">@</span><span class="t-b">workflow.step</span><span class="t-p">(</span><span class="t-w">type</span><span class="t-p">=</span><span class="t-s">"human_approval"</span><span class="t-p">)</span>
+<span class="t-kw">async def</span> <span class="t-b">approve</span><span class="t-p">(</span><span class="t-w">state</span><span class="t-p">):</span>
+    <span class="t-kw">return await</span> <span class="t-w">state</span><span class="t-p">.</span><span class="t-b">wait_for_approval</span><span class="t-p">()</span>`;
+
+const card3Code = `<span class="t-p">@</span><span class="t-b">task</span><span class="t-p">(</span><span class="t-w">tools</span><span class="t-p">=[</span><span class="t-w">web_search</span><span class="t-p">,</span> <span class="t-w">calculator</span><span class="t-p">],</span> <span class="t-w">strategy</span><span class="t-p">=</span><span class="t-s">"react"</span><span class="t-p">)</span>
+<span class="t-kw">async def</span> <span class="t-b">research</span><span class="t-p">(</span><span class="t-w">q</span><span class="t-p">:</span> <span class="t-y">str</span><span class="t-p">) -&gt;</span> <span class="t-y">str</span><span class="t-p">:</span>
+    <span class="t-s">"""Research with MCP tools, crash-safe."""</span>`;
+
+const card4Code = `<span class="t-w">card</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">discover</span><span class="t-p">(</span><span class="t-s">"/.well-known/agent.json"</span><span class="t-p">)</span>
+<span class="t-w">result</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-b">delegate</span><span class="t-p">(</span><span class="t-w">card</span><span class="t-p">,</span> <span class="t-w">task</span><span class="t-p">=</span><span class="t-s">"analyze report"</span><span class="t-p">)</span>`;
 ---
 
 <BaseLayout
@@ -172,9 +205,98 @@ const piiLines = [
         <p class="gate-replay-label">{REPLAY_SCENARIOS[1].blurb.split(':')[0]}</p>
         <TerminalReplay lines={piiLines} title={REPLAY_SCENARIOS[1].label} />
       </div>
+      <div>
+        <p class="gate-replay-label">{REPLAY_SCENARIOS[2].blurb.split(':')[0]}</p>
+        <TerminalReplay lines={memoryLines} title={REPLAY_SCENARIOS[2].label} />
+      </div>
     </div>
   </div>
 </section>
+
+<!-- ── WHY TEAMS CARE ─────────────────────────────────────────────────────── -->
+<section class="gate-teams-care">
+  <div class="gate-shell">
+    <span class="gate-eyebrow">Impact</span>
+    <h2 class="gate-section-h2">Why teams care</h2>
+    <div class="gate-care-grid">
+      <div class="gate-care-item">
+        <strong>Lower rerun cost</strong>
+        <p>Completed steps stay completed. No wasted tokens after failure.</p>
+      </div>
+      <div class="gate-care-item">
+        <strong>Safer side effects</strong>
+        <p>Downstream actions are less likely to be repeated after failure.</p>
+      </div>
+      <div class="gate-care-item">
+        <strong>Faster debugging</strong>
+        <p>Replay the exact execution instead of reconstructing it from logs.</p>
+      </div>
+      <div class="gate-care-item">
+        <strong>More reliable operations</strong>
+        <p>Long-running workflows survive crashes, restarts, and lease handoffs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── REAL WORKFLOWS ─────────────────────────────────────────────────────── -->
+<section class="gate-usecases">
+  <div class="gate-shell">
+    <span class="gate-eyebrow">Real workflows</span>
+    <h2 class="gate-section-h2">How teams use JamJet under load</h2>
+    <p class="gate-usecase-intro">Click any card to expand the code.</p>
+    <div class="gate-usecase-grid">
+      <UseCaseCard
+        index={0}
+        title="Investment Due Diligence"
+        description="A durable multi-agent workflow for report generation, risk review, and compliance checks."
+        tags={["multi-agent", "a2a", "durable"]}
+        code={card0Code}
+        codeFile="due-diligence.py"
+        githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/wealth-management-agents"
+      />
+      <UseCaseCard
+        index={1}
+        title="RAG Assistant"
+        description="A retrieval-and-synthesis workflow where every step is checkpointed, traceable, and replayable."
+        tags={["rag", "tools", "durable"]}
+        code={card1Code}
+        codeFile="rag-agent.py"
+        githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/rag-assistant"
+      />
+      <UseCaseCard
+        index={2}
+        title="Human Approval Workflow"
+        description="Pause durably for a human decision, then resume without losing state or re-running prior work."
+        tags={["hitl", "durable", "production"]}
+        code={card2Code}
+        codeFile="approval.py"
+        githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/hitl-approval"
+      />
+      <UseCaseCard
+        index={3}
+        title="MCP Tool Integration"
+        description="Use external tools through MCP while keeping each tool call inside the durable runtime."
+        tags={["mcp", "tools", "interop"]}
+        code={card3Code}
+        codeFile="mcp-agent.py"
+        githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/mcp-tool-consumer"
+      />
+      <UseCaseCard
+        index={4}
+        title="Agent-to-Agent Delegation"
+        description="Delegate to specialized agents via A2A with identity-aware, cost-aware, replayable execution."
+        tags={["a2a", "routing", "production"]}
+        code={card4Code}
+        codeFile="delegation.py"
+        githubUrl="https://github.com/jamjet-labs/jamjet/tree/main/examples/a2a-delegation"
+      />
+    </div>
+  </div>
+</section>
+
+<!-- ── SOCIAL PROOF ───────────────────────────────────────────────────────── -->
+<SocialProofBar />
 
 <!-- ── PAGE SCRIPT ────────────────────────────────────────────────────────── -->
 <script is:inline>
@@ -380,6 +502,23 @@ const piiLines = [
       applyResult(card, result.data, result.fromFallback);
     });
   });
+
+  // Deep-link: ?card=<scenario-id> auto-runs that card on load
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var cardId = params.get('card');
+    if (!cardId) return;
+    var targetCard = document.querySelector('.gate-card[data-scenario="' + cardId + '"]');
+    if (!targetCard) return;
+    // Scroll into view first, then auto-run
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    targetCard.scrollIntoView({ behavior: prefersReduced ? 'instant' : 'smooth', block: 'center' });
+    var runBtn = targetCard.querySelector('[data-run="' + cardId + '"]');
+    if (runBtn) {
+      // Short delay so scroll can settle
+      setTimeout(function () { runBtn.click(); }, prefersReduced ? 0 : 600);
+    }
+  })();
 })();
 </script>
 
@@ -703,13 +842,12 @@ const piiLines = [
   }
   .gate-replay-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 24px;
     min-width: 0;
   }
   .gate-replay-label {
     font-family: var(--font-sans);
-    font-size: 13px;
     font-weight: 600;
     color: var(--text-secondary);
     margin: 0 0 10px;
@@ -718,10 +856,65 @@ const piiLines = [
     font-size: 11px;
   }
 
+  /* ── Why teams care ─────────────────────────────────────────────── */
+  .gate-teams-care {
+    padding: var(--space-section-sm) 0;
+    background: var(--bg-alt);
+    border-top: 1px solid var(--border);
+  }
+  .gate-section-h2 {
+    font-size: clamp(1.4rem, 2.8vw, 1.9rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin: 0 0 24px;
+  }
+  .gate-care-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px 40px;
+  }
+  .gate-care-item {
+    padding: 18px 0;
+    border-top: 1px solid var(--border);
+  }
+  .gate-care-item strong {
+    display: block;
+    font-size: 0.92rem;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .gate-care-item p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── Use case section ───────────────────────────────────────────── */
+  .gate-usecases {
+    padding: var(--space-section-sm) 0;
+    border-top: 1px solid var(--border);
+  }
+  .gate-usecase-intro {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 8px;
+    margin-bottom: 32px;
+    font-family: var(--font-sans);
+  }
+  .gate-usecase-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px 40px;
+  }
+
   /* ── Responsive ─────────────────────────────────────────────────── */
   @media (max-width: 960px) {
     .gate-cards { grid-template-columns: repeat(2, 1fr); }
     .gate-replay-grid { grid-template-columns: minmax(0, 1fr); }
+    .gate-care-grid { grid-template-columns: repeat(2, 1fr); }
+    .gate-usecase-grid { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 640px) {
     .gate-hero-grid { grid-template-columns: 1fr; gap: 24px; }
@@ -729,5 +922,7 @@ const piiLines = [
     .gate-cards { grid-template-columns: 1fr; }
     .gate-replay-grid { grid-template-columns: minmax(0, 1fr); }
     .gate-card-top { flex-wrap: wrap; }
+    .gate-care-grid { grid-template-columns: 1fr; }
+    .gate-usecase-grid { grid-template-columns: 1fr; }
   }
 </style>
