@@ -20,12 +20,12 @@ const log = allPosts
   }));
 
 const failures = [
-  { num: '01', tone: 'neutral', title: 'Lost progress', line: 'A worker dies mid-run. JamJet replays the event log and resumes at the failed node.' },
-  { num: '02', tone: 'error',   title: 'Unsafe tool', line: 'An agent reaches for a tool it shouldn’t. The 4-level policy hierarchy blocks the call before execution.' },
-  { num: '03', tone: 'warning', title: 'Skipped approval', line: 'A high-risk action waits for a human. The run survives restarts. The decision lands in audit.' },
-  { num: '04', tone: 'error',   title: 'Runaway cost', line: 'A reflection loop won’t stop spending. The runtime halts the loop before it crosses the cap.' },
-  { num: '05', tone: 'neutral', title: 'Missing audit', line: 'Compliance asks what happened. Every decision is in a signed, exportable evidence package.' },
-  { num: '06', tone: 'neutral', title: 'Forgotten context', line: 'The agent forgets across sessions. Engram surfaces durable facts — not raw chat history.' },
+  { num: '01', tone: 'neutral', icon: 'crash',    title: 'Lost progress', line: 'A worker dies mid-run. JamJet replays the event log and resumes at the failed node.' },
+  { num: '02', tone: 'error',   icon: 'tool',     title: 'Unsafe tool', line: "An agent reaches for a tool it shouldn't. The 4-level policy hierarchy blocks the call before execution." },
+  { num: '03', tone: 'warning', icon: 'approval', title: 'Skipped approval', line: 'A high-risk action waits for a human. The run survives restarts. The decision lands in audit.' },
+  { num: '04', tone: 'error',   icon: 'cost',     title: 'Runaway cost', line: "A reflection loop won't stop spending. The runtime halts the loop before it crosses the cap." },
+  { num: '05', tone: 'neutral', icon: 'audit',    title: 'Missing audit', line: 'Compliance asks what happened. Every decision is in a signed, exportable evidence package.' },
+  { num: '06', tone: 'neutral', icon: 'memory',   title: 'Forgotten context', line: 'The agent forgets across sessions. Engram surfaces durable facts — not raw chat history.' },
 ];
 
 const adapters = [
@@ -320,6 +320,13 @@ const homeLd = {
   </div>
 </section>
 
+<!-- ────────────────────  SHIP LOG ──────────────────── -->
+<section class="zn-shiplog">
+  <div class="zn-shell">
+    <ShipLogStrip />
+  </div>
+</section>
+
 <!-- ────────────────────  SIX FAILURE MODES (DARK) ──────────────────── -->
 <section class="zn-dark" id="failure-modes">
   <div class="zn-shell">
@@ -335,7 +342,7 @@ const homeLd = {
     <ol class="zn-failures">
       {failures.map(f => (
         <li class={`zn-failure zn-failure-tone-${f.tone}`}>
-          <span class="zn-failure-bar" aria-hidden="true"></span>
+          <BrushIcon name={f.icon} stroke="var(--rec-text)" />
           <span class="zn-failure-num">{f.num}</span>
           <div>
             <strong class="zn-failure-title">{f.title}</strong>
@@ -467,7 +474,8 @@ const homeLd = {
   <div class="zn-shell">
     <div class="zn-log-head">
       <span class="zn-eyebrow">Running log</span>
-      <h2 class="zn-h2 zn-h2-small">What we shipped lately.</h2>
+      <h2 class="zn-h2 zn-h2-small">Field notes</h2>
+      <p class="zn-fieldnotes-bar">War stories and measurements from running agents against real systems. Worth reading even if you never use JamJet.</p>
     </div>
     <ol class="zn-log-list">
       {log.map(entry => (
@@ -481,7 +489,7 @@ const homeLd = {
       ))}
     </ol>
     <p class="zn-log-foot">
-      <a href="/blog">Full blog &rarr;</a>
+      <a href="/blog">All field notes &rarr;</a>
     </p>
   </div>
 </section>
@@ -1048,6 +1056,9 @@ const homeLd = {
   .zn-adapter-install { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted); margin-left: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   @media (max-width: 760px) { .zn-adapter-list { grid-template-columns: 1fr; } .zn-adapter-install { display: none; } }
 
+  /* ─────────  SHIP LOG STRIP  ───────── */
+  .zn-shiplog { padding: var(--space-section-sm) 0 0; }
+
   /* ─────────  DARK BAND (failure modes)  ───────── */
   .zn-dark {
     padding: 96px 0;
@@ -1073,23 +1084,17 @@ const homeLd = {
   }
   .zn-failure {
     display: grid;
-    grid-template-columns: 4px 84px 1fr;
+    grid-template-columns: 48px 84px 1fr;
     gap: 8px;
     padding-top: 24px;
     border-top: 1px solid rgba(255,255,255,0.18);
   }
-  .zn-failure-bar {
+  .zn-failure :global(.brush-icon) {
     grid-column: 1 / 2;
     grid-row: 1 / span 2;
-    width: 3px;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.25);
-    border-radius: 1px;
-    margin-right: 6px;
+    align-self: start;
+    margin-top: 4px;
   }
-  .zn-failure-tone-warning .zn-failure-bar { background: var(--warning); }
-  .zn-failure-tone-error   .zn-failure-bar { background: var(--error); }
-  .zn-failure-tone-neutral .zn-failure-bar { background: rgba(255, 255, 255, 0.25); }
   .zn-failure-num {
     font-size: 3.4rem;
     line-height: 1;
@@ -1270,6 +1275,9 @@ const homeLd = {
   }
   .zn-pair-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
+  /* ─────────  FIELD NOTES TEASER  ───────── */
+  .zn-fieldnotes-bar { font-family: var(--font-sans); font-size: 15px; color: var(--text-secondary); max-width: 60ch; line-height: 1.6; }
+
   /* ─────────  RUNNING LOG  ───────── */
   .zn-log { padding: 96px 0; background: var(--bg-alt); border-top: 1px solid var(--border); }
   .zn-log-head { max-width: 640px; margin-bottom: 32px; }
@@ -1375,7 +1383,7 @@ const homeLd = {
     .zn-cover { padding: 40px 0 56px; }
     .zn-masthead { margin-bottom: 36px; }
     .zn-display { font-size: clamp(2.4rem, 11vw, 4rem); }
-    .zn-failure { grid-template-columns: 4px 64px 1fr; }
+    .zn-failure { grid-template-columns: 44px 64px 1fr; }
     .zn-failure-num { font-size: 2.4rem; }
     .zn-log-entry { grid-template-columns: 1fr; gap: 6px; }
     .zn-pair-card { padding: 24px; }
