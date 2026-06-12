@@ -62,7 +62,7 @@ const blogLd = {
 ---
 
 <BaseLayout
-  title="Blog — JamJet | The safety layer behind your AI agents"
+  title="Field notes — JamJet"
   description="Runtime safety, agent governance, and engineering deep dives for teams building AI agents that need to work beyond demos."
   canonical="https://jamjet.dev/blog/"
   currentPage="blog"
@@ -82,7 +82,8 @@ const blogLd = {
         <span>RSS</span>
       </a>
     </div>
-    <h1 class="masthead-title">Things we learned<br/>by running agents.</h1>
+    <h1 class="masthead-title">Field notes</h1>
+    <p class="fieldnotes-bar">War stories and measurements from running agents against real systems. Worth reading even if you never use JamJet.</p>
     <p class="masthead-sub">
       Engineering posts on durable execution, policy, audit, memory, and the boring
       reliability work that makes AI agents survive past the demo.
@@ -190,6 +191,14 @@ const blogLd = {
     letter-spacing: -0.02em;
     margin: 0 0 18px;
     font-weight: 600;
+  }
+  .fieldnotes-bar {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    color: var(--text-secondary);
+    max-width: 60ch;
+    line-height: 1.6;
+    margin: 0 0 20px;
   }
   .masthead-sub {
     color: var(--text-secondary);

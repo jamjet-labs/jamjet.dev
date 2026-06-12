@@ -16,7 +16,7 @@ export async function getStaticPaths({ paginate }) {
 
 const page = Astro.props.page;
 const pageNumber = page.currentPage;
-const pageTitle = `Older Blog Posts - Page ${pageNumber} | JamJet Blog`;
+const pageTitle = `Field notes — Page ${pageNumber} | JamJet`;
 const pageDescription = 'Browse older JamJet engineering updates and release posts.';
 const canonical = `https://jamjet.dev/blog/page/${pageNumber}/`;
 ---
@@ -29,7 +29,7 @@ const canonical = `https://jamjet.dev/blog/page/${pageNumber}/`;
 >
 
 <div class="page-wrap">
-  <h1>Older Blog Posts</h1>
+  <h1>Field notes</h1>
   <p class="page-sub">Page {pageNumber}</p>
 
   <section class="list">
