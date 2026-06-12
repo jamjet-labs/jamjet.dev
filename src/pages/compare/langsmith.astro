@@ -36,7 +36,7 @@ const compareLd = {
     <p class="compare-intro">
       JamJet sits one layer down. It is not a tracing tool; it is the safety layer that <em>decides</em>
       what the agent is allowed to do. Policy enforcement, durable execution, human approval nodes,
-      cost caps, agent memory, and signed audit evidence in one runtime — across LangChain, LangChain4j,
+      cost caps, agent memory, and signed audit evidence in one runtime across LangChain, LangChain4j,
       Spring AI, OpenAI Agents SDK, MCP, and your custom code. This page is an honest comparison.
     </p>
     <p class="last-updated">Last updated 2026-05-15</p>
@@ -48,7 +48,7 @@ const compareLd = {
       <div class="tldr-card">
         <h3>Choose LangSmith when</h3>
         <ul>
-          <li>You need traces, evals, and a prompt playground — the LangChain/LangGraph integration is unmatched</li>
+          <li>You need traces, evals, and a prompt playground: the LangChain/LangGraph integration is unmatched</li>
           <li>You're running iterative prompt engineering with human-rated datasets</li>
           <li>You want offline regression suites and A/B comparison across model versions</li>
           <li>Observability is the primary need; you don't need runtime enforcement today</li>
@@ -59,7 +59,7 @@ const compareLd = {
         <h3>Choose JamJet when</h3>
         <ul>
           <li>You need to <em>block</em> unsafe tool calls, not just record them after the fact</li>
-          <li>You need durable execution — runs that survive crashes and replay the event log</li>
+          <li>You need durable execution: runs that survive crashes and replay the event log</li>
           <li>You need first-class human-in-the-loop nodes with audit-grade evidence</li>
           <li>You need signed audit exports for EU AI Act / financial / healthcare compliance</li>
           <li>Your stack spans more than LangChain (Spring AI, LangChain4j, OpenAI SDK, MCP, vanilla Python)</li>
@@ -98,7 +98,7 @@ const compareLd = {
       </table>
     </div>
     <p class="wedge-line">
-      <strong>LangSmith shows you what happened. JamJet shapes what happens. They are complementary primitives, not competitors — most teams that adopt JamJet keep LangSmith for evals.</strong>
+      <strong>LangSmith shows you what happened. JamJet shapes what happens. They are complementary primitives, not competitors. Most teams that adopt JamJet keep LangSmith for evals.</strong>
     </p>
   </section>
 
@@ -147,17 +147,17 @@ const compareLd = {
           <tr>
             <td><strong>Cost governance</strong></td>
             <td>Cost reporting per trace and project.</td>
-            <td class="strong">Per-workflow and per-agent token/dollar budgets enforced at runtime — execution halts or branches when exceeded.</td>
+            <td class="strong">Per-workflow and per-agent token/dollar budgets enforced at runtime. Execution halts or branches when exceeded.</td>
           </tr>
           <tr>
             <td><strong>Audit exports for compliance</strong></td>
-            <td>Trace export (JSON / CSV) — useful for analysis, not signed.</td>
+            <td>Trace export (JSON / CSV), useful for analysis but not signed.</td>
             <td class="strong">Ed25519-signed evidence packages. PDF / OTLP / Splunk / Datadog renderers. Per-entry retention.</td>
           </tr>
           <tr>
             <td><strong>Agent memory</strong></td>
             <td class="weak">Not in scope.</td>
-            <td class="strong">Engram — temporal knowledge graph, fact extraction, conflict detection, 11 MCP tools.</td>
+            <td class="strong">Engram: temporal knowledge graph, fact extraction, conflict detection, 11 MCP tools.</td>
           </tr>
           <tr>
             <td><strong>MCP support</strong></td>
@@ -201,7 +201,7 @@ const compareLd = {
       seeing, evaluating, and iterating on agent behavior, it is the obvious choice.
     </p>
     <ul class="pros-list">
-      <li>Best-in-class trace UI — designed by the team that built LangChain</li>
+      <li>Best-in-class trace UI, designed by the team that built LangChain</li>
       <li>Eval framework with datasets, custom evaluators, LLM-as-judge, regression suites</li>
       <li>Prompt playground with model side-by-side and version history</li>
       <li>Annotation queues for systematic human review of agent outputs</li>
@@ -214,7 +214,7 @@ const compareLd = {
     <h2>Where JamJet goes further</h2>
     <p>
       JamJet's thesis is that observability alone isn't enough for AI agents that take consequential
-      actions in production. There are five concerns a tracing platform can't address — not because
+      actions in production. There are five concerns a tracing platform can't address, not because
       LangSmith got them wrong, but because they live in the runtime, not in the trace endpoint.
     </p>
 
@@ -228,7 +228,7 @@ const compareLd = {
 
     <h3>Durable execution that survives crashes</h3>
     <p>
-      LangSmith is a tracing endpoint — when your worker dies, your run dies. JamJet's event-sourced
+      LangSmith is a tracing endpoint. When your worker dies, your run dies. JamJet's event-sourced
       runtime replays the log and resumes from the failed step. Rust core or embedded Java runtime
       (8.9x faster than a REST sidecar in our benchmarks). Crash recovery is the execution model,
       not an add-on.
@@ -236,7 +236,7 @@ const compareLd = {
 
     <h3>Human-in-the-loop as a workflow primitive</h3>
     <p>
-      LangSmith's annotation queues are for offline review. JamJet has approval <em>nodes</em> — the
+      LangSmith's annotation queues are for offline review. JamJet has approval <em>nodes</em>: the
       workflow pauses, routes the decision to Slack or email with SLA tracking, survives restarts,
       and resumes when the human decides. Every decision lands in the audit trail with the approver's
       identity.
@@ -252,8 +252,8 @@ const compareLd = {
     <h3>Agent memory, governed by the same runtime</h3>
     <p>
       A tracing platform has no opinion about what the agent remembers between sessions. Engram is
-      JamJet's memory primitive — temporal knowledge graph, fact extraction, conflict detection,
-      hybrid retrieval, consolidation — and it's governed by the same policy engine as the rest of
+      JamJet's memory primitive: temporal knowledge graph, fact extraction, conflict detection,
+      hybrid retrieval, and consolidation, governed by the same policy engine as the rest of
       the agent.
     </p>
   </section>
@@ -263,7 +263,7 @@ const compareLd = {
     <p>
       Yes, and it's the most common combination we see. The clean composition: keep LangSmith for
       tracing, evaluation, and prompt iteration; add JamJet (in wrap mode) for the runtime safety
-      layer — durability, policy, HITL, signed audit, cost caps, memory.
+      layer: durability, policy, HITL, signed audit, cost caps, memory.
     </p>
     <p>
       JamJet emits OpenTelemetry-compatible spans, so LangSmith picks up traces from JamJet-wrapped
@@ -288,7 +288,7 @@ const compareLd = {
         <h3>JamJet gives you</h3>
         <p>
           Policy enforcement, durable execution, memory (Engram), replay, signed audit evidence,
-          HITL nodes, and cost caps in one fabric — across LangChain, LangChain4j, Spring AI, OpenAI
+          HITL nodes, and cost caps in one fabric across LangChain, LangChain4j, Spring AI, OpenAI
           Agents SDK, and MCP. Tracing today is OTel-compatible but the trace UI is narrower than
           LangSmith's; if all you need is observability, LangSmith covers more.
         </p>
