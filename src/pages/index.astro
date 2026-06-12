@@ -290,8 +290,8 @@ const homeLd = {
     <div class="zn-adapters-head">
       <span class="zn-eyebrow">Every source the recorder captures</span>
       <h2 class="zn-h2">
-        Every agent toolchain is inventing its own safety layer.<br/>
-        <span class="zn-display-italic">JamJet gives you one.</span>
+        Wherever your agents already run.<br/>
+        <span class="zn-display-italic">One gate, seven doors.</span>
       </h2>
       <p class="zn-essay-body">
         One <code>policy.yaml</code> in <code>~/.jamjet/</code>. Every adapter below loads it and
@@ -1033,51 +1033,20 @@ const homeLd = {
     padding: 1px 6px;
     border-radius: 3px;
   }
-  .zn-adapter-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 32px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0;
-    border-top: 1px solid var(--border);
-  }
-  .zn-adapter {
-    border-bottom: 1px solid var(--border);
-  }
-  .zn-adapter:nth-child(odd) { border-right: 1px solid var(--border); }
+  .zn-adapter-list { list-style: none; margin: 30px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .zn-adapter { margin: 0; }
   .zn-adapter-link {
-    display: block;
-    padding: 22px 24px;
-    text-decoration: none;
-    color: inherit;
-    transition: background 0.12s;
+    display: flex; align-items: baseline; gap: 12px;
+    background: var(--surface); border: 1px solid var(--border-strong); border-radius: 6px;
+    padding: 13px 16px; text-decoration: none; color: var(--text);
+    box-shadow: 1px 2px 0 rgba(20, 20, 19, 0.06);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
   }
-  .zn-adapter-link:hover { background: var(--bg-alt); }
-  .zn-adapter-name {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 0.95rem;
-    color: var(--text);
-    font-weight: 500;
-    margin-bottom: 6px;
-  }
-  .zn-adapter-host {
-    display: block;
-    font-family: var(--font-sans);
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 10px;
-  }
-  .zn-adapter-install {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    color: var(--text-secondary, var(--text-muted));
-    background: var(--bg-alt);
-    padding: 6px 10px;
-    border-radius: 4px;
-  }
+  .zn-adapter-link:hover { transform: translateY(-1px); box-shadow: 2px 4px 0 rgba(20, 20, 19, 0.1); }
+  .zn-adapter-name { font-family: var(--font-mono); font-size: 13px; font-weight: 500; flex: none; }
+  .zn-adapter-host { font-family: var(--font-sans); font-size: 12px; color: var(--text-muted); }
+  .zn-adapter-install { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted); margin-left: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  @media (max-width: 760px) { .zn-adapter-list { grid-template-columns: 1fr; } .zn-adapter-install { display: none; } }
 
   /* ─────────  DARK BAND (failure modes)  ───────── */
   .zn-dark {
@@ -1401,7 +1370,6 @@ const homeLd = {
     .zn-code-grid { grid-template-columns: 1fr; }
     .zn-pair-grid { grid-template-columns: 1fr; }
     .zn-adapter-list { grid-template-columns: 1fr; }
-    .zn-adapter:nth-child(odd) { border-right: 0; }
   }
   @media (max-width: 640px) {
     .zn-cover { padding: 40px 0 56px; }
