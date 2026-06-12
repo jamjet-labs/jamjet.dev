@@ -7,43 +7,71 @@ import UseCaseCard from '../components/UseCaseCard.astro';
 import SocialProofBar from '../components/SocialProofBar.astro';
 import { GATE_POLICY, LIVE_SCENARIOS, REPLAY_SCENARIOS } from '../gate/policy';
 import { buildReceipt } from '../gate/receipt';
+import { PolicyEvaluator } from '@jamjet/cloud';
 
 // ── Build-time fallback generation ──────────────────────────────────────────
+// Uses the same PolicyEvaluator as functions/api/gate.ts so verdicts stay in sync.
 // Fixed values so builds are reproducible.
 const FIXED_AT = '2026-06-12T00:00:00Z';
-const BUDGET_MAX = GATE_POLICY.budgets.default.max_usd;
+
+const fallbackEvaluator = new PolicyEvaluator();
+for (const rule of GATE_POLICY.rules) fallbackEvaluator.add(rule.action, rule.match);
 
 async function makeFallback(scenario: typeof LIVE_SCENARIOS[0], idx: number, approveVariant = false) {
   const spend = (scenario.args.run_spend_usd as number | undefined) ?? 0;
   const est = (scenario.args.est_usd as number | undefined) ?? 0;
-  const overBudget = spend + est > BUDGET_MAX;
+  const overBudget = spend + est > GATE_POLICY.budgets.default.max_usd;
 
   const receiptId = `00000000-0000-4000-8000-00000000000${idx}`;
 
-  if (scenario.tool === 'db.drop_table' || scenario.tool === 'email.send_bulk' || overBudget) {
-    const rule = overBudget ? 'budgets.default.max_usd' : (scenario.tool.includes('drop') ? '*drop*' : 'email.send_bulk');
-    const receipt = await buildReceipt({ tool: scenario.tool, capability: scenario.tool, args: scenario.args, decision: 'deny', policyName: 'gate.demo', policyVersion: '1', receiptId, issuedAt: FIXED_AT, status: 'blocked' });
+  const decision = fallbackEvaluator.evaluate(scenario.tool);
+  // Mirror the budget glue from functions/api/gate.ts: overBudget upgrades allow to block
+  const verdict =
+    overBudget && decision.policyKind === 'allow' ? 'block'
+    : decision.policyKind;
+
+  const base = {
+    tool: scenario.tool,
+    capability: scenario.tool,
+    args: scenario.args,
+    policyName: 'gate.demo',
+    policyVersion: '1',
+    receiptId,
+    issuedAt: FIXED_AT,
+  } as const;
+
+  if (verdict === 'block') {
+    const rule = overBudget && decision.pattern === null ? 'budgets.default.max_usd' : decision.pattern;
+    const receipt = await buildReceipt({ ...base, decision: 'deny', status: 'blocked' });
     return { verdict: 'blocked', rule, receipt, fallback: true };
   }
-  if (scenario.tool === 'github.merge') {
+  if (verdict === 'require_approval') {
     if (approveVariant) {
-      const receipt = await buildReceipt({ tool: scenario.tool, capability: scenario.tool, args: scenario.args, decision: 'require-approval', policyName: 'gate.demo', policyVersion: '1', receiptId, issuedAt: FIXED_AT, status: 'success', approval: { approver: { id: 'human:visitor' }, approved_at: FIXED_AT, context: 'approved in the Gate demo' } });
-      return { verdict: 'approved', rule: 'github.merge', receipt, fallback: true };
+      const receipt = await buildReceipt({ ...base, decision: 'require-approval', status: 'success', approval: { approver: { id: 'human:visitor' }, approved_at: FIXED_AT, context: 'approved in the Gate demo' } });
+      return { verdict: 'approved', rule: decision.pattern, receipt, fallback: true };
     }
-    return { verdict: 'held', rule: 'github.merge', receiptId, fallback: true };
+    return { verdict: 'held', rule: decision.pattern, receiptId, fallback: true };
   }
-  if (scenario.tool === 'slack.send_message') {
-    const receipt = await buildReceipt({ tool: scenario.tool, capability: scenario.tool, args: scenario.args, decision: 'allow', policyName: 'gate.demo', policyVersion: '1', receiptId, issuedAt: FIXED_AT, status: 'success' });
-    return { verdict: 'audited', rule: 'slack.send_message', receipt, fallback: true };
-  }
-  // fs.read and anything else: allowed
-  const receipt = await buildReceipt({ tool: scenario.tool, capability: scenario.tool, args: scenario.args, decision: 'allow', policyName: 'gate.demo', policyVersion: '1', receiptId, issuedAt: FIXED_AT, status: 'success' });
-  return { verdict: 'allowed', rule: scenario.tool.includes('.') ? scenario.tool : 'fs.read', receipt, fallback: true };
+  // audit and allow both execute; audit is allow + evidence emphasis
+  const receipt = await buildReceipt({ ...base, decision: 'allow', status: 'success' });
+  return { verdict: decision.policyKind === 'audit' ? 'audited' : 'allowed', rule: decision.pattern, receipt, fallback: true };
 }
 
 // Top-level await is fine in Astro frontmatter
 const fallbackEntries = await Promise.all(LIVE_SCENARIOS.map((s, i) => makeFallback(s, i)));
-const fallbackApproved = await makeFallback(LIVE_SCENARIOS[1], 6, true);
+const mergePrScenario = LIVE_SCENARIOS.find((s) => s.id === 'merge-pr');
+if (!mergePrScenario) throw new Error("LIVE_SCENARIOS is missing required id 'merge-pr'");
+const fallbackApproved = await makeFallback(mergePrScenario, 6, true);
+
+// Lookup replay scenarios by id for safety
+function getReplay(id: string) {
+  const s = REPLAY_SCENARIOS.find((r) => r.id === id);
+  if (!s) throw new Error(`REPLAY_SCENARIOS is missing required id '${id}'`);
+  return s;
+}
+const replayCrash = getReplay('crash-resume');
+const replayPii = getReplay('pii-redact');
+const replayMemory = getReplay('memory-recall');
 
 const fallbackMap: Record<string, unknown> = {};
 for (let i = 0; i < LIVE_SCENARIOS.length; i++) {
@@ -198,16 +226,16 @@ const card4Code = `<span class="t-w">card</span> <span class="t-p">=</span> <spa
     <p class="gate-replay-note">These behaviors live in the Rust runtime, not the TS policy engine. They are replays, not live calls.</p>
     <div class="gate-replay-grid">
       <div>
-        <p class="gate-replay-label">{REPLAY_SCENARIOS[0].blurb.split(':')[0]}</p>
-        <TerminalReplay lines={crashLines} title={REPLAY_SCENARIOS[0].label} />
+        <p class="gate-replay-label">{replayCrash.blurb.split(':')[0]}</p>
+        <TerminalReplay lines={crashLines} title={replayCrash.label} />
       </div>
       <div>
-        <p class="gate-replay-label">{REPLAY_SCENARIOS[1].blurb.split(':')[0]}</p>
-        <TerminalReplay lines={piiLines} title={REPLAY_SCENARIOS[1].label} />
+        <p class="gate-replay-label">{replayPii.blurb.split(':')[0]}</p>
+        <TerminalReplay lines={piiLines} title={replayPii.label} />
       </div>
       <div>
-        <p class="gate-replay-label">{REPLAY_SCENARIOS[2].blurb.split(':')[0]}</p>
-        <TerminalReplay lines={memoryLines} title={REPLAY_SCENARIOS[2].label} />
+        <p class="gate-replay-label">{replayMemory.blurb.split(':')[0]}</p>
+        <TerminalReplay lines={memoryLines} title={replayMemory.label} />
       </div>
     </div>
   </div>
@@ -376,7 +404,7 @@ const card4Code = `<span class="t-w">card</span> <span class="t-p">=</span> <spa
       + '<p class="gate-verify-note">Tamper-evident per <a href="https://github.com/jamjet-labs/agentboundary" target="_blank" rel="noopener">AgentBoundary v0.1</a>: receipt_hash = SHA-256 of the canonicalized receipt. Change any byte and the hash breaks.</p>'
       + '<div class="gate-verify-hash">receipt_hash = ' + escHtml(hash) + '</div>'
       + '<div class="gate-verify-snippet-wrap"><pre class="gate-verify-snippet" id="' + snippetId + '">' + escHtml(snippet) + '</pre>'
-      + '<button class="gate-copy-btn" onclick="navigator.clipboard.writeText(document.getElementById(\'' + snippetId + '\').textContent)" aria-label="Copy snippet">copy</button></div>'
+      + '<button class="gate-copy-btn" onclick="(function(btn){navigator.clipboard.writeText(document.getElementById(\'' + snippetId + '\').textContent).then(function(){btn.textContent=\'copied!\';setTimeout(function(){btn.textContent=\'copy\';},1500);});})(this)" aria-label="Copy snippet">copy</button></div>'
       + '</details>';
   }
 

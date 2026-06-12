@@ -36,7 +36,8 @@ export async function computeReceiptHash(receipt: Record<string, unknown>): Prom
   return sha256Hex(canonicalJson(payload));
 }
 
-// Schema: policy.decision enum is "allow" | "deny" | "escalate" | "require-approval"
+// Schema: policy.decision enum is "allow" | "deny" | "require-approval"
+// (escalate exists in the spec but is unused by the Gate demo)
 // Schema: execution.status enum is "success" | "failure" | "blocked"
 // Schema: target.environment enum is "prod" | "staging" | "dev"
 export interface BuildReceiptInput {
