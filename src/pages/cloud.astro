@@ -17,7 +17,7 @@ const cloudLd = {
     { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD" },
     { "@type": "Offer", "name": "Starter", "price": "29", "priceCurrency": "USD", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "29", "priceCurrency": "USD", "billingDuration": 1, "billingIncrement": 1, "unitCode": "MON" } },
     { "@type": "Offer", "name": "Team", "price": "99", "priceCurrency": "USD", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "99", "priceCurrency": "USD", "unitCode": "MON" } },
-    { "@type": "Offer", "name": "Business", "price": "299", "priceCurrency": "USD", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "299", "priceCurrency": "USD", "unitCode": "MON" } }
+    { "@type": "Offer", "name": "Business", "price": "499", "priceCurrency": "USD", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "499", "priceCurrency": "USD", "unitCode": "MON" } }
   ],
 };
 ---
@@ -261,7 +261,7 @@ const cloudLd = {
     <h2 class="cl-h2">You pay for the team surface.</h2>
     <p class="cl-promise-intro">
       Solo is free, forever. The paid tiers are where more than one person is involved:
-      higher trace volumes, more seats, and longer retention.
+      higher trace volumes and longer retention.
     </p>
 
     <div class="cl-plans">
@@ -299,7 +299,8 @@ const cloudLd = {
         <ul class="cl-plan-list">
           <li>250K traces / month</li>
           <li>90-day retention</li>
-          <li>Shared approval queue + seats</li>
+          <li>PII redaction</li>
+          <li>Shared queue and seats, arriving with the bench</li>
           <li>Everything in Starter</li>
         </ul>
         <a href={SIGNUP} class="cl-btn cl-btn-primary cl-plan-cta">Move the team to Team</a>
@@ -308,12 +309,12 @@ const cloudLd = {
       <div class="cl-plan">
         <div class="cl-plan-flag cl-plan-flag-muted">the audit turn</div>
         <div class="cl-plan-name">Business</div>
-        <div class="cl-plan-price">$299<span class="cl-plan-per">/mo</span></div>
+        <div class="cl-plan-price">$499<span class="cl-plan-per">/mo</span></div>
         <p class="cl-plan-desc">When someone outside the team asks for proof.</p>
         <ul class="cl-plan-list">
           <li>1M traces / month</li>
           <li>180-day retention</li>
-          <li>Audit export, more seats</li>
+          <li>Audit export</li>
           <li>SSO when available</li>
         </ul>
         <a href={SIGNUP} class="cl-btn cl-btn-ghost cl-plan-cta">Go Business</a>
