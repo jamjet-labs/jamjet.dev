@@ -4,7 +4,7 @@ date: 2026-05-23
 description: "AgentBoundary v0.1 conformance suite, 40 deterministic tests, four vendors. Per-vendor mapping and per-scenario verdicts in the public adapters/ tree. Run it yourself in 60 seconds."
 author: "Sunil Prakash"
 draft: false
-category: "Engineering"
+category: "Benchmark"
 ---
 
 ## Approval is not proof

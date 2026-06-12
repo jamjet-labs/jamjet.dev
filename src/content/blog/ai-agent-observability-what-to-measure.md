@@ -3,7 +3,7 @@ title: "Why Your AI Agents Need Observability — and What to Measure"
 date: 2026-04-15
 description: "You would not deploy a microservice without metrics and tracing. Why are you deploying AI agents blind? Here is what to measure and how."
 author: "Sunil Prakash"
-category: "Architecture & Deep Dives"
+category: "Guide"
 ---
 
 # Why Your AI Agents Need Observability — and What to Measure

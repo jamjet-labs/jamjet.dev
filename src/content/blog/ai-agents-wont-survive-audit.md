@@ -3,7 +3,7 @@ title: "Your AI Agents Won't Survive an Audit"
 date: 2026-04-25
 description: "89% of enterprise AI agents never reach production. The EU AI Act is enforceable in August. Here's what production safety actually requires — and why most agent frameworks aren't ready."
 author: "Sunil Prakash"
-category: "Enterprise & Governance"
+category: "Landscape"
 ---
 
 # Your AI Agents Won't Survive an Audit

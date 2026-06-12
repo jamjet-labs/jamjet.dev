@@ -30,12 +30,12 @@ const compareLd = {
     <p class="compare-intro">
       Helicone is an open-source LLM proxy. You point your OpenAI / Anthropic / Bedrock client at
       <code>helicone.ai</code>, and you get observability, cost tracking, caching, rate limiting,
-      and request logging — for any provider you proxy. One-line setup, generous free tier, MIT
+      and request logging for any provider you proxy. One-line setup, generous free tier, MIT
       license. It is the simplest path to LLM observability that exists.
     </p>
     <p class="compare-intro">
       JamJet operates one layer up. It is not a proxy for LLM calls; it wraps the agent's whole
-      decision loop — tool calls, memory operations, MCP server invocations, human approvals — and
+      decision loop (tool calls, memory operations, MCP server invocations, human approvals) and
       enforces policy on each of them. The two products solve different problems and compose
       naturally: Helicone watches the LLM API; JamJet shapes the agent that calls it.
     </p>
@@ -48,17 +48,17 @@ const compareLd = {
       <div class="tldr-card">
         <h3>Choose Helicone when</h3>
         <ul>
-          <li>You want LLM observability with one-line setup — change the base URL and you're done</li>
+          <li>You want LLM observability with one-line setup: change the base URL and you're done</li>
           <li>Cost tracking, request logging, and caching across multiple LLM providers is the goal</li>
           <li>You care about LLM-level rate limiting and prompt caching, not agent-level policy</li>
-          <li>You're not running agentic workflows yet — just direct LLM API calls</li>
+          <li>You're not running agentic workflows yet, just direct LLM API calls</li>
           <li>You want a generous free tier (100K requests/mo) and MIT-licensed self-host</li>
         </ul>
       </div>
       <div class="tldr-card">
         <h3>Choose JamJet when</h3>
         <ul>
-          <li>Your agent makes tool calls, MCP invocations, or memory writes — not just LLM calls</li>
+          <li>Your agent makes tool calls, MCP invocations, or memory writes (not just LLM calls)</li>
           <li>You need to <em>block</em> unsafe tool calls before they execute, not just log them</li>
           <li>You need durable execution that survives crashes and replays the event log</li>
           <li>You need human-in-the-loop approval nodes with audit-grade evidence</li>
@@ -88,7 +88,7 @@ const compareLd = {
           <tr>
             <td><strong>Helicone</strong></td>
             <td>HTTPS calls to LLM providers (OpenAI, Anthropic, Bedrock, Together, Groq, …).</td>
-            <td>Logs the request and response. Tracks cost and latency. Caches identical prompts. Rate-limits per user or key. Acts as a transparent proxy — the LLM call still goes through.</td>
+            <td>Logs the request and response. Tracks cost and latency. Caches identical prompts. Rate-limits per user or key. Acts as a transparent proxy; the LLM call still goes through.</td>
           </tr>
           <tr>
             <td><strong>JamJet</strong></td>
@@ -99,7 +99,7 @@ const compareLd = {
       </table>
     </div>
     <p class="wedge-line">
-      <strong>Helicone is fantastic for LLM-call observability. JamJet is for the rest of the agent's surface — the part where an LLM tells your code to delete files, hit a payment API, or write to a database.</strong>
+      <strong>Helicone is fantastic for LLM-call observability. JamJet is for the rest of the agent's surface: the part where an LLM tells your code to delete files, hit a payment API, or write to a database.</strong>
     </p>
   </section>
 
@@ -117,7 +117,7 @@ const compareLd = {
         <tbody>
           <tr>
             <td><strong>Setup effort</strong></td>
-            <td class="strong">One line — change the base URL.</td>
+            <td class="strong">One line: change the base URL.</td>
             <td>One install + wrap call (Python decorator, Spring Boot starter, OpenAI patcher, etc.).</td>
           </tr>
           <tr>
@@ -133,7 +133,7 @@ const compareLd = {
           <tr>
             <td><strong>Prompt caching</strong></td>
             <td class="strong">Built-in semantic + exact-match caching at the proxy.</td>
-            <td class="weak">Not in scope — caching is a proxy concern.</td>
+            <td class="weak">Not in scope (caching is a proxy concern).</td>
           </tr>
           <tr>
             <td><strong>Rate limiting</strong></td>
@@ -168,12 +168,12 @@ const compareLd = {
           <tr>
             <td><strong>Agent memory</strong></td>
             <td class="weak">Not in scope.</td>
-            <td class="strong">Engram — temporal knowledge graph, fact extraction, conflict detection, 11 MCP tools.</td>
+            <td class="strong">Engram: temporal knowledge graph, fact extraction, conflict detection, 11 MCP tools.</td>
           </tr>
           <tr>
             <td><strong>Provider coverage</strong></td>
             <td class="strong">10+ providers via the proxy (OpenAI, Anthropic, Bedrock, Together, Groq, Anyscale, Mistral, Cohere, …).</td>
-            <td>Provider-agnostic — JamJet wraps the agent, not the API; works with any provider your code already calls.</td>
+            <td>Provider-agnostic. JamJet wraps the agent, not the API, and works with any provider your code already calls.</td>
           </tr>
           <tr>
             <td><strong>Framework integrations</strong></td>
@@ -207,12 +207,12 @@ const compareLd = {
       "I have LLM API calls and I want to see them," it is the right tool.
     </p>
     <ul class="pros-list">
-      <li>One-line integration — change the base URL and you're done</li>
+      <li>One-line integration: change the base URL and you're done</li>
       <li>10+ LLM provider coverage out of the box (OpenAI, Anthropic, Bedrock, Together, Groq, …)</li>
       <li>Semantic + exact-match prompt caching at the proxy layer</li>
       <li>Cost attribution by user, session, and custom property</li>
       <li>Open-source self-host with MIT license</li>
-      <li>Generous free tier (100K requests/month) — enough for most early-stage projects</li>
+      <li>Generous free tier (100K requests/month), enough for most early-stage projects</li>
       <li>Webhooks, alerts, and a clean trace UI</li>
     </ul>
   </section>
@@ -220,8 +220,8 @@ const compareLd = {
   <section class="compare-section">
     <h2>Where JamJet goes further</h2>
     <p>
-      Helicone is excellent at the LLM-call layer. But agentic workflows do more than call LLMs —
-      they call tools, write to memory, invoke MCP servers, and trigger downstream effects. JamJet
+      Helicone is excellent at the LLM-call layer. But agentic workflows do more than call LLMs.
+      They call tools, write to memory, invoke MCP servers, and trigger downstream effects. JamJet
       addresses the part of the stack a proxy cannot see.
     </p>
 
@@ -235,14 +235,14 @@ const compareLd = {
 
     <h3>Durable execution that survives crashes</h3>
     <p>
-      Helicone is a stateless proxy — when your worker dies, the agent run dies with it. JamJet's
+      Helicone is a stateless proxy. When your worker dies, the agent run dies with it. JamJet's
       event-sourced runtime replays the event log and resumes from the failed step. Rust core or
       embedded Java runtime; crash recovery is the execution model, not an add-on.
     </p>
 
     <h3>Human-in-the-loop as a workflow primitive</h3>
     <p>
-      JamJet has approval <em>nodes</em> — the workflow pauses, routes the decision to Slack or
+      JamJet has approval <em>nodes</em>: the workflow pauses, routes the decision to Slack or
       email with SLA tracking, survives restarts, and resumes when the human decides. Helicone
       doesn't address this layer.
     </p>
@@ -257,7 +257,7 @@ const compareLd = {
     <h3>Agent memory governed by the same runtime</h3>
     <p>
       A proxy has no opinion about what the agent remembers between sessions. Engram is JamJet's
-      memory primitive — temporal knowledge graph, fact extraction, conflict detection — governed
+      memory primitive: temporal knowledge graph, fact extraction, conflict detection, governed
       by the same policy engine as everything else.
     </p>
   </section>
@@ -270,7 +270,7 @@ const compareLd = {
       agent loop for tool-call policy, durable execution, HITL, signed audit, and memory.
     </p>
     <p>
-      They sit at different layers — Helicone is below your agent code (between code and provider);
+      They sit at different layers. Helicone is below your agent code (between code and provider);
       JamJet is above it (between code and the world). Neither blocks the other.
     </p>
   </section>
@@ -282,7 +282,7 @@ const compareLd = {
         <h3>Helicone gives you</h3>
         <p>
           Frictionless LLM observability across 10+ providers, prompt caching, cost attribution,
-          rate limiting, and request logging — with a one-line setup and a generous free tier. The
+          rate limiting, and request logging, with a one-line setup and a generous free tier. The
           proxy layer is its scope; agent-level policy, durable execution, HITL, and audit signing
           are not in scope.
         </p>
@@ -291,7 +291,7 @@ const compareLd = {
         <h3>JamJet gives you</h3>
         <p>
           Policy enforcement at every tool call, durable execution, memory (Engram), replay, signed
-          audit evidence, HITL nodes, and cost caps in one runtime — across LangChain4j, Spring AI,
+          audit evidence, HITL nodes, and cost caps in one runtime across LangChain4j, Spring AI,
           OpenAI Agents SDK, MCP, and your custom agent loop. LLM-call observability today is
           OTel-emitted but the proxy-style UX and prompt caching are not what JamJet is for.
         </p>

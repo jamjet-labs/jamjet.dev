@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import CategoryMark from '../../components/CategoryMark.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog'))
@@ -34,11 +35,20 @@ function authorHue(name: string | undefined) {
 
 function readTime(body: string | undefined) {
   if (!body) return null;
-  const words = body.split(/\s+/).length;
+  const words = body.replace(/```[\s\S]*?```/g, '').split(/\s+/).length;
   return Math.max(1, Math.round(words / 220));
 }
 
 const categories = [...new Set(posts.map((p) => p.data.category).filter(Boolean))] as string[];
+
+const SHELF_SLUGS = [
+  'agent-action-control-40-tests',
+  'when-ai-deletes-the-database',
+  'google-adk-vs-jamjet',
+  'state-of-memory-java-ai-agents',
+  'ai-agent-failures-root-cause',
+];
+const shelfPosts = SHELF_SLUGS.map((slug) => posts.find((p) => p.slug === slug)).filter(Boolean);
 
 const blogLd = {
   '@context': 'https://schema.org',
@@ -103,11 +113,35 @@ const blogLd = {
     )}
   </header>
 
+  {shelfPosts.length === 5 && (
+  <section class="shelf" aria-label="Worth your time">
+    <div class="shelf-head">
+      <h2 class="shelf-title">Worth your time</h2>
+      <p class="shelf-sub">Five pieces that hold up no matter which framework you run.</p>
+    </div>
+    <div class="shelf-row">
+      {shelfPosts.map((post) => (
+        <a class="shelf-card" href={`/blog/${post.slug}/`}>
+          <span class="shelf-kicker">{post.data.category}</span>
+          {post.data.category && <CategoryMark category={post.data.category} stroke="var(--hand)" />}
+          <h3 class="shelf-card-title">{post.data.title}</h3>
+          <time class="shelf-card-date">{formatDate(post.data.date)}</time>
+        </a>
+      ))}
+    </div>
+  </section>
+  )}
+
   <ol class="feed" id="feed">
-    {posts.map((post, idx) => (
+    {posts.map((post, idx) => {
+      const rt = readTime(post.body);
+      return (
       <li class="feed-item" data-category={post.data.category ?? ''}>
         <a class="feed-link" href={`/blog/${post.slug}/`}>
           <div class="feed-rail">
+            {post.data.category && (
+              <CategoryMark category={post.data.category} stroke="var(--text-muted)" />
+            )}
             <span class="feed-num">{String(idx + 1).padStart(2, '0')}</span>
           </div>
           <div class="feed-body">
@@ -120,7 +154,7 @@ const blogLd = {
               )}
               <time class="feed-date">{formatDate(post.data.date)}</time>
               {isNew(post.data.date) && <span class="feed-new">just shipped</span>}
-              {readTime(post.body) && <span class="feed-read">· {readTime(post.body)} min read</span>}
+              {rt && <span class="feed-read">· {rt} min read</span>}
             </div>
             <h2 class="feed-title">{post.data.title}</h2>
             <p class="feed-desc">{post.data.description}</p>
@@ -130,7 +164,8 @@ const blogLd = {
           </div>
         </a>
       </li>
-    ))}
+      );
+    })}
   </ol>
 
   <footer class="blog-footer-note">
@@ -390,11 +425,90 @@ const blogLd = {
   }
   .blog-footer-note a:hover { border-bottom-color: var(--text); }
 
+  /* ── Shelf ── */
+  .shelf {
+    margin-bottom: 56px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .shelf-head {
+    margin-bottom: 24px;
+  }
+  .shelf-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0 0 6px;
+    color: var(--text);
+  }
+  .shelf-sub {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0;
+  }
+  .shelf-row {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .shelf-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px 18px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .shelf-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(20,20,19,0.10);
+  }
+  .shelf-kicker {
+    font-family: var(--font-hand);
+    font-size: 0.88rem;
+    color: var(--hand);
+    line-height: 1.2;
+  }
+  .shelf-card-title {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.4;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0;
+    flex: 1;
+  }
+  .shelf-card-date {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    margin-top: auto;
+  }
+
   @media (max-width: 720px) {
     .feed-link { grid-template-columns: 1fr; gap: 0; padding: 28px 0; }
     .feed-rail { flex-direction: row; justify-content: flex-start; padding: 0 0 8px; }
     .masthead-title { font-size: 2rem; }
     .feed-foot { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .shelf-row {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 12px;
+      padding-bottom: 8px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .shelf-card {
+      min-width: 240px;
+      scroll-snap-align: start;
+      flex-shrink: 0;
+    }
   }
 </style>
 

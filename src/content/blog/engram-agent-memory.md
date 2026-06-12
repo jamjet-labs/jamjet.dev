@@ -3,7 +3,7 @@ title: "Engram: A Memory Layer for AI Agents That Actually Works"
 date: 2026-04-07
 description: "One cargo install. Zero infrastructure. Your agents remember everything — with temporal knowledge graphs, semantic search, and MCP-native tools."
 author: "Sunil Prakash"
-category: "Releases & Updates"
+category: "Build log"
 ---
 
 # Engram: A Memory Layer for AI Agents That Actually Works

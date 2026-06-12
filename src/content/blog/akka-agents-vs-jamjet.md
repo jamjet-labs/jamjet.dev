@@ -4,7 +4,7 @@ date: 2026-03-29
 description: "Two production-grade approaches to AI agents on the JVM. Akka adapted 20 years of actor infrastructure. JamJet was purpose-built from day one. An honest architectural comparison with code, diagrams, and a decision matrix."
 author: "Sunil Prakash"
 draft: false
-category: "Architecture & Deep Dives"
+category: "Landscape"
 ---
 
 # Akka Agents vs JamJet: Actor Model or Agent-Native Runtime?

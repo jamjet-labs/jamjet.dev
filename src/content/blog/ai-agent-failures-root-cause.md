@@ -4,7 +4,7 @@ date: 2026-03-28
 description: "Klarna, Air Canada, DPD — sourced post-mortems of real AI agent failures. The pattern is always the same: prototype infrastructure in production. Named companies, real timelines, avoidable lessons."
 author: "Sunil Prakash"
 draft: false
-category: "Strategy & Vision"
+category: "Incident analysis"
 ---
 
 # Every Major AI Agent Failure Has the Same Root Cause — And It's Not the AI

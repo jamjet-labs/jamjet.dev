@@ -4,7 +4,7 @@ date: 2026-05-11
 description: "JamJet 0.8.1 (Python) and @jamjet/cloud 0.2.2 (TypeScript) ship a runtime safety layer that intercepts an agent's tool calls before the tool function is invoked — and the four zero-setup demos prove the path."
 author: "Sunil Prakash"
 draft: false
-category: "Engineering"
+category: "Build log"
 ---
 
 ## The setup

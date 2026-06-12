@@ -3,7 +3,7 @@ title: "The State of Memory in Java AI Agents (April 2026)"
 date: 2026-04-07
 description: "A tour of every option Java developers have for adding persistent memory to AI agents — and why most of them stop at chat history."
 author: "Sunil Prakash"
-category: "Architecture & Deep Dives"
+category: "Landscape"
 ---
 
 # The State of Memory in Java AI Agents (April 2026)

@@ -4,7 +4,7 @@ date: 2026-03-29
 description: "Add one dependency to your Spring Boot application. Get crash recovery, audit trails, replay testing, and human-in-the-loop for every Spring AI agent call. JamJet brings its full agent runtime — strategies, multi-agent coordination, MCP, A2A, eval harness — to the Spring ecosystem."
 author: "Sunil Prakash"
 draft: false
-category: "Releases & Updates"
+category: "Build log"
 ---
 
 # JamJet Spring Boot Starter — Production-Grade Agent Runtime for Spring AI

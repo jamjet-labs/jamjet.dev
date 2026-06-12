@@ -3,7 +3,7 @@ title: "How to Choose an AI Agent Framework in 2026"
 date: 2026-04-15
 description: "LangGraph, CrewAI, AutoGen, Google ADK, JamJet — the landscape is crowded. Here is a practical decision framework for picking the right one."
 author: "Sunil Prakash"
-category: "Architecture & Deep Dives"
+category: "Landscape"
 ---
 
 # How to Choose an AI Agent Framework in 2026

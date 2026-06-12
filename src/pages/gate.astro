@@ -211,6 +211,50 @@ const card4Code = `<span class="t-w">card</span> <span class="t-p">=</span> <spa
       ))}
     </div>
 
+    <!-- Free-form row -->
+    <div class="gate-freeform" id="gate-freeform">
+      <span class="gate-eyebrow">Try your own tool call</span>
+      <div class="gate-freeform-card" id="gate-freeform-card" role="region" aria-label="Free-form tool call">
+        <div class="gate-card-top">
+          <div class="gate-freeform-inputs">
+            <input
+              id="gate-freeform-tool"
+              class="gate-freeform-tool-input"
+              type="text"
+              placeholder="payments.refund"
+              maxlength="49"
+              autocomplete="off"
+              spellcheck="false"
+              aria-label="Tool name"
+            />
+            <textarea
+              id="gate-freeform-args"
+              class="gate-freeform-args-input"
+              placeholder='{"amount_usd": 500}'
+              rows="3"
+              aria-label="Tool arguments (JSON object)"
+            >{}</textarea>
+          </div>
+          <span class="gate-card-badge" id="gate-freeform-badge" data-badge aria-live="polite"></span>
+        </div>
+        <div class="gate-freeform-footer">
+          <button class="gate-btn gate-btn-run" id="gate-freeform-run" aria-label="Run free-form tool call through the gate">Run it</button>
+          <p class="gate-freeform-hint">Try <code>payments.refund</code> (held), <code>db.drop_everything</code> (blocked), or any name you invent.</p>
+        </div>
+        <div class="gate-card-receipt" id="gate-freeform-receipt" hidden></div>
+        <div class="gate-card-hold" id="gate-freeform-hold" hidden>
+          <div class="gate-hold-inner">
+            <p class="gate-hold-note">Held. Approve it to continue.</p>
+            <div class="gate-hold-form">
+              <input class="gate-hold-input" type="text" placeholder="your name (optional)" maxlength="40" id="gate-freeform-approver-name" />
+              <button class="gate-btn gate-btn-approve" id="gate-freeform-approve">Approve it</button>
+            </div>
+          </div>
+        </div>
+        <div id="gate-freeform-error" class="gate-freeform-error" hidden></div>
+      </div>
+    </div>
+
     <!-- Policy bundle -->
     <div class="gate-policy-wrap">
       <span class="gate-eyebrow">The policy that decided</span>
@@ -519,6 +563,24 @@ const card4Code = `<span class="t-w">card</span> <span class="t-p">=</span> <spa
       var result = await submit(scenarioId);
       card.classList.remove('gate-card-loading');
       applyResult(card, result.data, result.fromFallback);
+
+      // If the API is unreachable, disable the free-form row
+      if (result.fromFallback) {
+        var freeformRun = document.getElementById('gate-freeform-run');
+        var freeformTool = document.getElementById('gate-freeform-tool');
+        var freeformArgs = document.getElementById('gate-freeform-args');
+        var freeformWrapEl = document.getElementById('gate-freeform');
+        if (freeformRun) freeformRun.disabled = true;
+        if (freeformTool) freeformTool.disabled = true;
+        if (freeformArgs) freeformArgs.disabled = true;
+        if (freeformWrapEl) {
+          var offlineNote = freeformWrapEl.querySelector('.gate-freeform-error');
+          if (offlineNote) {
+            offlineNote.textContent = 'Offline. The free-form gate requires a live connection (no baked responses possible for arbitrary tool calls).';
+            offlineNote.hidden = false;
+          }
+        }
+      }
     });
   });
 
@@ -537,6 +599,193 @@ const card4Code = `<span class="t-w">card</span> <span class="t-p">=</span> <spa
       applyResult(card, result.data, result.fromFallback);
     });
   });
+
+  // ── Free-form row logic ────────────────────────────────────────────────────
+  (function () {
+    var TOOL_RE = /^[a-z][a-z0-9_.]{1,48}$/i;
+    var freeformCard = document.getElementById('gate-freeform-card');
+    var toolInput    = document.getElementById('gate-freeform-tool');
+    var argsInput    = document.getElementById('gate-freeform-args');
+    var runBtn       = document.getElementById('gate-freeform-run');
+    var approveBtn   = document.getElementById('gate-freeform-approve');
+    var approverInput = document.getElementById('gate-freeform-approver-name');
+    var badgeEl      = document.getElementById('gate-freeform-badge');
+    var receiptEl    = document.getElementById('gate-freeform-receipt');
+    var holdEl       = document.getElementById('gate-freeform-hold');
+    var errorEl      = document.getElementById('gate-freeform-error');
+    var freeformWrap = document.getElementById('gate-freeform');
+
+    if (!freeformCard || !toolInput || !argsInput || !runBtn) return;
+
+    // Detect offline/fallback mode: if the first card returned fallback data
+    // the API is unreachable; disable the free-form row.
+    // We also disable it immediately and re-enable only after a live API call
+    // succeeds — but here we just rely on the note being shown after failure.
+
+    // Show a client-side validation error
+    function showError(msg) {
+      if (!errorEl) return;
+      errorEl.textContent = msg;
+      errorEl.hidden = false;
+    }
+    function clearError() {
+      if (!errorEl) return;
+      errorEl.hidden = true;
+      errorEl.textContent = '';
+    }
+
+    // State to carry freeform payload through the approval flow
+    var pendingFreeform = null;
+
+    function resetFreeform() {
+      pendingFreeform = null;
+      if (badgeEl) badgeEl.innerHTML = '';
+      if (receiptEl) { receiptEl.innerHTML = ''; receiptEl.hidden = true; }
+      if (holdEl) holdEl.hidden = true;
+      clearError();
+    }
+
+    function applyFreeformResult(data, fromFallback) {
+      if (!data) {
+        showError('No response from the gate API and no fallback for free-form calls. The server may be offline.');
+        return;
+      }
+      clearError();
+      var verdict = data.verdict;
+      var rule = data.rule;
+
+      if (verdict === 'held') {
+        // Stash the freeform payload for the approve step
+        if (data.freeform) pendingFreeform = data.freeform;
+        if (badgeEl) renderBadge(badgeEl, 'held', rule);
+        if (holdEl) holdEl.hidden = false;
+        if (receiptEl) receiptEl.hidden = true;
+        return;
+      }
+
+      if (badgeEl) renderBadge(badgeEl, verdict, rule);
+      if (holdEl) holdEl.hidden = true;
+      if (receiptEl) {
+        var html = renderReceiptHtml(data, fromFallback);
+        // If a default-allow note is present, append a small mono caption
+        if (data.note) {
+          html += '<div class="gate-receipt-fallback gate-freeform-default-note">' + escHtml(data.note) + '</div>';
+        }
+        receiptEl.innerHTML = html;
+        receiptEl.hidden = false;
+      }
+      if (verdict === 'approved') {
+        var target = badgeEl && badgeEl.querySelector('.seal');
+        if (target && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          target.classList.add('gate-seal-stamp');
+        }
+      }
+    }
+
+    runBtn.addEventListener('click', async function () {
+      resetFreeform();
+      var tool = toolInput.value.trim();
+      var argsRaw = argsInput.value.trim() || '{}';
+
+      // Client-side tool validation
+      if (!TOOL_RE.test(tool)) {
+        showError('Tool name must match namespace.action (letters, digits, dots, underscores; 2-49 chars; start with a letter).');
+        return;
+      }
+
+      // Client-side args parse
+      var args;
+      try {
+        args = JSON.parse(argsRaw);
+      } catch (e) {
+        showError('Args must be valid JSON (e.g. {"amount_usd": 500}).');
+        return;
+      }
+      if (args === null || typeof args !== 'object' || Array.isArray(args)) {
+        showError('Args must be a JSON object, not an array or primitive.');
+        return;
+      }
+
+      runBtn.disabled = true;
+      runBtn.textContent = 'passing the gate...';
+      if (freeformCard) freeformCard.classList.add('gate-card-loading');
+
+      var controller = new AbortController();
+      var timeout = setTimeout(function () { controller.abort(); }, 4000);
+      var data = null;
+      var fromFallback = false;
+      try {
+        var resp = await fetch('/api/gate', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ freeform: { tool: tool, args: args } }),
+          signal: controller.signal,
+        });
+        clearTimeout(timeout);
+        if (!resp.ok) {
+          var errBody = null;
+          try { errBody = await resp.json(); } catch (_) {}
+          var msg = (errBody && errBody.error) ? errBody.error : 'HTTP ' + resp.status;
+          if (resp.status === 400) {
+            showError(msg);
+            runBtn.disabled = false;
+            runBtn.textContent = 'Run it';
+            if (freeformCard) freeformCard.classList.remove('gate-card-loading');
+            return;
+          }
+          throw new Error(msg);
+        }
+        data = await resp.json();
+        fromFallback = false;
+      } catch (e) {
+        clearTimeout(timeout);
+        fromFallback = true;
+        // Free-form has no baked fallback; surface the offline note
+      }
+
+      if (freeformCard) freeformCard.classList.remove('gate-card-loading');
+      runBtn.disabled = false;
+      runBtn.textContent = 'Run it';
+      applyFreeformResult(data, fromFallback);
+    });
+
+    if (approveBtn) {
+      approveBtn.addEventListener('click', async function () {
+        if (!pendingFreeform) return;
+        var approverName = approverInput ? approverInput.value.trim() : '';
+        approveBtn.disabled = true;
+        approveBtn.textContent = 'approving...';
+
+        var controller = new AbortController();
+        var timeout = setTimeout(function () { controller.abort(); }, 4000);
+        var data = null;
+        var fromFallback = false;
+        try {
+          var body = {
+            freeform: pendingFreeform,
+            approve: true,
+          };
+          if (approverName) body.approverName = approverName;
+          var resp = await fetch('/api/gate', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(body),
+            signal: controller.signal,
+          });
+          clearTimeout(timeout);
+          if (!resp.ok) throw new Error('status ' + resp.status);
+          data = await resp.json();
+        } catch (e) {
+          clearTimeout(timeout);
+          fromFallback = true;
+        }
+
+        approveBtn.disabled = false;
+        approveBtn.textContent = 'Approve it';
+        applyFreeformResult(data, fromFallback);
+      });
+    }
+  })();
 
   // Deep-link: ?card=<scenario-id> auto-runs that card on load
   (function () {
@@ -836,6 +1085,97 @@ const card4Code = `<span class="t-w">card</span> <span class="t-p">=</span> <spa
     color: var(--text-secondary);
   }
   :global(.gate-copy-btn:hover) { background: var(--border); }
+
+  /* ── Free-form row ─────────────────────────────────────────────── */
+  .gate-freeform {
+    margin-bottom: 48px;
+  }
+  .gate-freeform-card {
+    border: 1.5px dashed var(--border-strong);
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.2s;
+  }
+  .gate-freeform-card:focus-within {
+    border-color: var(--text-muted);
+  }
+  .gate-freeform-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+  .gate-freeform-tool-input {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    border: 1px solid var(--border-strong);
+    background: var(--bg);
+    border-radius: 6px;
+    padding: 7px 10px;
+    color: var(--text);
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .gate-freeform-tool-input::placeholder { color: var(--text-muted); }
+  .gate-freeform-tool-input:focus { border-color: var(--text-muted); }
+  .gate-freeform-args-input {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    border: 1px solid var(--border-strong);
+    background: var(--bg);
+    border-radius: 6px;
+    padding: 7px 10px;
+    color: var(--text);
+    width: 100%;
+    box-sizing: border-box;
+    resize: vertical;
+    outline: none;
+    line-height: 1.6;
+    transition: border-color 0.15s;
+  }
+  .gate-freeform-args-input::placeholder { color: var(--text-muted); }
+  .gate-freeform-args-input:focus { border-color: var(--text-muted); }
+  .gate-freeform-footer {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+  }
+  .gate-freeform-hint {
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .gate-freeform-hint code {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    background: var(--accent-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  .gate-freeform-error {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: #c0392b;
+    background: rgba(192,57,43,0.07);
+    border-radius: 5px;
+    padding: 6px 10px;
+    margin-top: 2px;
+  }
+  :global(.gate-freeform-default-note) {
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--border);
+  }
 
   /* ── Policy block ───────────────────────────────────────────────── */
   .gate-policy-wrap {

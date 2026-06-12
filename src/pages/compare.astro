@@ -37,7 +37,7 @@ const fits: FitRow[] = [
     name: 'Pydantic AI',
     category: 'Authoring',
     keepFor: 'Typed agent SDKs, structured output, and the Pydantic mental model.',
-    addJamjetFor: 'Governance and replay across the whole runtime — not just inside one agent call.',
+    addJamjetFor: 'Governance and replay across the whole runtime, not just inside one agent call.',
   },
   {
     name: 'Google ADK',
@@ -69,14 +69,14 @@ const fits: FitRow[] = [
     name: 'LangSmith / Arize / Phoenix',
     category: 'Observability',
     keepFor: 'Tracing and offline evaluation. Dashboards your data team already uses.',
-    addJamjetFor: 'Active enforcement — blocking unsafe tools, halting runs at cost limits, gating high-risk actions — not just observing them.',
+    addJamjetFor: 'Active enforcement: blocking unsafe tools, halting runs at cost limits, gating high-risk actions. Not just observing them.',
     link: '/compare/langsmith/',
   },
   {
     name: 'Helicone',
     category: 'Observability',
     keepFor: 'One-line LLM proxy for cost tracking, caching, and request logging across 10+ providers.',
-    addJamjetFor: 'Tool-call policy, durable execution, HITL approval nodes, signed audit evidence, and agent memory — the layer above the LLM API.',
+    addJamjetFor: 'Tool-call policy, durable execution, HITL approval nodes, signed audit evidence, and agent memory. The layer above the LLM API.',
     link: '/compare/helicone/',
   },
   {
@@ -88,7 +88,7 @@ const fits: FitRow[] = [
   {
     name: 'Vanilla Python / direct LLM calls',
     category: 'Authoring',
-    keepFor: 'Simplicity and short-lived prototypes — nothing beats a function call.',
+    keepFor: 'Simplicity and short-lived prototypes. Nothing beats a function call.',
     addJamjetFor: 'When the prototype goes live: durability, policy, audit, cost limits, and memory in one runtime.',
     link: 'https://docs.jamjet.dev/en/docs/quickstart',
   },
@@ -138,7 +138,7 @@ const categories = [...new Set(fits.map(f => f.category))];
       <!-- middle layer: JamJet -->
       <g class="layer-jam">
         <rect x="40" y="100" width="640" height="80" rx="10"/>
-        <text x="360" y="128" text-anchor="middle" class="layer-jam-title">JamJet — safety layer</text>
+        <text x="360" y="128" text-anchor="middle" class="layer-jam-title">JamJet safety layer</text>
         <g class="layer-chip"><rect x="62" y="142" width="84" height="22" rx="4"/><text x="104" y="157" text-anchor="middle">policy</text></g>
         <g class="layer-chip"><rect x="156" y="142" width="84" height="22" rx="4"/><text x="198" y="157" text-anchor="middle">audit</text></g>
         <g class="layer-chip"><rect x="250" y="142" width="84" height="22" rx="4"/><text x="292" y="157" text-anchor="middle">approval</text></g>
@@ -520,9 +520,10 @@ const categories = [...new Set(fits.map(f => f.category))];
   .honest-card {
     padding: 22px 24px;
     background: var(--surface);
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-strong);
     border-radius: 10px;
     border-left: 3px solid var(--text);
+    box-shadow: 1px 2px 0 rgba(20,20,19,0.06);
   }
   .honest-card strong {
     display: block;
@@ -548,15 +549,17 @@ const categories = [...new Set(fits.map(f => f.category))];
     flex-direction: column;
     padding: 22px 24px;
     background: var(--surface);
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-strong);
     border-radius: 10px;
+    box-shadow: 1px 2px 0 rgba(20,20,19,0.06);
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.15s, transform 0.15s;
+    transition: border-color 0.15s, transform 0.12s ease, box-shadow 0.12s ease;
   }
   .deep-ready:hover {
     border-color: var(--text);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
+    box-shadow: 2px 4px 0 rgba(20,20,19,0.1);
   }
   .deep-soon {
     opacity: 0.6;

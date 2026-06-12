@@ -1,0 +1,33 @@
+---
+// Single-ink-weight brush pictograms for the five field-notes categories.
+// Stroke-cap round everywhere; semantic color via prop.
+interface Props {
+  category: string;
+  stroke?: string; // CSS color; defaults to currentColor
+}
+const { category, stroke = 'currentColor' } = Astro.props;
+---
+<svg class="category-mark" width="44" height="34" viewBox="0 0 44 34" fill="none" aria-hidden="true">
+  {category === 'Benchmark' && (
+    <path d="M8 28 V20 M20 28 V12 M32 28 V6" stroke={stroke} stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  )}
+  {category === 'Incident analysis' && (
+    <path d="M4 10 L16 24 M16 24 L26 24 M30 24 H40" stroke={stroke} stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  )}
+  {category === 'Build log' && (
+    <path d="M8 8 H36 M8 17 H30 M8 26 H24" stroke={stroke} stroke-width="4" stroke-linecap="round" />
+  )}
+  {category === 'Landscape' && (
+    <path d="M4 26 H40 M14 26 L24 10 L34 26" stroke={stroke} stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  )}
+  {category === 'Guide' && (
+    <>
+      <path d="M6 28 Q22 24 22 14 Q22 6 36 6" stroke={stroke} stroke-width="4" stroke-linecap="round" fill="none" />
+      <circle cx="36" cy="6" r="3" fill={stroke} />
+    </>
+  )}
+</svg>
+
+<style>
+  .category-mark { display: block; overflow: visible; }
+</style>

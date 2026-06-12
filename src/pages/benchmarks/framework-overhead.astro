@@ -26,7 +26,7 @@ const runs = [
       { name: 'JamJet 0.1.1',   mean: 10140.1, median: 10139.1, p95: 10487.0, p99: 10519.5, min: 9539.4, max: 10527.6, stdev: 285.1, overhead: +1710.6 },
       { name: 'LangGraph',       mean: 11902.9, median: 11923.3, p95: 12761.8, p99: 12823.5, min: 11035.0, max: 12838.9, stdev: 551.7, overhead: +3473.3 },
     ],
-    note: 'qwen3:8b generates variable-length chain-of-thought. High stdev dominates — overhead numbers reflect token generation variance, not framework overhead.',
+    note: 'qwen3:8b generates variable-length chain-of-thought. High stdev dominates. Overhead numbers reflect token generation variance, not framework overhead.',
   },
 ];
 
@@ -55,11 +55,11 @@ const overheadLd = {
 
   <header class="fwo-header">
     <span class="section-label">Runtime · Framework tax</span>
-    <h1>Framework overhead — zero-cost orchestration</h1>
+    <h1>Framework overhead: zero-cost orchestration</h1>
     <p class="fwo-subhead">JamJet vs raw LLM calls vs LangGraph, reproducible end-to-end.</p>
     <p class="fwo-intro">
-      Across two reader models — a fast 3B (llama3.2) and a slower 8B chain-of-thought model
-      (qwen3:8b) — JamJet's in-process executor adds zero observable overhead vs raw LLM calls.
+      Tested against two reader models (a fast 3B llama3.2 and a slower 8B chain-of-thought qwen3:8b),
+      JamJet's in-process executor adds zero observable overhead vs raw LLM calls.
       LangGraph is similarly tied within measurement noise. The numbers are below; the reproduction
       script is in the methodology section.
     </p>
@@ -132,12 +132,12 @@ const overheadLd = {
     <h2>Methodology</h2>
     <p>
       All benchmarks measure wall-clock time per call. Each framework makes the
-      <strong>identical LLM call</strong> through the same OpenAI-compatible client — what we measure is framework orchestration overhead.
+      <strong>identical LLM call</strong> through the same OpenAI-compatible client. What we measure is framework orchestration overhead.
     </p>
     <ul>
-      <li><strong>Raw (baseline)</strong> — bare openai.OpenAI().chat.completions.create() call</li>
-      <li><strong>JamJet</strong> — Workflow.run_sync() in-process executor</li>
-      <li><strong>LangGraph</strong> — StateGraph.compile().invoke() with a single node</li>
+      <li><strong>Raw (baseline):</strong> bare openai.OpenAI().chat.completions.create() call</li>
+      <li><strong>JamJet:</strong> Workflow.run_sync() in-process executor</li>
+      <li><strong>LangGraph:</strong> StateGraph.compile().invoke() with a single node</li>
     </ul>
 
     <div class="code-block" style="margin:1rem 0">
@@ -154,7 +154,7 @@ python bench_single_call.py --json results/my-run.json</pre>
 
     <ul>
       <li>Warmup runs excluded from measurements</li>
-      <li>Each timed run is independent — no shared state</li>
+      <li>Each timed run is independent, no shared state</li>
       <li>Benchmarks run sequentially to avoid contention</li>
       <li>Hardware: Apple M-series, 16GB RAM, Ollama local</li>
     </ul>

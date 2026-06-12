@@ -3,7 +3,7 @@ title: "What's New: Incremental Streaming, LLM Tiebreaker, and Reasoning Modes"
 date: 2026-03-20
 description: "True incremental NDJSON streaming for agent tools, async LLM tiebreaker for coordinator routing, and reasoning mode scoring for Agent Cards."
 author: "Sunil Prakash"
-category: "Releases & Updates"
+category: "Build log"
 ---
 
 # What's New: Incremental Streaming, LLM Tiebreaker, and Reasoning Modes

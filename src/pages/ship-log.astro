@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 
 const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const entries = (await getCollection('shiplog'))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf() || a.id.localeCompare(b.id));
 const rendered = await Promise.all(entries.map(async (e) => ({ ...e, Content: (await e.render()).Content })));
 const fmt = (d: Date) => `${monthShort[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
 ---

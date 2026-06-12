@@ -3,7 +3,7 @@ title: "Getting Started with MCP: Connect AI Agents to Any Tool"
 date: 2026-04-15
 description: "Model Context Protocol is becoming the USB-C of AI agents. Here is how to connect your agents to databases, APIs, and file systems — with working code."
 author: "Sunil Prakash"
-category: "Architecture & Deep Dives"
+category: "Guide"
 ---
 
 # Getting Started with MCP: Connect AI Agents to Any Tool
