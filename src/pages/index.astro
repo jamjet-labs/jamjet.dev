@@ -7,6 +7,7 @@ import Seal from '../components/Seal.astro';
 import MarginNote from '../components/MarginNote.astro';
 import ShipLogStrip from '../components/ShipLogStrip.astro';
 import BrushIcon from '../components/BrushIcon.astro';
+import TerminalReplay from '../components/TerminalReplay.astro';
 
 const monthShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const allPosts = await getCollection('blog', ({ data }) => data.draft !== true);
@@ -18,6 +19,20 @@ const log = allPosts
     body: post.data.description,
     href: `/blog/${post.id.replace(/\.md$/, '')}/`,
   }));
+
+const crashLines = [
+  '$ jamjet run analyst-pipeline',
+  '▸ Starting execution exec_a4b2…',
+  '▸ [Plan]      ✓ completed  420ms',
+  '▸ [Analyze]   running…',
+  '▸ Worker SIGTERM received',
+  '▸ Lease expired · scheduler reclaiming',
+  '▸ Restored exec_a4b2 from checkpoint',
+  '▸ [Analyze]   ✓ resumed and completed  890ms',
+  '▸ [Decision]  ✓ completed  650ms',
+  '▸ Receipt emitted · hash c8b1c4f5…',
+  '▸ Execution complete · 4/4 nodes · 0 events lost',
+];
 
 const failures = [
   { num: '01', tone: 'neutral', icon: 'crash',    title: 'Lost progress', line: 'A worker dies mid-run. JamJet replays the event log and resumes at the failed node.' },
@@ -75,24 +90,24 @@ const homeLd = {
       <span class="zn-display-italic">agent action.</span>
     </h1>
 
-    <div class="zn-recwrap">
-      <MarginNote rotate={-2}>a real run, not a render</MarginNote>
-      <Recorder />
-      <aside class="zn-receipt-fly" aria-label="signed action receipt">
-        <span>receipt 0192c8d0-1f2a</span>
-        <span>github.merge &middot; repo.merges v2</span>
-        <span>approved &middot; sunil &middot; 14:02</span>
-        <span>sig 4d905d&hellip;verified</span>
-        <Seal verdict="approved" size="sm" />
-      </aside>
-    </div>
-
-    <p class="zn-lede">
-      That's one agent run, played back. It read files. It tried to drop a users table: blocked.
-      It crashed mid-analysis: recovered. It asked to merge to production: held for a human, then signed.
-      Drag the scrubber: every call is policy-checked, recoverable, and written to a receipt anyone can
-      verify, independent of your agent framework.
+    <p class="zn-hero-subhead">
+      It starts with a runtime that keeps agents alive. When a worker dies, JamJet replays
+      the event log and resumes from the failed step: no lost progress, no duplicate side effects.
+      Every action it takes is then policy-checked and signed onto a receipt anyone can verify.
     </p>
+
+    <figure class="zn-hero-demo">
+      <MarginNote rotate={-2}>a worker dies, the agent finishes</MarginNote>
+      <figcaption class="zn-hero-demo-head">
+        <span class="zn-eyebrow">Durable by default</span>
+        <strong class="zn-hero-demo-title">Kill the worker mid-run. The agent still finishes.</strong>
+      </figcaption>
+      <TerminalReplay lines={crashLines} title="jamjet · crash recovery" />
+      <p class="zn-hero-demo-note">
+        SIGTERM lands on the Analyze step. The scheduler reclaims the lease, restores from the
+        last checkpoint, and the run completes with zero events lost and a signed receipt.
+      </p>
+    </figure>
 
     <p class="zn-hero-pitch">
       <strong>Not another agent framework.</strong> The action-control layer that sits underneath them.
@@ -354,6 +369,35 @@ const homeLd = {
     <div class="zn-dark-foot">
       <a href="/gate/" class="zn-btn zn-btn-light">See each failure mode in action &rarr;</a>
     </div>
+  </div>
+</section>
+
+<!-- ────────────────────  REPLAY THE WHOLE RUN ──────────────────── -->
+<section class="zn-replay">
+  <div class="zn-shell">
+    <div class="zn-replay-head">
+      <span class="zn-eyebrow">The flight recorder</span>
+      <h2 class="zn-h2">Replay the whole run.<br/><span class="zn-display-italic">Every call on one tape.</span></h2>
+    </div>
+
+    <div class="zn-recwrap">
+      <MarginNote rotate={-2}>a real run, not a render</MarginNote>
+      <Recorder />
+      <aside class="zn-receipt-fly" aria-label="signed action receipt">
+        <span>receipt 0192c8d0-1f2a</span>
+        <span>github.merge &middot; repo.merges v2</span>
+        <span>approved &middot; sunil &middot; 14:02</span>
+        <span>sig 4d905d&hellip;verified</span>
+        <Seal verdict="approved" size="sm" />
+      </aside>
+    </div>
+
+    <p class="zn-lede">
+      That's one agent run, played back. It read files. It tried to drop a users table: blocked.
+      It crashed mid-analysis: recovered. It asked to merge to production: held for a human, then signed.
+      Drag the scrubber: every call is policy-checked, recoverable, and written to a receipt anyone can
+      verify, independent of your agent framework.
+    </p>
   </div>
 </section>
 
@@ -683,6 +727,34 @@ const homeLd = {
     margin: 0 0 32px;
   }
   .zn-display-italic { font-style: italic; font-weight: 500; }
+
+  /* ────────  HERO DURABLE-RUNTIME DECK + DEMO  ──────── */
+  .zn-hero-subhead {
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    line-height: 1.55;
+    color: var(--text);
+    max-width: 62ch;
+    margin: 0 0 36px;
+  }
+  .zn-hero-demo {
+    position: relative;
+    margin: 0 0 40px;
+    max-width: min(640px, 100%);
+  }
+  .zn-hero-demo > :global(.margin-note) { position: absolute; right: 0; top: -30px; }
+  .zn-hero-demo-head { display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px; }
+  .zn-hero-demo-head .zn-eyebrow { margin-bottom: 0; }
+  .zn-hero-demo-title { font-size: 1.18rem; font-weight: 600; line-height: 1.2; color: var(--text); }
+  .zn-hero-demo-note {
+    margin: 16px 0 0;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--text-muted);
+    max-width: 56ch;
+  }
+  @media (max-width: 760px) {
+    .zn-hero-demo > :global(.margin-note) { display: none; }
+  }
 
   /* ────────  RECORDER WRAP + FLYING RECEIPT  ──────── */
   .zn-recwrap { position: relative; }
@@ -1055,6 +1127,11 @@ const homeLd = {
   .zn-adapter-name { font-family: var(--font-mono); font-size: 13px; font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .zn-adapter-host { font-family: var(--font-sans); font-size: 12px; color: var(--text-muted); text-align: right; align-self: baseline; }
   .zn-adapter-install { grid-column: 1 / -1; font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* ─────────  REPLAY THE WHOLE RUN  ───────── */
+  .zn-replay { padding: 88px 0; border-bottom: 1px solid var(--border); }
+  .zn-replay-head { max-width: 720px; margin-bottom: 44px; }
+  .zn-replay .zn-lede { margin-top: 28px; }
 
   /* ─────────  SHIP LOG STRIP  ───────── */
   .zn-shiplog { padding: var(--space-section-sm) 0 0; }
