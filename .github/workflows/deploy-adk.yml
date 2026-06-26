@@ -46,4 +46,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy adk/dist --project-name=adk-jamjet-dev
+          workingDirectory: adk
+          command: pages deploy dist --project-name=adk-jamjet-dev
