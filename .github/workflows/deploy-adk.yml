@@ -48,3 +48,9 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: adk
           command: pages deploy dist --project-name=adk-jamjet-dev
+
+      - name: Add custom domain (idempotent, best-effort)
+        run: npx wrangler pages domain add adk.jamjet.dev --project-name=adk-jamjet-dev 2>&1 || true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
