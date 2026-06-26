@@ -1,0 +1,36 @@
+name: Add adk.jamjet.dev custom domain
+
+on:
+  workflow_dispatch:
+
+jobs:
+  add-domain:
+    name: Register adk.jamjet.dev on CF Pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add custom domain via Cloudflare API
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          RESPONSE=$(curl -sS -X POST \
+            "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/pages/projects/adk-jamjet-dev/domains" \
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data '{"name":"adk.jamjet.dev"}')
+          echo "CF API response: $RESPONSE"
+          # Fail loudly if neither success nor already-exists
+          echo "$RESPONSE" | python3 -c "
+          import sys, json
+          r = json.load(sys.stdin)
+          if r.get('success'):
+              print('SUCCESS: domain registered')
+              sys.exit(0)
+          errors = r.get('errors', [])
+          # code 8000019 = domain already exists (idempotent success)
+          if any(e.get('code') == 8000019 for e in errors):
+              print('ALREADY EXISTS: idempotent success')
+              sys.exit(0)
+          print('FAILED:', json.dumps(errors))
+          sys.exit(1)
+          "
