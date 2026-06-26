@@ -1,0 +1,127 @@
+---
+// Languages section: Python now, Java + TS next
+---
+
+<section id="languages" class="languages">
+  <div class="container">
+    <p class="section-label">Languages</p>
+    <h2>Python now. Java next.</h2>
+
+    <div class="lang-grid">
+
+      <div class="lang-card lang-card-primary">
+        <div class="lang-badge">Available now</div>
+        <h3>Python</h3>
+        <p>The primary authoring surface. <code>pip install jamjet</code>.
+          The <code>Agent</code>, <code>@tool</code>, sessions, Engram memory bridge,
+          policy, approval, and audit all run from the Python SDK.</p>
+        <div class="install-cmd" style="margin-top: 16px; font-size: 0.82rem;">
+          <span class="prompt">$</span>
+          <span class="cmd">pip install jamjet</span>
+        </div>
+        <a href="https://pypi.org/project/jamjet/" target="_blank" rel="noopener" class="lang-link">
+          pypi.org/project/jamjet &#8599;
+        </a>
+      </div>
+
+      <div class="lang-card">
+        <div class="lang-badge lang-badge-next">Fast-follow</div>
+        <h3>Java</h3>
+        <p>First-class Java authoring is the differentiated fast-follow track.
+          The JVM runtime already runs in production with zero-sidecar
+          <code>@DurableAgent</code> support. A Java authoring surface matching
+          the Python API is the next track.</p>
+        <div class="install-cmd" style="margin-top: 16px; font-size: 0.82rem;">
+          <span class="prompt">$</span>
+          <span class="cmd">pip install jamjet  # today</span>
+        </div>
+        <a href="https://jamjet.dev/runtime/" target="_blank" rel="noopener" class="lang-link">
+          JVM runtime docs &#8599;
+        </a>
+      </div>
+
+      <div class="lang-card">
+        <div class="lang-badge lang-badge-ts">TypeScript</div>
+        <h3>TypeScript</h3>
+        <p>The <code>@jamjet/cloud</code> SDK provides TypeScript bindings for
+          the Cloud APIs and governance checks. A full authoring surface
+          matching the Python <code>Agent</code> API is planned after Java.</p>
+        <div class="install-cmd" style="margin-top: 16px; font-size: 0.82rem;">
+          <span class="prompt">$</span>
+          <span class="cmd">npm install @jamjet/cloud</span>
+        </div>
+        <a href="https://www.npmjs.com/package/@jamjet/cloud" target="_blank" rel="noopener" class="lang-link">
+          npmjs.com/@jamjet/cloud &#8599;
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .languages {
+    border-bottom: 1px solid var(--border);
+  }
+  .lang-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 40px;
+  }
+  .lang-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .lang-card-primary {
+    border-color: var(--border-strong);
+  }
+  .lang-badge {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    color: var(--success);
+    background: rgba(45,125,70,0.12);
+    padding: 2px 8px;
+    border-radius: 20px;
+    width: fit-content;
+  }
+  .lang-badge-next {
+    color: var(--warning);
+    background: rgba(180,83,9,0.10);
+  }
+  .lang-badge-ts {
+    color: var(--text-secondary);
+    background: var(--accent-bg);
+  }
+  .lang-card p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+  .lang-card code {
+    font-size: 0.8rem;
+    background: var(--accent-bg);
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+  .lang-link {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-top: auto;
+  }
+  .lang-link:hover {
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 900px) {
+    .lang-grid { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,109 @@
+---
+// Fits your stack: MCP, LangGraph/CrewAI adapters, existing frameworks
+const integrations = [
+  {
+    name: '@jamjet/mcp-shim',
+    desc: 'Drop governance onto any MCP client (Claude Desktop, Cursor, any MCP host) without touching the client code.',
+    install: 'npx -y @jamjet/mcp-shim',
+  },
+  {
+    name: '@jamjet/claude-code-hook',
+    desc: 'PreToolUse hook for Claude Code. Every tool call passes JamJet policy before execution.',
+    install: 'npm i -g @jamjet/claude-code-hook',
+  },
+  {
+    name: '@jamjet/openai-guardrail',
+    desc: 'Guardrail wrapper for the OpenAI Agents SDK. Same policy engine, different host.',
+    install: 'npm i @jamjet/openai-guardrail',
+  },
+  {
+    name: 'jamjet.integrations',
+    desc: 'Python guardrail for the OpenAI Agents SDK. Already in the jamjet package.',
+    install: 'pip install jamjet',
+  },
+];
+---
+
+<section id="integrations" class="integrations">
+  <div class="container">
+    <p class="section-label">Fits your stack</p>
+    <h2>Keep your framework. Add JamJet where it counts.</h2>
+    <p class="int-intro">
+      LangGraph, CrewAI, Spring AI, Claude Code, OpenAI Agents SDK: keep
+      what you have. Drop JamJet at the tool boundary for policy, approval,
+      and audit. No rewrites.
+    </p>
+
+    <div class="int-grid">
+      {integrations.map(i => (
+        <div class="int-card">
+          <h3>{i.name}</h3>
+          <p>{i.desc}</p>
+          <div class="install-cmd int-cmd">
+            <span class="prompt">$</span>
+            <span class="cmd">{i.install}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="int-note">
+      <p>
+        The same policy engine that governs JamJet ADK agents runs as an
+        ext-authz PDP / guardrail webhook for other frameworks. One policy
+        plane across all your agents.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .integrations {
+    border-bottom: 1px solid var(--border);
+  }
+  .int-intro {
+    color: var(--text-secondary);
+    max-width: 580px;
+    margin-top: 16px;
+    margin-bottom: 40px;
+  }
+  .int-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .int-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .int-card p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .int-cmd {
+    font-size: 0.78rem;
+    padding: 9px 14px;
+    margin-top: auto;
+  }
+  .int-note {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    max-width: 600px;
+  }
+  .int-note p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .int-grid { grid-template-columns: 1fr; }
+  }
+</style>

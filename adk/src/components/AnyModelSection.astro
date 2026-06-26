@@ -1,0 +1,114 @@
+---
+// Any model section: provider-routed strings over a governed seam
+const providers = [
+  { name: 'Anthropic',  string: 'anthropic/claude-opus-4-8' },
+  { name: 'OpenAI',     string: 'openai/gpt-4o' },
+  { name: 'Gemini',     string: 'gemini/gemini-2.0-flash' },
+  { name: 'Bedrock',    string: 'bedrock/meta.llama3-70b' },
+  { name: 'Ollama',     string: 'ollama/llama3.2' },
+];
+---
+
+<section id="models" class="models">
+  <div class="container">
+    <p class="section-label">Any model</p>
+    <h2>One string, any provider.</h2>
+    <p class="models-intro">
+      Pass a provider-routed string as the model. The ADK routes through
+      a governed model seam that enforces policy, logs token usage, and
+      applies PII redaction on every call, regardless of provider.
+    </p>
+
+    <div class="models-grid">
+      {providers.map(p => (
+        <div class="model-row">
+          <span class="model-provider">{p.name}</span>
+          <code class="model-string">{p.string}</code>
+        </div>
+      ))}
+    </div>
+
+    <div class="models-callout">
+      <div class="models-callout-inner">
+        <p class="models-callout-text">
+          User code never calls a provider directly. The seam is the enforcement
+          point: every call passes the policy middleware, budget check, and audit
+          node before it reaches the wire.
+        </p>
+        <p class="models-callout-note">
+          Provider breadth and the governed seam are the first track in the ADK
+          build, alongside the <code>Agent</code> loop facade.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .models {
+    border-bottom: 1px solid var(--border);
+  }
+  .models-intro {
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin-top: 16px;
+    margin-bottom: 40px;
+  }
+  .models-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 560px;
+    margin-bottom: 40px;
+  }
+  .model-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .model-row:last-child {
+    border-bottom: none;
+  }
+  .model-provider {
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text);
+    min-width: 90px;
+  }
+  .model-string {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+  .models-callout {
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--text);
+    border-radius: 0 6px 6px 0;
+    background: var(--surface);
+    max-width: 600px;
+    padding: 20px 24px;
+  }
+  .models-callout-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+  }
+  .models-callout-note {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+  }
+  .models-callout-note code {
+    font-size: 0.77rem;
+    background: var(--accent-bg);
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+</style>

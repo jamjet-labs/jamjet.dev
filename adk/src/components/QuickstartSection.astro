@@ -1,0 +1,130 @@
+---
+import TerminalReplay from './TerminalReplay.astro';
+
+const steps = [
+  '$ pip install jamjet',
+  '',
+  '$ python -c "from jamjet import Agent, tool; print(\'ok\')"',
+  'ok',
+  '',
+  '# Write agent.py (nine lines), then run it:',
+  '$ python agent.py',
+  '  run_id: run_4a8b2f',
+  '  Tokyo: 27C, sunny. Pack light layers and sunscreen.',
+  '  receipt: 3e9f1d2a...',
+];
+---
+
+<section id="quickstart" class="quickstart">
+  <div class="container">
+    <div class="qs-inner">
+
+      <div class="qs-text">
+        <p class="section-label">Quickstart</p>
+        <h2>Up and running in five minutes.</h2>
+        <p class="qs-body">
+          Install the SDK, write nine lines, run your agent. Durable execution
+          and governance are on by default. No config files, no infrastructure.
+        </p>
+
+        <ol class="qs-steps">
+          <li>
+            <strong>Install</strong>
+            <div class="install-cmd">
+              <span class="prompt">$</span>
+              <span class="cmd">pip install jamjet</span>
+            </div>
+          </li>
+          <li>
+            <strong>Write your agent</strong>
+            <p>Nine lines. <code>from jamjet import Agent, tool</code>. Done.</p>
+          </li>
+          <li>
+            <strong>Run it</strong>
+            <p>Every run checkpoints turns, checks policy, and emits a receipt. You wrote none of that.</p>
+          </li>
+        </ol>
+
+        <a href="https://docs.jamjet.dev/en/docs/quickstart" target="_blank" rel="noopener" class="btn-primary" style="margin-top: 24px;">
+          Read the quickstart guide
+        </a>
+      </div>
+
+      <div class="qs-demo">
+        <TerminalReplay lines={steps} title="five-minute quickstart" />
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .quickstart {
+    border-bottom: 1px solid var(--border);
+  }
+  .qs-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .qs-body {
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+  }
+  .qs-steps {
+    padding-left: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    counter-reset: step;
+  }
+  .qs-steps li {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-left: 28px;
+    position: relative;
+  }
+  .qs-steps li::before {
+    counter-increment: step;
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 1px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border-strong);
+    border-radius: 3px;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .qs-steps strong {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+  }
+  .qs-steps p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+  .qs-steps code {
+    font-size: 0.8rem;
+    background: var(--accent-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  .qs-steps .install-cmd {
+    margin-top: 4px;
+    padding: 10px 16px;
+    font-size: 0.82rem;
+  }
+
+  @media (max-width: 900px) {
+    .qs-inner { grid-template-columns: 1fr; gap: 40px; }
+  }
+</style>

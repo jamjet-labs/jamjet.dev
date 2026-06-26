@@ -1,0 +1,140 @@
+---
+// Hero: code-first, nine-line Agent snippet
+---
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+
+      <div class="hero-text">
+        <p class="section-label">JamJet ADK</p>
+        <h1>The agent kit that's durable and governed by default.</h1>
+        <p class="hero-subhead">
+          Build an agent in nine lines. Ship it to production without rewriting.
+          Every run is durable, every tool call is policy-checked, every action
+          lands in a signed audit trail.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="#quickstart" class="btn-primary">Get started</a>
+          <a href="#proof" class="btn-secondary">Why durable + governed</a>
+        </div>
+
+        <div class="install-cmd" id="hero-install">
+          <span class="prompt">$</span>
+          <span class="cmd">pip install jamjet</span>
+          <button class="copy-btn" id="copy-install" type="button">copy</button>
+        </div>
+      </div>
+
+      <div class="hero-code">
+        <div class="code-block">
+          <div class="code-header">
+            <span>agent.py</span>
+            <span>Python 3.11+</span>
+          </div>
+          <pre class="code-body"><code><span class="t-kw">from</span> <span class="t-w">jamjet</span> <span class="t-kw">import</span> <span class="t-w">Agent</span><span class="t-p">,</span> <span class="t-w">tool</span>
+
+<span class="t-b">@tool</span>
+<span class="t-kw">def</span> <span class="t-w">get_weather</span><span class="t-p">(</span>city<span class="t-p">:</span> <span class="t-w">str</span><span class="t-p">)</span> <span class="t-p">-&gt;</span> <span class="t-w">str</span><span class="t-p">:</span>
+    <span class="t-kw">return</span> <span class="t-w">fetch_weather</span><span class="t-p">(</span>city<span class="t-p">)</span>
+
+<span class="t-w">weather</span> <span class="t-p">=</span> <span class="t-w">Agent</span><span class="t-p">(</span>
+    model<span class="t-p">=</span><span class="t-s">"anthropic/claude-opus-4-8"</span><span class="t-p">,</span>
+    instructions<span class="t-p">=</span><span class="t-s">"Answer weather questions."</span><span class="t-p">,</span>
+    tools<span class="t-p">=[</span>get_weather<span class="t-p">],</span>
+<span class="t-p">)</span>
+
+<span class="t-w">print</span><span class="t-p">(</span>weather<span class="t-p">.</span>run<span class="t-p">(</span><span class="t-s">"What should I pack for Tokyo this weekend?"</span><span class="t-p">))</span></code></pre>
+        </div>
+
+        <p class="hero-caption">
+          Durable. Governed. Audited. Replayable.
+          <strong>You wrote none of it.</strong>
+        </p>
+
+        <ul class="hero-badges">
+          <li class="badge badge-allow">crash recovery</li>
+          <li class="badge badge-allow">policy enforced</li>
+          <li class="badge badge-warn">approval-ready</li>
+          <li class="badge badge-neutral">receipt minted</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: var(--space-section) 0 calc(var(--space-section) * 0.75);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .hero-text h1 {
+    margin-bottom: 20px;
+  }
+  .hero-subhead {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    margin-bottom: 32px;
+    max-width: 480px;
+  }
+  .hero-ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .install-cmd {
+    margin-top: 8px;
+  }
+  .hero-caption {
+    margin-top: 16px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+    letter-spacing: 0.01em;
+  }
+  .hero-badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    list-style: none;
+    margin-top: 12px;
+  }
+  .badge {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+  }
+  .badge-allow   { background: rgba(111,207,151,0.15); color: var(--success); }
+  .badge-warn    { background: rgba(232,161,58,0.15);  color: var(--warning); }
+  .badge-neutral { background: var(--accent-bg);       color: var(--text-secondary); }
+
+  @media (max-width: 900px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .hero-subhead { max-width: 100%; }
+  }
+</style>
+
+<script is:inline>
+  var btn = document.getElementById('copy-install');
+  if (btn) {
+    btn.addEventListener('click', function() {
+      navigator.clipboard.writeText('pip install jamjet');
+      btn.textContent = 'copied';
+      setTimeout(function() { btn.textContent = 'copy'; }, 1500);
+    });
+  }
+</script>

@@ -1,0 +1,143 @@
+---
+// Governance section: policy, approval, audit, receipts — all shipped
+---
+
+<section id="governance" class="governance">
+  <div class="container">
+    <div class="gov-inner">
+
+      <div class="gov-text">
+        <p class="section-label">Governance</p>
+        <h2>Policy. Approval. Audit. Receipts.</h2>
+        <p class="gov-body">
+          Every agent runs under policy. Risky tool calls wait for a human.
+          Every decision lands in a signed audit trail. The whole loop shipped.
+          You add it with arguments.
+        </p>
+
+        <ul class="gov-list">
+          <li>
+            <strong>Policy</strong>
+            <span>Declarative YAML rules: block/allow/approve by tool, model, cost, or regex.
+              Sane defaults on; tighten per agent.</span>
+          </li>
+          <li>
+            <strong>Approval / HITL</strong>
+            <span>Mark a tool <code>approval_required</code> and the run holds durably.
+              Approve via API, CLI, or the Cloud dashboard. The run resumes at exactly that point.</span>
+          </li>
+          <li>
+            <strong>Budget caps</strong>
+            <span>Per-run and per-tenant token/cost ceilings. The runtime halts before
+              the cap is crossed. No after-the-fact surprises.</span>
+          </li>
+          <li>
+            <strong>Receipts</strong>
+            <span>Every run emits a signed AgentBoundary receipt with content hashes.
+              Externally verifiable. On by default.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="gov-code">
+        <div class="code-block">
+          <div class="code-header">
+            <span>governed_agent.py</span>
+          </div>
+          <pre class="code-body"><code><span class="t-w">agent</span> <span class="t-p">=</span> <span class="t-w">Agent</span><span class="t-p">(</span>
+  model<span class="t-p">=</span><span class="t-s">"anthropic/claude-opus-4-8"</span><span class="t-p">,</span>
+  tools<span class="t-p">=[</span>search<span class="t-p">,</span> send_email<span class="t-p">,</span> book_flight<span class="t-p">],</span>
+  policy<span class="t-p">=</span><span class="t-s">"policies/travel.yaml"</span><span class="t-p">,</span>
+  budget<span class="t-p">=</span><span class="t-s">"$2.00/run"</span><span class="t-p">,</span>
+  approval_required<span class="t-p">=[</span>book_flight<span class="t-p">],</span>
+<span class="t-p">)</span></code></pre>
+        </div>
+
+        <div class="gov-policy-file">
+          <div class="code-block">
+            <div class="code-header">
+              <span>policies/travel.yaml</span>
+            </div>
+            <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-w">rules</span><span class="t-p">:</span>
+  <span class="t-p">-</span> <span class="t-w">tool</span><span class="t-p">:</span> <span class="t-s">send_email</span>
+    <span class="t-w">action</span><span class="t-p">:</span> <span class="t-s">audit</span>
+  <span class="t-p">-</span> <span class="t-w">tool</span><span class="t-p">:</span> <span class="t-s">book_flight</span>
+    <span class="t-w">action</span><span class="t-p">:</span> <span class="t-s">approve</span>
+  <span class="t-p">-</span> <span class="t-w">model</span><span class="t-p">:</span> <span class="t-s">"*"</span>
+    <span class="t-w">pii_redaction</span><span class="t-p">:</span> <span class="t-s">true</span></code></pre>
+          </div>
+        </div>
+
+        <p class="gov-shipped-note">
+          The end-to-end approval loop is shipped: runtime hold, Cloud approval
+          endpoint, and CLI/dashboard. See
+          <a href="https://docs.jamjet.dev/en" target="_blank" rel="noopener">docs.jamjet.dev</a>.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .governance {
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+  }
+  .gov-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .gov-body {
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    margin-top: 16px;
+  }
+  .gov-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .gov-list li {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-left: 0;
+  }
+  .gov-list strong {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+  }
+  .gov-list span {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .gov-list code {
+    font-size: 0.8rem;
+    background: rgba(20,20,19,0.08);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  .gov-policy-file {
+    margin-top: 16px;
+  }
+  .gov-shipped-note {
+    margin-top: 16px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+  }
+  .gov-shipped-note a {
+    color: var(--text-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .gov-inner { grid-template-columns: 1fr; gap: 40px; }
+  }
+</style>

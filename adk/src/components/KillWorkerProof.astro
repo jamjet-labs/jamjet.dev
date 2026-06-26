@@ -1,0 +1,135 @@
+---
+import TerminalReplay from './TerminalReplay.astro';
+
+const killLines = [
+  '$ python agent.py',
+  '  run_id: run_8f2a1c · worker_id: w-01',
+  '  [turn 1]  model call started...',
+  '  [turn 1]  tool: get_weather("Tokyo")  ok',
+  '  [turn 1]  checkpoint committed',
+  '  [turn 2]  model call started...',
+  '  SIGTERM received · worker w-01 terminated',
+  '',
+  '  scheduler: lease expired on run_8f2a1c',
+  '  worker w-02: restoring from checkpoint...',
+  '  [turn 2]  resumed from turn-1 snapshot',
+  '  [turn 2]  tool: get_weather("Tokyo")  skipped (idempotent)',
+  '  [turn 2]  model call completed',
+  '  run complete · receipt: ab3f7c91...',
+];
+
+const failures = [
+  {
+    num: '01',
+    title: 'Lost state on crash',
+    body: 'A worker dies mid-run. JamJet restores from the last committed turn and continues. No work is lost; no step reruns unnecessarily.',
+    color: 'neutral',
+  },
+  {
+    num: '02',
+    title: 'Skipped approvals',
+    body: 'A risky tool reaches for production. The run pauses at a durable hold. Once a person approves, it continues from exactly that point.',
+    color: 'warn',
+  },
+  {
+    num: '03',
+    title: 'Runaway cost',
+    body: 'A reflection loop keeps calling the model. Budget caps and loop-detection halt the run before it crosses the configured ceiling.',
+    color: 'error',
+  },
+];
+---
+
+<section id="proof" class="proof">
+  <div class="container">
+    <p class="section-label">Proof</p>
+    <h2>Kill the worker. The agent finishes.</h2>
+    <p class="proof-intro">
+      JamJet checkpoints every turn to a durable event log. When the process
+      dies, another worker restores from the last checkpoint and continues.
+      The completed run mints a verifiable receipt.
+    </p>
+
+    <div class="proof-terminal">
+      <TerminalReplay lines={killLines} title="jamjet · crash recovery demo" />
+      <p class="proof-note">
+        Recorded simulation of the crash-recovery sequence. The idempotency key
+        on <code>get_weather</code> prevents the tool from re-running on resume.
+      </p>
+    </div>
+
+    <div class="proof-triptych">
+      {failures.map(f => (
+        <div class={`proof-card proof-card-${f.color}`}>
+          <span class="proof-num">{f.num}</span>
+          <h3>{f.title}</h3>
+          <p>{f.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .proof {
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+  }
+  .proof-intro {
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin-top: 16px;
+    margin-bottom: 40px;
+  }
+  .proof-terminal {
+    max-width: 680px;
+    margin-bottom: 48px;
+  }
+  .proof-note {
+    margin-top: 12px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+    font-style: italic;
+  }
+  .proof-note code {
+    font-style: normal;
+    font-size: 0.76rem;
+    background: var(--accent-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  .proof-triptych {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .proof-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    position: relative;
+  }
+  .proof-card h3 {
+    margin-bottom: 8px;
+    margin-top: 8px;
+  }
+  .proof-card p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+  .proof-num {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+  .proof-card-warn  { border-top: 3px solid var(--warning); }
+  .proof-card-error { border-top: 3px solid var(--error); }
+
+  @media (max-width: 768px) {
+    .proof-triptych { grid-template-columns: 1fr; }
+  }
+</style>

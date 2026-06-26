@@ -1,0 +1,91 @@
+---
+// Final CTA
+---
+
+<section id="cta" class="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <h2>Start building.</h2>
+      <p class="cta-body">
+        Install the SDK, write nine lines, get durable execution and governed
+        tool calls out of the box. Apache 2.0. No account needed to start.
+      </p>
+
+      <div class="cta-install">
+        <div class="install-cmd" id="cta-install-cmd">
+          <span class="prompt">$</span>
+          <span class="cmd">pip install jamjet</span>
+          <button class="copy-btn" id="copy-cta" type="button">copy</button>
+        </div>
+      </div>
+
+      <div class="cta-actions">
+        <a href="https://docs.jamjet.dev/en/docs/quickstart" target="_blank" rel="noopener" class="btn-primary">
+          Read the docs
+        </a>
+        <a href="https://github.com/jamjet-labs/jamjet" target="_blank" rel="noopener" class="btn-secondary">
+          GitHub
+        </a>
+        <a href="https://app.jamjet.dev/signup" target="_blank" rel="noopener" class="btn-secondary">
+          Try Cloud free
+        </a>
+      </div>
+
+      <p class="cta-links">
+        Questions?
+        <a href="https://discord.gg/SAYnEj86fr" target="_blank" rel="noopener">Join the Discord</a>
+        or
+        <a href="https://github.com/jamjet-labs/jamjet/discussions" target="_blank" rel="noopener">start a discussion</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    text-align: center;
+    padding: var(--space-section) 0;
+  }
+  .cta-inner {
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .cta-body {
+    color: var(--text-secondary);
+    margin-top: 16px;
+    margin-bottom: 32px;
+  }
+  .cta-install {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+  .cta-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .cta-links {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+  }
+  .cta-links a {
+    color: var(--text-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>
+
+<script is:inline>
+  var ctaBtn = document.getElementById('copy-cta');
+  if (ctaBtn) {
+    ctaBtn.addEventListener('click', function() {
+      navigator.clipboard.writeText('pip install jamjet');
+      ctaBtn.textContent = 'copied';
+      setTimeout(function() { ctaBtn.textContent = 'copy'; }, 1500);
+    });
+  }
+</script>

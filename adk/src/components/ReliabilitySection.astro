@@ -1,0 +1,124 @@
+---
+// Reliability section: durable execution, exactly-once, residency
+const properties = [
+  {
+    title: 'Crash recovery',
+    body: 'Every turn commits atomically to a durable event log. On worker death, another worker restores from the last committed turn and continues. O(1) resume from the latest snapshot.',
+    shipped: true,
+  },
+  {
+    title: 'Exactly-once tools',
+    body: 'Each tool call gets a deterministic idempotency key from (run_id, segment, step). On resume the runtime skips already-completed side effects. Paying twice after a crash is not a failure mode.',
+    shipped: true,
+  },
+  {
+    title: 'Budget caps and loop detection',
+    body: 'Per-run and per-tenant cost ceilings are engine-enforced, not suggestions. Reflection loops are detected and halted before they cross the cap.',
+    shipped: true,
+  },
+  {
+    title: 'Durable waits on provider outage',
+    body: 'When a model provider returns 429 or goes down, the run parks as a durable wait with backoff rather than failing. It resumes automatically on recovery, freeing the worker in the meantime.',
+    shipped: true,
+  },
+  {
+    title: 'Residency by design',
+    body: 'Run state and payloads stay in the region where the agent was dispatched. Only content hashes travel for the global audit index. Residency requirements are a first-class design property, not an afterthought.',
+    shipped: true,
+  },
+  {
+    title: 'Determinism contract',
+    body: 'The boundary between recorded outputs (model responses, tool results, time, randomness) and deterministic orchestration is explicit and tested. Replay-based regression lets you diff a run against a new model or prompt with a deterministic test.',
+    shipped: false,
+    note: 'Replay-based regression is in the v1 build.',
+  },
+];
+---
+
+<section id="reliability" class="reliability">
+  <div class="container">
+    <p class="section-label">Reliability</p>
+    <h2>Built for production failures, not just sunny paths.</h2>
+    <p class="rel-intro">
+      Model calls are hundreds of milliseconds. Durable turn commits are
+      sub-millisecond. Per-step durability and governance cost essentially
+      nothing against model latency.
+    </p>
+
+    <div class="rel-grid">
+      {properties.map(p => (
+        <div class="rel-card">
+          <div class="rel-card-head">
+            <h3>{p.title}</h3>
+            {p.shipped
+              ? <span class="rel-tag rel-tag-live">shipped</span>
+              : <span class="rel-tag rel-tag-build">in progress</span>
+            }
+          </div>
+          <p>{p.body}</p>
+          {p.note && <p class="rel-note">{p.note}</p>}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .reliability {
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+  }
+  .rel-intro {
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin-top: 16px;
+    margin-bottom: 48px;
+  }
+  .rel-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .rel-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+  }
+  .rel-card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .rel-card p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+  .rel-tag {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .rel-tag-live  { background: rgba(45,125,70,0.12);  color: var(--success); }
+  .rel-tag-build { background: rgba(180,83,9,0.10);   color: var(--warning); }
+  .rel-note {
+    margin-top: 8px;
+    font-size: 0.78rem !important;
+    color: var(--text-muted) !important;
+    font-style: italic;
+  }
+
+  @media (max-width: 900px) {
+    .rel-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .rel-grid { grid-template-columns: 1fr; }
+  }
+</style>
