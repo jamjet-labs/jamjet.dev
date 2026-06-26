@@ -1,0 +1,56 @@
+name: Check adk.jamjet.dev domain status
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: Check CF Pages domain status
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query domain status
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          echo "=== Pages domain status ==="
+          curl -sS \
+            "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/pages/projects/adk-jamjet-dev/domains/adk.jamjet.dev" \
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}"
+          echo ""
+
+          echo "=== DNS check from runner ==="
+          dig adk.jamjet.dev +short || true
+          dig adk.jamjet.dev CNAME +short || true
+
+          echo "=== Token permissions probe: list zones ==="
+          curl -sS \
+            "https://api.cloudflare.com/client/v4/zones?name=jamjet.dev" \
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" | python3 -c "
+          import sys, json
+          r = json.load(sys.stdin)
+          if r.get('success'):
+              zones = r.get('result', [])
+              for z in zones:
+                  print('zone id:', z.get('id'), 'name:', z.get('name'))
+          else:
+              print('Zone list FAILED (token may lack Zone:Read):', r.get('errors'))
+          "
+
+          echo "=== Token permissions probe: list DNS records for adk ==="
+          ZONE_ID=d873d41c328f11a32d4376915216a25d
+          curl -sS \
+            "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records?type=CNAME&name=adk.jamjet.dev" \
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" | python3 -c "
+          import sys, json
+          r = json.load(sys.stdin)
+          if r.get('success'):
+              recs = r.get('result', [])
+              if recs:
+                  for rec in recs:
+                      print('DNS record:', rec.get('name'), '->', rec.get('content'), 'proxied:', rec.get('proxied'))
+              else:
+                  print('NO CNAME for adk.jamjet.dev found in zone')
+          else:
+              print('DNS record list FAILED (token may lack Zone:DNS:Read):', r.get('errors'))
+          "
