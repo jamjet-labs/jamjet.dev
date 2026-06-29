@@ -76,6 +76,8 @@
     gap: 64px;
     align-items: center;
   }
+  /* Let grid items shrink below the code block's intrinsic width so it scrolls in its box */
+  .hero-inner > * { min-width: 0; }
   .hero-text h1 {
     margin-bottom: 20px;
   }
@@ -125,6 +127,17 @@
       gap: 48px;
     }
     .hero-subhead { max-width: 100%; }
+  }
+
+  /* .hero sets its own padding, so trim it explicitly on phones */
+  @media (max-width: 768px) {
+    .hero {
+      padding: var(--space-section-sm) 0 calc(var(--space-section-sm) * 0.6);
+    }
+    .hero-inner { gap: 36px; }
+  }
+  @media (max-width: 480px) {
+    .hero-subhead { font-size: 1rem; margin-bottom: 28px; }
   }
 </style>
 

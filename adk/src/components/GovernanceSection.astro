@@ -90,6 +90,8 @@
     gap: 64px;
     align-items: start;
   }
+  /* Let grid items shrink below the code blocks' intrinsic width so they scroll in their box */
+  .gov-inner > * { min-width: 0; }
   .gov-body {
     color: var(--text-secondary);
     margin-bottom: 32px;

@@ -276,9 +276,22 @@ footer {
 @media (max-width: 768px) {
   section { padding: var(--space-section-sm) 0; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
+  .code-body { padding: 20px 18px; }
 }
 @media (max-width: 480px) {
   .footer-grid { grid-template-columns: 1fr; }
+
+  /* Scale the large serif headings down so they do not dominate a phone */
+  h1 { font-size: clamp(1.9rem, 7.5vw, 2.4rem); }
+  h2 { font-size: clamp(1.35rem, 5.5vw, 1.6rem); }
+
+  /* Code blocks: smaller type, tighter gutters; they still scroll within their box */
+  .code-body { font-size: 0.74rem; padding: 18px 16px; line-height: 1.7; }
+  .code-header { padding: 10px 16px; }
+
+  /* Command boxes must never push past the viewport on a phone */
+  .install-cmd { max-width: 100%; flex-wrap: wrap; padding: 12px 16px; }
+  .install-cmd .cmd { overflow-wrap: anywhere; word-break: break-word; }
 }
 
 /* ── Reading Progress ── */
