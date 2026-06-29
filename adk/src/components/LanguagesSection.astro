@@ -1,11 +1,11 @@
 ---
-// Languages section: Python now, Java + TS next
+// Languages section: Python and Java both first-class now; TypeScript on the roadmap
 ---
 
 <section id="languages" class="languages">
   <div class="container">
     <p class="section-label">Languages</p>
-    <h2>Python now. Java next.</h2>
+    <h2>Python and Java. First-class.</h2>
 
     <div class="lang-grid">
 
@@ -13,8 +13,9 @@
         <div class="lang-badge">Available now</div>
         <h3>Python</h3>
         <p>The primary authoring surface. <code>pip install jamjet</code>.
-          The <code>Agent</code>, <code>@tool</code>, sessions, Engram memory bridge,
-          policy, approval, and audit all run from the Python SDK.</p>
+          The <code>Agent</code>, <code>@tool</code>, <code>Team</code>, sessions,
+          Engram memory bridge, policy, approval, and audit all ship in the
+          Python SDK.</p>
         <div class="install-cmd" style="margin-top: 16px; font-size: 0.82rem;">
           <span class="prompt">$</span>
           <span class="cmd">pip install jamjet</span>
@@ -24,17 +25,17 @@
         </a>
       </div>
 
-      <div class="lang-card">
-        <div class="lang-badge lang-badge-next">Fast-follow</div>
+      <div class="lang-card lang-card-primary">
+        <div class="lang-badge">Available now</div>
         <h3>Java</h3>
-        <p>First-class Java authoring is the differentiated fast-follow track.
-          The JVM runtime already runs in production with zero-sidecar
-          <code>@DurableAgent</code> support. A Java authoring surface matching
-          the Python API is the next track.</p>
-        <div class="install-cmd" style="margin-top: 16px; font-size: 0.82rem;">
-          <span class="prompt">$</span>
-          <span class="cmd">pip install jamjet  # today</span>
+        <p>First-class JVM authoring, at parity with Python. A fluent
+          <code>Agent.builder()</code>, a <code>@Tool</code> annotation on your
+          methods, and a Spring Boot starter. Tools run on the same governed
+          durable engine, executed exactly-once by a Java tool worker.</p>
+        <div class="install-cmd lang-coord" style="margin-top: 16px; font-size: 0.78rem;">
+          <span class="cmd">dev.jamjet:jamjet-agent:0.3.1</span>
         </div>
+        <span class="lang-coord-note">Maven Central &middot; Java 21</span>
         <a href="https://jamjet.dev/runtime/" target="_blank" rel="noopener" class="lang-link">
           JVM runtime docs &#8599;
         </a>
@@ -43,9 +44,9 @@
       <div class="lang-card">
         <div class="lang-badge lang-badge-ts">TypeScript</div>
         <h3>TypeScript</h3>
-        <p>The <code>@jamjet/cloud</code> SDK provides TypeScript bindings for
-          the Cloud APIs and governance checks. A full authoring surface
-          matching the Python <code>Agent</code> API is planned after Java.</p>
+        <p>The <code>@jamjet/cloud</code> SDK gives TypeScript access to the
+          Cloud APIs and governance checks today. A full TypeScript authoring
+          surface, and Kotlin, are on the roadmap.</p>
         <div class="install-cmd" style="margin-top: 16px; font-size: 0.82rem;">
           <span class="prompt">$</span>
           <span class="cmd">npm install @jamjet/cloud</span>
@@ -55,6 +56,34 @@
         </a>
       </div>
 
+    </div>
+
+    <div class="lang-java">
+      <p class="lang-java-label">The Java surface, in full</p>
+      <div class="code-block">
+        <div class="code-header">
+          <span>SupportAgent.java</span>
+        </div>
+        <pre class="code-body" style="font-size: 0.8rem;"><code><span class="t-b">@Tool</span>
+<span class="t-w">String</span> <span class="t-w">sendEmail</span><span class="t-p">(</span><span class="t-w">String</span> to<span class="t-p">,</span> <span class="t-w">String</span> body<span class="t-p">)</span> <span class="t-p">{</span>
+    <span class="t-kw">return</span> <span class="t-w">mailer</span><span class="t-p">.</span>send<span class="t-p">(</span>to<span class="t-p">,</span> body<span class="t-p">);</span>  <span class="t-d">// governed, exactly-once, audited</span>
+<span class="t-p">}</span>
+
+<span class="t-kw">var</span> <span class="t-w">agent</span> <span class="t-p">=</span> <span class="t-w">Agent</span><span class="t-p">.</span>builder<span class="t-p">(</span><span class="t-s">"support"</span><span class="t-p">)</span>
+    <span class="t-p">.</span>model<span class="t-p">(</span><span class="t-s">"anthropic/claude-sonnet-4-6"</span><span class="t-p">)</span>
+    <span class="t-p">.</span>tools<span class="t-p">(</span><span class="t-kw">new</span> <span class="t-w">SupportTools</span><span class="t-p">())</span>
+    <span class="t-p">.</span>budget<span class="t-p">(</span><span class="t-kw">new</span> <span class="t-w">Budget</span><span class="t-p">(</span>100_000<span class="t-p">,</span> 2.50<span class="t-p">))</span>
+    <span class="t-p">.</span>approvalRequired<span class="t-p">(</span><span class="t-w">List</span><span class="t-p">.</span>of<span class="t-p">(</span><span class="t-s">"delete_*"</span><span class="t-p">))</span>
+    <span class="t-p">.</span>build<span class="t-p">();</span>
+
+<span class="t-kw">var</span> <span class="t-w">result</span> <span class="t-p">=</span> <span class="t-w">agent</span><span class="t-p">.</span>runDurable<span class="t-p">(</span><span class="t-s">"Refund order 7785"</span><span class="t-p">);</span></code></pre>
+      </div>
+      <p class="lang-java-note">
+        The Spring Boot starter (<code>jamjet-agent-spring-boot-starter</code>)
+        auto-wires the worker: annotate your <code>@Tool</code>
+        <code>@Component</code>s, declare the <code>Agent</code> as a
+        <code>@Bean</code>, and durable governed tool calls run on startup.
+      </p>
     </div>
   </div>
 </section>
@@ -91,10 +120,6 @@
     border-radius: 20px;
     width: fit-content;
   }
-  .lang-badge-next {
-    color: var(--warning);
-    background: rgba(180,83,9,0.10);
-  }
   .lang-badge-ts {
     color: var(--text-secondary);
     background: var(--accent-bg);
@@ -110,15 +135,50 @@
     padding: 1px 4px;
     border-radius: 3px;
   }
+  .lang-coord .cmd {
+    color: #f5f4f0;
+  }
+  .lang-coord-note {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+    margin-top: 2px;
+  }
   .lang-link {
     font-family: var(--font-mono);
     font-size: 0.75rem;
     color: var(--text-muted);
     text-decoration: none;
     margin-top: auto;
+    padding-top: 4px;
   }
   .lang-link:hover {
     color: var(--text-secondary);
+  }
+
+  .lang-java {
+    margin-top: 32px;
+    max-width: 620px;
+  }
+  .lang-java-label {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+  .lang-java-note {
+    margin-top: 16px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+  .lang-java-note code {
+    font-size: 0.78rem;
+    background: var(--accent-bg);
+    padding: 1px 4px;
+    border-radius: 3px;
   }
 
   @media (max-width: 900px) {

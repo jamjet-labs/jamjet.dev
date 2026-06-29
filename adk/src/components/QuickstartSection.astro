@@ -3,15 +3,14 @@ import TerminalReplay from './TerminalReplay.astro';
 
 const steps = [
   '$ pip install jamjet',
-  '',
-  '$ python -c "from jamjet import Agent, tool; print(\'ok\')"',
-  'ok',
-  '',
-  '# Write agent.py (nine lines), then run it:',
+  '$ jamjet create myagent',
+  '  created myagent/  agent.py  pyproject.toml  README.md',
+  '$ cd myagent && jamjet dev',
+  '  model sidecar    ready',
+  '  durable engine   ready  :7700',
+  '  python worker    ready',
   '$ python agent.py',
-  '  run_id: run_4a8b2f',
-  '  Tokyo: 27C, sunny. Pack light layers and sunscreen.',
-  '  receipt: 3e9f1d2a...',
+  '  run_id run_4a8b2f   policy ok   receipt 3e9f1d2a',
 ];
 ---
 
@@ -23,21 +22,27 @@ const steps = [
         <p class="section-label">Quickstart</p>
         <h2>Up and running in five minutes.</h2>
         <p class="qs-body">
-          Install the SDK, write nine lines, run your agent. Durable execution
-          and governance are on by default. No config files, no infrastructure.
+          Install the SDK, scaffold a project, and start the whole local stack
+          with one command. Durable execution and governance are on by default.
+          No config files, no infrastructure to wire up.
         </p>
 
         <ol class="qs-steps">
           <li>
-            <strong>Install</strong>
+            <strong>Scaffold</strong>
             <div class="install-cmd">
               <span class="prompt">$</span>
-              <span class="cmd">pip install jamjet</span>
+              <span class="cmd">jamjet create myagent</span>
             </div>
+            <p>A runnable agent and a project layout, ready to go.</p>
           </li>
           <li>
-            <strong>Write your agent</strong>
-            <p>Nine lines. <code>from jamjet import Agent, tool</code>. Done.</p>
+            <strong>Start the stack</strong>
+            <div class="install-cmd">
+              <span class="prompt">$</span>
+              <span class="cmd">cd myagent &amp;&amp; jamjet dev</span>
+            </div>
+            <p>Model sidecar, durable engine, and tool worker. One command.</p>
           </li>
           <li>
             <strong>Run it</strong>
@@ -45,13 +50,18 @@ const steps = [
           </li>
         </ol>
 
+        <p class="qs-eval">
+          Lock the behavior in: <code>jamjet eval trajectory-diff</code> is a
+          deterministic replay-regression gate for CI.
+        </p>
+
         <a href="https://docs.jamjet.dev/en/docs/quickstart" target="_blank" rel="noopener" class="btn-primary" style="margin-top: 24px;">
           Read the quickstart guide
         </a>
       </div>
 
       <div class="qs-demo">
-        <TerminalReplay lines={steps} title="five-minute quickstart" />
+        <TerminalReplay lines={steps} title="five-minute dev loop" />
       </div>
 
     </div>
@@ -122,6 +132,20 @@ const steps = [
     margin-top: 4px;
     padding: 10px 16px;
     font-size: 0.82rem;
+  }
+  .qs-eval {
+    margin-top: 24px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .qs-eval code {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    background: var(--accent-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--text-secondary);
   }
 
   @media (max-width: 900px) {
