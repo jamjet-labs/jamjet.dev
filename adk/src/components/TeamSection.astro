@@ -1,0 +1,130 @@
+---
+// Team section: multi-agent composition (Sequential, Parallel, coordinator, Loop)
+---
+
+<section id="team" class="team">
+  <div class="container">
+    <p class="section-label">Multi-agent</p>
+    <h2>Compose agents into a team.</h2>
+    <p class="team-intro">
+      Wire specialists into a sequence, fan them out in parallel, or let a
+      coordinator route to the right one. Each sub-agent is its own governed
+      durable run.
+    </p>
+
+    <div class="team-grid">
+
+      <div class="team-card">
+        <h3>Sequential</h3>
+        <p>Chain agents end to end. Each agent's output becomes the next one's
+          input.</p>
+        <div class="code-block" style="margin-top: 16px;">
+          <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-w">pipeline</span> <span class="t-p">=</span> <span class="t-w">Sequential</span><span class="t-p">(</span>
+  agents<span class="t-p">=[</span>draft<span class="t-p">,</span> review<span class="t-p">,</span> publish<span class="t-p">],</span>
+<span class="t-p">)</span>
+pipeline<span class="t-p">.</span>run_durable<span class="t-p">(</span><span class="t-s">"Ship the Q3 note"</span><span class="t-p">)</span></code></pre>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <h3>Parallel</h3>
+        <p>Fan one input out to many agents at once, then merge their results.
+          <code>collect</code> keeps them all; <code>first</code> takes the
+          fastest.</p>
+        <div class="code-block" style="margin-top: 16px;">
+          <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-w">board</span> <span class="t-p">=</span> <span class="t-w">Parallel</span><span class="t-p">(</span>
+  agents<span class="t-p">=[</span>legal<span class="t-p">,</span> finance<span class="t-p">,</span> risk<span class="t-p">],</span>
+  merge<span class="t-p">=</span><span class="t-s">"collect"</span><span class="t-p">,</span>
+<span class="t-p">)</span></code></pre>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <h3>Coordinator</h3>
+        <p>A coordinator agent reads the input and routes it to the right
+          specialist. One front door, many experts.</p>
+        <div class="code-block" style="margin-top: 16px;">
+          <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-w">desk</span> <span class="t-p">=</span> <span class="t-w">Team</span><span class="t-p">(</span>
+  agents<span class="t-p">=[</span>billing<span class="t-p">,</span> support<span class="t-p">,</span> sales<span class="t-p">],</span>
+  coordinator<span class="t-p">=</span>router<span class="t-p">,</span>
+<span class="t-p">)</span>
+desk<span class="t-p">.</span>run<span class="t-p">(</span><span class="t-s">"Where is my refund?"</span><span class="t-p">)</span></code></pre>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <h3>Loop</h3>
+        <p>Run one agent in a loop, refining its own output until a predicate
+          passes or the iteration cap is hit.</p>
+        <div class="code-block" style="margin-top: 16px;">
+          <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-w">refine</span> <span class="t-p">=</span> <span class="t-w">Loop</span><span class="t-p">(</span>
+  critic<span class="t-p">,</span>
+  until<span class="t-p">=</span>is_clean<span class="t-p">,</span>
+  max_iters<span class="t-p">=</span>5<span class="t-p">,</span>
+<span class="t-p">)</span></code></pre>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="team-note">
+      Call <code>.run(input)</code> to orchestrate in-process, or
+      <code>.run_durable(input)</code> to run each sub-agent on the engine.
+      Both return a <code>TeamResult</code> carrying every step's output.
+    </p>
+  </div>
+</section>
+
+<style>
+  .team {
+    border-bottom: 1px solid var(--border);
+  }
+  .team-intro {
+    color: var(--text-secondary);
+    max-width: 560px;
+    margin-top: 16px;
+    margin-bottom: 48px;
+  }
+  .team-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .team-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+  }
+  .team-card h3 {
+    margin-bottom: 8px;
+  }
+  .team-card > p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+  .team-card code {
+    font-size: 0.8rem;
+    background: var(--accent-bg);
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+  .team-note {
+    margin-top: 32px;
+    max-width: 620px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+  .team-note code {
+    font-size: 0.8rem;
+    background: var(--accent-bg);
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+
+  @media (max-width: 768px) {
+    .team-grid { grid-template-columns: 1fr; }
+  }
+</style>
