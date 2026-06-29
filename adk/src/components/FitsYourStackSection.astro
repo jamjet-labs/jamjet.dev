@@ -22,6 +22,25 @@ const integrations = [
     install: 'pip install jamjet',
   },
 ];
+
+// Capability comparison — built-in defaults as of mid-2026, verified against
+// current docs (LangChain/LangGraph 1.x, Google ADK 2.3.0, CrewAI OSS 1.15.x).
+const cmpCols = ['LangGraph', 'Google ADK', 'CrewAI', 'JamJet'];
+const cmpRows = [
+  { feat: 'Author agents & tools',                s: ['y', 'y', 'y', 'y'] },
+  { feat: 'Durable replay after a crash',         s: ['p', 'p', 'p', 'y'] },
+  { feat: 'Token + $ budget that halts the run',  s: ['n', 'n', 'n', 'y'] },
+  { feat: 'Human approval that survives a crash', s: ['p', 'p', 'p', 'y'] },
+  { feat: 'Model allowlist / blocked tools',      s: ['n', 'n', 'n', 'y'] },
+  { feat: 'PII redaction at the model seam',      s: ['p', 'n', 'n', 'y'] },
+  { feat: 'Signed, verifiable receipt per run',   s: ['n', 'n', 'n', 'y'] },
+];
+const cmpGlyph = { y: '●', p: '◐', n: '○' };
+const cmpLabel = {
+  y: 'on by default',
+  p: 'built-in but you wire it',
+  n: 'your own code or a separate product',
+};
 ---
 
 <section id="integrations" class="integrations">
@@ -33,6 +52,60 @@ const integrations = [
       what you have. Drop JamJet at the tool boundary for policy, approval,
       and audit. No rewrites.
     </p>
+
+    <div class="cmp-block">
+      <p class="cmp-lead">
+        Most kits help you <em>author</em> the loop. Durability, spend caps,
+        approval gates, audit, and PII redaction are mostly left to you. Here is
+        what each ships <em>on by default</em>, not what you could wire up by hand.
+      </p>
+
+      <div class="cmp-wrap" role="region" aria-label="What each agent kit ships on by default" tabindex="0">
+        <table class="cmp">
+          <thead>
+            <tr>
+              <th scope="col" class="cmp-feat">On by default</th>
+              {cmpCols.map(c => (
+                <th scope="col" class={c === 'JamJet' ? 'cmp-us' : undefined}>{c}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {cmpRows.map(r => (
+              <tr>
+                <th scope="row">{r.feat}</th>
+                {r.s.map((st, i) => (
+                  <td class={`s-${st}` + (cmpCols[i] === 'JamJet' ? ' cmp-us' : '')}>
+                    <span aria-hidden="true">{cmpGlyph[st]}</span>
+                    <span class="vh">{cmpLabel[st]}</span>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p class="cmp-legend">
+        <span><b class="s-y">●</b> on by default</span>
+        <span><b class="s-p">◐</b> built-in, but you wire it (opt-in / not durable / partial)</span>
+        <span><b class="s-n">○</b> your own code, or a separate product</span>
+      </p>
+
+      <p class="cmp-takeaway">JamJet isn't another column. It's the row underneath.</p>
+
+      <details class="cmp-foot">
+        <summary>How to read this: sources and caveats</summary>
+        <ul>
+          <li>Built-in defaults as of mid-2026: LangChain / LangGraph 1.x, Google ADK 2.3.0, CrewAI OSS 1.15.x. The CrewAI column is the open-source framework, not the paid AMP platform.</li>
+          <li>Durable replay: each ships persistence (LangGraph checkpointers, ADK <code>ResumabilityConfig</code>, CrewAI Flows <code>@persist</code>), but it is opt-in and not auto-resumed, so the default loses in-flight state. JamJet's engine is event-sourced and durable by default.</li>
+          <li>Approval that survives a crash: each ships a human-in-the-loop primitive (LangGraph <code>interrupt()</code>, ADK <code>require_confirmation</code> (experimental), CrewAI <code>human_input</code>). Surviving a restart needs a durable backend you wire (LangGraph), is unsupported on the persistent session backends (ADK), or is Enterprise-only (CrewAI).</li>
+          <li>Model allowlist: each exposes callback or middleware hooks to write a tool-deny yourself; none ships a declarative model allowlist.</li>
+          <li>PII redaction: LangGraph ships a regex redactor at the model boundary; ADK and CrewAI route PII to a separate product (Google Model Armor / DLP, or CrewAI AMP trace redaction after the run).</li>
+          <li>Signed receipt: tracing (LangSmith, OpenTelemetry, AgentOps) is not a signed, tamper-evident per-action record; in each, per-action signed audit is an open feature request. JamJet emits a signed AgentBoundary receipt per run.</li>
+        </ul>
+      </details>
+    </div>
 
     <div class="int-grid">
       {integrations.map(i => (
@@ -103,7 +176,113 @@ const integrations = [
     line-height: 1.7;
   }
 
+  /* ── Capability comparison ── */
+  .cmp-block { margin-bottom: 44px; }
+  .cmp-lead {
+    color: var(--text-secondary);
+    max-width: 620px;
+    margin-bottom: 22px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .cmp-lead em { font-style: italic; color: var(--text); }
+  .cmp-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    -webkit-overflow-scrolling: touch;
+  }
+  .cmp {
+    width: 100%;
+    min-width: 540px;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+  }
+  .cmp th, .cmp td {
+    text-align: center;
+    padding: 13px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cmp thead th {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .cmp thead th:first-child,
+  .cmp tbody th[scope="row"] { text-align: left; }
+  .cmp tbody th[scope="row"] {
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .cmp tbody tr:last-child th,
+  .cmp tbody tr:last-child td { border-bottom: none; }
+  .cmp td span[aria-hidden] { font-size: 1.15rem; line-height: 1; }
+  .cmp td.s-y span[aria-hidden] { color: var(--success); }
+  .cmp td.s-p span[aria-hidden] { color: var(--warning); }
+  .cmp td.s-n span[aria-hidden] { color: var(--text-muted); opacity: 0.55; }
+  .cmp .cmp-us { background: var(--accent-bg); }
+  .cmp thead th.cmp-us { font-weight: 700; }
+  .vh {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+  .cmp-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    margin-top: 14px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+  }
+  .cmp-legend b { font-style: normal; margin-right: 2px; }
+  .cmp-legend .s-y { color: var(--success); }
+  .cmp-legend .s-p { color: var(--warning); }
+  .cmp-legend .s-n { color: var(--text-muted); }
+  .cmp-takeaway {
+    margin-top: 24px;
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    line-height: 1.4;
+    color: var(--text);
+    max-width: 540px;
+  }
+  .cmp-foot {
+    margin-top: 16px;
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+  }
+  .cmp-foot summary {
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+  .cmp-foot ul {
+    margin: 12px 0 0;
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    line-height: 1.55;
+    max-width: 720px;
+  }
+  .cmp-foot code {
+    font-family: var(--font-mono);
+    font-size: 0.78em;
+    background: var(--accent-bg);
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+
   @media (max-width: 768px) {
     .int-grid { grid-template-columns: 1fr; }
+    .cmp th, .cmp td { padding: 11px 12px; }
+    .cmp-takeaway { font-size: 1.08rem; }
   }
 </style>
