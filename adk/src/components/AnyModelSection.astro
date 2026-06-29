@@ -111,4 +111,23 @@ const providers = [
     padding: 1px 4px;
     border-radius: 3px;
   }
+
+  @media (max-width: 768px) {
+    .models-intro { margin-bottom: 32px; }
+    .models-grid { margin-bottom: 32px; }
+  }
+  @media (max-width: 480px) {
+    /* Let the provider label and routed string wrap instead of overflowing at ~360px */
+    .model-row {
+      flex-wrap: wrap;
+      gap: 4px 12px;
+      padding: 12px 16px;
+    }
+    .model-provider { min-width: 0; }
+    .model-string {
+      font-size: 0.74rem;
+      overflow-wrap: anywhere;
+    }
+    .models-callout { padding: 18px 18px; }
+  }
 </style>

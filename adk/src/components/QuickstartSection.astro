@@ -78,6 +78,8 @@ const steps = [
     gap: 64px;
     align-items: center;
   }
+  /* Let the terminal column shrink below its intrinsic width so it scrolls in its box */
+  .qs-inner > * { min-width: 0; }
   .qs-body {
     color: var(--text-secondary);
     margin-bottom: 32px;

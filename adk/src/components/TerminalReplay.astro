@@ -76,6 +76,15 @@ const linesHtml = lines.map((line, i) => {
       animation: none !important;
     }
   }
+
+  /* On phones, show full lines that scroll within the box rather than clipping at 100% */
+  @media (max-width: 480px) {
+    .terminal-body { font-size: 0.7rem; padding: 16px; }
+    .terminal-line {
+      width: auto !important;
+      animation: none !important;
+    }
+  }
 </style>
 
 <script is:inline>

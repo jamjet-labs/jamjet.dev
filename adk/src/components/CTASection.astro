@@ -77,6 +77,16 @@
     text-decoration: underline;
     text-underline-offset: 2px;
   }
+
+  /* .cta sets its own padding, so the global section reduction does not reach it */
+  @media (max-width: 768px) {
+    .cta { padding: var(--space-section-sm) 0; }
+  }
+  @media (max-width: 480px) {
+    .cta { padding: 56px 0; }
+    .cta-body { margin-bottom: 28px; }
+    .cta-install { margin-bottom: 24px; }
+  }
 </style>
 
 <script is:inline>
