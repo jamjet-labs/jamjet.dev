@@ -1,5 +1,7 @@
 ---
-// Governance section: policy, approval, audit, receipts — all shipped
+// Governance section. Split by WHERE each control actually enforces: on every
+// in-process run(), behind one argument, or in the durable engine. Keep this
+// split honest — it is the difference between a claim and a demo.
 ---
 
 <section id="governance" class="governance">
@@ -10,31 +12,54 @@
         <p class="section-label">Governance</p>
         <h2>Policy. Approval. Audit. Receipts.</h2>
         <p class="gov-body">
-          Every agent runs under policy. Risky tool calls wait for a human.
-          Every decision lands in a signed audit trail. The whole loop shipped.
-          You add it with arguments.
+          Governance is not a library you bolt on. Some of it runs on every
+          call with nothing configured, some is one argument away, and the
+          gating controls are enforced by the engine. Here is exactly which
+          is which.
         </p>
 
+        <p class="gov-group-label">On every run, nothing configured</p>
         <ul class="gov-list">
           <li>
-            <strong>Policy</strong>
-            <span>Declarative YAML rules: block/allow/approve by tool, model, cost, or regex.
-              Sane defaults on; tighten per agent.</span>
+            <strong>PII redaction</strong>
+            <span>Outbound messages are redacted at the model seam before the provider
+              sees them, fail-closed: redact or deny. <code>pii=False</code> opts out.</span>
           </li>
           <li>
-            <strong>Approval / HITL</strong>
-            <span>Mark a tool <code>approval_required</code> and the run holds durably.
-              Approve via API, CLI, or the Cloud dashboard. The run resumes at exactly that point.</span>
-          </li>
-          <li>
-            <strong>Budget caps</strong>
-            <span>Per-run and per-tenant token/cost ceilings. The runtime halts before
-              the cap is crossed. No after-the-fact surprises.</span>
+            <strong>Audit record</strong>
+            <span>Every run lands an audit record with content hashes.
+              Signed once you provision a signing key.</span>
           </li>
           <li>
             <strong>Receipts</strong>
-            <span>Every run emits a signed AgentBoundary receipt with content hashes.
-              Externally verifiable. On by default.</span>
+            <span>Every run mints an AgentBoundary receipt binding prompt, agent, and
+              model. Verifiable by anyone with <code>agentboundary.validate_receipt</code>.</span>
+          </li>
+        </ul>
+
+        <p class="gov-group-label">One argument each</p>
+        <ul class="gov-list">
+          <li>
+            <strong>Model allowlist</strong>
+            <span><code>policy="strict"</code> keeps calls on Anthropic providers.
+              Pass a dict for your own allowlist. An unknown policy name is a hard
+              error, never a silent allow-all.</span>
+          </li>
+          <li>
+            <strong>Budget ceiling</strong>
+            <span><code>budget=2.00</code> caps a run at two dollars, enforced fail-closed
+              at the model seam. There is no ceiling until you set one.</span>
+          </li>
+        </ul>
+
+        <p class="gov-group-label">Enforced by the engine</p>
+        <ul class="gov-list">
+          <li>
+            <strong>Blocked tools and approval</strong>
+            <span>Declare <code>require_approval_for</code> on a workflow and the engine
+              holds the run at the gated call, then resumes at exactly that point once
+              approved by API, CLI, or the Cloud dashboard. Enforced for workflow tool
+              calls today; <code>Agent</code> tool dispatch is being wired to the same gate.</span>
           </li>
         </ul>
       </div>
@@ -45,32 +70,31 @@
             <span>governed_agent.py</span>
           </div>
           <pre class="code-body"><code><span class="t-w">agent</span> <span class="t-p">=</span> <span class="t-w">Agent</span><span class="t-p">(</span>
+  <span class="t-s">"travel"</span><span class="t-p">,</span>
   model<span class="t-p">=</span><span class="t-s">"anthropic/claude-opus-4-8"</span><span class="t-p">,</span>
   tools<span class="t-p">=[</span>search<span class="t-p">,</span> send_email<span class="t-p">,</span> book_flight<span class="t-p">],</span>
-  policy<span class="t-p">=</span><span class="t-s">"policies/travel.yaml"</span><span class="t-p">,</span>
-  budget<span class="t-p">=</span><span class="t-s">"$2.00/run"</span><span class="t-p">,</span>
-  approval_required<span class="t-p">=[</span>book_flight<span class="t-p">],</span>
+  policy<span class="t-p">=</span><span class="t-s">"strict"</span><span class="t-p">,</span>    <span class="t-d"># model allowlist</span>
+  budget<span class="t-p">=</span><span class="t-y">2.00</span><span class="t-p">,</span>        <span class="t-d"># USD ceiling per run</span>
 <span class="t-p">)</span></code></pre>
         </div>
 
         <div class="gov-policy-file">
           <div class="code-block">
             <div class="code-header">
-              <span>policies/travel.yaml</span>
+              <span>policy.yaml</span>
             </div>
-            <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-w">rules</span><span class="t-p">:</span>
-  <span class="t-p">-</span> <span class="t-w">tool</span><span class="t-p">:</span> <span class="t-s">send_email</span>
-    <span class="t-w">action</span><span class="t-p">:</span> <span class="t-s">audit</span>
-  <span class="t-p">-</span> <span class="t-w">tool</span><span class="t-p">:</span> <span class="t-s">book_flight</span>
-    <span class="t-w">action</span><span class="t-p">:</span> <span class="t-s">approve</span>
-  <span class="t-p">-</span> <span class="t-w">model</span><span class="t-p">:</span> <span class="t-s">"*"</span>
-    <span class="t-w">pii_redaction</span><span class="t-p">:</span> <span class="t-s">true</span></code></pre>
+            <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-w">policy</span><span class="t-p">:</span>
+  <span class="t-w">require_approval_for</span><span class="t-p">:</span>
+    <span class="t-p">-</span> <span class="t-s">"payments.*"</span></code></pre>
           </div>
         </div>
 
         <p class="gov-shipped-note">
-          The end-to-end approval loop is shipped: runtime hold, Cloud approval
-          endpoint, and CLI/dashboard. See
+          The approval loop is shipped end to end: the engine holds the run, the
+          Cloud endpoint takes the decision, and the CLI and dashboard both drive
+          it. Runnable in
+          <a href="https://github.com/jamjet-labs/jamjet/tree/main/examples/02-human-approval" target="_blank" rel="noopener">examples/02-human-approval</a>,
+          documented at
           <a href="https://docs.jamjet.dev/en/docs/open-source/approvals" target="_blank" rel="noopener">docs.jamjet.dev</a>.
         </p>
       </div>
@@ -96,6 +120,19 @@
     color: var(--text-secondary);
     margin-bottom: 32px;
     margin-top: 16px;
+  }
+  .gov-group-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .gov-list + .gov-group-label {
+    margin-top: 28px;
   }
   .gov-list {
     list-style: none;

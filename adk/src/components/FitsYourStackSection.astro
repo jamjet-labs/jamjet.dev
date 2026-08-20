@@ -26,14 +26,19 @@ const integrations = [
 // Capability comparison — built-in defaults as of mid-2026, verified against
 // current docs (LangChain/LangGraph 1.x, Google ADK 2.3.0, CrewAI OSS 1.15.x).
 const cmpCols = ['LangGraph', 'Google ADK', 'CrewAI', 'JamJet'];
+// JamJet's own column is scored against the shipped Python SDK (0.11.0), by the
+// same rule as everyone else's: a control is ● only if it enforces with nothing
+// configured. Durability, budget, allowlist and approval are each one argument
+// or one call away, which is ◐ — the same glyph the competitors get. The wedge
+// is that their equivalents are ○, not that ours are free.
 const cmpRows = [
   { feat: 'Author agents & tools',                s: ['y', 'y', 'y', 'y'] },
-  { feat: 'Durable replay after a crash',         s: ['p', 'p', 'p', 'y'] },
-  { feat: 'Token + $ budget that halts the run',  s: ['n', 'n', 'n', 'y'] },
-  { feat: 'Human approval that survives a crash', s: ['p', 'p', 'p', 'y'] },
-  { feat: 'Model allowlist / blocked tools',      s: ['n', 'n', 'n', 'y'] },
+  { feat: 'Durable replay after a crash',         s: ['p', 'p', 'p', 'p'] },
+  { feat: 'Token + $ budget that halts the run',  s: ['n', 'n', 'n', 'p'] },
+  { feat: 'Human approval that survives a crash', s: ['p', 'p', 'p', 'p'] },
+  { feat: 'Model allowlist',                      s: ['n', 'n', 'n', 'p'] },
   { feat: 'PII redaction at the model seam',      s: ['p', 'n', 'n', 'y'] },
-  { feat: 'Signed, verifiable receipt per run',   s: ['n', 'n', 'n', 'y'] },
+  { feat: 'Verifiable receipt per run',           s: ['n', 'n', 'n', 'y'] },
 ];
 const cmpGlyph = { y: '●', p: '◐', n: '○' };
 const cmpLabel = {
@@ -57,14 +62,16 @@ const cmpLabel = {
       <p class="cmp-lead">
         Most kits help you <em>author</em> the loop. Durability, spend caps,
         approval gates, audit, and PII redaction are mostly left to you. Here is
-        what each ships <em>on by default</em>, not what you could wire up by hand.
+        what each <em>ships</em>, not what you could wire up by hand. We score our
+        own column by the same rule: a spend cap you have to ask for is a ◐, not
+        a ●.
       </p>
 
-      <div class="cmp-wrap" role="region" aria-label="What each agent kit ships on by default" tabindex="0">
+      <div class="cmp-wrap" role="region" aria-label="What each agent kit ships built in" tabindex="0">
         <table class="cmp">
           <thead>
             <tr>
-              <th scope="col" class="cmp-feat">On by default</th>
+              <th scope="col" class="cmp-feat">Capability</th>
               {cmpCols.map(c => (
                 <th scope="col" class={c === 'JamJet' ? 'cmp-us' : undefined}>{c}</th>
               ))}
@@ -98,11 +105,12 @@ const cmpLabel = {
         <summary>How to read this: sources and caveats</summary>
         <ul>
           <li>Built-in defaults as of mid-2026: LangChain / LangGraph 1.x, Google ADK 2.3.0, CrewAI OSS 1.15.x. The CrewAI column is the open-source framework, not the paid AMP platform.</li>
-          <li>Durable replay: each ships persistence (LangGraph checkpointers, ADK <code>ResumabilityConfig</code>, CrewAI Flows <code>@persist</code>), but it is opt-in and not auto-resumed, so the default loses in-flight state. JamJet's engine is event-sourced and durable by default.</li>
+          <li>Durable replay: each ships persistence (LangGraph checkpointers, ADK <code>ResumabilityConfig</code>, CrewAI Flows <code>@persist</code>), but it is opt-in and not auto-resumed, so the default loses in-flight state. JamJet's engine is event-sourced and resumes in flight, but you reach it by calling <code>run_durable</code>: opt-in too, which is why we score ourselves ◐ on this row.</li>
           <li>Approval that survives a crash: each ships a human-in-the-loop primitive (LangGraph <code>interrupt()</code>, ADK <code>require_confirmation</code> (experimental), CrewAI <code>human_input</code>). Surviving a restart needs a durable backend you wire (LangGraph), is unsupported on the persistent session backends (ADK), or is Enterprise-only (CrewAI).</li>
           <li>Model allowlist: each exposes callback or middleware hooks to write a tool-deny yourself; none ships a declarative model allowlist.</li>
           <li>PII redaction: LangGraph ships a regex redactor at the model boundary; ADK and CrewAI route PII to a separate product (Google Model Armor / DLP, or CrewAI AMP trace redaction after the run).</li>
-          <li>Signed receipt: tracing (LangSmith, OpenTelemetry, AgentOps) is not a signed, tamper-evident per-action record; in each, per-action signed audit is an open feature request. JamJet emits a signed AgentBoundary receipt per run.</li>
+          <li>Signed receipt: tracing (LangSmith, OpenTelemetry, AgentOps) is not a signed, tamper-evident per-action record; in each, per-action signed audit is an open feature request. JamJet mints an AgentBoundary receipt per run with nothing configured, binding prompt, agent and model by content hash; provision a signing key and it is signed as well.</li>
+          <li>Budget and model allowlist: both are engine-enforced and fail-closed, but neither is on until you pass <code>budget=</code> or <code>policy=</code> — there is no implicit ceiling. Approval: enforced today for workflow tool calls; <code>Agent</code> tool dispatch is being wired to the same gate.</li>
         </ul>
       </details>
     </div>

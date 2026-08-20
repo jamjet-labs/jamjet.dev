@@ -3,7 +3,7 @@
 const properties = [
   {
     title: 'Crash recovery',
-    body: 'Every turn commits atomically to a durable event log. On worker death, another worker restores from the last committed turn and continues. O(1) resume from the latest snapshot.',
+    body: 'On run_durable, every turn commits atomically to a durable event log. On worker death, another worker restores from the last committed turn and continues. O(1) resume from the latest snapshot. The in-process run() path is not durable.',
     shipped: true,
   },
   {
@@ -13,7 +13,7 @@ const properties = [
   },
   {
     title: 'Budget caps and loop detection',
-    body: 'Per-run and per-tenant cost ceilings are engine-enforced, not suggestions. Reflection loops are detected and halted before they cross the cap.',
+    body: 'Pass budget= and the ceiling is enforced fail-closed at the model seam, not advised. Reflection loops are detected and halted against the same ceiling. There is no implicit cap: an agent with no budget set has no ceiling.',
     shipped: true,
   },
   {
@@ -28,9 +28,9 @@ const properties = [
   },
   {
     title: 'Determinism contract',
-    body: 'The boundary between recorded outputs (model responses, tool results, time, randomness) and deterministic orchestration is explicit and tested. Replay-based regression lets you diff a run against a new model or prompt with a deterministic test.',
-    shipped: false,
-    note: 'Replay-based regression is in the v1 build.',
+    body: 'The boundary between recorded outputs (model responses, tool results, time, randomness) and deterministic orchestration is explicit and tested. jamjet eval trajectory-diff gates CI on it: re-run against a new model or prompt and it exits non-zero when the tool sequence changes.',
+    shipped: true,
+    note: 'This is a re-run-and-diff gate, not deterministic replay of recorded boundaries against a new model.',
   },
 ];
 ---
