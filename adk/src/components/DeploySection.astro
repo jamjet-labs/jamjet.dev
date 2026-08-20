@@ -10,15 +10,15 @@ const tiers = [
   },
   {
     name: 'Self-host',
-    sub: 'Docker + Postgres',
-    detail: 'Docker Compose or Kubernetes. Bring Postgres for the event log and artifact store. You own the infra.',
+    sub: 'Docker + SQLite',
+    detail: 'Docker Compose or Kubernetes. The engine keeps its event log and snapshots in SQLite — there is no Postgres backend. You own the infra.',
     cmd: 'docker compose up jamjet-runtime',
     highlight: false,
   },
   {
     name: 'JamJet Cloud',
-    sub: 'Managed cells',
-    detail: 'Managed control plane on Fly.io. Policy dashboard, approval inbox, cost analytics, Engram memory, multi-tenant. No infra to run.',
+    sub: 'Hosted control plane',
+    detail: 'Your agents keep running where you run them. Cloud holds the policy dashboard, approval inbox, audit and cost analytics, and Engram memory, across tenants.',
     cmd: 'app.jamjet.dev/signup',
     highlight: true,
   },
@@ -30,8 +30,8 @@ const tiers = [
     <p class="section-label">Deploy</p>
     <h2>Local. Self-host. Cloud.</h2>
     <p class="deploy-intro">
-      The IR artifact runs identically across all three. Start on SQLite,
-      ship to a cell. No rewriting.
+      The same IR artifact runs on your laptop and on your own infrastructure.
+      Connect Cloud when you want the governance surface on top. No rewriting.
     </p>
 
     <div class="deploy-tiers">
@@ -51,8 +51,9 @@ const tiers = [
     </div>
 
     <p class="deploy-note">
-      One artifact (the IR) runs identically across all three tiers.
-      Develop on SQLite, ship to a cell when you're ready.
+      One artifact (the IR) is what you build locally and what you run in
+      production. Cloud is the control plane over those runs, not a replacement
+      for them.
     </p>
   </div>
 </section>

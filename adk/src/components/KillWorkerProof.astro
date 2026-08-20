@@ -2,7 +2,7 @@
 import TerminalReplay from './TerminalReplay.astro';
 
 const killLines = [
-  '$ python agent.py',
+  '$ python agent.py            # calls agent.run_durable(...)',
   '  run_id: run_8f2a1c · worker_id: w-01',
   '  [turn 1]  model call started...',
   '  [turn 1]  tool: get_weather("Tokyo")  ok',
@@ -45,9 +45,9 @@ const failures = [
     <p class="section-label">Proof</p>
     <h2>Kill the worker. The agent finishes.</h2>
     <p class="proof-intro">
-      JamJet checkpoints every turn to a durable event log. When the process
-      dies, another worker restores from the last checkpoint and continues.
-      The completed run mints a verifiable receipt.
+      On <code>run_durable</code>, JamJet checkpoints every turn to a durable
+      event log. When the process dies, another worker restores from the last
+      checkpoint and continues. The completed run mints a verifiable receipt.
     </p>
 
     <div class="proof-terminal">

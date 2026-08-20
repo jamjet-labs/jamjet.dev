@@ -9,7 +9,8 @@
     <p class="team-intro">
       Wire specialists into a sequence, fan them out in parallel, or let a
       coordinator route to the right one. Each sub-agent is its own governed
-      durable run.
+      run, and its own durable run when you orchestrate with
+      <code>run_durable</code>.
     </p>
 
     <div class="team-grid">
@@ -22,7 +23,7 @@
           <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-w">pipeline</span> <span class="t-p">=</span> <span class="t-w">Sequential</span><span class="t-p">(</span>
   agents<span class="t-p">=[</span>draft<span class="t-p">,</span> review<span class="t-p">,</span> publish<span class="t-p">],</span>
 <span class="t-p">)</span>
-pipeline<span class="t-p">.</span>run_durable<span class="t-p">(</span><span class="t-s">"Ship the Q3 note"</span><span class="t-p">)</span></code></pre>
+<span class="t-kw">await</span> pipeline<span class="t-p">.</span>run_durable<span class="t-p">(</span><span class="t-s">"Ship the Q3 note"</span><span class="t-p">)</span></code></pre>
         </div>
       </div>
 
@@ -48,7 +49,7 @@ pipeline<span class="t-p">.</span>run_durable<span class="t-p">(</span><span cla
   agents<span class="t-p">=[</span>billing<span class="t-p">,</span> support<span class="t-p">,</span> sales<span class="t-p">],</span>
   coordinator<span class="t-p">=</span>router<span class="t-p">,</span>
 <span class="t-p">)</span>
-desk<span class="t-p">.</span>run<span class="t-p">(</span><span class="t-s">"Where is my refund?"</span><span class="t-p">)</span></code></pre>
+<span class="t-kw">await</span> desk<span class="t-p">.</span>run<span class="t-p">(</span><span class="t-s">"Where is my refund?"</span><span class="t-p">)</span></code></pre>
         </div>
       </div>
 

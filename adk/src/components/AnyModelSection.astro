@@ -15,8 +15,8 @@ const providers = [
     <h2>One string, any provider.</h2>
     <p class="models-intro">
       Pass a provider-routed string as the model. The ADK routes through
-      a governed model seam that enforces policy, logs token usage, and
-      applies PII redaction on every call, regardless of provider.
+      a governed model seam that applies PII redaction, meters token usage,
+      and checks whatever policy you set, regardless of provider.
     </p>
 
     <div class="models-grid">
@@ -36,8 +36,9 @@ const providers = [
           node before it reaches the wire.
         </p>
         <p class="models-callout-note">
-          Provider breadth and the governed seam are the first track in the ADK
-          build, alongside the <code>Agent</code> loop facade.
+          PII redaction and metering constrain every call. The allowlist starts
+          allow-all until you set <code>policy=</code>, and the budget check is
+          inert until you set <code>budget=</code>.
         </p>
       </div>
     </div>

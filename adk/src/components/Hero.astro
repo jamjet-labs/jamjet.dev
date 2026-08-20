@@ -1,5 +1,6 @@
 ---
-// Hero: code-first, nine-line Agent snippet
+// Hero: code-first Agent snippet. Governance is what runs with zero config
+// (PII redaction, audit record, receipt); durability is the explicit upgrade.
 ---
 
 <section class="hero">
@@ -8,11 +9,11 @@
 
       <div class="hero-text">
         <p class="section-label">JamJet ADK</p>
-        <h1>The agent kit that's durable and governed by default.</h1>
+        <h1>The agent kit that's governed by default, and durable by one call.</h1>
         <p class="hero-subhead">
-          Build an agent in nine lines. Ship it to production without rewriting.
-          Every run is durable, every tool call is policy-checked, every action
-          lands in a signed audit trail.
+          Build an agent in a dozen lines. PII redaction at the model seam, an
+          audit record, and a verifiable receipt are on before you configure
+          anything. Make the same agent crash-proof by changing one call.
         </p>
 
         <div class="hero-ctas">
@@ -40,24 +41,28 @@
     <span class="t-kw">return</span> <span class="t-w">fetch_weather</span><span class="t-p">(</span>city<span class="t-p">)</span>
 
 <span class="t-w">weather</span> <span class="t-p">=</span> <span class="t-w">Agent</span><span class="t-p">(</span>
+    <span class="t-s">"weather"</span><span class="t-p">,</span>
     model<span class="t-p">=</span><span class="t-s">"anthropic/claude-opus-4-8"</span><span class="t-p">,</span>
     instructions<span class="t-p">=</span><span class="t-s">"Answer weather questions."</span><span class="t-p">,</span>
     tools<span class="t-p">=[</span>get_weather<span class="t-p">],</span>
 <span class="t-p">)</span>
 
-<span class="t-w">print</span><span class="t-p">(</span>weather<span class="t-p">.</span>run<span class="t-p">(</span><span class="t-s">"What should I pack for Tokyo this weekend?"</span><span class="t-p">))</span></code></pre>
+<span class="t-w">print</span><span class="t-p">(</span>weather<span class="t-p">.</span>run_sync<span class="t-p">(</span><span class="t-s">"What should I pack for Tokyo this weekend?"</span><span class="t-p">))</span>
+
+<span class="t-d"># same agent, durable: survives worker death, resumes mid-run</span>
+<span class="t-w">result</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-w">weather</span><span class="t-p">.</span>run_durable<span class="t-p">(</span><span class="t-s">"What should I pack?"</span><span class="t-p">)</span></code></pre>
         </div>
 
         <p class="hero-caption">
-          Durable. Governed. Audited. Replayable.
+          Governed. Audited. Receipted.
           <strong>You wrote none of it.</strong>
         </p>
 
         <ul class="hero-badges">
-          <li class="badge badge-allow">crash recovery</li>
-          <li class="badge badge-allow">policy enforced</li>
-          <li class="badge badge-warn">approval-ready</li>
+          <li class="badge badge-allow">pii redacted</li>
+          <li class="badge badge-allow">audit recorded</li>
           <li class="badge badge-neutral">receipt minted</li>
+          <li class="badge badge-warn">crash recovery: run_durable</li>
         </ul>
       </div>
 

@@ -19,48 +19,52 @@
           Everything else is defaults you can override.</p>
         <div class="code-block" style="margin-top: 16px;">
           <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-w">agent</span> <span class="t-p">=</span> <span class="t-w">Agent</span><span class="t-p">(</span>
+  <span class="t-s">"reporter"</span><span class="t-p">,</span>
   model<span class="t-p">=</span><span class="t-s">"openai/gpt-4o"</span><span class="t-p">,</span>
   instructions<span class="t-p">=</span><span class="t-s">"..."</span><span class="t-p">,</span>
   tools<span class="t-p">=[</span>search<span class="t-p">,</span> file_read<span class="t-p">],</span>
 <span class="t-p">)</span>
-result <span class="t-p">=</span> agent<span class="t-p">.</span>run<span class="t-p">(</span><span class="t-s">"Summarise last week's reports"</span><span class="t-p">)</span></code></pre>
+result <span class="t-p">=</span> agent<span class="t-p">.</span>run_sync<span class="t-p">(</span><span class="t-s">"Summarise last week's reports"</span><span class="t-p">)</span></code></pre>
         </div>
       </div>
 
       <div class="build-card">
         <h3>@tool</h3>
-        <p>Any Python function becomes a governed tool. The runtime handles
-          schema inference, idempotency keys, and audit on every call.</p>
+        <p>Any Python function becomes a tool. Schema inference from the type hints
+          on every path; on the durable engine each call also gets a deterministic
+          idempotency key, so a crash never sends the mail twice.</p>
         <div class="code-block" style="margin-top: 16px;">
           <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-b">@tool</span>
 <span class="t-kw">def</span> <span class="t-w">send_email</span><span class="t-p">(</span>to<span class="t-p">:</span> <span class="t-w">str</span><span class="t-p">,</span> body<span class="t-p">:</span> <span class="t-w">str</span><span class="t-p">)</span> <span class="t-p">-&gt;</span> <span class="t-w">str</span><span class="t-p">:</span>
-    <span class="t-d"># policy-checked, idempotent, audited</span>
+    <span class="t-d"># audited; exactly-once on run_durable</span>
     <span class="t-kw">return</span> <span class="t-w">mailer</span><span class="t-p">.</span>send<span class="t-p">(</span>to<span class="t-p">,</span> body<span class="t-p">)</span></code></pre>
         </div>
       </div>
 
       <div class="build-card">
         <h3>Sessions and memory</h3>
-        <p>A session is a long-running, resumable conversation thread. Engram
-          bridges long-term memory so context persists across restarts and
-          sessions without you managing it.</p>
+        <p>A session is a long-running, resumable conversation thread, persisted in
+          a <code>SessionStore</code>. Add <code>memory=True</code> and the Engram
+          bridge retrieves and records around each turn, keyed by the session id.</p>
         <div class="code-block" style="margin-top: 16px;">
-          <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-w">session</span> <span class="t-p">=</span> agent<span class="t-p">.</span>session<span class="t-p">(</span>id<span class="t-p">=</span><span class="t-s">"user-42"</span><span class="t-p">)</span>
-session<span class="t-p">.</span>run<span class="t-p">(</span><span class="t-s">"What did we discuss last week?"</span><span class="t-p">)</span></code></pre>
+          <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-w">store</span> <span class="t-p">=</span> <span class="t-w">SessionStore</span><span class="t-p">()</span>
+<span class="t-w">session</span> <span class="t-p">=</span> store<span class="t-p">.</span>create<span class="t-p">(</span><span class="t-s">"user-42"</span><span class="t-p">)</span>
+
+<span class="t-w">result</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-w">session</span><span class="t-p">.</span>run<span class="t-p">(</span>agent<span class="t-p">,</span> <span class="t-s">"What did we discuss?"</span><span class="t-p">)</span></code></pre>
         </div>
       </div>
 
       <div class="build-card">
         <h3>MCP tools</h3>
-        <p>Any MCP server's tools are usable directly. JamJet can also expose
-          your agents and tools as an MCP server for other clients.</p>
+        <p>Declare MCP servers in <code>jamjet.toml</code> and call their tools from
+          workflow nodes. <code>jamjet dev</code> connects to every configured server
+          on start, and <code>jamjet tools list</code> shows what they expose.</p>
         <div class="code-block" style="margin-top: 16px;">
-          <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-w">agent</span> <span class="t-p">=</span> <span class="t-w">Agent</span><span class="t-p">(</span>
-  tools<span class="t-p">=[</span>
-    <span class="t-w">MCPClient</span><span class="t-p">(</span><span class="t-s">"github"</span><span class="t-p">,</span> <span class="t-s">"npx @github/mcp"</span><span class="t-p">),</span>
-    <span class="t-w">MCPClient</span><span class="t-p">(</span><span class="t-s">"postgres"</span><span class="t-p">,</span> <span class="t-s">"npx @pg/mcp"</span><span class="t-p">),</span>
-  <span class="t-p">]</span>
-<span class="t-p">)</span></code></pre>
+          <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-d"># jamjet.toml</span>
+<span class="t-p">[[</span><span class="t-w">mcp.servers</span><span class="t-p">]]</span>
+<span class="t-w">name</span> <span class="t-p">=</span> <span class="t-s">"brave-search"</span>
+<span class="t-w">command</span> <span class="t-p">=</span> <span class="t-s">"npx"</span>
+<span class="t-w">args</span> <span class="t-p">=</span> <span class="t-p">[</span><span class="t-s">"-y"</span><span class="t-p">,</span> <span class="t-s">"@modelcontextprotocol/server-brave-search"</span><span class="t-p">]</span></code></pre>
         </div>
       </div>
 
