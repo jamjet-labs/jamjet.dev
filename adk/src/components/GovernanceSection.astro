@@ -58,8 +58,12 @@
             <strong>Blocked tools and approval</strong>
             <span>Declare <code>require_approval_for</code> on a workflow and the engine
               holds the run at the gated call, then resumes at exactly that point once
-              approved by API, CLI, or the Cloud dashboard. Enforced for workflow tool
-              calls today; <code>Agent</code> tool dispatch is being wired to the same gate.</span>
+              approved by API, CLI, or the Cloud dashboard. Enforced for <code>Agent</code> tool
+              dispatch as well as workflow tool calls, and the approval is bound to a
+              content hash of the call, so it cannot be replayed against different
+              arguments. This is the <code>run_durable</code> path; the in-process
+              <code>run()</code> cannot hold a run at a gate, and warns rather than
+              enforcing.</span>
           </li>
         </ul>
       </div>
