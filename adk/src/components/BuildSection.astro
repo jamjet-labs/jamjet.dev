@@ -50,7 +50,7 @@ result <span class="t-p">=</span> agent<span class="t-p">.</span>run_sync<span c
           <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-w">store</span> <span class="t-p">=</span> <span class="t-w">SessionStore</span><span class="t-p">()</span>
 <span class="t-w">session</span> <span class="t-p">=</span> store<span class="t-p">.</span>create<span class="t-p">(</span><span class="t-s">"user-42"</span><span class="t-p">)</span>
 
-<span class="t-w">result</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-w">session</span><span class="t-p">.</span>run<span class="t-p">(</span>agent<span class="t-p">,</span> <span class="t-s">"What did we discuss?"</span><span class="t-p">)</span></code></pre>
+<span class="t-w">result</span> <span class="t-p">=</span> <span class="t-w">asyncio</span><span class="t-p">.</span>run<span class="t-p">(</span>session<span class="t-p">.</span>run<span class="t-p">(</span>agent<span class="t-p">,</span> <span class="t-s">"What did we discuss?"</span><span class="t-p">))</span></code></pre>
         </div>
       </div>
 

@@ -34,7 +34,8 @@
             <span>agent.py</span>
             <span>Python 3.11+</span>
           </div>
-          <pre class="code-body"><code><span class="t-kw">from</span> <span class="t-w">jamjet</span> <span class="t-kw">import</span> <span class="t-w">Agent</span><span class="t-p">,</span> <span class="t-w">tool</span>
+          <pre class="code-body"><code><span class="t-kw">import</span> <span class="t-w">asyncio</span>
+<span class="t-kw">from</span> <span class="t-w">jamjet</span> <span class="t-kw">import</span> <span class="t-w">Agent</span><span class="t-p">,</span> <span class="t-w">tool</span>
 
 <span class="t-b">@tool</span>
 <span class="t-kw">def</span> <span class="t-w">get_weather</span><span class="t-p">(</span>city<span class="t-p">:</span> <span class="t-w">str</span><span class="t-p">)</span> <span class="t-p">-&gt;</span> <span class="t-w">str</span><span class="t-p">:</span>
@@ -50,7 +51,7 @@
 <span class="t-w">print</span><span class="t-p">(</span>weather<span class="t-p">.</span>run_sync<span class="t-p">(</span><span class="t-s">"What should I pack for Tokyo this weekend?"</span><span class="t-p">))</span>
 
 <span class="t-d"># same agent, durable: survives worker death, resumes mid-run</span>
-<span class="t-w">result</span> <span class="t-p">=</span> <span class="t-kw">await</span> <span class="t-w">weather</span><span class="t-p">.</span>run_durable<span class="t-p">(</span><span class="t-s">"What should I pack?"</span><span class="t-p">)</span></code></pre>
+<span class="t-w">result</span> <span class="t-p">=</span> <span class="t-w">asyncio</span><span class="t-p">.</span>run<span class="t-p">(</span>weather<span class="t-p">.</span>run_durable<span class="t-p">(</span><span class="t-s">"What should I pack?"</span><span class="t-p">))</span></code></pre>
         </div>
 
         <p class="hero-caption">

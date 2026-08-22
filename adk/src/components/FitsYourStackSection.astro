@@ -26,7 +26,7 @@ const integrations = [
 // Capability comparison — built-in defaults as of mid-2026, verified against
 // current docs (LangChain/LangGraph 1.x, Google ADK 2.3.0, CrewAI OSS 1.15.x).
 const cmpCols = ['LangGraph', 'Google ADK', 'CrewAI', 'JamJet'];
-// JamJet's own column is scored against the shipped Python SDK (0.11.0), by the
+// JamJet's own column is scored against the shipped Python SDK (0.12.0), by the
 // same rule as everyone else's: a control is ● only if it enforces with nothing
 // configured. Durability, budget, allowlist and approval are each one argument
 // or one call away, which is ◐ — the same glyph the competitors get. The wedge
@@ -110,7 +110,7 @@ const cmpLabel = {
           <li>Model allowlist: each exposes callback or middleware hooks to write a tool-deny yourself; none ships a declarative model allowlist.</li>
           <li>PII redaction: LangGraph ships a regex redactor at the model boundary; ADK and CrewAI route PII to a separate product (Google Model Armor / DLP, or CrewAI AMP trace redaction after the run).</li>
           <li>Signed receipt: tracing (LangSmith, OpenTelemetry, AgentOps) is not a signed, tamper-evident per-action record; in each, per-action signed audit is an open feature request. JamJet mints an AgentBoundary receipt per run with nothing configured, binding prompt, agent and model by content hash; provision a signing key and it is signed as well.</li>
-          <li>Budget and model allowlist: both are engine-enforced and fail-closed, but neither is on until you pass <code>budget=</code> or <code>policy=</code> — there is no implicit ceiling. Approval: enforced today for workflow tool calls; <code>Agent</code> tool dispatch is being wired to the same gate.</li>
+          <li>Budget and model allowlist: both are engine-enforced and fail-closed, but neither is on until you pass <code>budget=</code> or <code>policy=</code> — there is no implicit ceiling. Approval now covers <code>Agent</code> tool dispatch as well as workflow tool calls on <code>run_durable</code>, and the approval is bound to a content hash of the call, so it cannot be replayed against different arguments. The non-durable <code>run()</code> cannot hold a run at a gate at all: it warns and proceeds ungated, so reach for <code>run_durable</code> when approval has to bind.</li>
         </ul>
       </details>
     </div>
