@@ -85,13 +85,21 @@
         <div class="gov-policy-file">
           <div class="code-block">
             <div class="code-header">
-              <span>policy.yaml</span>
+              <span>inline policy</span>
             </div>
-            <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-w">policy</span><span class="t-p">:</span>
-  <span class="t-w">require_approval_for</span><span class="t-p">:</span>
-    <span class="t-p">-</span> <span class="t-s">"payments.*"</span></code></pre>
+            <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-d"># policy= takes "open", "strict", or a dict</span>
+<span class="t-w">policy</span><span class="t-p">=</span><span class="t-p">{</span>
+  <span class="t-s">"require_approval_for"</span><span class="t-p">:</span> <span class="t-p">[</span><span class="t-s">"payments.*"</span><span class="t-p">],</span>
+<span class="t-p">}</span></code></pre>
           </div>
         </div>
+
+        <p class="gov-shipped-note">
+          A YAML <em>workflow</em> takes the same keys under a <code>policy:</code>
+          block. <code>policy=</code> on an <code>Agent</code> does not read a file:
+          a string must name a built-in or a registered policy, so a path raises
+          <code>Unknown named policy</code>.
+        </p>
 
         <p class="gov-shipped-note">
           The approval loop is shipped end to end: the engine holds the run, the
