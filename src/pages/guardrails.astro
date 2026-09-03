@@ -89,7 +89,7 @@ const guardrailsLd = {
       </div>
     </div>
     <p class="checks-note">
-      Each check runs twice on every call, once on what goes into the model and once on what comes back out.
+      Every check here is eligible in both directions, so the same check can guard what goes into the model and what comes back out. You call the chain once per direction and choose which checks run where.
       Every decision carries the SHA-256 of the exact text the check inspected, so a decision made today can be
       tied back afterward to the exact text it was made about.
     </p>
