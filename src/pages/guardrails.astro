@@ -1,0 +1,477 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const guardrailsLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Guardrails",
+  "description": "Zero-dependency Python library that inspects LLM input and output and returns allow, redact, or deny with provenance. Deterministic checks for prompt injection encoding, PII, secrets, and custom rules.",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Linux, macOS, Windows",
+  "url": "https://jamjet.dev/guardrails/",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+};
+---
+
+<BaseLayout
+  title="Guardrails: Prompt Injection Detection | JamJet"
+  description="A zero-dependency Python library that checks LLM input and output for prompt injection encoding, PII, and secrets, and returns allow, redact, or deny. Precision and recall for every check are measured in CI and published with the misses."
+  canonical="https://jamjet.dev/guardrails/"
+  currentPage="guardrails"
+>
+<Fragment slot="head">
+  <script type="application/ld+json" set:html={JSON.stringify(guardrailsLd)}></script>
+</Fragment>
+
+<!-- ── Hero ── -->
+<section class="guardrails-hero">
+  <div class="guardrails-hero-inner">
+    <span class="section-label">Part of JamJet</span>
+    <h1>Guardrails for<br/>what a model reads and writes.</h1>
+    <p class="guardrails-sub">
+      A retrieved page can read &ldquo;Summarise this page.&rdquo; to you and still carry an instruction to the model,
+      spelled out in unicode characters that no reader, terminal, log viewer, or diff will ever show.
+      jamjet-guardrails is a zero-dependency Python library that checks text going into a model and text coming
+      out of it, and returns allow, redact, or deny with provenance on every decision.
+    </p>
+    <div class="guardrails-actions">
+      <a href="#quickstart" class="btn-primary">Install in one line</a>
+      <a href="https://github.com/jamjet-labs/jamjet-guardrails" class="btn-secondary" target="_blank" rel="noopener">View source</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── The hook ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container">
+    <div class="problem-grid">
+      <div class="problem-item">
+        <strong>Invisible to you</strong>
+        <p>Unicode tag characters mirror ASCII byte for byte and render as nothing. A retrieved page, a PDF, a support ticket can carry an instruction inside them, and no reader, terminal, log viewer, or diff will show it to you.</p>
+      </div>
+      <div class="problem-item">
+        <strong>Invisible to a classifier, too</strong>
+        <p>Not because the classifier is inaccurate. A tokenizer collapses a run of these characters into one unknown token at any length, so overwriting the hidden message with a different one of the same length leaves the token ids unchanged. The payload's content never reaches the model reading it.</p>
+      </div>
+      <div class="problem-item">
+        <strong>Checking a model with a model</strong>
+        <p>A semantic classifier is itself a model you have to trust to catch the thing you do not trust. This library sits before that question comes up. It inspects the encoding, not the meaning.</p>
+      </div>
+      <div class="problem-item">
+        <strong>Measured against real detectors</strong>
+        <p>Two published prompt-injection models were run over this project's own corpus. Both scored far below the deterministic check, for the mechanical reason above, not a quirk of one test set.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── The four checks ── -->
+<section>
+  <div class="container">
+    <span class="section-label">The four checks</span>
+    <h2>Input and output, every time.</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <code class="check-name">injection-structural</code>
+        <p>Instruction smuggling in the encoding, not the words: invisible tag characters, unbalanced bidirectional control characters that make text render differently from how it parses, and zero-width steganography.</p>
+      </div>
+      <div class="feature">
+        <code class="check-name">pii</code>
+        <p>Email addresses, card numbers, US social security numbers, and phone numbers, redacted to typed placeholders rather than just flagged.</p>
+      </div>
+      <div class="feature">
+        <code class="check-name">secrets</code>
+        <p>Credentials matched on their issuer prefix, not by scoring entropy. That is what keeps a git SHA or a UUID from tripping it.</p>
+      </div>
+      <div class="feature">
+        <code class="check-name">rules</code>
+        <p>The caller's own regular expressions, banned substrings, and size limits: your rules, running on this engine.</p>
+      </div>
+    </div>
+    <p class="checks-note">
+      Each check runs twice on every call, once on what goes into the model and once on what comes back out.
+      Every decision carries the SHA-256 of the exact text the check inspected, so a decision made today can be
+      tied back afterward to the exact text it was made about.
+    </p>
+  </div>
+</section>
+
+<!-- ── See it work ── -->
+<section>
+  <div class="container">
+    <span class="section-label">See it work</span>
+    <h2>One chain, two directions.</h2>
+    <p class="demo-intro">
+      The same three checks run on what comes in and what goes out. Denying an instruction smuggled into
+      retrieved text is one call. Redacting a credential leaking out of a reply is the next.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span>python</span>
+        <span>jamjet-guardrails</span>
+      </div>
+      <pre class="code-body"><code>chain = build_chain([<span class="t-s">"injection-structural"</span>, <span class="t-s">"pii"</span>, <span class="t-s">"secrets"</span>])
+
+incoming = chain.run(smuggled, Context(direction=<span class="t-s">"input"</span>, origin=<span class="t-s">"retrieved"</span>))
+<span class="t-d"># deny, INVISIBLE_TAG_CHARS (20, 52), injection-structural</span>
+
+reply = chain.run(<span class="t-s">"mail alice@example.com and use sk-..."</span>, Context(direction=<span class="t-s">"output"</span>, origin=<span class="t-s">"model"</span>))
+<span class="t-d"># redact, "mail [REDACTED:EMAIL] and use [REDACTED:OPENAI_KEY]"</span></code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ── The numbers ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container">
+    <span class="section-label">Every check, scored</span>
+    <h2>Precision and recall, published with the misses.</h2>
+    <p class="numbers-intro">
+      Each check ships with a labelled corpus committed beside its detector. Precision and recall are measured
+      in continuous integration on every change, and the misses are published next to the scores. A change that
+      moves a number fails the build until a human commits the new number in the same pull request.
+    </p>
+    <p class="numbers-intro">
+      Numbers measured on a corpus this project wrote are reported separately from numbers measured on one it
+      did not. The two are never merged into a single blended score.
+    </p>
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Check</th>
+            <th>Corpus</th>
+            <th>Cases</th>
+            <th>Precision</th>
+            <th>Recall</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code class="check-name">injection-structural</code></td>
+            <td>in-repo</td>
+            <td>154</td>
+            <td>0.972</td>
+            <td>0.873</td>
+          </tr>
+          <tr>
+            <td><code class="check-name">pii</code></td>
+            <td>in-repo</td>
+            <td>81</td>
+            <td>0.631</td>
+            <td>0.872</td>
+          </tr>
+          <tr>
+            <td><code class="check-name">pii</code></td>
+            <td>nvidia/Nemotron-PII, third party</td>
+            <td>300</td>
+            <td>0.960</td>
+            <td>0.997</td>
+          </tr>
+          <tr>
+            <td><code class="check-name">rules</code></td>
+            <td>in-repo</td>
+            <td>40</td>
+            <td>1.000</td>
+            <td>1.000</td>
+          </tr>
+          <tr>
+            <td><code class="check-name">secrets</code></td>
+            <td>in-repo</td>
+            <td>39</td>
+            <td>0.957</td>
+            <td>0.880</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="numbers-note">
+      <p>The in-repo <code class="check-name">pii</code> corpus is a deliberate stress set, written to hold the shapes the detector is worst at, so its precision is lower than on ordinary text on purpose. Read the nvidia/Nemotron-PII row for how it performs on ordinary text.</p>
+    </div>
+    <div class="numbers-note">
+      <p>The <code class="check-name">rules</code> row is not comparable to the other three. <code class="check-name">injection-structural</code>, <code class="check-name">pii</code>, and <code class="check-name">secrets</code> are heuristics over open-ended text, and their numbers say how often the heuristic is right. <code class="check-name">rules</code> is a deterministic engine run against a fixed set of the caller's own rules: a perfect score means the engine computes spans and limits correctly. It says nothing about whether any given rule is well chosen.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Where this sits ── -->
+<section>
+  <div class="container">
+    <span class="section-label">Where this sits</span>
+    <h2>Three layers. This is layer one.</h2>
+    <p class="numbers-intro">
+      This is not a broad guardrails framework. It is the deterministic content layer: the checks you can run
+      before you trust a model, without trusting another model to perform the check.
+    </p>
+    <div class="layers-list">
+      <div class="layer-item layer-active">
+        <span class="layer-num">01</span>
+        <div>
+          <strong>Deterministic content integrity</strong>
+          <p>This library. It inspects the bytes and structure of what goes into a model and what comes out. No model call, no network call, runs in process.</p>
+        </div>
+      </div>
+      <div class="layer-item">
+        <span class="layer-num">02</span>
+        <div>
+          <strong>Semantic classification</strong>
+          <p>Prompt injection by meaning, jailbreaks, harmful content. Judging meaning needs a model, and that model is deliberately not bundled here.</p>
+        </div>
+      </div>
+      <div class="layer-item">
+        <span class="layer-num">03</span>
+        <div>
+          <strong>Tool and action authorization</strong>
+          <p>Deciding whether a call to a tool or an external system is allowed to run at all. A different problem, and <a href="/gate/">a different JamJet product</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Quickstart ── -->
+<section id="quickstart">
+  <div class="container">
+    <span class="section-label">Quickstart</span>
+    <h2>Running in one line.</h2>
+    <div class="qs-install">
+      <pre class="qs-code"><code>pip install jamjet-guardrails</code></pre>
+    </div>
+    <ul class="qs-facts">
+      <li>Zero runtime dependencies, asserted against the built wheel</li>
+      <li>No network calls, no model downloads</li>
+      <li>Python 3.10 through 3.14</li>
+      <li>Apache-2.0</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── Upsell to JamJet ── -->
+<section style="background: var(--bg-alt);">
+  <div class="container" style="text-align: center; max-width: 600px;">
+    <h2>Need more than a content check?</h2>
+    <p style="color: var(--text-secondary); margin: 16px 0 32px; line-height: 1.7;">
+      jamjet-guardrails is one deterministic layer. JamJet is the runtime underneath your agent for policy,
+      approval, audit, crash recovery, and memory.
+    </p>
+    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+      <a href="#quickstart" class="btn-primary">Install jamjet-guardrails</a>
+      <a href="/" class="btn-secondary">Learn about JamJet</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .guardrails-hero {
+    min-height: 70vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 80px 24px;
+    text-align: center;
+  }
+  .guardrails-hero-inner { max-width: 680px; }
+  .guardrails-sub {
+    font-size: clamp(1rem, 2vw, 1.1rem);
+    color: var(--text-secondary);
+    margin: 24px 0 40px;
+    line-height: 1.8;
+  }
+  .guardrails-actions {
+    display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
+  }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 64px;
+  }
+  .problem-item {
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+  }
+  .problem-item strong {
+    display: block; font-size: 0.95rem; margin-bottom: 8px; color: var(--text);
+  }
+  .problem-item p {
+    color: var(--text-secondary); font-size: 0.88rem; line-height: 1.7; margin: 0;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 48px;
+  }
+  .feature {
+    padding: 20px 22px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    box-shadow: 1px 2px 0 rgba(20,20,19,0.06);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  .feature:hover {
+    transform: translateY(-1px);
+    box-shadow: 2px 4px 0 rgba(20,20,19,0.1);
+  }
+  .feature p {
+    color: var(--text-secondary); font-size: 0.85rem; line-height: 1.7; margin: 10px 0 0;
+  }
+
+  .check-name {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text);
+    background: var(--surface-code);
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  .checks-note {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    max-width: 720px;
+    margin: 32px auto 0;
+    text-align: center;
+  }
+
+  .demo-intro {
+    color: var(--text-secondary);
+    max-width: 640px;
+    margin: 16px 0 32px;
+    line-height: 1.7;
+  }
+
+  .numbers-intro {
+    color: var(--text-secondary);
+    max-width: 720px;
+    margin: 16px 0 0;
+    line-height: 1.75;
+  }
+  .numbers-intro + .numbers-intro { margin-top: 14px; }
+
+  .compare-table-wrap {
+    overflow-x: auto;
+    margin-top: 32px;
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    background: var(--surface);
+  }
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    min-width: 560px;
+  }
+  .compare-table th {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    font-weight: 600;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-strong);
+    text-align: left;
+    font-family: var(--font-sans);
+    background: var(--bg-alt);
+  }
+  .compare-table tr:first-child th:first-child { border-radius: 10px 0 0 0; }
+  .compare-table tr:first-child th:last-child { border-radius: 0 10px 0 0; }
+  .compare-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    line-height: 1.5;
+    font-family: var(--font-mono);
+    font-size: 0.83rem;
+  }
+  .compare-table td:nth-child(2) { font-family: var(--font-sans); }
+  .compare-table tbody tr:last-child td { border-bottom: 0; }
+
+  .numbers-note {
+    max-width: 760px;
+    margin: 20px auto 0;
+    padding-left: 16px;
+    border-left: 2px solid var(--border-strong);
+  }
+  .numbers-note p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    margin: 0;
+  }
+  .numbers-note + .numbers-note { margin-top: 16px; }
+
+  .layers-list {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .layer-item {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 20px;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+  }
+  .layer-item:last-child { border-bottom: 1px solid var(--border); }
+  .layer-num {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .layer-active .layer-num { color: var(--text); font-weight: 500; }
+  .layer-item strong {
+    display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text);
+  }
+  .layer-item p {
+    color: var(--text-secondary); font-size: 0.88rem; line-height: 1.7; margin: 0;
+  }
+  .layer-item p a { color: var(--text); }
+
+  .qs-install {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+  }
+  .qs-code {
+    background: var(--bg-code);
+    color: #eae8e1;
+    padding: 16px 24px;
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  .qs-facts {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+    padding: 0;
+  }
+  .qs-facts li {
+    padding: 8px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    box-shadow: 1px 2px 0 rgba(20,20,19,0.06);
+    font-size: 0.82rem;
+    font-family: var(--font-sans);
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .problem-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .layer-item { grid-template-columns: 32px 1fr; }
+  }
+</style>
+</BaseLayout>
