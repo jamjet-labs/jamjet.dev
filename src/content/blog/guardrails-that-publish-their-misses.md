@@ -10,13 +10,15 @@ category: "Build log"
 
 Ask a guardrails library how often it is wrong and you will usually get silence, or a benchmark of how fast it is.
 
-That is the gap [jamjet-guardrails](https://github.com/jamjet-labs/jamjet-guardrails) was built into. Nine deterministic checks for LLM input and output, zero runtime dependencies, and a published precision and recall figure for every one of them, measured on a corpus committed to the repository and gated in CI so a change that moves a number fails the build.
+[jamjet-guardrails](https://github.com/jamjet-labs/jamjet-guardrails) ships nine deterministic checks for LLM input and output with no runtime dependencies. The nine checks are not the interesting part.
+
+Every one of them publishes a precision and recall figure against a corpus committed to the repository, gated in CI. Change the detector and the numbers change, and the build notices.
 
 The part I care about more: the cases it gets wrong are named, in the README, by case id.
 
 ## The problem with a float
 
-A typical scanner hands back something like `(text, is_valid, 0.83)`. A boolean and a score. It does not tell you what it found, or where.
+This is not hypothetical. `llm-guard`'s scanner interface returns `tuple[str, bool, float]`, the sanitised text, a validity flag and a risk score. A boolean and a number. It does not tell you what it found, or where.
 
 That is enough to block a request and not enough to do anything else. You cannot redact, because you do not know which characters to replace. You cannot write a useful audit record, because "risk 0.83" is not a fact about what happened. And you cannot tune it, because a threshold is not a description.
 
@@ -70,11 +72,11 @@ That returns a deny with a `TICKET_ID` finding carrying a span, so a redaction c
 
 Look at the bottom row. The in-repo PII corpus scores 0.631 precision, and it is published at the top of the README next to the others.
 
-It is low on purpose. Every corpus here labels a case with **what should happen, never with what the detector does**. A known false positive is labelled `allow` and costs precision. A known false negative is labelled `deny` and costs recall. So each corpus is a stress set holding the shapes its detector is worst at, and the numbers come out lower than the checks behave on ordinary text.
+The number is low because this is a stress corpus rather than a sample of representative traffic. Every corpus here labels a case with **what should happen, never with what the detector does**. A known false positive is labelled `allow` and costs precision. A known false negative is labelled `deny` and costs recall. So each corpus is a stress set holding the shapes its detector is worst at, and the numbers come out lower than the checks behave on ordinary text.
 
-That is the only way two rows in one table can be compared, and it is the difference between a measurement and a marketing figure. A corpus labelled with what the detector already does will score near 1.000 forever and tell you nothing.
+Without labels chosen independently of what the detector does, comparing two rows in that table would mean very little. A corpus labelled with what the detector already does scores near 1.000 forever and tells you nothing.
 
-The third-party row is the one to read for ordinary traffic: 300 rows we did not write, from `nvidia/Nemotron-PII`, scoring 0.960 and 0.997 with the source named beside its own numbers.
+The third-party row is the stronger external evidence: 300 rows we did not write, sampled from NVIDIA's Nemotron-PII, scoring 0.960 and 0.997 with the source named beside its own numbers. That dataset is synthetic too, so it is not a sample of production traffic either. What makes it worth more than the row above it is narrower and more useful: we chose neither its examples nor its labels.
 
 ## Four misses, named
 
@@ -90,7 +92,7 @@ It does not score toxicity and it does not call a model. Nothing downloads weigh
 
 Where a check judges what content is for, as `encoded-content` does when it separates a hidden instruction from hidden prose, it uses a lexicon you can read and a rule you can test rather than a classifier. That sentence used to say the library does not classify intent at all, which was wrong from the day that check shipped, and it is fixed as of 0.4.1.
 
-No regular expression finds a person's name, so there is no NER and no vault to restore a redaction from. If a model's judgment is what you need, this is not that, and the honest answer is to buy it somewhere maintained.
+No regular expression finds a person's name, so there is no NER and no vault to restore a redaction from. If a model's judgment is what you need, this is not that. Pair this layer with a maintained classifier built for that job, because deterministic checks are not a replacement for one.
 
 ## The caveat you should hold me to
 
