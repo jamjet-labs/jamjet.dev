@@ -359,4 +359,4 @@ JamJet is a general-purpose agent runtime that treats production concerns -- dur
 
 The question is not which framework has more features. It is whether your production requirements are met by default or require you to build them yourself.
 
-Try the claims processing example: [github.com/jamjet-labs/jamjet/examples/claims-processing](https://github.com/jamjet-labs/jamjet/examples/claims-processing)
+Try the claims processing example: [github.com/jamjet-labs/jamjet/examples/claims-processing](https://github.com/jamjet-labs/jamjet/tree/main/examples/claims-processing)

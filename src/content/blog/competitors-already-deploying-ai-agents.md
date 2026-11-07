@@ -363,5 +363,5 @@ This is why we built [JamJet](/) — an open-source runtime (Apache 2.0) that pr
 - [See the wealth management architecture →](/blog/wealth-management-multi-agent/)
 - [Try JamJet — `pip install jamjet` →](https://github.com/jamjet-labs/jamjet)
 - [Read the docs →](https://docs.jamjet.dev)
-- [Join the community →](https://discord.gg/jamjet)
+- [Join the community →](https://discord.gg/SAYnEj86fr)
 

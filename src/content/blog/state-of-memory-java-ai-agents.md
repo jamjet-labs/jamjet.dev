@@ -327,4 +327,4 @@ Maven Central: [dev.jamjet:jamjet-sdk](https://central.sonatype.com/artifact/dev
 
 ---
 
-If you've been quietly rolling your own memory layer in Java, I'd love to hear what you ended up with. We're in the early innings here and there's a lot to learn from teams who have already built versions of this in production. Reach out via GitHub issues or [discord.gg/jamjet](https://discord.gg/jamjet).
+If you've been quietly rolling your own memory layer in Java, I'd love to hear what you ended up with. We're in the early innings here and there's a lot to learn from teams who have already built versions of this in production. Reach out via GitHub issues or [Discord](https://discord.gg/SAYnEj86fr).
