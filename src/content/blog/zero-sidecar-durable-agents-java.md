@@ -6,7 +6,7 @@ author: "Sunil Prakash"
 category: "Build log"
 ---
 
-> **Correction, November 2026.** An earlier version of this post said checkpoints go to an append-only event log, that a restart resumes on its own, and that the `@Checkpoint` annotations work through the Java agent. None of that matches the released code (0.4.0). Checkpoints live in an in-memory map. Resuming after a restart means saving those results and loading them into the next process. The annotation path fails for classes outside the library's own package. The sections below now describe what the code does.
+> **Correction, November 2026.** An earlier version of this post said checkpoints go to an append-only event log, that a restart resumes on its own, and that the `@Checkpoint` annotations work through the Java agent. None of that matches the released code (0.4.0). Checkpoints live in an in-memory map. Resuming after a restart means saving those results and loading them into the next process. The annotation path fails for classes outside the library's own package. The sections below now describe what the code does, and the install snippets show 0.4.0.
 
 Enterprise Java teams building multi-step AI agents face a durability problem that most frameworks do not address.
 
@@ -53,7 +53,7 @@ The runtime lives inside your JVM. No REST hops, no Docker, no sidecar. Checkpoi
 <dependency>
     <groupId>dev.jamjet</groupId>
     <artifactId>jamjet-runtime-spring-boot-starter</artifactId>
-    <version>0.1.1</version>
+    <version>0.4.0</version>
 </dependency>
 ```
 
@@ -262,7 +262,7 @@ Add the dependency:
 <dependency>
     <groupId>dev.jamjet</groupId>
     <artifactId>jamjet-runtime-spring-boot-starter</artifactId>
-    <version>0.1.1</version>
+    <version>0.4.0</version>
 </dependency>
 ```
 
@@ -272,7 +272,7 @@ Or without Spring:
 <dependency>
     <groupId>dev.jamjet</groupId>
     <artifactId>jamjet-runtime-instrument</artifactId>
-    <version>0.1.1</version>
+    <version>0.4.0</version>
 </dependency>
 ```
 
