@@ -7,7 +7,7 @@ export async function GET(context) {
   return rss({
     trailingSlash: false,
     title: 'JamJet Ship Log',
-    description: 'What shipped across the JamJet runtime, SDKs, and Cloud. Every other Friday, no skips.',
+    description: 'What shipped across the JamJet runtime, SDKs, and Cloud.',
     site: context.site,
     items: entries.map((e) => ({
       title: e.data.title ?? `${e.data.area}: ${e.data.date.toISOString().slice(0, 10)}`,

@@ -181,4 +181,4 @@ You do not have to. [This is why we built JamJet](/blog/why-we-built-jamjet/).
 - [Watch a multi-agent workflow in action →](/blog/wealth-management-multi-agent/)
 - [Try JamJet — `pip install jamjet` →](https://github.com/jamjet-labs/jamjet)
 - [Read the docs →](https://docs.jamjet.dev)
-- [Join the community →](https://discord.gg/jamjet)
+- [Join the community →](https://discord.gg/SAYnEj86fr)

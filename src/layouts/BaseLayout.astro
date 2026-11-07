@@ -1,6 +1,7 @@
 ---
 import '../styles/base.css';
 import { ViewTransitions } from 'astro:transitions';
+import { getCollection } from 'astro:content';
 
 interface Props {
   title: string;
@@ -12,6 +13,8 @@ interface Props {
    * "Alternative page with proper canonical tag" in Search Console.
    */
   canonical?: string;
+  /** Emit <meta name="robots" content="noindex">. Also leave out `canonical`, and filter the page out of the sitemap in astro.config.mjs. */
+  noindex?: boolean;
   ogImage?: string;
   ogType?: string;
   currentPage?: string;
@@ -21,6 +24,7 @@ const {
   title,
   description,
   canonical: rawCanonical,
+  noindex = false,
   ogImage = 'https://jamjet.dev/og.png',
   ogType = 'website',
   currentPage,
@@ -31,6 +35,11 @@ const {
 // Cloudflare 308-redirects no-slash variants. If the canonical doesn't match
 // the served URL Google flags it as a self-referential redirect and may
 // suppress indexing. Normalise to always end with a slash.
+// The nav dot on "Ship log" means there is a recent entry. Show it only when
+// the newest entry is under 14 days old at build time.
+const newestShipLog = (await getCollection('shiplog')).reduce((max, e) => Math.max(max, e.data.date.valueOf()), 0);
+const shipLogIsFresh = Date.now() - newestShipLog < 14 * 24 * 60 * 60 * 1000;
+
 const canonical = rawCanonical
   ? (rawCanonical.endsWith('/') ? rawCanonical : `${rawCanonical}/`)
   : undefined;
@@ -44,6 +53,7 @@ const canonical = rawCanonical
   <title>{title}</title>
   <meta name="description" content={description} />
   <meta name="keywords" content="AI agents, agent framework, durable execution, MCP, Model Context Protocol, A2A, agent-to-agent, Rust runtime, Python SDK, Java SDK, workflow orchestration, multi-agent systems, agent memory" />
+  {noindex && <meta name="robots" content="noindex" />}
   {canonical && <link rel="canonical" href={canonical} />}
   <link rel="alternate" type="text/plain" title="LLMs.txt" href="https://jamjet.dev/llms.txt" />
   <link rel="alternate" type="application/rss+xml" title="JamJet Field Notes" href="/rss.xml" />
@@ -125,7 +135,7 @@ const canonical = rawCanonical
       <li><a href="/guardrails/" aria-current={currentPage === 'guardrails' ? 'page' : undefined}>Guardrails</a></li>
       <li><a href="/cloud/" aria-current={currentPage === 'cloud' ? 'page' : undefined}>Cloud</a></li>
       <li><a href="/gate/" aria-current={currentPage === 'gate' ? 'page' : undefined}>The Gate</a></li>
-      <li><a href="/ship-log/" aria-current={currentPage === 'ship-log' ? 'page' : undefined}>Ship log<span class="nav-new-dot" aria-hidden="true"></span></a></li>
+      <li><a href="/ship-log/" aria-current={currentPage === 'ship-log' ? 'page' : undefined}>Ship log{shipLogIsFresh && <span class="nav-new-dot" aria-hidden="true"></span>}</a></li>
       <li><a href="/blog/" aria-current={currentPage === 'blog' ? 'page' : undefined}>Field notes</a></li>
       <li><a href="https://docs.jamjet.dev/en" target="_blank" rel="noopener">Docs<span style="font-size:0.7em;margin-left:2px;opacity:0.5">↗</span></a></li>
       <li>
