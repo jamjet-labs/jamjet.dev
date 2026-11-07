@@ -1,10 +1,12 @@
 ---
 title: "Zero-Sidecar Durable AI Agents in Java"
 date: 2026-04-25
-description: "Kill your agent. Restart it. It remembers everything. The JamJet Java Runtime embeds durable execution directly in your JVM — no Docker, no sidecar, no REST overhead."
+description: "The JamJet Java Runtime checkpoints agent steps inside your JVM, with no Docker, no sidecar and no REST hop. How replay-or-execute works and what it saves."
 author: "Sunil Prakash"
 category: "Build log"
 ---
+
+> **Correction, November 2026.** An earlier version of this post said checkpoints go to an append-only event log, that a restart resumes on its own, and that the `@Checkpoint` annotations work through the Java agent. None of that matches the released code (0.4.0). Checkpoints live in an in-memory map. Resuming after a restart means saving those results and loading them into the next process. The annotation path fails for classes outside the library's own package. The sections below now describe what the code does.
 
 Enterprise Java teams building multi-step AI agents face a durability problem that most frameworks do not address.
 
@@ -43,9 +45,9 @@ public class ResearchAgent {
 }
 ```
 
-Add one dependency. Annotate your agent class. Annotate your steps. Done.
+Add one dependency, then create a `DurabilityContext` and bind it to the thread before the agent runs. `DurabilityContext.current()` returns null until you do, and the starter does not do it for you.
 
-The runtime lives inside your JVM. No REST hops. No Docker. No sidecar. If the process crashes after `search` completes, a restart replays `search` from the checkpoint store and continues from `analyze`.
+The runtime lives inside your JVM. No REST hops, no Docker, no sidecar. Checkpoints are kept in memory, so to continue from `analyze` after a crash you save the recorded results and load them into the next process. The crash-recovery demo below shows how.
 
 ```xml
 <dependency>
@@ -57,17 +59,17 @@ The runtime lives inside your JVM. No REST hops. No Docker. No sidecar. If the p
 
 ## How It Works
 
-### Event Sourcing
+### Replay or execute
 
-Every `replayOrExecute` call either executes the lambda and appends its return value to an append-only event log, or -- if the checkpoint ID already exists in the log -- returns the stored value without executing the lambda.
+Every `replayOrExecute` call either executes the lambda and records its return value under the checkpoint ID, or, when the context is in replay mode and already holds a result for that ID, returns the stored value without executing the lambda.
 
-This is the same algorithm used in the Rust JamJet runtime. The event log is the source of truth. Recovery is deterministic: replay the log in order, skip any step whose ID is already recorded, execute the rest.
+The results live in an in-memory map on the context. Nothing is written to disk. A new context starts empty, so a restarted process re-runs every step unless you load the saved results into it (`recordResult` for each one, then `setReplayMode(true)`).
 
 ```java
 // On first run: executes and records
 String result = ctx.replayOrExecute("search", () -> searchClient.query(topic));
 
-// On recovery: returns stored value instantly, lambda never called
+// On recovery (replay mode, result loaded): returns the stored value, lambda never called
 String result = ctx.replayOrExecute("search", () -> searchClient.query(topic));
 ```
 
@@ -75,13 +77,9 @@ The lambda is the unit of idempotency. The ID is the checkpoint name. Same name,
 
 ### ByteBuddy Instrumentation
 
-`@DurableAgent` and `@Checkpoint` are pure marker annotations. At class load time, the JamJet Java agent (a standard `-javaagent` JVM flag) uses ByteBuddy to transform any class annotated with `@DurableAgent`. Each method annotated with `@Checkpoint` is wrapped with a `replayOrExecute` call using the method's checkpoint ID.
+`@DurableAgent` and `@Checkpoint` are marker annotations. With the JamJet Java agent attached (`-javaagent`), ByteBuddy transforms classes annotated with `@DurableAgent` and wraps each `@Checkpoint` method: in replay mode, a method whose checkpoint ID already has a result returns it without running its body.
 
-You can choose your level of explicitness:
-
-- **Explicit API** (no JVM agent required): call `DurabilityContext.current().replayOrExecute` directly. This works in any test runner, any CI environment, without adding `-javaagent` to the JVM flags.
-
-- **Annotation-driven** (JVM agent required): annotate and let ByteBuddy handle the wiring. The annotation approach is cleaner for production code where checkpoint IDs are stable.
+In 0.4.0 that path throws `IllegalAccessError` whenever a context is bound and the class sits outside the library's own package, which means any class you write. Use the explicit API: bind a context with `DurabilityContext.setCurrent` and call `replayOrExecute` yourself. It needs no JVM agent and works in any test runner or CI job.
 
 ### Virtual Threads
 
@@ -133,13 +131,11 @@ Recovery complete.
   Total time:   508ms (vs ~1500ms without recovery)
 ```
 
-Search took 0ms the second time. The work did not run. The checkpoint store returned the stored result immediately.
-
-Kill your process mid-agent. Restart. It picks up where it left off.
+Search took 0ms the second time. The work did not run: phase 1 wrote its recorded results to a file, and the recovery runner loaded them into a new context in replay mode. Saving and loading that file is the example's own code, not something the library does for you.
 
 ## Migration Guides
 
-JamJet is not asking you to rewrite. It is asking you to add two annotations and one method call per step.
+JamJet is not asking you to rewrite. It is asking you to wrap each step in one method call. Each example below assumes a `DurabilityContext` is already bound to the calling thread.
 
 ### From Spring AI
 
@@ -250,12 +246,12 @@ public class GeminiPipelineAgent {
 
 | Feature | JamJet | Spring AI | LangChain4j | Koog | Google ADK |
 |---------|--------|-----------|-------------|------|------------|
-| Durable execution | Yes (event sourced) | No | No | No | No |
-| Crash recovery | Checkpoint-level | No | No | No | No |
+| Step checkpoints | Yes (in memory) | No | No | No | No |
+| Resume after a crash | Load saved checkpoints into a new context | No | No | No | No |
 | Virtual threads | Native | No | No | Coroutines | No |
 | Plugin hot-reload | ClassLoader isolated | No | No | No | No |
 | MCP native | Client + Server | Client only | Client only | No | Client only |
-| Bytecode instrumentation | @DurableAgent | No | No | No | No |
+| Bytecode instrumentation | @DurableAgent (fails outside its own package in 0.4.0) | No | No | No | No |
 | Sidecar required | No | N/A | N/A | N/A | N/A |
 
 ## Getting Started
@@ -280,7 +276,7 @@ Or without Spring:
 </dependency>
 ```
 
-No additional infrastructure required. The default backend is in-memory. For JDBC persistence, set `jamjet.storage: jdbc` and provide a DataSource.
+No additional infrastructure required. The only backend is in-memory: `jamjet.storage` accepts `in-memory`, and any other value logs a warning and falls back to it.
 
 Start with the [real-agent example](https://github.com/jamjet-labs/jamjet-runtime-java/tree/main/examples/real-agent) -- it runs with one environment variable (`OPENAI_API_KEY`) and no other infrastructure.
 

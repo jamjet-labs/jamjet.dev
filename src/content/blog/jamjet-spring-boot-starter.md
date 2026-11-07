@@ -9,6 +9,8 @@ category: "Build log"
 
 # JamJet Spring Boot Starter — Production-Grade Agent Runtime for Spring AI
 
+> **Correction, November 2026.** The 0.1.0 release this post describes does not do what the post says. Its runtime client calls `/api/v1/...` routes that the JamJet runtime does not serve. The advisors log `JamJet runtime unavailable, proceeding without durability`, and each `ChatClient` call goes ahead without being recorded, held for approval or audited. Separately, no version of the runtime re-runs or resumes a Spring AI call after a crash. The model call runs in your JVM; the runtime only holds the record. A fixed starter is merged in jamjet-spring but not released yet. The [Spring Boot docs](https://docs.jamjet.dev/en/docs/integrations/spring-boot) describe what works today.
+
 *You built a Spring AI agent. It works in dev. Then production happens: the process crashes at step 7, there is no audit trail, you cannot replay a failed execution, and nobody approved the $400 LLM call that went sideways. The gap between demo and production is not just durability — it is everything.*
 
 ---
@@ -81,7 +83,7 @@ Add the dependency:
 Start the runtime:
 
 ```bash
-docker run -p 7700:7700 ghcr.io/jamjet-labs/jamjet:latest
+docker run -p 7700:8080 -e JAMJET_DEV_MODE=1 jamjetdev/jamjet:0.5.0
 ```
 
 Configure:
@@ -325,7 +327,7 @@ Add the dependency:
 Start the runtime:
 
 ```bash
-docker run -p 7700:7700 ghcr.io/jamjet-labs/jamjet:latest
+docker run -p 7700:8080 -e JAMJET_DEV_MODE=1 jamjetdev/jamjet:0.5.0
 ```
 
 That is it. Your Spring AI agents are now running on a production-grade runtime with crash recovery, audit trails, and replay testing.
@@ -333,12 +335,12 @@ That is it. Your Spring AI agents are now running on a production-grade runtime 
 **Links:**
 
 - [Full documentation](https://docs.jamjet.dev)
-- [Spring Boot Starter docs](https://docs.jamjet.dev/spring-boot-starter)
-- [LangChain4j Integration docs](https://docs.jamjet.dev/langchain4j-integration)
-- [Java Quickstart](https://docs.jamjet.dev/java-quickstart)
+- [Spring Boot Starter docs](https://docs.jamjet.dev/en/docs/integrations/spring-boot)
+- [LangChain4j Integration docs](https://docs.jamjet.dev/en/docs/integrations/langchain4j)
+- [Java SDK docs](https://docs.jamjet.dev/en/docs/open-source/java-runtime)
 - [GitHub — jamjet-spring](https://github.com/jamjet-labs/jamjet-spring)
 - [GitHub — jamjet](https://github.com/jamjet-labs/jamjet)
 - [Agentic AI in the Enterprise](https://sunilprakash.com/agentic-ai)
 - [Why We Built JamJet](/blog/why-we-built-jamjet/)
 - [AI Agents Need Their Spring Moment](/blog/jamjet-java-ai-ecosystem/)
-- [Join the community on Discord](https://discord.gg/jamjet)
+- [Join the community on Discord](https://discord.gg/SAYnEj86fr)
