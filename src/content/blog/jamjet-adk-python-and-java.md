@@ -1,7 +1,7 @@
 ---
 title: "The JamJet ADK: Durable, Governed Agents in Python and Java"
 date: 2026-06-29
-description: "The friendly Agent, now durable and governed by default, on JamJet's event-sourced Rust engine. Same kit in Python (jamjet 0.11.0) and first-class Java and Spring authoring."
+description: "The friendly Agent, now durable and governed by default, on JamJet's event-sourced Rust engine. Same kit in Python, plus first-class Java and Spring authoring."
 author: "Sunil Prakash"
 category: "Build log"
 ---
