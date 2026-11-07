@@ -42,7 +42,7 @@ const FLAKY_HOSTS = [
   'www.wsj.com', 'www.ft.com', 'www.reuters.com', 'dev.to', 'news.ycombinator.com',
   'marketplace.visualstudio.com', 'www.youtube.com', 'youtube.com', 'discord.com',
   'central.sonatype.com', 'search.maven.org', 'mvnrepository.com', 'www.mvnrepository.com',
-  'console.cloud.google.com', 'portal.azure.com', 'console.aws.amazon.com', 'app.jamjet.dev',
+  'console.cloud.google.com', 'portal.azure.com', 'console.aws.amazon.com',
   'web.archive.org', 'arxiv.org', 'www.sec.gov', 'sec.gov', 'www.investopedia.com',
 ];
 
@@ -114,6 +114,9 @@ function extract(file) {
   for (const m of raw.matchAll(/https?:\/\/[^\s<>"'`)\]}|\\]+/g)) {
     let url = decode(m[0]).replace(/[.,;:!?*]+$/, '');
     if (SKIP_URL.some((re) => re.test(url))) continue;
+    let host = '';
+    try { host = new URL(url).hostname; } catch { continue; } // "https://" in prose, not a link
+    if (!host.includes('.')) continue;
     add('url', url);
   }
 
