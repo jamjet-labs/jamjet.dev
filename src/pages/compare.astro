@@ -44,6 +44,7 @@ const fits: FitRow[] = [
     category: 'Authoring',
     keepFor: 'Google-native agent suites tightly coupled to Vertex and Gemini.',
     addJamjetFor: 'A cloud-neutral audit and governance surface that follows your agents off Google.',
+    link: 'https://docs.jamjet.dev/en/docs/reference/migrate/google-adk',
   },
   {
     name: 'OpenAI Agents SDK',
@@ -193,11 +194,7 @@ const categories = [...new Set(fits.map(f => f.category))];
                 <p>{f.addJamjetFor}</p>
               </div>
               <div class="fits-link">
-                {f.link ? (
-                  <a href={f.link}>Deep dive &rarr;</a>
-                ) : (
-                  <span class="fits-link-soon">coming soon</span>
-                )}
+                {f.link && <a href={f.link}>Deep dive &rarr;</a>}
               </div>
             </div>
           ))}
@@ -290,20 +287,6 @@ const categories = [...new Set(fits.map(f => f.category))];
         <p>LLM proxy vs agent safety layer. Helicone watches the API call; JamJet shapes the agent that makes it.</p>
         <span class="deep-arrow">Read &rarr;</span>
       </a>
-      <div class="deep-card deep-soon">
-        <div class="deep-head">
-          <span class="deep-name">Bedrock / Vertex / Foundry</span>
-          <span class="deep-status">Coming soon</span>
-        </div>
-        <p>The case for a cloud-neutral, self-hostable control layer when your agents are bound to one cloud's models.</p>
-      </div>
-      <div class="deep-card deep-soon">
-        <div class="deep-head">
-          <span class="deep-name">OpenAI Agents SDK</span>
-          <span class="deep-status">Coming soon</span>
-        </div>
-        <p>What durable execution and governance look like when your agent runtime sits inside someone else's cloud.</p>
-      </div>
     </div>
 
     <p class="cmp-see-also">
@@ -502,12 +485,6 @@ const categories = [...new Set(fits.map(f => f.category))];
     white-space: nowrap;
   }
   .fits-link a:hover { border-bottom-color: var(--text); }
-  .fits-link-soon {
-    font-family: var(--font-sans);
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    font-style: italic;
-  }
 
   /* Honest disclaimers */
   .cmp-honest h2 em { font-weight: 500; }
@@ -560,10 +537,6 @@ const categories = [...new Set(fits.map(f => f.category))];
     border-color: var(--text);
     transform: translateY(-1px);
     box-shadow: 2px 4px 0 rgba(20,20,19,0.1);
-  }
-  .deep-soon {
-    opacity: 0.6;
-    cursor: default;
   }
   .deep-head {
     display: flex;
