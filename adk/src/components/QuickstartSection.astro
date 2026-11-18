@@ -2,7 +2,7 @@
 import TerminalReplay from './TerminalReplay.astro';
 
 const steps = [
-  '$ pip install jamjet',
+  '$ pip install "jamjet[model,sidecar]"',
   '$ jamjet create myagent',
   '  created myagent/  agent.py  pyproject.toml  README.md',
   '$ cd myagent && python agent.py',
@@ -52,11 +52,17 @@ const steps = [
               <span class="prompt">$</span>
               <span class="cmd">jamjet dev</span>
             </div>
-            <p>Model sidecar, durable engine, and tool worker in one command. Switch the
-              call to <code>run_durable</code> and every turn is recorded, resumable, and
-              replayable.</p>
+            <p>Model sidecar, durable engine, and tool worker in one command (it needs
+              the <code>sidecar</code> extra). Switch the call to <code>run_durable</code>
+              and every turn is recorded, resumable, and replayable.</p>
           </li>
         </ol>
+
+        <p class="qs-eval">
+          No API key yet? Set <code>model="scripted/steps.yaml"</code> and each model
+          call is answered from a script. Only the model is scripted: policy, approval,
+          budget, and durability are the real ones.
+        </p>
 
         <p class="qs-eval">
           Lock the behavior in: <code>jamjet eval trajectory-diff</code> re-runs a case

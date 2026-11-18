@@ -61,9 +61,10 @@
               approved by API, CLI, or the Cloud dashboard. Enforced for <code>Agent</code> tool
               dispatch as well as workflow tool calls, and the approval is bound to a
               content hash of the call, so it cannot be replayed against different
-              arguments. This is the <code>run_durable</code> path; the in-process
-              <code>run()</code> cannot hold a run at a gate, and warns rather than
-              enforcing.</span>
+              arguments. This is the <code>run_durable</code> path. The in-process
+              <code>run()</code> cannot hold a run at a gate, so it refuses with
+              <code>ApprovalNotEnforceableError</code> instead of running the tool
+              ungated.</span>
           </li>
         </ul>
       </div>
@@ -91,6 +92,19 @@
 <span class="t-w">policy</span><span class="t-p">=</span><span class="t-p">{</span>
   <span class="t-s">"require_approval_for"</span><span class="t-p">:</span> <span class="t-p">[</span><span class="t-s">"payments.*"</span><span class="t-p">],</span>
 <span class="t-p">}</span></code></pre>
+          </div>
+        </div>
+
+        <div class="gov-policy-file">
+          <div class="code-block">
+            <div class="code-header">
+              <span>approve and audit from the CLI</span>
+            </div>
+            <pre class="code-body" style="font-size: 0.78rem;"><code><span class="t-d"># runs waiting for a decision, and how to approve</span>
+<span class="t-w">$</span> jamjet approvals
+<span class="t-w">$</span> jamjet approve exec_... -d approved --as alex
+<span class="t-d"># what the model asked for, who approved, and what ran</span>
+<span class="t-w">$</span> jamjet audit exec_...</code></pre>
           </div>
         </div>
 
