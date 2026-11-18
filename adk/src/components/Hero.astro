@@ -23,7 +23,7 @@
 
         <div class="install-cmd" id="hero-install">
           <span class="prompt">$</span>
-          <span class="cmd">pip install jamjet</span>
+          <span class="cmd">pip install "jamjet[model,sidecar]"</span>
           <button class="copy-btn" id="copy-install" type="button">copy</button>
         </div>
       </div>
@@ -151,7 +151,7 @@
   var btn = document.getElementById('copy-install');
   if (btn) {
     btn.addEventListener('click', function() {
-      navigator.clipboard.writeText('pip install jamjet');
+      navigator.clipboard.writeText('pip install "jamjet[model,sidecar]"');
       btn.textContent = 'copied';
       setTimeout(function() { btn.textContent = 'copy'; }, 1500);
     });
