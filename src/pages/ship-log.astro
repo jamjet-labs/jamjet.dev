@@ -48,6 +48,8 @@ const fmt = (d: Date) => `${monthShort[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.
   .log-title { display: block; font-family: var(--font-sans); font-weight: 600; font-size: 15px; margin-bottom: 4px; }
   .log-body { font-family: var(--font-sans); font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
   .log-body :global(p) { margin: 0; }
+  .log-body :global(a) { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border-strong); }
+  .log-body :global(a:hover) { border-bottom-color: var(--text); }
   .log-body :global(code) { font-family: var(--font-mono); font-size: 13px; background: var(--accent-bg); padding: 1px 5px; border-radius: 3px; }
   .log-tag { margin-left: auto; font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); border: 1px solid var(--border); border-radius: 3px; padding: 1px 6px; flex: none; }
   @media (max-width: 640px) { .log-row { flex-wrap: wrap; } .log-tag { margin-left: 130px; } }
